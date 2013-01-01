@@ -62,6 +62,44 @@
 				<option value="1">JSHOW</option>
 		</field>			
 	</fieldset>
+	<fieldset name="commentary"
+		label="COM_ZEFANIABIBLE_COMMENTARY_LABEL"
+		description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
+		<field name="xmlCommentaryPath" 
+			type="text" 
+			size="50" 
+			default="media/com_zefaniabible/commentary/" 
+			label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" 
+			description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />		
+		<field name="show_commentary"
+			type="list"
+			default="0"
+			label="COM_ZEFANIABIBLE_COMMENTARY"
+			description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="commentaryWidth" 
+			type="text" 
+			size="50" 
+			default="800" 
+			label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH" 
+			description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH_DESC" />
+		<field name="commentaryHeight" 
+			type="text" 
+			size="50" 
+			default="500" 
+			label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" 
+			description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
+		<field name="primaryCommentary" type="sql"
+					label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" 
+					description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" 
+					query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title"
+					key_field="alias"
+					value_field = "full_name"
+				/>			
+				
+	</fieldset>
 	<fieldset name="subscribtions"
 		label="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL"
 		description="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL_DESC">			
@@ -185,7 +223,21 @@
 			label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_AUDIO_FILE" 
 			description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_AUDIO_DESC" />
 	</fieldset>	
-	
+	<fieldset name="podcast" label="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST" description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST_DESC">		
+			<field name="adminEmail" 
+			type="text" 
+			size="25"
+			label="COM_ZEFANIABIBLE_ADMIN_EMAIL" 
+			description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />
+			
+			<field name="adminName" 
+			type="text" 
+			size="25"
+			label="COM_ZEFANIABIBLE_ADMIN_NAME" 
+			description="COM_ZEFANIABIBLE_ADMIN_NAME_DESC" />
+	</fieldset>
+
+
 	<fieldset
 		name="permissions"
 		label="ZEFANIABIBLE_CONFIG_PERMISSIONS"

@@ -59,32 +59,37 @@ switch ($view)
 		case 'zefaniabible' :
 		case 'zefaniabibleitem' :
         	$controllerName = "zefaniabible";
-		break;
+			break;
 
+		case 'zefaniacomment' :
+		case 'zefaniacommentitems' :
+			$controllerName = "zefaniacomment";
+			break;
+		
 		case 'zefaniareading' :
 		case 'zefaniareadingitem' :
         	$controllerName = "zefaniareading";
-		break;
+			break;
 
 		case 'zefaniareadingdetails' :
 		case 'zefaniareadingdetailsitem' :
         	$controllerName = "zefaniareadingdetails";
-		break;
+			break;
 
 		case 'zefaniauser' :
 		case 'zefaniauseritem' :
         	$controllerName = "zefaniauser";
-		break;
+			break;
 
 		case 'zefaniaverseofday' :
 		case 'zefaniaverseofdayitem' :
         	$controllerName = "zefaniaverseofday";
-		break;
+			break;
 		
 		case 'zefaniascripture' :
 		case 'zefaniascriptureitem' :
         	$controllerName = "zefaniascripture";
-		break;		
+			break;		
 
 		default:
 			$view = 'zefaniabible';
@@ -99,6 +104,7 @@ switch ($view)
 if ($mainMenu)
 {
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_BIBLES"), 'index.php?option=com_zefaniabible&view=zefaniabible', ($view == 'zefaniabible'));
+		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_COMMENTARIES"), 'index.php?option=com_zefaniabible&view=zefaniacomment', ($view == 'zefaniacomment'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_SCRIPTURE"), 'index.php?option=com_zefaniabible&view=zefaniascripture', ($view == 'zefaniascripture'));		
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_READING_PLAN"), 'index.php?option=com_zefaniabible&view=zefaniareading', ($view == 'zefaniareading'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_READING_PLAN_DETAILS"), 'index.php?option=com_zefaniabible&view=zefaniareadingdetails', ($view == 'zefaniareadingdetails'));
