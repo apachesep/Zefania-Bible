@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="search" method="upgrade">
+	<name>Search - Zefania Bible</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>August 2012</creationDate>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.7</version>
+	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
+	<files>
+		<filename plugin="zefaniabible">zefaniabible.php</filename>
+		<folder>language</folder>
+		<filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+					
+			</fieldset>
+		</fields>
+	</config>
+</extension>

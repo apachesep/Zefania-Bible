@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>System - Zefania Bible Email</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>Septermber 2012</creationDate>
+	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>www.zefaniabible.com</authorUrl>
+	<version>2.7</version>
+	<description>PLG_ZEFANIABIBLE_EMAIL_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="zefaniaemail">zefaniaemail.php</filename>
+		<folder>language</folder>
+		<filename>index.html</filename>
+	</files> 
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="verse_of_day_start_date" type="calendar" 
+					label="PLG_ZEFANIABIBLE_READING_START_DATE" 
+					description="PLG_ZEFANIABIBLE_READING_START_DATE_DESC" 
+					default="2012-1-1"
+					format="%Y-%m-%d"
+				/>		
+			</fieldset>
+		</fields>
+	</config>	
+</extension>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="content" method="upgrade">
+	<name>Content - Zefania Bible Scripture Links</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>Septermber 2012</creationDate>
+	<copyright>Andrei Chernyshev</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>http://www.zefaniabible.com/</authorUrl>
+	<version>2.7</version>
+	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
+	 manage scriputures your own way use the following flags.
+	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
+	{zefaniabible asv}Genesis 1:30-2:3{/zefaniabible} - this will overwrite a default Bible
+	{zefaniabible text}Genesis 1:30-2:3{/zefaniabible} - this will insert scripture text right into the page
+	{zefaniabible text asv}Genesis 1:30-2:3{/zefaniabible} - this will insert scripture text right into the page, and overwrite default Bible.
+	{zefaniabible label='some text' asv}Genesis 1:30-2:3{/zefaniabible} - This will create a link to the modal box with text being anything between quotes in lable field.
+	{zefaniabible tooltip asv}Genesis 1:30-2:3{/zefaniabible} - This will create a tooltip over the scripture.
+	</description>
+  <files>
+		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+		<folder>css</folder>
+	</files>
+	<config>	
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="content_Bible_alias" type="sql"
+					label="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE" 
+					description="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE_DESC" 
+					query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE publish = 1"
+					key_field="alias"
+					value_field = "bible_name"					
+				/>
+			<field name="flg_automatic_scripture_detection"
+				type="list"
+				default="0"
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC"
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>
+			<field name="flg_link_use"
+				type="list"
+				default="0"
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE"
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE_DESC">
+					<option value="0">Zefania Bible</option>
+					<option value="1">BibleGateway</option>					
+			</field>	
+			<field name="bible_gateway_version" type="list" default="51" 
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY"
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
+			  <option value="69">	1550 Stephanus New Testament (NT)	</option>
+			  <option value="68">	1881 Westcott-Hort New Testament (NT)	</option>
+			  <option value="70">	1894 Scrivener New Testament (NT)	</option>
+			  <option value="19">	1934 Vietnamese Bible	</option>
+			  <option value="82">	1940 Bulgarian Bible	</option>
+			  <option value="48">	21st Century King James Version	</option>
+			  <option value="1">	Albanian Bible	</option>
+			  <option value="8">	American Standard Version	</option>
+			  <option value="45">	Amplified Bible	</option>
+			  <option value="94">	Amuzgo de Guerrero (NT) </option>
+			  <option value="43">	Ang Salita ng Diyos	(NT) </option>
+			  <option value="ERV-AR">	Arabic Bible Easy-to-Read Version	</option>
+			  <option value="28">	Arabic Life Application Bible	</option>
+			  <option value="B21"> Bible 21 </option>
+			  <option value="4">	Biblia Sacra Vulgata (with Apocrypha)	</option>
+			  <option value="21">	Bulgarian Bible	</option>
+			  <option value="ERV-BG">	Bulgarian New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="98">	Cakchiquel Occidental (NT)	</option>
+			  <option value="41">	Castilian (NT) </option>
+			  <option value="90">	Chinanteco de Comaltepec (NT)	</option>
+			  <option value="ERV-ZH">	Chinese New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="80">	Chinese Union Version (Simplified) 	</option>
+			  <option value="22">	Chinese Union Version (Traditional)	</option>
+			  <option value="CEB">	Common English Version (with Apocrypha)	</option>
+			  <option value="3">	Conferenza Episcopale Italiana (with Apocrypha)	</option>
+			  <option value="46">	Contemporary English Version </option>
+			  <option value="RMNN">	Cornilescu </option>
+			  <option value="62">	Croatian Bible (NT) </option>
+			  <option value="16">	Darby Translation	</option>
+			  <option value="5">	Det Norsk Bibelselskap 1930	</option>
+			  <option value="11">	Dette er Biblen pÃ¥ dansk	</option>
+			  <option value="58">	Dios Habla Hoy (with Apocrypha)	</option>
+			  <option value="63">	Douay-Rheims 1899 American Edition (with Apocrypha)	</option>
+			  <option value="ERV">	Easy-to-Read Version	</option>
+			  <option value="47">	English Standard Version	</option>
+			  <option value="ESVUK">	English Standard Version Anglicised	</option>
+			  <option value="GW"> God's Word Translation </option>
+			  <option value="GNT"> Good News Translation (with Apocrypha) </option>
+			  <option value="23">	Haitian Creole Version	</option>
+			  <option value="HWP">	Hawai‘i Pidgin (NT)	</option>
+			  <option value="30">	Het Boek	</option>
+			  <option value="71">	Hiligaynon Bible	</option>
+			  <option value="33">	Hoffnung für Alle (NT) </option>
+			  <option value="77">	Holman Christian Standard Bible	</option>
+			  <option value="17">	Hungarian KÃ¡roli	</option>
+			  <option value="ERV-HU">	Hungarian New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="18">	Icelandic Bible	</option>
+			  <option value="103"> Jacalteco, Oriental (NT) </option>
+			  <option value="PHILLIPS"> J.B. Phillips New Testament (NT) </option>
+			  <option value="25">	João Ferreira de Almeida Atualizada	</option>
+			  <option value="104"> Kekchi (NT) </option>
+			  <option value="9">	King James Version	</option>
+			  <option value="32">	La Bible du Semeur	</option>
+			  <option value="59">	La Biblia de las Américas	</option>
+			  <option value="55">	La Nuova Diodati	</option>
+			  <option value="34">	La Parola è Vita (NT)	</option>
+			  <option value="44">	Levande Bibeln	</option>
+			  <option value="LEB">	Lexham English Bible (NT)	</option>
+			  <option value="2">	Louis Segond	</option>
+			  <option value="10">	Luther Bibel 1545	</option>
+			  <option value="122">	Macedonian New Testament (NT)	</option>
+			  <option value="88">	Mam, Central (NT) </option>
+			  <option value="107">	Mam de Todos Santos Chuchumatán (NT) </option>
+			  <option value="24">	Maori Bible	</option>
+			  <option value="40">	Nádej pre kazdého	(NT) </option>
+			  <option value="109"> Náhuatl de Guerrero (NT) </option>
+			  <option value="NGU-DE">	Neue Genfer Übersetzung (NT)	</option>
+			  <option value="49">	New American Standard Bible	</option>
+			  <option value="NCV">	New Century Version	</option>
+			  <option value="76">	New International Reader's Version	</option>
+			  <option value="31">	New International Version	</option>
+			  <option value="64">	New International Version - UK	</option>
+			  <option value="NIV1984">	New International Version 1984	</option>
+			  <option value="50">	New King James Version	</option>
+			  <option value="74">	New Life Version	</option>
+			  <option value="51">	New Living Translation	</option>
+			  <option value="NEG1979">	Nouvelle Edition de Genève </option>
+			  <option value="NBLH">	Nueva Biblia Latinoamericana de Hoy	</option>
+			  <option value="NTV">	Nueva Traducción Viviente	</option>
+			  <option value="42">	Nueva Versión Internacional	</option>
+			  <option value="NR1994">	Nuova Riveduta 1994	</option>
+			  <option value="NR2006">	Nuova Riveduta 2006	</option>
+			  <option value="37">	O Livro	</option>
+			  <option value="PDT">	Palabra de Dios para Todos	</option>
+			  <option value="VFL">	Portuguese New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="111"> Quiché, Centro Occidental (NT) </option>
+			  <option value="56">	Reimer 2001 (NT) </option>
+			  <option value="RVC">	Reina Valera Contemporánea	</option>
+			  <option value="60">	Reina-Valera 1960	</option>
+			  <option value="61">	Reina-Valera 1995	</option>
+			  <option value="6">	Reina-Valera Antigua	</option>
+			  <option value="38">	Romanian (NT)	</option>
+			  <option value="ERV-RU">	Russian New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="13">	Russian Synodal Version	</option>
+			  <option value="SBLGNT">	SBL Greek New Testament (NT) </option>
+			  <option value="SCH1951">	Schlachter 1951	</option>
+			  <option value="SCH2000">	Schlachter 2000	</option>
+			  <option value="SG21">	Segond 21	</option>
+			  <option value="ERV-SR">	Serbian New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="29">	Slovo na cestu (NT)	</option>
+			  <option value="39">	Slovo Zhizny (NT)	</option>
+			  <option value="7">	Svenska 1917	</option>
+			  <option value="SFB">	Svenska Folkbibeln	</option>
+			  <option value="75">	Swahili New Testament	(NT) </option>
+			  <option value="ERV-TH">	Thai New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="65">	The Message	</option>
+			  <option value="81">	The Westminster Leningrad Codex (OT) </option>
+			  <option value="72">	Today's New International Version	</option>
+			  <option value="TLA">	Traducción en lenguaje actual (with Apocrypha)	</option>
+			  <option value="27">	Ukrainian Bible	</option>
+			  <option value="ERV-UK">	Ukrainian New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="113"> Uspanteco Bible (NT) </option>
+			  <option value="BPT">	Vietnamese New Testament: Easy-to-Read Version (NT)	</option>
+			  <option value="73">	Worldwide English (NT)	</option>
+			  <option value="WYC">	Wycliffe Bible	</option>
+			  <option value="15">	Young's Literal Translation	</option>
+			</field>
+			<field name="modal_box_width" 
+				type="text" 
+				size="3"
+				default = "700"
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH" 
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
+			<field name="modal_box_height" 
+				type="text" 
+				size="3"
+				default = "500"
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" 
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />							
+			</fieldset>
+		</fields>
+	</config>
+</extension>

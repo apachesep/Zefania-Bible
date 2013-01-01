@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="1.6" method="upgrade">
+	<name>Verse of the Day</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>May 2012</creationDate>
+	<copyright>(C) 2012</copyright>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>www.zefaniabible.com</authorUrl>
+	<version>2.6</version> 
+	<license>http://www.gnu.org/licenses/gpl.html</license>
+	<description>This module displays bible verse of the day text, by pulling it directly from xml files.</description>
+	<files>
+		<filename module="mod_verseoftheday">mod_verseoftheday.php</filename>
+		<filename>mod_verseoftheday.xml</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+		<folder>css</folder> 
+	</files>
+	<updateservers>
+	</updateservers>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="bibleAlias" type="sql"
+					label="MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE" 
+					description="MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_DESC" 
+					query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE publish = 1"
+					key_field="alias"
+					value_field = "bible_name"					
+				/>								
+				<field name="start_date" type="calendar" 
+					label="MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_START_DATE" 
+					description="MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_START_DATE_DESC" 
+					default="1-1-2012"
+					format="%d-%m-%Y"
+				/>
+				<field name="link_type"
+					type="list"
+					default="0"
+					label="COM_ZEFANIABIBLE_SCRIPTURE_CLICKABLE"
+					description="COM_ZEFANIABIBLE_SCRIPTURE_CLICKABLE_DESC">
+						<option value="0">COM_ZEFANIABIBLE_SCRIPTURE_CLICKABLE_NONE</option>
+						<option value="1">COM_ZEFANIABIBLE_SCRIPTURE_CLICKABLE_SCRIPTURE</option>
+						<option value="2">COM_ZEFANIABIBLE_SCRIPTURE_CLICKABLE_LINK_BELOW</option>
+				</field>
+				<field name="display_order"
+					type="list"
+					default="0"
+					label="COM_ZEFANIABIBLE_DISPLAY_ORDER"
+					description="COM_ZEFANIABIBLE_DISPLAY_ORDER_DESC">
+						<option value="0">COM_ZEFANIABIBLE_DISPLAY_ORDER_SORTING</option>
+						<option value="1">COM_ZEFANIABIBLE_DISPLAY_ORDER_RANDOM</option>
+				</field>
+				<field name="moduleclass_sfx" type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />			
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

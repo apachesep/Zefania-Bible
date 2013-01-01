@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="1.6" method="upgrade">
+	<name>Bible Reading Plan</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>May 2012</creationDate>
+	<copyright>(C) 2012</copyright>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>www.zefaniabible.com</authorUrl>
+	<version>2.6</version>
+	<license>http://www.gnu.org/licenses/gpl.html</license>
+	<description>This module displays bible reading plan, by pulling it directly from xml files.</description>
+	<files>
+		<filename module="mod_readingplan">mod_readingplan.php</filename>
+		<filename>mod_readingplan.xml</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+		<folder>css</folder> 
+	</files>
+	<updateservers>
+	</updateservers>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="reading_plan" type="sql"
+					label="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN" 
+					description="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN_DESC" 
+					query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name"
+					key_field="alias"
+					value_field = "name"					
+				/>
+			<field name="bibleAlias" type="sql"
+					label="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE" 
+					description="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE_DESC" 
+					query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE publish = 1"
+					key_field="alias"
+					value_field = "bible_name"					
+				/>					
+			<field name="reading_start_date" type="calendar" 
+					label="MOD_ZEFANIABIBLE_READING_PLAN_START_DATE" 
+					description="MOD_ZEFANIABIBLE_READING_PLAN_START_DATE_DESC" 
+					default="1-1-2012"
+					format="%d-%m-%Y"
+				/>
+				<field name="moduleclass_sfx" type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />										
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>
