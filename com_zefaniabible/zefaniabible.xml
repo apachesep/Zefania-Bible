@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6" method="new">
+	<name><![CDATA[Zefaniabible]]></name>
+	<author><![CDATA[Andrei Chernyshev]]></author>
+	<creationDate>2012-05-18</creationDate>
+	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
+	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
+	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
+	<version><![CDATA[2.7]]></version>
+	<license><![CDATA[GNU/GPL]]></license>
+	<description><![CDATA[ZefaniaBible uses Zefania XML bibles to display word of God.]]></description>
+
+	<files folder="site">
+		<folder>controllers</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>models</folder>
+		<folder>helpers</folder>	
+		<folder>language</folder>	
+		<folder>views</folder>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>zefaniabible.php</filename>
+	</files>
+	<media folder="media" destination="com_zefaniabible">
+		<folder>bibles</folder>
+		<folder>player</folder>
+		<folder>audio</folder>
+	</media>	
+
+	<administration>
+		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
+		<submenu>		
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareading.png" link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareadingdetails.png" link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniauser.png" link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniaverseofday.png" link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
+		</submenu>
+		<files folder="admin">
+			<folder>classes</folder>
+			<folder>controllers</folder>
+			<folder>css</folder>
+			<folder>dom</folder>
+			<folder>helpers</folder>
+			<folder>images</folder>
+			<folder>js</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>language</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>zefaniabible.php</filename>
+		</files>
+	</administration>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<scriptfile>script.php</scriptfile>
+	<updateservers>
+	</updateservers>
+</extension>
