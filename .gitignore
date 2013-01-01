@@ -6,7 +6,7 @@
 .project
 .metadata
 bin/
-tmp/
+tmp/s
 *.tmp
 *.bak
 *.swp
@@ -99,7 +99,6 @@ publish
 # Others
 [Bb]in
 [Oo]bj
-sql
 TestResults
 *.Cache
 ClientBin
