@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="bible"
+		label="COM_ZEFANIABIBLE_BIBLE_LABEL"
+		description="COM_ZEFANIABIBLE_BIBLE_LABEL_DESC"
+		>
+		<field type="spacer" name="myspacer" hr="true" />
+		
+		<field name="primaryBible" type="sql"
+					label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" 
+					description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" 
+					query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name"
+					key_field="alias"
+					value_field = "bible_name"
+				/>
+		<field name="secondaryBible" type="sql"
+					label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" 
+					description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" 
+					query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name"
+					key_field="alias"
+					value_field = "bible_name"
+				/>
+		<field type="spacer" name="myspacer2" hr="true" />	
+		<field name="reading_start_date" type="calendar" 
+					label="COM_ZEFANIABIBLE_READING_START_DATE" 
+					description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" 
+					default="1-1-2012"
+					format="%d-%m-%Y"
+				/>					
+		<field name="primaryReading" type="sql"
+					label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" 
+					description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" 
+					query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name"
+					key_field="alias"
+					value_field = "name"
+				/>
+
+		<field type="spacer" name="myspacer3" hr="true" />				
+		<field name="show_credit"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT"
+			description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="flg_email_button"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON"
+			description="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="flg_plan_rssfeed_button"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON"
+			description="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON_DESC">
+				<option value="0">JHIDE</option> 
+				<option value="1">JSHOW</option>
+		</field>			
+	</fieldset>
+	<fieldset name="subscribtions"
+		label="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL"
+		description="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL_DESC">			
+		<field name="flg_use_catcha"
+			type="list"
+			default="0"
+			label="COM_ZEFANIABIBLE_CATCHA_USE"
+			description="COM_ZEFANIABIBLE_CATCHA_USE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		<field name="catcha_color" 
+			type="list"
+			default="red"
+			label="COM_ZEFANIABIBLE_CATCHA_COLOR"
+			description="COM_ZEFANIABIBLE_CATCHA_COLOR_DESC">
+				<option value="red">COM_ZEFANIABIBLE_CATCHA_COLOR_RED</option>
+				<option value="white">COM_ZEFANIABIBLE_CATCHA_COLOR_WHITE</option>
+				<option value="blackglass">COM_ZEFANIABIBLE_CATCHA_COLOR_BLACKGRASS</option>
+				<option value="clean">COM_ZEFANIABIBLE_CATCHA_COLOR_CLEAN</option>
+		</field>	
+		<field name="catchaPublicKey" 
+			type="text" 
+			size="75"
+			label="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY" 
+			description="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY_DESC" />
+		<field name="catchaPrivateKey" 
+			type="text" 
+			size="75"
+			label="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY" 
+			description="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY_DESC" />
+		<field name="adminEmail" 
+			type="text" 
+			size="75"
+			label="COM_ZEFANIABIBLE_ADMIN_EMAIL" 
+			description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />	
+	
+	</fieldset>
+		
+	<fieldset name="pagination"
+		label="COM_ZEFANIABIBLE_PAGINATION_LABEL"
+		description="COM_ZEFANIABIBLE_PAGINATION_DESC">	
+		<field name="show_pagination_top"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_PAGINATION_TOP"
+			description="COM_ZEFANIABIBLE_PAGINATION_TOP_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="show_pagination_bot"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_PAGINATION_BOT"
+			description="COM_ZEFANIABIBLE_PAGINATION_BOT_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="show_pagination_type"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_PAGINATION_TYPE"
+			description="COM_ZEFANIABIBLE_PAGINATION_TYPE_DESC">
+				<option value="0">COM_ZEFANIABIBLE_PAGINATION_BUTTONS</option>
+				<option value="1">COM_ZEFANIABIBLE_PAGINATION_LINKS</option>
+		</field>		
+	</fieldset>
+	
+	<fieldset name="player"
+		label="COM_ZEFANIABIBLE_PLAYER_LABEL"
+		description="COM_ZEFANIABIBLE_PLAYER_DESC">
+		<field name="show_audioPlayer"
+			type="list"
+			default="0"
+			label="COM_ZEFANIABIBLE_AUDIO_PLAYER"
+			description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>		
+		<field name="player_type" 
+			type="list" 
+			default="0" 
+			label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" 
+			description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
+			<option value="0">JW Player</option>
+			<option value="2">FlowPlayer</option>
+			<option value="1">Wordpress Audio Player</option>
+		</field>
+		<field name="player_width" 
+			type="text" 
+			size="3" 
+			default="250" 
+			label="COM_ZEFANIABIBLE_PLAYER_WIDTH" 
+			description="COM_ZEFANIABIBLE_PLAYER_WIDTH_DESC" />
+			
+		<field name="player_height" 
+			type="text" 
+			size="3" 
+			default="24" 
+			label="COM_ZEFANIABIBLE_PLAYER_HEIGHT" 
+			description="COM_ZEFANIABIBLE_PLAYER_HEIGHT_DESC" />
+			
+		<field name="player_popup_height" 
+			type="text" 
+			size="3" 
+			default="300" 
+			label="COM_ZEFANIABIBLE_PLAYER_POPUP_HEIGHT" 
+			description="COM_ZEFANIABIBLE_PLAYER_POPUP_HEIGHT_DESC" />
+			
+		<field name="player_popup_width" 
+			type="text" 
+			size="3" 
+			default="300" 
+			label="COM_ZEFANIABIBLE_PLAYER_POPUP_WIDTH" 
+			description="COM_ZEFANIABIBLE_PLAYER_POPUP_WIDTH_DESC" />
+									
+		<field name="xmlAudioPath" 
+			type="text" 
+			size="50" 
+			default="media/com_zefaniabible/audio/" 
+			label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_AUDIO_FILE" 
+			description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_AUDIO_DESC" />
+	</fieldset>	
+	
+	<fieldset
+		name="permissions"
+		label="ZEFANIABIBLE_CONFIG_PERMISSIONS"
+		description="ZEFANIABIBLE_CONFIG_DEFAULT_PERMISSIONS_USED_FOR_ALL_CONTENT_IN_THIS_COMPONENT"
+		>
+		<field
+			name="rules"
+			type="rules"
+			label="ZEFANIABIBLE_CONFIG_COMPONENT_PERMISSIONS"
+			filter="rules"
+			validate="rules"
+			component="com_zefaniabible"
+			section="component">
+		</field>
+	</fieldset>
+
+
+</config>
