@@ -1,0 +1,100 @@
+/**                               ______________________________________________
+*                          o O   |                                              |
+*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
+*                ( o o )         |______________________________________________|
+* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
+* @version		1.6
+* @package		ZefaniaBible
+* @subpackage	Users
+* @copyright	Missionary Church of Grace
+* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
+* @license		GNU/GPL
+*
+* /!\  Joomla! is free software.
+* This version may have been modified pursuant to the GNU General Public License,
+* and as distributed it includes or is derivative of works licensed under the
+* GNU General Public License or other free or open source software licenses.
+*
+*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
+*             (   )  (   )
+* -------------\ (----) /----------------------------------------------------------- +
+*               \_)  (_/
+*/
+
+#toolbar
+{
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#333;
+}
+
+
+div.toolbar
+{
+
+	margin:5px;
+	padding: 0;
+
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
+	border:solid 1px #eee;
+	height:22px;
+}
+
+
+div.toolbar span.text
+{
+	margin-right:10px;
+	margin-left:2px;
+
+}
+
+
+div.toolbar:hover
+{
+	background-color:#eee;
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
+}
+
+
+
+#toolbar div.toolbar div.icon-16
+{
+	width:20px;
+	height:20px;
+	float:left;
+	margin:1px;
+	background-position:center;
+	background-repeat:no-repeat;
+}
+
+div.toolbar:hover div.icon-16
+{
+	background-color:#fff;
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
+}
+
+
+/* PAGINATION */
+
+.list-footer-pagination{ margin-top:6px;	text-align:center;}
+.list-footer-pagination ul, .list-footer-pagination ul li{	display:inline-block;}
+.list-footer-pagination ul{	margin:0;}
+.list-footer-pagination ul li{	margin:3px;}
+.list-footer-pagination div.limit{	float:left;}
+.list-footer-pagination div.counter{	float:right;}
+
+/* PAGINATION END */
+
+
+
+
+
+.icon-16-task-delete 		{ background-image: url('../images/icon-16-task-delete.png'); }
+
+
