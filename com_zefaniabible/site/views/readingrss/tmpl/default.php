@@ -85,7 +85,9 @@ class BibleReadingPlan
 		$str_admin_email = 		$params->get('adminEmail');
 		$str_admin_name = 		$params->get('adminName');
 		$book = 0;
-		$str_verse = '';
+		$str_mp3_file = '';
+		$arr_verse = array();
+		$arr_podcast_output = '';
 		$chap = 0;				
 		$str_full_path = $str_audio_path.$str_bible_audio_file;
 		if(is_file($str_full_path))
@@ -96,8 +98,8 @@ class BibleReadingPlan
 		{
 			JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID'));
 		}
-
 		$y = 1;	
+		$x = 0;
 		echo '<?xml version="1.0" encoding="utf-8" ?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 		echo '  <channel>'.PHP_EOL;
@@ -108,7 +110,7 @@ class BibleReadingPlan
 		echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
 		echo '	<lastBuildDate>'.date('D, d M Y H:i:s O').'</lastBuildDate>'.PHP_EOL;
 		echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
-		echo '	<managingEditor>'.$str_admin_name.'</managingEditor>'.PHP_EOL;
+		echo '	<managingEditor>'.$str_admin_email.'('.$str_admin_name.')'.'</managingEditor>'.PHP_EOL;
 		echo '	<copyright>(c) '.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
 		echo '	<itunes:summary></itunes:summary>'.PHP_EOL;
 		echo '	<itunes:author>'.$mainframe->getCfg('sitename').'</itunes:author>'.PHP_EOL;
@@ -130,42 +132,69 @@ class BibleReadingPlan
 		echo '	</image>'.PHP_EOL;
 		echo '	<itunes:explicit>no</itunes:explicit>'.PHP_EOL;
 		echo '	<itunes:keywords>'.$mainframe->getCfg('MetaKeys').'</itunes:keywords>'.PHP_EOL;
+		
 		foreach($arr_plan as $reading)
 		{
-			$x= 1;
-			$int_len_reading = count($reading);			
 			foreach($reading as $plan)
-			{					
+			{		
 				if (($plan->book_id > $book)or($plan->chapter_id > $chap))
 				{
 					$book = $plan->book_id;
 					$chap = $plan->chapter_id;
-					echo '	<item>'.PHP_EOL;
-					echo '		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</title>'.PHP_EOL;
-					echo '		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL;
-					echo '		<guid>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL;
-					echo '		<dc:creator></dc:creator>'.PHP_EOL;
-					echo '		<description>'.PHP_EOL.$str_verse.'		</description>'.PHP_EOL;
-					echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;
-					echo '		<enclosure url="" length="27186997" type="audio/mpeg"></enclosure>'.PHP_EOL;
-					echo '		<itunes:image href="'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'" />'.PHP_EOL;
-					echo '		<itunes:author>'.$mainframe->getCfg('sitename').'</itunes:author>'.PHP_EOL;
-					echo '		<itunes:duration></itunes:duration>'.PHP_EOL;
-					echo '		<itunes:explicit>no</itunes:explicit>'.PHP_EOL;
-					echo '		<itunes:keywords></itunes:keywords>'.PHP_EOL;
-					echo '		<itunes:subtitle></itunes:subtitle>'.PHP_EOL;
-					echo '		<itunes:summary>'.PHP_EOL.$str_verse.'		</itunes:summary>'.PHP_EOL;
-					echo '	</item>'.PHP_EOL;
-					$str_verse = '';
+					
+					foreach($arr_mp3_files as $obj_mp3_file_book) 
+					{	
+						if($plan->book_id == $obj_mp3_file_book['id'])
+						{
+							
+							foreach ($obj_mp3_file_book as $obj_mp3_file_chap)
+							{
+								if($plan->chapter_id == $obj_mp3_file_chap['id'])
+								{
+									$str_mp3_file = $obj_mp3_file_chap;
+									break;
+								}
+							}
+							break;
+						}
+					}
+					$arr_podcast_output[$y] = '	<item>'.PHP_EOL
+										  .'		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</title>'.PHP_EOL
+										  .'		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL
+										  .'		<guid>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL
+										  .'		<dc:creator></dc:creator>'.PHP_EOL
+										  .'		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL
+										  .'		<enclosure url="'.JURI::base().$str_audio_path.$str_mp3_file.'" length="27186997" type="audio/mpeg"></enclosure>'.PHP_EOL
+										  .'		<itunes:image href="'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'" />'.PHP_EOL
+										  .'		<itunes:author>'.$mainframe->getCfg('sitename').'</itunes:author>'.PHP_EOL
+										  .'		<itunes:duration></itunes:duration>'.PHP_EOL
+										  .'		<itunes:explicit>no</itunes:explicit>'.PHP_EOL
+										  .'		<itunes:keywords>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id).','.$str_curr_read_plan.','.$str_bible_name.','.$str_reading_plan.','.$str_bible_Version.'</itunes:keywords>'.PHP_EOL
+										  .'		<itunes:subtitle></itunes:subtitle>'.PHP_EOL
+										  .'		<itunes:summary>'.PHP_EOL.'{str_verse}		</itunes:summary>'.PHP_EOL
+										  .'		<description>'.PHP_EOL.'{str_verse}		</description>'.PHP_EOL
+										  .'	</item>'.PHP_EOL;
 					$y++;
+					$x++;
+					$arr_verse[$x] = '';					
 				}
-				$x++;
-				$str_verse = $str_verse. '			' .$plan->verse.PHP_EOL;
-			}
-			
+				
+				$arr_verse[$x] = $arr_verse[$x]. '			'.$plan->verse.PHP_EOL;	
+			}		
 		}
-		echo '  </channel>'.PHP_EOL;
-		echo '</rss>'.PHP_EOL;
+		$z = 1;
+		foreach($arr_podcast_output as $obj_podcast_output)
+		{
+			if (strlen($arr_verse[$z]) > 4000)
+			{
+				$arr_verse[$z] = mb_substr($arr_verse[$z], 0, 3997, 'UTF-8').'...'.PHP_EOL;
+			}			
+			$obj_podcast_output = str_replace('{str_verse}',$arr_verse[$z], $obj_podcast_output);
+			echo $obj_podcast_output;
+			$z++;
+		}
+		echo  '  </channel>'.PHP_EOL;
+		echo  '</rss>'.PHP_EOL;
 	}
 	private function fnc_output_seperate($arr_plan, $str_reading_plan, $str_bible_Version, $int_day_number, $str_curr_read_plan, $str_bible_name, $int_day_number, $str_desc)
 	{

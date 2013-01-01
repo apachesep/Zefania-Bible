@@ -110,6 +110,7 @@ class BibleReadingPlan
 			$chap = 0;
 			$x = 1;
 			$y = 1;
+			
 		if($this->flg_show_audio_player)
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');	
@@ -117,48 +118,35 @@ class BibleReadingPlan
 		}			
 			foreach($arr_plan as $reading)
 			{
+				$cnt_verse_count = count($reading);
+				$z = 1;
 				foreach($reading as $plan)
 				{
-					
-					$flg_already_set = 0;
 					if($plan->verse_id == 1)
 					{
 						$this->str_first_verse = $plan->verse;
-					}					
-					if ($plan->book_id > $book)
+					}		
+					if (($plan->book_id > $book)or($plan->chapter_id > $chap))
 					{
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
-						echo '<div class="zef_bible_Header_Label"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</div>";
-							if($this->flg_show_audio_player)
-							{
-								$obj_player = $mdl_audio->fnc_audio_player($this->str_primary_bible,$plan->book_id,$plan->chapter_id, $y);
-								echo '<div class="zef_player-'.$y.'">';
-								echo $obj_player;
-        						echo "</div>";
-								echo '<div style="clear:both"></div>';
-							}						
-						$flg_already_set = 1;	
-						$y++;			
-					}
-					if ($plan->chapter_id > $chap)
-					{
-						$chap = $plan->chapter_id;
-						if(!$flg_already_set)
+						if($y > 1)
 						{
-							echo '<div class="zef_bible_Header_Label"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-							echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</div>";
-							if($this->flg_show_audio_player)
-							{
-								$obj_player = $mdl_audio->fnc_audio_player($this->str_primary_bible,$plan->book_id,$plan->chapter_id, $y);
-								echo '<div class="zef_player-'.$y.'">';
-								echo $obj_player;
-        						echo "</div>";
-								echo '<div style="clear:both"></div>';
-							}
-							$y++;
+							echo '</div>';
 						}
+						echo '<div class="zef_bible_Header_Label_Plan"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</div>';
+						echo '<div class="zef_bible_Chapter">';
+						if($this->flg_show_audio_player)
+						{
+							$obj_player = $mdl_audio->fnc_audio_player($this->str_primary_bible,$plan->book_id,$plan->chapter_id, $y);
+							echo '<div class="zef_player-'.$y.'">';
+							echo $obj_player;
+        					echo "</div>";
+							echo '<div style="clear:both"></div>';
+						}
+						$x = 1;
+						$y++;			
 					}
 
 					if ($x % 2)
@@ -170,8 +158,9 @@ class BibleReadingPlan
 						echo '<div class="even">'; 
 					}
 					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
-					echo '<div style="clear:both"></div></div>';
+					echo '<div style="clear:both"></div></div>';		
 					$x++;
+					$z++;
 				}
 			}
 	}
@@ -192,7 +181,7 @@ class BibleReadingPlan
 	{
 		$urlPrepend = "document.location.href=('";
 		$urlPostpend = "')";		
-		if($int_day_number > 1)
+		if($this->arr_reading[0]->day_number > 1)
 		{
 			$url[2] = JRoute::_("index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number-1));
 			if($this->flg_show_pagination_type == 0)
@@ -298,7 +287,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-        <?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan); ?>     
+        <?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan); ?></div>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
@@ -306,14 +295,16 @@ class BibleReadingPlan
 					{
 						$cls_bible_reading_plan->paginationButtons($this->int_day_number);
 					}
-				?>               
-            </div> 
-			<?php  
+				?>   
+                <div style="clear:both"></div>
+                <?php  
 				if($cls_bible_reading_plan->flg_show_credit)
 				{
 					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' target='_blank'>Zefania Bible</a>";
 				}
-            ?>        
+            	?>               
+            </div> 
+			     
         </div>
     </div>
 	<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option');?>" />

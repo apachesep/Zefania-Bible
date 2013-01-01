@@ -31,7 +31,7 @@
 		</fieldset>
 	</fields>
 	<fields name="params">
-		<fieldset name="pagination" label="COM_ZEFANIABIBLE_PAGINATION_LABEL" description="COM_ZEFANIABIBLE_PAGINATION_DESC">		
+		<fieldset name="podcast" label="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST" description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST_DESC">		
 			<field name="adminEmail" 
 			type="text" 
 			size="25"

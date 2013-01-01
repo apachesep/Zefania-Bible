@@ -75,14 +75,16 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
 					{
 						echo $this->pagination->getListFooter();
 					}
-				?>               
-            </div>
-			<?php 
+				?>  
+                <div style="clear:both"></div>
+                <?php 
 				if($cls_bible_reading_plan_overview->flg_show_credit)
 				{
 					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' target='_blank'>Zefania Bible</a>";
 				}
-            ?>        
+            	?>                
+            </div>
+			     
         </div>
     </div>
 	<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option');?>" />
