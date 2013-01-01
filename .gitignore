@@ -99,6 +99,7 @@ publish
 # Others
 [Bb]in
 [Oo]bj
+_notes
 TestResults
 *.Cache
 ClientBin
