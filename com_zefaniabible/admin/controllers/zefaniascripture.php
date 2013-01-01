@@ -99,13 +99,13 @@ class ZefaniabibleControllerZefaniascripture extends ZefaniabibleController
 		{
 			case 'default':
 				JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-				JRequest::setVar( 'layout', 'bibleadd' );
+				JRequest::setVar( 'layout', 'scriptureadd' );
 				break;
 
 
 			default:
 				JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-				JRequest::setVar( 'layout', 'bibleadd' );
+				JRequest::setVar( 'layout', 'scriptureadd' );
 				break;
 
 		}
@@ -132,13 +132,13 @@ class ZefaniabibleControllerZefaniascripture extends ZefaniabibleController
 		{
 			case 'default':
 				JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-				JRequest::setVar( 'layout', 'bibleadd' );
+				JRequest::setVar( 'layout', 'scriptureadd' );
 				break;
 
 
 			default:
 				JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-				JRequest::setVar( 'layout', 'bibleadd' );
+				JRequest::setVar( 'layout', 'scriptureadd' );
 				break;
 
 		}
@@ -409,13 +409,13 @@ class ZefaniabibleControllerZefaniascripture extends ZefaniabibleController
 			{
 				case 'bibleadd':
 					JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-					JRequest::setVar( 'layout', 'bibleadd' );
+					JRequest::setVar( 'layout', 'scriptureadd' );
 					break;
 
 
 				default:
 					JRequest::setVar( 'view'  , 'zefaniascriptureitem');
-					JRequest::setVar( 'layout', 'bibleadd' );
+					JRequest::setVar( 'layout', 'scriptureadd' );
 					break;
 
 			}

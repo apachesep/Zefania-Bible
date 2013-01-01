@@ -72,20 +72,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $this->loadTemplate('grid'); ?>
 	</div>
 
-
-
-
-
-
-
-
-
-
-
 	<?php echo JDom::_('html.form.footer', array(
 		'values' => array(
 				'option' => "com_zefaniabible",
-				'view' => "zefaniabible",
+				'view' => "zefaniascripture",
 				'layout' => "default",
 				'boxchecked' => "0",
 				'filter_order' => $this->lists['order'],

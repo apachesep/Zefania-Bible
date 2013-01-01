@@ -43,10 +43,6 @@ function resetFilters()
 		return;
 	}
 
-//Deprecated
-	if ($('filter_publish') != null)
-	    $('filter_publish').value='';
-
 
 /* TODO : Uncomment this if you want that the reset action proccess also on sorting values
 	if ($('filter_order') != null)
@@ -77,40 +73,58 @@ function resetFilters()
 	</div>
 
 	<div>
-		<div style="float:left">
+		<div style="float:left">     
 			<!-- SELECT : Publish  -->
 
 					<div class='filter filter_publish'>
-			
 						<?php
-						$choices = array();
-						$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_PUBLISH" ));
-						$choices[] = array("value" => '0', 'text'=>JText::_( "JNO" ));
-						$choices[] = array("value" => '1', 'text'=>JText::_( "JYES" ));
-
-//						echo JDom::_('html.form.input.select', array(
-//											'dataKey' => 'filter_publish',
-//											'dataValue' => $this->filters['publish']->value,
-//											'list' => $choices,
-//											'listKey' => 'value',
-//											'labelKey' => 'text',
-//											'submitEventName' => 'onchange'
-//												));
-
-						?>
+						$arr_bible_version = array();
+						foreach($this->arr_Bibles_versions as $ojb_bible_version)
+						{
+							$arr_bible_version[] = array("value" => $ojb_bible_version->alias, 'text'=>$ojb_bible_version->bible_name);
+						}
+						?>	                    
+                    <select name="filter_bibleversion" id="filter_bibleversion" class="inputbox" onchange="this.form.submit()">
+                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION');?></option>
+                        <?php echo JHtml::_('select.options', $arr_bible_version, 'value', 'text', $this->state->get('filter.bibleversion'));?>
+                    </select>
+                                        
+						<?php
+						$arr_bible_books = array();
+						for($x = 1; $x< 66; $x++)
+						{
+							$arr_bible_books[] = array("value" => $x, 'text'=>JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x));
+						}
+						?>	
+                     <select name="filter_biblebook" id="filter_biblebook" class="inputbox" onchange="this.form.submit()">
+                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE');?></option>
+                        <?php echo JHtml::_('select.options', $arr_bible_books, 'value', 'text', $this->state->get('filter.biblebook'));?>
+                    </select>
+                    <?php
+						$arr_bible_chapter = array();
+						for($x = 1; $x<= $this->int_max_chapter; $x++)
+						{
+							$arr_bible_chapter[] = array("value" => $x, 'text'=> $x);
+						}
+					?>
+					<select name="filter_biblechapter" id="filter_biblechapter" class="inputbox" onchange="this.form.submit()">
+                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER');?></option>
+                        <?php echo JHtml::_('select.options', $arr_bible_chapter, 'value', 'text', $this->state->get('filter.biblechapter'));?>
+                    </select>
+                    <?php
+						$arr_bible_verse = array();
+						for($x = 1; $x<= $this->int_max_verse; $x++)
+						{
+							$arr_bible_verse[] = array("value" => $x, 'text'=> $x);
+						}
+					?>                    
+					<select name="filter_bibleverse" id="filter_bibleverse" class="inputbox" onchange="this.form.submit()">
+                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSE');?></option>
+                        <?php echo JHtml::_('select.options', $arr_bible_verse, 'value', 'text', $this->state->get('filter.bibleverse'));?>
+                    </select>
+                    
 					</div>
-
-
 		</div>
 	</div>
-
-
-
-
 	<div clear='all'></div>
-
-
-
-
-
 </fieldset>

@@ -43,28 +43,18 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
 
 			<th>
-				<?php //echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_TITLE", 'a.bible_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_VERSION", 'a.bible_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
 			<th style="text-align:center">
-				<?php // echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_FULL_NAME", 'a.alias', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_VIEW_SCRIPTURE", 'a.book_id', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th> 
 
 			<?php if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
 			<th>
-				<?php //echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_PUBLISH", 'a.publish', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_VIEW_SCRIPTURE_VERSE", 'a.verse', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 			<?php endif; ?>
-
-			<?php //if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
-			<th class="order">
-				<?php //echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				<?php //echo JDom::_('html.grid.header.saveorder', array('list' => $this->items));?>
-			</th>
-			<?php //endif; ?>
-
-
-
 		</tr>
 	</thead>
 
@@ -88,60 +78,34 @@ defined('_JEXEC') or die('Restricted access');
 
 			<?php if ($this->access->get('core.edit.own') || $this->access->get('core.edit')): ?>
 			<td>
-				<?php //echo JDom::_('html.grid.checkedout', array(
-					//						'dataKey' => '',
-					//						'dataObject' => $row,
-					//						'num' => $i
-					//							));
+				<?php echo JDom::_('html.grid.checkedout', array(
+											'dataKey' => '',
+											'dataObject' => $row,
+											'num' => $i
+												));
 				?>
 
 			</td>
 			<?php endif; ?>
-
-            <td>
-				<?php //echo JDom::_('html.fly', array(
-					//							'dataKey' => 'bible_name',
-					//							'dataObject' => $row,
-					//							'href' => "javascript:listItemTask('cb" . $i . "', 'edit')"
-					//							));
-				?>
-			</td>
-
             <td style="text-align:center">
-				<?php // echo JDom::_('html.fly', array(
-						//						'dataKey' => 'desc',
-						//						'dataObject' => $row
-						//						));
+				<?php  echo JDom::_('html.fly', array(
+												'dataKey' => 'bible_name',
+												'dataObject' => $row,
+												'href' => "javascript:listItemTask('cb" . $i . "', 'edit')"
+												));
 				?>
 			</td>
-
-			<?php //if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
             <td>
-				<?php // echo JDom::_('html.grid.publish', array(
-						//				'dataKey' => 'publish',
-						//				'dataObject' => $row,
-						//				'num' => $i
-						//					));
+				<?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$row->book_id)." ".$row->chapter_id.":".$row->verse_id;	?>
+			</td>
+
+            <td style="text-align:left">
+				<?php  echo JDom::_('html.fly', array(
+												'dataKey' => 'verse',
+												'dataObject' => $row,
+												));
 				?>
 			</td>
-			<?php //endif; ?>
-
-			<?php //if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
-            <td class="order">
-				<?php //echo JDom::_('html.grid.ordering', array(
-					//					'dataKey' => 'ordering',
-					//					'dataObject' => $row,
-					//					'num' => $i,
-					//					'ordering' => $this->state->get('list.ordering'),
-					//					'direction' => $this->state->get('list.direction'),
-					//					'list' => $this->items,
-					//					'ctrl' => 'zefaniabible',
-					//					'pagination' => $this->pagination
-					//						));
-				?>
-			</td>
-			<?php //endif; ?>
-
 
 
 		</tr>
