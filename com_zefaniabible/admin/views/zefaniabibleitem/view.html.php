@@ -97,8 +97,8 @@ class ZefaniabibleViewZefaniabibleitem extends JView
 		// Toolbar
 		jimport('joomla.html.toolbar');
 		$bar = & JToolBar::getInstance('toolbar');
-		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
+		//if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
+		//	$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
 			$bar->appendButton( 'Standard', "save", "JTOOLBAR_SAVE", "save", false);
 		if ($access->get('core.edit') || $access->get('core.edit.own'))
