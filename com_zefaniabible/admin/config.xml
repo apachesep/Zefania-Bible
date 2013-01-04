@@ -131,11 +131,6 @@
 			size="75"
 			label="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY" 
 			description="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY_DESC" />
-		<field name="adminEmail" 
-			type="text" 
-			size="75"
-			label="COM_ZEFANIABIBLE_ADMIN_EMAIL" 
-			description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />	
 	
 	</fieldset>
 		

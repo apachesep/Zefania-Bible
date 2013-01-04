@@ -82,7 +82,7 @@ defined('_JEXEC') or die('Restricted access');
 			<td class='row_id'>
 				<?php echo $this->pagination->getRowOffset( $i ); ?>
             </td>
-
+			
 			<?php if ($this->access->get('core.edit.own') || $this->access->get('core.edit')): ?>
 			<td>
 				<?php echo JDom::_('html.grid.checkedout', array(

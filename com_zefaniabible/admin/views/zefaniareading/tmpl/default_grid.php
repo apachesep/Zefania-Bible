@@ -98,7 +98,7 @@ defined('_JEXEC') or die('Restricted access');
 			</td>
 			<?php endif; ?>
 
-            <td style="text-align:center">
+            <td style="text-align:left">
 				<?php echo JDom::_('html.fly', array(
 												'dataKey' => 'name',
 												'dataObject' => $row,
@@ -107,7 +107,7 @@ defined('_JEXEC') or die('Restricted access');
 				?>
 			</td>
 
-            <td>
+            <td style="text-align:left">
 				<?php echo JText::_(JDom::_('html.fly', array('dataKey' => 'description','dataObject' => $row)));?>
 			</td>
 

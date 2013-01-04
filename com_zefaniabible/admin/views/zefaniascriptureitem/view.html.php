@@ -1,5 +1,4 @@
 <?php
-
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -7,7 +6,7 @@
 * --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
 * @version		1.6
 * @package		ZefaniaBible
-* @subpackage	Zefaniareadingdetails
+* @subpackage	Zefaniabible
 * @copyright	Missionary Church of Grace
 * @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
@@ -35,30 +34,17 @@ jimport( 'joomla.application.component.view');
  *
  * @static
  * @package		Joomla
- * @subpackage	Zefaniareadingdetails
+ * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewZefaniareadingdetails extends JView
+class ZefaniabibleViewZefaniascriptureitem extends JView
 {
-	/*
-	 * Define here the default list limit
-	 */
-	protected $_default_limit = null;
-
 	function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
-
-
-
 		switch($layout)
 		{
-			case 'default':
+			case 'scriptureadd':
 
 				$fct = "display_" . $layout;
 				$this->$fct($tpl);
@@ -66,7 +52,7 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		}
 
 	}
-	function display_default($tpl = null)
+	function display_scriptureadd($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
@@ -74,57 +60,72 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		$user 	= JFactory::getUser();
 
 		$access = ZefaniabibleHelper::getACL();
-		$state		= $this->get('State');
+
+		$model	= $this->getModel();
+		$model->activeAll();
+		$model->active('predefined', 'scriptureadd');
 
 		$document	= &JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_READING_PLAN_DETAILS") . $document->titleSuffix;
+		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE") . $document->titleSuffix;
 
-		// Get data from the model
-		$model 		= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'default');
-		$model->addGroupBy	("_plan_.ordering");
-		$items		= $model->getItems();
 
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
-		$mdl_bible_plans = new ZefaniabibleModelZefaniareadingdetails;
-		$arr_Bibles_plans =	$mdl_bible_plans->_buildQuery_plans();
+		//Form validator
+		JHTML::_('behavior.formvalidation');
+
+
+		$lists = array();
+
+		//get the zefaniabibleitem
+		$zefaniascriptureitem	= $model->getItem();
+		$isNew		= ($zefaniascriptureitem->id < 1);
+
+		//For security, execute here a redirection if not authorized to enter a form
+		if (($isNew && !$access->get('core.create'))
+		|| (!$isNew && !$zefaniascriptureitem->params->get('access-edit')))
+		{
+				JError::raiseWarning(403, JText::sprintf( "JERROR_ALERTNOAUTHOR") );
+				ZefaniabibleHelper::redirectBack();
+		}
+
+
+		$model_bible_version = JModel::getInstance('zefaniabible', 'ZefaniabibleModel');
+		$model_bible_version->addGroupBy("a.ordering");
+		$lists['fk']['bible_id'] = $model_bible_version->getItems();
 		
-		$total		= $this->get( 'Total');
-		$pagination = $this->get( 'Pagination' );
+		$model_book_id = JModel::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_id->addGroupBy("a.ordering");
+		$lists['fk']['book_name'] = $model_book_id->getItems();
+		//Ordering
+		$orderModel = JModel::getInstance('Zefaniabible', 'ZefaniabibleModel');
+		$lists["ordering"] = $orderModel->getItems();
 
-		// table ordering
-		$lists['order'] = $model->getState('list.ordering');
-		$lists['order_Dir'] = $model->getState('list.direction');
-
-		$this->filters['filter_book_id'] = new stdClass();
-		$this->filters['filter_book_id']->value = $model->getState("filter.book_id");
-				
 		// Toolbar
 		jimport('joomla.html.toolbar');
 		$bar = & JToolBar::getInstance('toolbar');
-		if ($access->get('core.create'))
-			$bar->appendButton( 'Standard', "new", "JTOOLBAR_NEW", "new", false);
+		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
+			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
+		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
+			$bar->appendButton( 'Standard', "save", "JTOOLBAR_SAVE", "save", false);
 		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "edit", "JTOOLBAR_EDIT", "edit", true);
-		if ($access->get('core.delete') || $access->get('core.delete.own'))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
-		if ($access->get('core.admin'))
-			$bar->appendButton( 'Popup', 'options', JText::_('JTOOLBAR_OPTIONS'), 'index.php?option=com_config&view=component&component=' . $option . '&path=&tmpl=component');
+			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
+		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
+
+
+
 
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+
+		JRequest::setVar( 'hidemainmenu', true );
+
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('access',		$access);
-		$this->assignRef('state',		$state);
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('items',		$items);
-		$this->assignRef('arr_Bibles_plans',		$arr_Bibles_plans);		
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('zefaniascriptureitem',		$zefaniascriptureitem);
 		$this->assignRef('config',		$config);
+		$this->assignRef('isNew',		$isNew);
 
 		parent::display($tpl);
 	}
-
 
 
 

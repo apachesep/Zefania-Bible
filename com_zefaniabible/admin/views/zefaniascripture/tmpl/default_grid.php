@@ -42,11 +42,11 @@ defined('_JEXEC') or die('Restricted access');
 			</th>
 			<?php endif; ?>
 
-			<th>
-				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_VERSION", 'a.bible_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+			<th width="200">
+				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_VERSION", '_book_name_.bible_book_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th style="text-align:center">
+			<th width="150" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_VIEW_SCRIPTURE", 'a.book_id', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th> 
 
@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
             <td style="text-align:center">
 				<?php  echo JDom::_('html.fly', array(
-												'dataKey' => 'bible_name',
+												'dataKey' => '_bible_version_title',
 												'dataObject' => $row,
 												'href' => "javascript:listItemTask('cb" . $i . "', 'edit')"
 												));
@@ -123,5 +123,3 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 
 <?php echo JDom::_('html.pagination', null, $this->pagination);?>
-
-
