@@ -29,6 +29,7 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+
 /**
  * HTML View class for the Zefaniabible component
  *
@@ -43,7 +44,7 @@ class ZefaniabibleViewZefaniascripture extends JView
 	 * Define here the default list limit
 	 */
 	protected $_default_limit = null;
-	protected $pagination;
+
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -52,6 +53,8 @@ class ZefaniabibleViewZefaniascripture extends JView
 		$option	= JRequest::getCmd('option');
 		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
+
+
 
 		switch($layout)
 		{
@@ -66,56 +69,35 @@ class ZefaniabibleViewZefaniascripture extends JView
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		
 		$option	= JRequest::getCmd('option');
 
 		$user 	= JFactory::getUser();
 
 		$access = ZefaniabibleHelper::getACL();
 		$state		= $this->get('State');
-		
+
 		$document	= &JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_VIEW_SCRIPTURE") . $document->titleSuffix;
 
-		$int_Bible_Book_ID = $state->get('filter.book_id');
-		$int_Bible_Chapter = $state->get('filter.chapter_id');
-		$int_Bible_Verse_ID = $state->get('filter.chapter_id');
-		
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
-		$mdl_bible_scripture = new ZefaniabibleModelZefaniascripture;	
-		$int_max_chapter = 		$mdl_bible_scripture->_buildQuery_max_chapters($int_Bible_Book_ID);
-		$int_max_verse 	=		$mdl_bible_scripture->_buildQuery_max_verse($int_Bible_Book_ID,$int_Bible_Chapter);	
-		$arr_Bibles_versions =	$mdl_bible_scripture->_buildQuery_bible_versions();
-				
-		$model 		= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'default');
-		$items		= $model->getItems();
-		
 		$total		= $this->get( 'Total');
-		$pagination = $this->get( 'Pagination' );
-				
-		// table ordering
-		$lists['order'] = $model->getState('list.ordering');
-		$lists['order_Dir'] = $model->getState('list.direction');
-		
-		//Filters
-		//
-		$this->filters['filter_bible_name'] = new stdClass();
-		$this->filters['filter_bible_name']->value = $model->getState("filter.bible_name");
-				
-		$this->filters['filter_book_id'] = new stdClass();
-		$this->filters['filter_book_id']->value = $model->getState("filter.book_id");
+		$arr_pagination = $this->get( 'Pagination' );
 
-		$this->filters['filter_chapter_id'] = new stdClass();
-		$this->filters['filter_chapter_id']->value = $model->getState("filter.chapter_id");
+		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
+		$mdl_bible_scripture = new ZefaniabibleModelZefaniascripture;
+
+		$lists['order'] = $state->get('list.ordering');
+		$lists['order_Dir'] = $state->get('list.direction');
+		 
+		print_r($state);
+		$int_Bible_Chapter = $state->get('filter.biblechapter');
+		$int_Bible_Verse_ID = $state->get('filter.bibleverse');
+		$int_Bible_Book_ID = $state->get('filter.biblebook');
+		$str_Bible_Version = $state->get('filter.bibleversion');
 		
-		$this->filters['filter_verse_id'] = new stdClass();
-		$this->filters['filter_verse_id']->value = $model->getState("filter.verse_id");				
-		//search : search on  + Description
-		$this->filters['filter_search'] = new stdClass();
-		$this->filters['filter_search']->value = $model->getState("filter.search");
-		
+		$int_max_chapter = 		$mdl_bible_scripture->_buildQuery_max_chapters($int_Bible_Book_ID,$str_Bible_Version);
+		$int_max_verse 	=		$mdl_bible_scripture->_buildQuery_max_verse($int_Bible_Book_ID,$int_Bible_Chapter);
+		$arr_Bibles		= 		$mdl_bible_scripture->_buildQuery_default($arr_pagination, $int_Bible_Chapter, $int_Bible_Book_ID, $int_Bible_Verse_ID, $str_Bible_Version);		
+		$arr_Bibles_versions =	$mdl_bible_scripture->_buildQuery_bible_versions();
 		// Toolbar
 		jimport('joomla.html.toolbar');
 		$bar = & JToolBar::getInstance('toolbar');
@@ -127,16 +109,17 @@ class ZefaniabibleViewZefaniascripture extends JView
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
 		if ($access->get('core.admin'))
 			$bar->appendButton( 'Popup', 'options', JText::_('JTOOLBAR_OPTIONS'), 'index.php?option=com_config&view=component&component=' . $option . '&path=&tmpl=component');
-		
+
+
 		$this->assignRef('user',				JFactory::getUser());
 		$this->assignRef('access',				$access);
 		$this->assignRef('state',				$state);
 		$this->assignRef('lists',				$lists);
-		$this->assignRef('items',				$items);
-		$this->assignRef('int_max_chapter',		$int_max_chapter);		
-		$this->assignRef('int_max_verse',		$int_max_verse);			
 		$this->assignRef('arr_Bibles_versions',	$arr_Bibles_versions);
-		$this->assignRef('pagination',			$pagination);
+		$this->assignRef('int_max_chapter',		$int_max_chapter);		
+		$this->assignRef('int_max_verse',		$int_max_verse);	
+		$this->assignRef('items',				$arr_Bibles);
+		$this->assignRef('pagination',			$arr_pagination);
 		$this->assignRef('config',				$config);
 
 		parent::display($tpl);

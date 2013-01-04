@@ -51,10 +51,9 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		//Define the sortables fields (in lists)
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-				'_bible_version_title', '_bible_version_.bible_name',
-				'book_id', 'a.book_id',
-				'chapter_id', 'a.chapter_id',
-				'verse_id', 'a.verse_id',
+				'title', 'a.bible_name',
+				'full_name', 'a.desc',
+
 			);
 		}
 
@@ -64,7 +63,13 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 				));
 
 		parent::__construct($config);
+		$this->_modes = array_merge($this->_modes, array('publish'));
+
+
 	}
+
+
+
 
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -78,7 +83,6 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 	 * @return	string		A store id.
 	 * @since	1.6
 	 */
-	 
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
@@ -109,23 +113,23 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
  
 		//Filter (dropdown) Bible Version
-        $state = $this->getUserStateFromRequest($this->context.'.filter.bible_name', 'filter_bible_name', '', 'string');
-		$this->setState('filter.bible_name', $state);
+        $state = $this->getUserStateFromRequest($this->context.'.filter.bibleversion', 'filter_bibleversion', '', 'string');
+		$this->setState('filter.bibleversion', $state);
  
 		//Filter (dropdown) Bible Book
-        $state = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '', 'string');
-        $this->setState('filter.book_id', $state);
+        $state = $this->getUserStateFromRequest($this->context.'.filter.biblebook', 'filter_biblebook', '', 'string');
+        $this->setState('filter.biblebook', $state);
 		
 		//Filter (dropdown) Bible Chapter
-        $state = $this->getUserStateFromRequest($this->context.'filter.chapter_id', 'filter_chapter_id', '', 'string');
-        $this->setState('filter.chapter_id', $state);	
+        $state = $this->getUserStateFromRequest($this->context.'filter.biblechapter', 'filter_biblechapter', '', 'string');
+        $this->setState('filter.biblechapter', $state);	
 		
 		//Filter (dropdown) Bible Chapter
-        $state = $this->getUserStateFromRequest($this->context.'filter.verse_id', 'filter_verse_id', '', 'string');
-        $this->setState('filter.verse_id', $state);			
+        $state = $this->getUserStateFromRequest($this->context.'filter.bibleverse', 'filter_bibleverse', '', 'string');
+        $this->setState('filter.bibleverse', $state);			
  
 		//Takes care of states: list. limit / start / ordering / direction
-        parent::populateState('_bible_version_.bible_name', 'asc');
+        parent::populateState('a.name', 'asc');
 	}
 
 
@@ -141,7 +145,7 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		{
 			$db = $this->getDbo();
 			$query  = $db->getQuery(true);
-			$query->select('b.bible_name');
+			$query->select('b.alias, b.bible_name');
 			$query->from('`#__zefaniabible_bible_names` AS b');
 			$db->setQuery($query);
 			$data = $db->loadObjectList();				
@@ -198,86 +202,44 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		}
 		return $data;			
 	}	
-	 
-	function _buildQuery()
+	function _buildQuery_default($arr_pagination, $int_Bible_Chapter, $int_Bible_Book_ID, $int_Bible_Verse_ID, $str_Bible_Version )
 	{
-
-		if (isset($this->_active['predefined']))
-		switch($this->_active['predefined'])
+		try 
 		{
-			case 'default': return $this->_buildQuery_default(); break;
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+            $query->select('a.id, b.bible_name, a.book_id, a.chapter_id, a.verse_id, a.verse');
+            $query->from('`#__zefaniabible_bible_text` AS a');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+			$state = $db->escape($this->getState('filter.bibleversion'));
+            if($str_Bible_Version)
+			{
+            	$query->where('b.alias="'.$str_Bible_Version.'"');
+			}
+			if($int_Bible_Book_ID)
+			{
+				$query->where('a.book_id='.$int_Bible_Book_ID);
+			}
+			if($int_Bible_Chapter)
+			{
+				$query->where('a.chapter_id='.$int_Bible_Chapter);
+			}
+			if($int_Bible_Verse_ID)
+			{
+				$query->where('a.verse_id='.$int_Bible_Verse_ID);	
+			}			
+			$query->order('a.book_id, a.chapter_id, a.verse_id ASC');
 
+			$db->setQuery($query, $arr_pagination->limitstart, $arr_pagination->limit);
+			$data = $db->loadObjectList();			
 		}
-		$query = ' SELECT a.*'
-
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_bible_text` AS a '
-
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
-
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;
-		return $query;
-	}	
-	function _buildQuery_default()
-	{
-
-		$query = ' SELECT a.*'
-			.	' , _bible_version_.bible_name AS `_bible_version_title`'
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_bible_text` AS a '
-				.	' LEFT JOIN `#__zefaniabible_bible_names` AS _bible_version_ ON _bible_version_.id = a.bible_id'
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
-
-
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;	
-		return $query;
-	}
-	function _buildQueryWhere($where = array())
-	{
-		$app = JFactory::getApplication();
-		$db= JFactory::getDBO();
-		$acl = ZefaniabibleHelper::getAcl();
-
-		if (isset($this->_active['filter']) && $this->_active['filter'])
+		catch (JException $e)
 		{
-			$filter_bible_name = $this->getState('filter.bible_name');
-			if ($filter_bible_name != '')		$where[] = "_bible_version_.bible_name = " . $db->Quote($filter_bible_name);			
-			
-			$filter_book_id = $this->getState('filter.book_id');
-			if ($filter_book_id != '')		$where[] = "a.book_id = " . $db->Quote($filter_book_id);
-
-			$filter_chapter_id = $this->getState('filter.chapter_id');
-			if ($filter_chapter_id != '')		$where[] = "a.chapter_id = " . $db->Quote($filter_chapter_id);
-			
-			$filter_verse_id = $this->getState('filter.verse_id');
-			if ($filter_verse_id != '')		$where[] = "a.verse_id = " . $db->Quote($filter_verse_id);			
-			//search_search : search on  + Chapter Number +  + Book Name > Bible Book Name
-			$search_search = $this->getState('filter.search');
-
-			$this->_addSearch('search', 'a.verse', 'like');
-			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
-				$where[] = $search_search_val;
-
-
+			$this->setError($e);
 		}
-		return parent::_buildQueryWhere($where);
-	}	
-
-	function _buildQueryOrderBy($order = array(), $pre_order = 'a.book_id, a.chapter_id, a.verse_id')
-	{
-
-		return parent::_buildQueryOrderBy($order, $pre_order);
+		return $data;	
 	}
+
 	/**
 	 * Method to Convert the parameter fields into objects.
 	 *

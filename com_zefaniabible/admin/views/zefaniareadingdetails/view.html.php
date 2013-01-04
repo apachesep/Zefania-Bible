@@ -83,13 +83,11 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		$model 		= $this->getModel();
 		$model->activeAll();
 		$model->active('predefined', 'default');
+
 		$model->addGroupBy	("_plan_.ordering");
+
 		$items		= $model->getItems();
 
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
-		$mdl_bible_plans = new ZefaniabibleModelZefaniareadingdetails;
-		$arr_Bibles_plans =	$mdl_bible_plans->_buildQuery_plans();
-		
 		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
@@ -97,9 +95,6 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		$lists['order'] = $model->getState('list.ordering');
 		$lists['order_Dir'] = $model->getState('list.direction');
 
-		$this->filters['filter_book_id'] = new stdClass();
-		$this->filters['filter_book_id']->value = $model->getState("filter.book_id");
-				
 		// Toolbar
 		jimport('joomla.html.toolbar');
 		$bar = & JToolBar::getInstance('toolbar');
@@ -112,13 +107,22 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		if ($access->get('core.admin'))
 			$bar->appendButton( 'Popup', 'options', JText::_('JTOOLBAR_OPTIONS'), 'index.php?option=com_config&view=component&component=' . $option . '&path=&tmpl=component');
 
+
+
+		//Filters
+		//search : search on Begin Chapter + Day Number + End Chapter + Book ID > Bible Book Name + Plan + Description + Plan > Name + Plan > Alias
+		$this->filters['search'] = new stdClass();
+		$this->filters['search']->value = $model->getState("search.search");
+
+
+
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('access',		$access);
 		$this->assignRef('state',		$state);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);
-		$this->assignRef('arr_Bibles_plans',		$arr_Bibles_plans);		
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('config',		$config);
 

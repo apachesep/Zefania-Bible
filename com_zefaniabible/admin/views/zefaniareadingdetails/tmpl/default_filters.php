@@ -64,31 +64,43 @@ function resetFilters()
 
 <fieldset id="filters" class="filters">
 	<legend><?php echo JText::_( "JSEARCH_FILTER_LABEL" ); ?></legend>
-	<div style="float:left;">
-                        <?php
-							$arr_plan = array();
-							foreach($this->arr_Bibles_plans as $obj_plans)
-							{
-								$arr_plan[] = array("value" => $obj_plans->name, 'text'=>$obj_plans->name);
-							}
-						?>
-                        <select name="filter_plan_name" id="filter_plan_name" class="inputbox" onchange="this.form.submit()">
-	                        <?php echo JHtml::_('select.options', $arr_plan, 'value', 'text', $this->state->get('filter.plan_name'));?>						
-						</select>    
-        				<?php
-							$choices = array();
-							$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" ));
-							for($x = 1; $x< 66; $x++)
-							{
-								$choices[] = array("value" => $x, 'text'=>JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x));
-	
-							}
-						?>
-                        <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
-	                        <?php echo JHtml::_('select.options', $choices, 'value', 'text', $this->state->get('filter.book_id'));?>						
-						</select>
 
-					                               
+
+
+	<div style="float:right;">
+		<div style="float:left">
+			<!-- SEARCH : filter_search : search on Begin Chapter + Day Number + End Chapter + Book ID > Bible Book Name + Plan + Description + Plan > Name + Plan > Alias  -->
+
+				<div class='search filter filter_search'>
+
+					<?php echo JDom::_('html.form.input.search', array(
+											'domID' => 'filter_search',
+											'dataKey' => 'filter_search',
+											'dataValue' => $this->filters['search']->value
+												));
+
+
+						?>
+				</div>
+
+
+		</div>
+		<div style="float:left">
+				<div class="filter filter_buttons">
+					<button onclick="this.form.submit();"><?php echo(JText::_("JSEARCH_FILTER_SUBMIT")); ?></button>
+					<button onclick="resetFilters()"><?php echo(JText::_("JSEARCH_FILTER_CLEAR")); ?></button>
+				</div>
+		</div>
 	</div>
+
+
+
+
+
 	<div clear='all'></div>
+
+
+
+
+
 </fieldset>
