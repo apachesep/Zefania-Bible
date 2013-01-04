@@ -84,19 +84,12 @@ class ZefaniabibleViewZefaniareading extends JView
 		$model->activeAll();
 		$model->active('predefined', 'default');
 		$model->active("publish", false);
-
-
-
-
-
 		$items		= $model->getItems();
-
+		
 		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
 
-		// table ordering
-		$lists['order'] = $model->getState('list.ordering');
-		$lists['order_Dir'] = $model->getState('list.direction');
+
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
@@ -115,7 +108,10 @@ class ZefaniabibleViewZefaniareading extends JView
 			$bar->appendButton( 'Standard', "unpublish", "JTOOLBAR_UNPUBLISH", "unpublish", true);
 
 
-
+		// table ordering
+		$lists['order'] = $model->getState('list.ordering');
+		$lists['order_Dir'] = $model->getState('list.direction');
+		
 		//Filters
 		//Publish
 		$this->filters['publish'] = new stdClass();
