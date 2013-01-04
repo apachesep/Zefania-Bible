@@ -115,6 +115,13 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 		$session = JFactory::getSession();
 
 
+		//Filter (dropdown) Bible Book
+        $state = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '', 'string');
+        $this->setState('filter.book_id', $state);
+		//Filter (dropdown) Bible Plan
+        $state = $this->getUserStateFromRequest($this->context.'.filter.plan_name', 'filter_plan_name', '', 'string');
+        $this->setState('filter.plan_name', $state);
+
 
 		parent::populateState();
 	}
@@ -155,7 +162,23 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 
 		return $query;
 	}
-
+	function _buildQuery_plans()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('b.name');
+			$query->from('`#__zefaniabible_zefaniareading` AS b');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();				
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
 	function _buildQuery_default()
 	{
 
@@ -192,22 +215,12 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 
 		if (isset($this->_active['filter']) && $this->_active['filter'])
 		{
-			//search_search : search on Begin Chapter + Day Number + End Chapter + Book ID > Bible Book Name + Plan + Description + Plan > Name + Plan > Alias
-			$search_search = $this->getState('search.search');
-			$this->_addSearch('search', 'a.begin_chapter', 'like');
-			$this->_addSearch('search', 'a.day_number', 'like');
-			$this->_addSearch('search', 'a.end_chapter', 'like');
-			$this->_addSearch('search', '_book_id_.bible_book_name', 'like');
-			$this->_addSearch('search', 'a.plan', 'like');
-			$this->_addSearch('search', 'a.description', 'like');
-			$this->_addSearch('search', '_plan_.name', 'like');
-			$this->_addSearch('search', '_plan_.alias', 'like');
-			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
-				$where[] = $search_search_val;
+			$filter_book_id = $this->getState('filter.book_id');
+			if ($filter_book_id != '')		$where[] = "a.book_id = " . $db->Quote($filter_book_id);
 
-
+			$filter_plan_name = $this->getState('filter.plan_name');
+			if ($filter_plan_name != '')		$where[] = "_plan_.name = " . $db->Quote($filter_plan_name);						
 		}
-
 
 		return parent::_buildQueryWhere($where);
 	}
