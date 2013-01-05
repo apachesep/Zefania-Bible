@@ -55,7 +55,8 @@ defined('_JEXEC') or die('Restricted access');
 			</th>
 
 			<th>
-				<?php echo JText::_("ZEFANIABIBLE_FIELD_EMAIL"); ?>
+            	<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_EMAIL", 'a.email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+				
 			</th>
 
 			<th style="text-align:center">

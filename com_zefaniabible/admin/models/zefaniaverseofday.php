@@ -199,7 +199,6 @@ class ZefaniabibleModelZefaniaverseofday extends ZefaniabibleModelList
 
 			//search_search : search on  + Chapter Number +  + Book Name > Bible Book Name
 			$search_search = $this->getState('search.search');
-			$this->_addSearch('search', 'a.chapter_number', 'like');
 			$this->_addSearch('search', '_book_name_.bible_book_name', 'like');
 			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
 				$where[] = $search_search_val;

@@ -67,6 +67,7 @@ function resetFilters()
 	<div style="float:left;">
                         <?php
 							$arr_plan = array();
+							$arr_plan[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_JSEARCH_SELECT_PLAN" ));
 							foreach($this->arr_Bibles_plans as $obj_plans)
 							{
 								$arr_plan[] = array("value" => $obj_plans->name, 'text'=>$obj_plans->name);
@@ -87,6 +88,18 @@ function resetFilters()
                         <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
 	                        <?php echo JHtml::_('select.options', $choices, 'value', 'text', $this->state->get('filter.book_id'));?>						
 						</select>
+        				<?php
+							$arr_day = array();
+							$arr_day[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_DAY" ));
+							for($x = $this->int_min_day; $x<= $this->int_max_day; $x++)
+							{
+								$arr_day[] = array("value" => $x, 'text'=>$x);
+	
+							}
+						?>
+                        <select name="filter_day_number" id="filter_day_number" class="inputbox" onchange="this.form.submit()">
+	                        <?php echo JHtml::_('select.options', $arr_day, 'value', 'text', $this->state->get('filter.day_number'));?>						
+						</select>                        
 
 					                               
 	</div>

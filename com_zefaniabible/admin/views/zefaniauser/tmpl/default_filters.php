@@ -68,9 +68,6 @@ function resetFilters()
 
 <fieldset id="filters" class="filters">
 	<legend><?php echo JText::_( "JSEARCH_FILTER_LABEL" ); ?></legend>
-
-
-
 	<div style="float:right;">
 		<div style="float:left">
 			<!-- SEARCH : filter_search : search on User Name + Plan + Bible Version +   -->
@@ -86,8 +83,6 @@ function resetFilters()
 
 						?>
 				</div>
-
-
 		</div>
 		<div style="float:left">
 				<div class="filter filter_buttons">
@@ -97,61 +92,78 @@ function resetFilters()
 		</div>
 	</div>
 
-	<div>
-		<div style="float:left">
-			<!-- SELECT : Send Reading Plan Email  -->
-
-					<div class='filter filter_send_reading_plan_email'>
-			
+	<div style="float:left;"> 
+    	<div style="float:left;">  
 						<?php
-						$choices = array();
-						$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SEND_READING_PLAN_EMAIL" ));
-						$choices[] = array("value" => '0', 'text'=>JText::_( "JNO" ));
-						$choices[] = array("value" => '1', 'text'=>JText::_( "JYES" ));
+						$arr_bible_version = array();
+						foreach($this->arr_Bibles_versions as $ojb_bible_version)
+						{
+							$arr_bible_version[] = array("value" => $ojb_bible_version->bible_name, 'text'=>$ojb_bible_version->bible_name);
+						}		
+						?>	                    
+                    <select name="filter_bible_name" id="filter_bible_name" class="inputbox" onchange="this.form.submit()">
+                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION');?></option>
+                        <?php  echo JHtml::_('select.options', $arr_bible_version, 'value', 'text', $this->state->get('filter.bible_name'));?>
+                    </select> 
+		</div>
+        <div style="float:left;">  
+                        <?php
+							$arr_plan = array();
+							$arr_plan[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_JSEARCH_SELECT_PLAN" ));
+							foreach($this->arr_Bibles_plans as $obj_plans)
+							{
+								$arr_plan[] = array("value" => $obj_plans->name, 'text'=>$obj_plans->name);
+							}
+						?>
+                        <select name="filter_plan_name" id="filter_plan_name" class="inputbox" onchange="this.form.submit()">
+	                        <?php echo JHtml::_('select.options', $arr_plan, 'value', 'text', $this->state->get('filter.plan_name'));?>						
+						</select> 
+		</div>
+        <div style="float:left;">
+						<?php
+						$arr_send_reading = array();
+						$arr_send_reading[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SEND_READING_PLAN_EMAIL" ));
+						$arr_send_reading[] = array("value" => '0', 'text'=>JText::_( "JNO" ));
+						$arr_send_reading[] = array("value" => '1', 'text'=>JText::_( "JYES" ));
 
 						echo JDom::_('html.form.input.select', array(
 											'dataKey' => 'filter_send_reading_plan_email',
 											'dataValue' => $this->filters['send_reading_plan_email']->value,
-											'list' => $choices,
+											'list' => $arr_send_reading,
 											'listKey' => 'value',
 											'labelKey' => 'text',
 											'submitEventName' => 'onchange'
 												));
-
 						?>
-					</div>
-
-
 		</div>
-		<div style="float:left">
-			<!-- SELECT : Reading Start Date  -->
+        <div style="float:left;">  
+						<?php
+						$arr_send_verse = array();
+						$arr_send_verse[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SEND_VERSE_OF_DAY_EMAIL" ));
+						$arr_send_verse[] = array("value" => '0', 'text'=>JText::_( "JNO" ));
+						$arr_send_verse[] = array("value" => '1', 'text'=>JText::_( "JYES" ));
 
-				<div class='filter datepicker filter_reading_start_date'>
-		
-					<?php echo JDom::_('html.form.input.calendar', array(
+						echo JDom::_('html.form.input.select', array(
+											'dataKey' => 'filter_send_verse_of_day_email',
+											'dataValue' => $this->filters['send_verse_of_day_email']->value,
+											'list' => $arr_send_verse,
+											'listKey' => 'value',
+											'labelKey' => 'text',
+											'submitEventName' => 'onchange'
+												));
+						?>
+		</div>
+        <div style="float:left;">                          
+						<?php echo JDom::_('html.form.input.calendar', array(
 											'dataKey' => 'filter_reading_start_date',
 											'dataValue' => $this->filters['reading_start_date']->value,
 											'submitEventName' => 'onchange',
 											'styles' => array('width' => '80px'),
 											'dateFormat' => '%Y-%m-%d'
 												));
-
-
 						?>
-				</div>
-
-
-
 		</div>
+        <div clear='all'></div>
 	</div>
-
-
-
-
 	<div clear='all'></div>
-
-
-
-
-
 </fieldset>

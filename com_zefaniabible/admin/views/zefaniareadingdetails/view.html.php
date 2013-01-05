@@ -85,10 +85,15 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		$model->active('predefined', 'default');
 		$model->addGroupBy	("_plan_.ordering");
 		$items		= $model->getItems();
+		
+		$str_plan_name = $state->get('filter.plan_name');
+		$int_bible_book_id = $state->get('filter.book_id');
 
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
+
 		$mdl_bible_plans = new ZefaniabibleModelZefaniareadingdetails;
 		$arr_Bibles_plans =	$mdl_bible_plans->_buildQuery_plans();
+		$int_max_day =	$mdl_bible_plans->_buildQuery_max_day($str_plan_name, $int_bible_book_id);
+		$int_min_day =	$mdl_bible_plans->_buildQuery_min_day($str_plan_name, $int_bible_book_id);
 		
 		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
@@ -99,6 +104,9 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 
 		$this->filters['filter_book_id'] = new stdClass();
 		$this->filters['filter_book_id']->value = $model->getState("filter.book_id");
+
+		$this->filters['filter_day_number'] = new stdClass();
+		$this->filters['filter_day_number']->value = $model->getState("filter.day_number");		
 				
 		// Toolbar
 		jimport('joomla.html.toolbar');
@@ -117,6 +125,8 @@ class ZefaniabibleViewZefaniareadingdetails extends JView
 		$this->assignRef('access',		$access);
 		$this->assignRef('state',		$state);
 		$this->assignRef('lists',		$lists);
+		$this->assignRef('int_max_day',		$int_max_day);
+		$this->assignRef('int_min_day',		$int_min_day);
 		$this->assignRef('items',		$items);
 		$this->assignRef('arr_Bibles_plans',		$arr_Bibles_plans);		
 		$this->assignRef('pagination',	$pagination);

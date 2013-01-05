@@ -81,7 +81,6 @@ class ZefaniabibleViewZefaniascripture extends JView
 		$int_Bible_Chapter = $state->get('filter.chapter_id');
 		$int_Bible_Verse_ID = $state->get('filter.chapter_id');
 		
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
 		$mdl_bible_scripture = new ZefaniabibleModelZefaniascripture;	
 		$int_max_chapter = 		$mdl_bible_scripture->_buildQuery_max_chapters($int_Bible_Book_ID);
 		$int_max_verse 	=		$mdl_bible_scripture->_buildQuery_max_verse($int_Bible_Book_ID,$int_Bible_Chapter);	

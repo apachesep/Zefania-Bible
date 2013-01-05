@@ -55,6 +55,7 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 				'book_id', 'a.book_id',
 				'chapter_id', 'a.chapter_id',
 				'verse_id', 'a.verse_id',
+				'verse', 'a.verse',
 			);
 		}
 

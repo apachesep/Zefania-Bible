@@ -83,11 +83,12 @@ class ZefaniabibleViewZefaniauser extends JView
 		$model 		= $this->getModel();
 		$model->activeAll();
 		$model->active('predefined', 'default');
+
+
+		$mdl_bible_user = new ZefaniabibleModelZefaniauser;
+		$arr_Bibles_plans =	$mdl_bible_user->_buildQuery_plans();		
+		$arr_Bibles_versions =	$mdl_bible_user->_buildQuery_bible_versions();
 		
-
-
-
-
 		$items		= $model->getItems();
 
 		$total		= $this->get( 'Total');
@@ -116,6 +117,10 @@ class ZefaniabibleViewZefaniauser extends JView
 		$this->filters['send_reading_plan_email'] = new stdClass();
 		$this->filters['send_reading_plan_email']->value = $model->getState("filter.send_reading_plan_email");
 
+		//Send Verse of Day Email
+		$this->filters['send_verse_of_day_email'] = new stdClass();
+		$this->filters['send_verse_of_day_email']->value = $model->getState("filter.send_verse_of_day_email");
+		
 		//reading_start_date
 		$this->filters['reading_start_date'] = new stdClass();
 		$this->filters['reading_start_date']->value = $model->getState("filter.reading_start_date");
@@ -124,14 +129,14 @@ class ZefaniabibleViewZefaniauser extends JView
 		$this->filters['search'] = new stdClass();
 		$this->filters['search']->value = $model->getState("search.search");
 
-
-
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('access',		$access);
 		$this->assignRef('state',		$state);
 		$this->assignRef('lists',		$lists);
+		$this->assignRef('arr_Bibles_plans',		$arr_Bibles_plans);	
+		$this->assignRef('arr_Bibles_versions',	$arr_Bibles_versions);	
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('config',		$config);

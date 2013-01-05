@@ -56,6 +56,7 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 				'_plan_name', '_plan_.name',
 				'send_reading_plan_email', 'a.send_reading_plan_email',
 				'send_verse_of_day_email', 'a.send_verse_of_day_email',
+				'email', 'a.email',				
 				'reading_start_date', 'a.reading_start_date',
 
 			);
@@ -119,9 +120,21 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-
-
-
+		// Filter Dropdown Bible Plans
+        $state = $this->getUserStateFromRequest($this->context.'.filter.plan_name', 'filter_plan_name', '', 'string');
+        $this->setState('filter.plan_name', $state);
+		
+		//Filter (dropdown) Bible Version
+        $state = $this->getUserStateFromRequest($this->context.'.filter.bible_name', 'filter_bible_name', '', 'string');
+		$this->setState('filter.bible_name', $state);
+		// Filter (dropdown) Send Reading Plan
+        $state = $this->getUserStateFromRequest($this->context.'.filter.send_reading_plan_email', 'filter_send_reading_plan_email', '', 'string');
+		$this->setState('filter.send_reading_plan_email', $state);		
+		
+		// Filter (dropdown) Send Reading Plan
+        $state = $this->getUserStateFromRequest($this->context.'.filter.send_verse_of_day_email', 'filter_send_verse_of_day_email', '', 'string');
+		$this->setState('filter.send_verse_of_day_email', $state);	
+				
 		parent::populateState();
 	}
 
@@ -186,8 +199,41 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 
 		return $query;
 	}
-
-
+	function _buildQuery_plans()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('b.name');
+			$query->from('`#__zefaniabible_zefaniareading` AS b');
+			$query->where('b.publish=1');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();				
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
+	function _buildQuery_bible_versions()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('b.bible_name');
+			$query->from('`#__zefaniabible_bible_names` AS b');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();				
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}
 
 	function _buildQueryWhere($where = array())
 	{
@@ -198,17 +244,26 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 
 		if (isset($this->_active['filter']) && $this->_active['filter'])
 		{
+			$filter_bible_name = $this->getState('filter.bible_name');
+			if ($filter_bible_name != '')		$where[] = "_bible_version_.bible_name = " . $db->Quote($filter_bible_name);
+						
 			$filter_send_reading_plan_email = $this->getState('filter.send_reading_plan_email');
-			if ($filter_send_reading_plan_email != '')		$where[] = "a.send_reading_plan_email = " . $db->Quote($filter_send_reading_plan_email);
+			if ($filter_send_reading_plan_email != null)		$where[] = "a.send_reading_plan_email = " . $db->Quote($filter_send_reading_plan_email);
 
 			$filter_reading_start_date = $this->getState('filter.reading_start_date');
 			if ($filter_reading_start_date != '')		$where[] = "a.reading_start_date = " . $db->Quote($filter_reading_start_date);
 
+			$filter_plan_name = $this->getState('filter.plan_name');
+			if ($filter_plan_name != '')		$where[] = "_plan_.name = " . $db->Quote($filter_plan_name);	
+
+			$filter_send_verse_of_day_email = $this->getState('filter.send_verse_of_day_email');
+			if ($filter_send_verse_of_day_email != null)		$where[] = "a.send_verse_of_day_email = " . $db->Quote($filter_send_verse_of_day_email);
+		
 			//search_search : search on User Name + Plan + Bible Version + 
 			$search_search = $this->getState('search.search');
 			$this->_addSearch('search', 'a.user_name', 'like');
-			$this->_addSearch('search', 'a.plan', 'like');
-			$this->_addSearch('search', 'a.bible_version', 'like');
+			$this->_addSearch('search', 'a.email', 'like');
+
 			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
 				$where[] = $search_search_val;
 

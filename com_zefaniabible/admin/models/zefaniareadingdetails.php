@@ -67,12 +67,7 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 		$this->set('search_vars', array(
 			'search' => 'varchar'
 				));
-
-
-
 		parent::__construct($config);
-
-
 	}
 
 
@@ -97,9 +92,6 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 
 		return parent::getStoreId($id);
 	}
-
-
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -121,11 +113,12 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 		//Filter (dropdown) Bible Plan
         $state = $this->getUserStateFromRequest($this->context.'.filter.plan_name', 'filter_plan_name', '', 'string');
         $this->setState('filter.plan_name', $state);
-
+		//Filter (dropdown) Day Number
+        $state = $this->getUserStateFromRequest($this->context.'.filter.day_number', 'filter_day_number', '', 'string');
+        $this->setState('filter.day_number', $state);
 
 		parent::populateState();
 	}
-
 
 	/**
 	 * Method to build a the query string for the Zefaniareadingdetailsitem
@@ -162,6 +155,50 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 
 		return $query;
 	}
+	function _buildQuery_max_day($str_plan_name, $int_bible_book_id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('Max(a.day_number)');
+			$query->from('`#__zefaniabible_zefaniareadingdetails` AS a');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS b ON a.plan = b.id');
+			if($str_plan_name)
+			{
+				$query->where('b.name="'.$str_plan_name.'"');
+			}
+			$db->setQuery($query);
+			$data = $db->loadResult();			
+		}		
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}
+	function _buildQuery_min_day($str_plan_name, $int_bible_book_id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('Min(a.day_number)');
+			$query->from('`#__zefaniabible_zefaniareadingdetails` AS a');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS b ON a.plan = b.id');
+			if($str_plan_name)
+			{
+				$query->where('b.name="'.$str_plan_name.'"');
+			}
+			$db->setQuery($query);
+			$data = $db->loadResult();			
+		}		
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}	
 	function _buildQuery_plans()
 	{
 		try 
@@ -170,6 +207,7 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 			$query  = $db->getQuery(true);
 			$query->select('b.name');
 			$query->from('`#__zefaniabible_zefaniareading` AS b');
+			$query->where('b.publish=1');
 			$db->setQuery($query);
 			$data = $db->loadObjectList();				
 		}
@@ -219,7 +257,10 @@ class ZefaniabibleModelZefaniareadingdetails extends ZefaniabibleModelList
 			if ($filter_book_id != '')		$where[] = "a.book_id = " . $db->Quote($filter_book_id);
 
 			$filter_plan_name = $this->getState('filter.plan_name');
-			if ($filter_plan_name != '')		$where[] = "_plan_.name = " . $db->Quote($filter_plan_name);						
+			if ($filter_plan_name != '')		$where[] = "_plan_.name = " . $db->Quote($filter_plan_name);		
+			
+			$filter_day_number = $this->getState('filter.day_number');
+			if ($filter_day_number != '')		$where[] = "a.day_number = " . $db->Quote($filter_day_number);							
 		}
 
 		return parent::_buildQueryWhere($where);
