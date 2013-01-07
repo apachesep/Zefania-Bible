@@ -37,6 +37,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$this->loadLanguage();
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		JHTML::_('behavior.modal');
+		// exclude component that is broken by this pluin
+		if(JRequest::getCmd('option') =="com_gcalendar")
+		{
+			return;	
+		}
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
