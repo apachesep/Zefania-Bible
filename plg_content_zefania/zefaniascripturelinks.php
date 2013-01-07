@@ -31,24 +31,29 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+		if(JRequest::getCmd('option') == "com_gcalendar")
+		{
+			return;	
+		}	
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();
 		if($docType != 'html') return; 
+		// exclude component that is broken by this pluin
+	
 		$this->loadLanguage();
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		JHTML::_('behavior.modal');
-		// exclude component that is broken by this pluin
-		if(JRequest::getCmd('option') =="com_gcalendar")
-		{
-			return;	
-		}
+
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		
+		if(JRequest::getCmd('option') == "com_gcalendar")
+		{
+			return;	
+		}			
 		if($docType != 'html')
 		{
 			$str_match_fuction = "#{zefaniabible\s*(.*?)}#";
