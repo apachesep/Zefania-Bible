@@ -100,6 +100,7 @@ publish
 [Bb]in
 [Oo]bj
 _notes
+*.zip
 TestResults
 *.Cache
 ClientBin
