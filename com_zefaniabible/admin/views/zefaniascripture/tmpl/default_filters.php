@@ -103,7 +103,7 @@ function resetFilters()
                     <?php
 						$choices = array();
 						$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" ));
-						for($x = 1; $x< 66; $x++)
+						for($x = 1; $x<= 66; $x++)
 						{
 							$choices[] = array("value" => $x, 'text'=>JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x));
 
