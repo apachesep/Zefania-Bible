@@ -67,7 +67,9 @@ class ZefaniabibleHelper
 		foreach($vars as $key => $value)
 			$parts[] = $key . '=' . $value;
 
+		
 		return JRoute::_("index.php?" . implode("&", $parts), false);
+
 	}
 
 	/*
