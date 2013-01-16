@@ -125,12 +125,7 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'xml_file_url',
-												'dataObject' => $this->zefaniabibleitem,
-												'size' => "32"
-												));
-				?>
+                <input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="100" disabled="disabled" type="text">
 			</td>
 		</tr>
 		<tr>
