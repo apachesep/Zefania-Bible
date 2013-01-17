@@ -171,11 +171,9 @@ class ZefaniabibleModelZefaniaverseofday extends ZefaniabibleModelList
 
 			. ' FROM `#__zefaniabible_zefaniaverseofday` AS a '
 					.	' LEFT JOIN `#__zefaniabible_zefaniabiblebooknames` AS _book_name_ ON _book_name_.id = a.book_name'
-
 			. $this->_buildQueryJoin() . ' '
 
 			. $this->_buildQueryWhere()
-
 
 			. $this->_buildQueryOrderBy()
 			. $this->_buildQueryExtra()
