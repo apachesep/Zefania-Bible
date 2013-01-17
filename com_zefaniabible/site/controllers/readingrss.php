@@ -54,7 +54,9 @@ class ZefaniabibleControllerReadingrss extends ZefaniabibleController
 		if (!JRequest::getCmd('option',null, 'get'))
 		{
 			//Kill the post and rebuild the url
-			$this->setRedirect(ZefaniabibleHelper::urlRequest());
+			//$this->setRedirect(ZefaniabibleHelper::urlRequest());
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: '.JURI::root(true).ZefaniabibleHelper::urlRequest());				
 			return;
 		}
 	
