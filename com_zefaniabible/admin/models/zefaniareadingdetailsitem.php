@@ -28,7 +28,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 
 jimport('joomla.application.component.model');
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DS.'classes'.DS.'jmodel.item.php');
+require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.item.php');
 
 /**
  * Zefaniabible Component Zefaniareadingdetailsitem Model

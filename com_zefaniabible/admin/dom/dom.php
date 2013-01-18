@@ -199,7 +199,7 @@ class JDom extends JObject
 
 		$fileBase = ""; // dom Root
 		if (isset($this->assetName) && ($this->assetName != null))
-			$fileBase = 'assets' .DS. $this->assetName .DS. 'js' .DS;
+			$fileBase = 'assets' .DIRECTORY_SEPARATOR. $this->assetName .DIRECTORY_SEPARATOR. 'js' .DIRECTORY_SEPARATOR;
 
 		foreach($attachJs as $jsFileName)
 		{
@@ -220,7 +220,7 @@ class JDom extends JObject
 
 		$fileBase = ""; // dom Root
 		if (isset($this->assetName) && ($this->assetName != null))
-			$fileBase = 'assets' .DS. $this->assetName .DS. 'css' .DS;
+			$fileBase = 'assets' .DIRECTORY_SEPARATOR. $this->assetName .DIRECTORY_SEPARATOR. 'css' .DIRECTORY_SEPARATOR;
 
 
 		foreach($attachCss as $cssFileName)
@@ -256,7 +256,7 @@ class JDom extends JObject
 		else
 		{
 			$name = $this->getName();
-			$path = $this->path .DS. $name;
+			$path = $this->path .DIRECTORY_SEPARATOR. $name;
 
 
 			$relativeName = $path . ".php";
@@ -343,7 +343,7 @@ class JDom extends JObject
 
 		$app = JFactory::getApplication();
 		$tmpl = $app->getTemplate();
-		$tmplPath = JPATH_SITE .DS. 'templates' .DS. $tmpl .DS. 'html';
+		$tmplPath = JPATH_SITE .DIRECTORY_SEPARATOR. 'templates' .DIRECTORY_SEPARATOR. $tmpl .DIRECTORY_SEPARATOR. 'html';
 
 		if ($searches)
 		foreach($searches as $search)
@@ -351,11 +351,11 @@ class JDom extends JObject
 			switch($search)
 			{
 				case 'template.view';
-					$path = $tmplPath .DS. $extension .DS. $view;
+					$path = $tmplPath .DIRECTORY_SEPARATOR. $extension .DIRECTORY_SEPARATOR. $view;
 					break;
 
 				case 'template.component';
-					$path = $tmplPath .DS. $extension;
+					$path = $tmplPath .DIRECTORY_SEPARATOR. $extension;
 					break;
 
 				case 'template';
@@ -363,7 +363,7 @@ class JDom extends JObject
 					break;
 
 				case 'client.view';
-					$path = JPATH_COMPONENT .DS. 'views' .DS. $view;
+					$path = JPATH_COMPONENT .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR. $view;
 					break;
 
 				case 'client';
@@ -371,19 +371,19 @@ class JDom extends JObject
 					break;
 
 				case 'front.view';
-					$path = JPATH_SITE .DS. 'components' .DS. $extension .DS. 'views' .DS. $view;
+					$path = JPATH_SITE .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $extension .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR. $view;
 					break;
 
 				case 'front';
-					$path = JPATH_SITE .DS. 'components' .DS. $extension;
+					$path = JPATH_SITE .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $extension;
 					break;
 
 				case 'back.view';
-					$path = JPATH_ADMINISTRATOR .DS. 'components' .DS. $extension .DS. 'views' .DS. $view;
+					$path = JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $extension .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR. $view;
 					break;
 
 				case 'back';
-					$path = JPATH_ADMINISTRATOR .DS. 'components' .DS. $extension;
+					$path = JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $extension;
 					break;
 
 
@@ -393,7 +393,7 @@ class JDom extends JObject
 
 			}
 
-			$completePath = $path .DS. 'dom' .DS. $relativeName;
+			$completePath = $path .DIRECTORY_SEPARATOR. 'dom' .DIRECTORY_SEPARATOR. $relativeName;
 
 
 
@@ -409,8 +409,8 @@ class JDom extends JObject
 			$classFile = __FILE__;
 			if (preg_match("/.+dom\.php$/", $classFile))
 			{
-				$classRoot = substr($classFile, 0, strlen($classFile) - 8) .DS ;
-				$completePath = $classRoot .DS. $relativeName;
+				$classRoot = substr($classFile, 0, strlen($classFile) - 8) .DIRECTORY_SEPARATOR ;
+				$completePath = $classRoot .DIRECTORY_SEPARATOR. $relativeName;
 
 				if (file_exists($completePath))
 					return $completePath;
@@ -674,7 +674,7 @@ class JDom extends JObject
 		{
 			//Deprecated with the coming of jQuery
 			$name = $this->assetName;
-			$relativeName = 'assets' .DS. $name . DS. 'js' .DS . $name . '.js';
+			$relativeName = 'assets' .DIRECTORY_SEPARATOR. $name . DIRECTORY_SEPARATOR. 'js' .DIRECTORY_SEPARATOR . $name . '.js';
 		}
 		else
 			return;
@@ -691,7 +691,7 @@ class JDom extends JObject
 
 				//Main JDom file is deprecated with the coming of jQuery
 				//Add JDom Js main class (before)
-				$jDomClass = 'assets' .DS. 'jdom.js';
+				$jDomClass = 'assets' .DIRECTORY_SEPARATOR. 'jdom.js';
 				$jsFileMain = $this->searchFile($jDomClass, false);
 				if ($jsFileMain)
 				{
@@ -717,7 +717,7 @@ class JDom extends JObject
 		else
 		{
 			$name = $this->assetName;
-			$relativeName = 'assets' .DS. $name . DS. 'css' .DS . $name . '.css';
+			$relativeName = 'assets' .DIRECTORY_SEPARATOR. $name . DIRECTORY_SEPARATOR. 'css' .DIRECTORY_SEPARATOR . $name . '.css';
 		}
 
 		$cssFile = $this->searchFile($relativeName, false);
@@ -925,12 +925,12 @@ array(	"\\", "\/", 	"\#",	"\!", 	"\^", "$", "\(", "\)", "\[", "\]", "\{", "\}", 
 	function systemImagesDir()
 	{
 		if ($this->jVersion('1.6'))
-			$dir = 'templates' .DS. $this->adminTemplate() .DS. 'images' .DS. 'admin';
+			$dir = 'templates' .DIRECTORY_SEPARATOR. $this->adminTemplate() .DIRECTORY_SEPARATOR. 'images' .DIRECTORY_SEPARATOR. 'admin';
 		else
 			$dir = "images";
 
 		if ($this->app->isSite())
-			$dir = "administrator" .DS . $dir;
+			$dir = "administrator" .DIRECTORY_SEPARATOR . $dir;
 
 		return $dir;
 	}
@@ -938,7 +938,7 @@ array(	"\\", "\/", 	"\#",	"\!", 	"\^", "$", "\(", "\)", "\[", "\]", "\{", "\}", 
 
 	function extensionDir()
 	{
-		return JPATH_ADMINISTRATOR .DS. 'components' .DS. $this->getExtension();
+		return JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $this->getExtension();
 	}
 
 	function domUrl()

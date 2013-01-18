@@ -27,7 +27,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!class_exists('JDom'))
-	require_once(JPATH_ADMIN_ZEFANIABIBLE .DS.'dom'.DS.'dom.php');
+	require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'dom'.DIRECTORY_SEPARATOR.'dom.php');
 
 class ZefaniabibleHelper
 {
