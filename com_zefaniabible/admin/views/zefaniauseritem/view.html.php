@@ -37,7 +37,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniauser
  *
  */
-class ZefaniabibleViewZefaniauseritem extends JView
+class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -88,11 +88,11 @@ class ZefaniabibleViewZefaniauseritem extends JView
 		}
 
 
-		$model_bible_version = JModel::getInstance('zefaniabible', 'ZefaniabibleModel');
+		$model_bible_version = JModelItemLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
 		$model_bible_version->addGroupBy("a.ordering");
 		$lists['fk']['bible_version'] = $model_bible_version->getItems();
 		
-		$model_plan = JModel::getInstance('zefaniareading', 'ZefaniabibleModel');
+		$model_plan = JModelItemLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
 		$model_plan->addGroupBy("a.ordering");
 		$lists['fk']['plan'] = $model_plan->getItems();
 

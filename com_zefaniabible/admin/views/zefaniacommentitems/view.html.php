@@ -37,7 +37,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniacomment
  *
  */
-class ZefaniabibleViewZefaniacommentitems extends JView
+class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -89,7 +89,7 @@ class ZefaniabibleViewZefaniacommentitems extends JView
 
 
 		//Ordering
-		$orderModel = JModel::getInstance('Zefaniacomment', 'ZefaniabibleModel');
+		$orderModel = JModelItemLegacy::getInstance('Zefaniacomment', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 

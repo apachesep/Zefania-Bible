@@ -38,7 +38,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniauser
  *
  */
-class ZefaniabibleViewZefaniauser extends JView
+class ZefaniabibleViewZefaniauser extends JViewLegacy
 {
 	/*
 	 * Define here the default list limit

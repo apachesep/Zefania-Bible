@@ -37,7 +37,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniaverseofday
  *
  */
-class ZefaniabibleViewZefaniaverseofdayitem extends JView
+class ZefaniabibleViewZefaniaverseofdayitem extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -88,14 +88,14 @@ class ZefaniabibleViewZefaniaverseofdayitem extends JView
 		}
 
 
-		$model_book_name = JModel::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_name = JModelItemLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
 		$model_book_name->addGroupBy("a.ordering");
 		$lists['fk']['book_name'] = $model_book_name->getItems();
 
 
 
 		//Ordering
-		$orderModel = JModel::getInstance('Zefaniaverseofday', 'ZefaniabibleModel');
+		$orderModel = JModelItemLegacy::getInstance('Zefaniaverseofday', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar

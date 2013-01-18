@@ -37,7 +37,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniareadingdetails
  *
  */
-class ZefaniabibleViewZefaniareadingdetailsitem extends JView
+class ZefaniabibleViewZefaniareadingdetailsitem extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -88,18 +88,18 @@ class ZefaniabibleViewZefaniareadingdetailsitem extends JView
 		}
 
 
-		$model_plan = JModel::getInstance('zefaniareading', 'ZefaniabibleModel');
+		$model_plan = JModelItemLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
 		$model_plan->addGroupBy("a.ordering");
 		$lists['fk']['plan'] = $model_plan->getItems();
 
-		$model_book_id = JModel::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_id = JModelItemLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
 		$model_book_id->addGroupBy("a.ordering");
 		$lists['fk']['book_id'] = $model_book_id->getItems();
 
 
 
 		//Ordering
-		$orderModel = JModel::getInstance('Zefaniareadingdetails', 'ZefaniabibleModel');
+		$orderModel = JModelItemLegacy::getInstance('Zefaniareadingdetails', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar

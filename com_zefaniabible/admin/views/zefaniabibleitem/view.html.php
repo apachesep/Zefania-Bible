@@ -37,7 +37,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewZefaniabibleitem extends JView
+class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -91,7 +91,7 @@ class ZefaniabibleViewZefaniabibleitem extends JView
 
 
 		//Ordering
-		$orderModel = JModel::getInstance('Zefaniabible', 'ZefaniabibleModel');
+		$orderModel = JModelItemLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar
