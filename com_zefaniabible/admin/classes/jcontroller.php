@@ -34,7 +34,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleController extends JController
+class ZefaniabibleController extends JControllerLegacy
 {
 	var $context;
 
