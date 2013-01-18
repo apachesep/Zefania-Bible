@@ -26,18 +26,18 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-@define('JPATH_ADMIN_ZEFANIABIBLE', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_zefaniabible');
-@define('JPATH_SITE_ZEFANIABIBLE', JPATH_SITE . DS . 'components' . DS . 'com_zefaniabible');
+@define('JPATH_ADMIN_ZEFANIABIBLE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_zefaniabible');
+@define('JPATH_SITE_ZEFANIABIBLE', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_zefaniabible');
 
 function cimport($namespace){
-	include_once JPATH_ADMIN_ZEFANIABIBLE . DS . str_replace(".", DS, $namespace) . '.php';
+	include_once JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . str_replace(".", DIRECTORY_SEPARATOR, $namespace) . '.php';
 }
 
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DS.'helpers'.DS.'helper.php');
-JHTML::_("behavior.mootools");
-
+require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'helper.php');
+//JHTML::_("behavior.mootools");
+JHTML::_('behavior.framework');
 // Set the table directory
-JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DS . 'tables');
+JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . 'tables');
 
 //Document title
 $document	= &JFactory::getDocument();
@@ -113,9 +113,9 @@ if ($mainMenu)
 
 }
 
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DS.'classes'.DS.'jcontroller.php');
+require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jcontroller.php');
 if ($controllerName)
-	require_once( JPATH_ADMIN_ZEFANIABIBLE .DS.'controllers'.DS.$controllerName.'.php' );
+	require_once( JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controllerName.'.php' );
 
 $controllerName = 'ZefaniabibleController'.$controllerName;
 
