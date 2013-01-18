@@ -39,7 +39,7 @@ jimport( 'joomla.html.parameter' );
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewStandard extends JView
+class ZefaniabibleViewStandard extends JViewLegacy
 {
 	/*
 	 * Define here the default list limit

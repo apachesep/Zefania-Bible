@@ -39,7 +39,7 @@ jimport( '0');
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewScripture extends JView
+class ZefaniabibleViewScripture extends JViewLegacy
 {
 	/*
 	 * Define here the default list limit
