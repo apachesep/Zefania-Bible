@@ -78,8 +78,8 @@ class BibleSubscribe
 		$this->flg_no_sql_inection = 1;
 		
 		$config =& JFactory::getConfig();
-		$this->str_from_email 		= $config->getValue( 'config.mailfrom' );
-    	$this->str_from_email_name	= $config->getValue( 'config.fromname' );		
+		$this->str_from_email 		= $config->get( 'config.mailfrom' );
+    	$this->str_from_email_name	= $config->get( 'config.fromname' );		
 		
 		$this->str_user_name 			=	JRequest::getString('a');
 		$this->str_reading_plan		 	= 	JRequest::getCmd('b');
