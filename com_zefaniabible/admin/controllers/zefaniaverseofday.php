@@ -63,7 +63,7 @@ class ZefaniabibleControllerZefaniaverseofday extends ZefaniabibleController
 
 	}
 
-	function display( )
+	function display($cachable = false, $urlparams = false) 
 	{
 
 

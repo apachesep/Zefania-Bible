@@ -63,7 +63,7 @@ class ZefaniabibleControllerZefaniareading extends ZefaniabibleController
 
 	}
 
-	function display( )
+	function display($cachable = false, $urlparams = false) 
 	{
 
 

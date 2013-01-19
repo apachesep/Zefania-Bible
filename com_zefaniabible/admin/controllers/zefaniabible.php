@@ -63,7 +63,7 @@ class ZefaniabibleControllerZefaniabible extends ZefaniabibleController
 
 	}
 
-	function display( )
+	function display($cachable = false, $urlparams = false) 
 	{
 
 
@@ -553,11 +553,4 @@ class ZefaniabibleControllerZefaniabible extends ZefaniabibleController
 		$this->setRedirect(ZefaniabibleHelper::urlRequest());
 
 	}
-
-
-
-
-
-
-
 }

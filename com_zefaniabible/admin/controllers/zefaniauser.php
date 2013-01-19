@@ -63,7 +63,7 @@ class ZefaniabibleControllerZefaniauser extends ZefaniabibleController
 
 	}
 
-	function display( )
+	function display($cachable = false, $urlparams = false) 
 	{
 
 
