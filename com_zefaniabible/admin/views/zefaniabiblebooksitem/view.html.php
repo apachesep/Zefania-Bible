@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniabiblebooksitem extends JView
 		$model->activeAll();
 		$model->active('predefined', 'addbiblebook');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE_BOOK") . $document->titleSuffix;
 
 
@@ -96,7 +96,7 @@ class ZefaniabibleViewZefaniabiblebooksitem extends JView
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniabiblebooksitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -112,7 +112,8 @@ class ZefaniabibleViewZefaniabiblebooksitem extends JView
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniabiblebooksitem',		$zefaniabiblebooksitem);

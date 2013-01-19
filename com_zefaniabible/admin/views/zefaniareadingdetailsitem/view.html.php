@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniareadingdetailsitem extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'addreadingdetails');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_READING_DETAILS") . $document->titleSuffix;
 
 
@@ -88,23 +88,23 @@ class ZefaniabibleViewZefaniareadingdetailsitem extends JViewLegacy
 		}
 
 
-		$model_plan = JModelItemLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
+		$model_plan = JModelLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
 		$model_plan->addGroupBy("a.ordering");
 		$lists['fk']['plan'] = $model_plan->getItems();
 
-		$model_book_id = JModelItemLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_id = JModelLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
 		$model_book_id->addGroupBy("a.ordering");
 		$lists['fk']['book_id'] = $model_book_id->getItems();
 
 
 
 		//Ordering
-		$orderModel = JModelItemLegacy::getInstance('Zefaniareadingdetails', 'ZefaniabibleModel');
+		$orderModel = JModelLegacy::getInstance('Zefaniareadingdetails', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniareadingdetailsitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -120,7 +120,8 @@ class ZefaniabibleViewZefaniareadingdetailsitem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniareadingdetailsitem',		$zefaniareadingdetailsitem);

@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'bibleadd');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE") . $document->titleSuffix;
 
 
@@ -91,12 +91,12 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 
 		//Ordering
-		$orderModel = JModelItemLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
+		$orderModel = JModelLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		//if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
 		//	$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -112,7 +112,8 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniabibleitem',		$zefaniabibleitem);

@@ -76,7 +76,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 		$access = ZefaniabibleHelper::getACL();
 		$state		= $this->get('State');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_VERSE_OF_DAY") . $document->titleSuffix;
 
 		// Get data from the model
@@ -100,7 +100,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if ($access->get('core.create'))
 			$bar->appendButton( 'Standard', "new", "JTOOLBAR_NEW", "new", false);
 		if ($access->get('core.edit') || $access->get('core.edit.own'))
@@ -129,7 +129,8 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('state',		$state);
 		$this->assignRef('lists',		$lists);

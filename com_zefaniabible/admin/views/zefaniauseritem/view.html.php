@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'adduser');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_USER") . $document->titleSuffix;
 
 
@@ -88,11 +88,11 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 		}
 
 
-		$model_bible_version = JModelItemLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
+		$model_bible_version = JModelLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
 		$model_bible_version->addGroupBy("a.ordering");
 		$lists['fk']['bible_version'] = $model_bible_version->getItems();
 		
-		$model_plan = JModelItemLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
+		$model_plan = JModelLegacy::getInstance('zefaniareading', 'ZefaniabibleModel');
 		$model_plan->addGroupBy("a.ordering");
 		$lists['fk']['plan'] = $model_plan->getItems();
 
@@ -100,7 +100,7 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniauseritem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -116,7 +116,8 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniauseritem',		$zefaniauseritem);

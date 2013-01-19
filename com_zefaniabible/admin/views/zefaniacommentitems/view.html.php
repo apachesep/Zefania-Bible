@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'commentaryadd');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_COMMENTARY") . $document->titleSuffix;
 
 
@@ -89,14 +89,14 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 
 
 		//Ordering
-		$orderModel = JModelItemLegacy::getInstance('Zefaniacomment', 'ZefaniabibleModel');
+		$orderModel = JModelLegacy::getInstance('Zefaniacomment', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniacommentitems->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -112,7 +112,8 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniacommentitems',		$zefaniacommentitems);

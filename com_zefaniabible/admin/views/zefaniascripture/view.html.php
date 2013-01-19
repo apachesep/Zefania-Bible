@@ -74,7 +74,7 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 		$access = ZefaniabibleHelper::getACL();
 		$state		= $this->get('State');
 		
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_VIEW_SCRIPTURE") . $document->titleSuffix;
 
 		$int_Bible_Book_ID = $state->get('filter.book_id');
@@ -117,7 +117,7 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 		
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if ($access->get('core.create'))
 			$bar->appendButton( 'Standard', "new", "JTOOLBAR_NEW", "new", false);
 		if ($access->get('core.edit') || $access->get('core.edit.own'))

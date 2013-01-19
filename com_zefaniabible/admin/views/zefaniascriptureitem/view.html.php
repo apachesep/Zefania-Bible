@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniascriptureitem extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'scriptureadd');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE") . $document->titleSuffix;
 
 
@@ -88,20 +88,20 @@ class ZefaniabibleViewZefaniascriptureitem extends JViewLegacy
 		}
 
 
-		$model_bible_version = JModelItemLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
+		$model_bible_version = JModelLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
 		$model_bible_version->addGroupBy("a.ordering");
 		$lists['fk']['bible_id'] = $model_bible_version->getItems();
 		
-		$model_book_id = JModelItemLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_id = JModelLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
 		$model_book_id->addGroupBy("a.ordering");
 		$lists['fk']['book_name'] = $model_book_id->getItems();
 		//Ordering
-		$orderModel = JModelItemLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
+		$orderModel = JModelLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -117,7 +117,8 @@ class ZefaniabibleViewZefaniascriptureitem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniascriptureitem',		$zefaniascriptureitem);

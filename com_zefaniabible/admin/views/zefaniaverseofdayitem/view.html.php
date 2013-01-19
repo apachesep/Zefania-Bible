@@ -65,7 +65,7 @@ class ZefaniabibleViewZefaniaverseofdayitem extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'addverseofday');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_VERSE_OF_DAY") . $document->titleSuffix;
 
 
@@ -88,19 +88,19 @@ class ZefaniabibleViewZefaniaverseofdayitem extends JViewLegacy
 		}
 
 
-		$model_book_name = JModelItemLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
+		$model_book_name = JModelLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
 		$model_book_name->addGroupBy("a.ordering");
 		$lists['fk']['book_name'] = $model_book_name->getItems();
 
 
 
 		//Ordering
-		$orderModel = JModelItemLegacy::getInstance('Zefaniaverseofday', 'ZefaniabibleModel');
+		$orderModel = JModelLegacy::getInstance('Zefaniaverseofday', 'ZefaniabibleModel');
 		$lists["ordering"] = $orderModel->getItems();
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		if (!$isNew && ($access->get('core.delete') || $zefaniaverseofdayitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -116,7 +116,8 @@ class ZefaniabibleViewZefaniaverseofdayitem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('zefaniaverseofdayitem',		$zefaniaverseofdayitem);
