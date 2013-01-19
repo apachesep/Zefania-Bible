@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
 	JToolBarHelper::title(JText::_("ZEFANIABIBLE_LAYOUT_BIBLE_BOOKS"), 'zefaniabible_zefaniabiblebooknames' );
-	$this->token = JUtility::getToken();
+	$this->token = JSession::getFormToken();
 ?>
 
 <script language="javascript" type="text/javascript">
