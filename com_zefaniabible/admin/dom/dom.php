@@ -687,8 +687,8 @@ class JDom extends JObject
 			if (!defined('JQUERY'))
 			{
 				//Deprecated
-				JHTML::_('behavior.mootools');
-
+				//JHTML::_('behavior.mootools');
+				JHTML::_('behavior.framework');
 				//Main JDom file is deprecated with the coming of jQuery
 				//Add JDom Js main class (before)
 				$jDomClass = 'assets' .DIRECTORY_SEPARATOR. 'jdom.js';
