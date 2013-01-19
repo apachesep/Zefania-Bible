@@ -76,7 +76,7 @@ class ZefaniabibleViewZefaniaModal extends JView
 		$access = ZefaniabibleHelper::getACL();
 		$state		= $this->get('State');
 
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_BIBLES") . $document->titleSuffix;
 
 		parent::display($tpl);
