@@ -34,13 +34,12 @@ function cimport($namespace){
 }
 
 require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'helper.php');
-//JHTML::_("behavior.mootools");
 JHTML::_('behavior.framework');
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . 'tables');
 
 //Document title
-$document	= &JFactory::getDocument();
+$document	= JFactory::getDocument();
 $document->titlePrefix = "ZefaniaBible - ";
 $document->titleSuffix = "";
 
