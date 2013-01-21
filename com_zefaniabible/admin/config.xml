@@ -21,6 +21,12 @@
 					key_field="alias"
 					value_field = "bible_name"
 				/>
+		<field name="xmlBiblesPath" 
+			type="text" 
+			size="50" 
+			default="media/com_zefaniabible/bibles/" 
+			label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE" 
+			description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_DESC" />				
 		<field type="spacer" name="myspacer2" hr="true" />	
 		<field name="reading_start_date" type="calendar" 
 					label="COM_ZEFANIABIBLE_READING_START_DATE" 
