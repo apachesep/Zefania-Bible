@@ -107,7 +107,76 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 
 		parent::populateState();
 	}
+	protected function fnc_Find_Last_Row_Names()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();			
+			$query_max = "SELECT Max(id) FROM `#__zefaniabible_bible_names`";	
+			$db->setQuery($query_max);	
+			$int_max_ids = $db->loadResult();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return 	$int_max_ids;
+	}	
+	protected function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
+	{
+		$x = 1;
+		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_xml_bibles_path = JURI::root(). $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/').$str_bible_xml_file_url;		
+		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
+		try
+		{
+			foreach($arr_xml_bible->BIBLEBOOK as $arr_bible_book)
+			{
+				foreach($arr_bible_book->CHAPTER as $arr_bible_chapter)
+				{
+					foreach($arr_bible_chapter->VERS as $arr_bible_verse)
+					{
+						$this->fnc_Update_Bible_Verses(
+							$int_max_ids, 
+							$arr_bible_book['bnumber'],
+							$arr_bible_chapter['cnumber'],
+							$arr_bible_verse['vnumber'],
+							$arr_bible_verse
+							);
+							$x++;
+					}
+				}
+			}
+			if($x ==1)
+			{
+				$this->fnc_Update_Bible_Verses($int_max_ids,1,1,1 ,'');
+			}
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}
+		return $x;	
+	}
+	protected function fnc_Update_Bible_Verses($int_bible_id = 1,$int_book_id =1,$int_chapter_id = 1,$int_verse_id = 1 ,$str_verse = '')
+	{
+		$app = JFactory::getApplication();		
+		try
+		{
+			$db = JFactory::getDBO();
+			$arr_row->bible_id		= (int)$int_bible_id;
+			$arr_row->book_id 		= (int)$int_book_id;
+			$arr_row->chapter_id 	= (int)$int_chapter_id;
+			$arr_row->verse_id 		= (int)$int_verse_id;
+			$arr_row->verse 		= (string)$str_verse;
+			$db->insertObject("#__zefaniabible_bible_text", $arr_row, 'id');
 
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}			
+	}	
 
 	/**
 	 * Method to build a the query string for the Zefaniabibleitem
@@ -124,9 +193,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			case 'bibleadd': return $this->_buildQuery_bibleadd(); break;
 
 		}
-
-
-
 			$query = 'SELECT a.*'
 					. 	$this->_buildQuerySelect()
 
@@ -151,7 +217,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 
 					. 	$this->_buildQueryWhere()
 
-					.	'';
+					.	'';				
 		return $query;
 	}
 
@@ -177,6 +243,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	 */
 	function update($cids, $data)
 	{
+
 		foreach($cids as $cid)
 		{
 			if ($cid == 0)
@@ -185,6 +252,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			if (!$this->save($data))
 				return false;
 		}
+		
 		return true;
 	}
 
@@ -198,9 +266,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	{
 
 		$row = $this->getTable();
-
-
-
+		
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -233,17 +299,11 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			return false;
 		}
 
-
-
-
-
 		// Make sure the zefaniabible table is valid
 		if (!$row->check()) {
 			JError::raiseWarning(1000, $this->_db->getErrorMsg());
 			return false;
 		}
-
-
 
 		// Store the zefaniabible table to the database
 		if (!$row->store())
@@ -252,12 +312,17 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			return false;
 		}
 
-
-
 		$this->_id = $row->id;
 		$this->_data = $row;
 
-
+		if(!$id)
+		{	
+	        
+			$int_max_ids = $this->fnc_Find_Last_Row_Names();
+			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->xml_file_url, $int_max_ids);
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+		}
 
 		return true;
 	}
@@ -274,20 +339,24 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 		if (count( $cid ))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
-
-
+			$cids = implode( ',', $cid );		
+			
 			$query = 'DELETE a.*, b.* FROM `#__zefaniabible_bible_text` AS a'
 				. ' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'
-				. ' WHERE a.bible_id = ( '.$cids.' )';
+				. ' WHERE b.id = "'.$cids.'"';					
 			$this->_db->setQuery( $query );
-
+			/*$db = JFactory::getDBO();	
+			$query = 'DELETE a.* FROM `#__zefaniabible_bible_text` AS a'
+				. ' WHERE a.id = "'.$cids.'"';		
+			$db->setQuery($query);
+			$db->query();			
+			$query = 'DELETE a.* FROM `#__zefaniabible_bible_names` AS a'
+				. ' WHERE a.id = "'.$cids.'"';				
+			$this->_db->setQuery( $query );	*/		
 			if(!$this->_db->query()) {
 				JError::raiseWarning(1000, $this->_db->getErrorMsg());
 				return false;
 			}
-
-
 		}
 
 		return true;
