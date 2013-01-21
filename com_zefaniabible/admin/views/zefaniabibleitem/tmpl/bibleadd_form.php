@@ -121,11 +121,22 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 		<tr>
 			<td align="right" class="key">
 				<label for="file_location">
-					<?php echo JText::_( "ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" ); ?> :
+					<?php echo JText::_( "ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" ); ?> : 
 				</label>
 			</td>
 			<td>
-                <input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="100" disabled="disabled" type="text">
+            	<div style="float:left">
+					<?php 
+						$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+						$str_xml_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
+						echo JURI::root().$str_xml_bibles_path;
+					?>
+                    <input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="32" type="text">
+                </div>
+                <div id="infoUpload1" style="float:left" class="intend">
+					<span id="btnUpload1"></span>
+					<button id="btnCancel1" style="top:-5px;" type="button" onclick="cancelQueue(upload1);" class="zb-hide upload_button" disabled="disabled">Cancel</button>
+				</div>                  
 			</td>
 		</tr>
 		<tr>
@@ -135,7 +146,11 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
+				<?php 
+				
+				$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');				
+				echo JURI::root().$str_xml_audio_path;
+				 echo JDom::_('html.form.input.text', array(
 												'dataKey' => 'xml_audio_url',
 												'dataObject' => $this->zefaniabibleitem,
 												'size' => "32"
