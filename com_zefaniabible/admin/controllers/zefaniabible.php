@@ -56,11 +56,6 @@ class ZefaniabibleControllerZefaniabible extends ZefaniabibleController
 		$this->registerTask( 'unpublish',  'unpublish' );
 		$this->registerTask( 'apply',  'apply' );
 
-
-
-
-
-
 	}
 
 	function display($cachable = false, $urlparams = false) 
