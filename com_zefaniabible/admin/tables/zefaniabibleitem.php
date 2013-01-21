@@ -135,14 +135,7 @@ class TableZefaniabibleitem extends JTable
 		$valid = true;
 
 		$filter = new JFilterInput(array(), array(), 0, 0);
-		/*$this->title = $filter->clean($this->title, 'STRING');
-		$this->alias = $filter->clean($this->alias, 'STRING');
-		$this->full_name = $filter->clean($this->full_name, 'STRING');
-		$this->file_location = $filter->clean($this->file_location, 'STRING');
-		$this->xml_audio_file_location = $filter->clean($this->xml_audio_file_location, 'STRING');
-		$this->publish = $filter->clean($this->publish, 'BOOL');
-		$this->ordering = $filter->clean($this->ordering, 'INT');
-		*/
+
 		$this->bible_name = $filter->clean($this->bible_name, 'STRING');
 		$this->alias = $filter->clean($this->alias, 'STRING');
 		$this->desc = $filter->clean($this->desc, 'STRING');
