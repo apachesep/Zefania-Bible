@@ -174,7 +174,7 @@ class ZefaniabibleModelZefaniabible extends ZefaniabibleModelList
 		return $query;
 	}
 
-
+	
 
 	function _buildQueryWhere($where = array())
 	{
