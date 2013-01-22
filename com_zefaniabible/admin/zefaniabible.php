@@ -89,7 +89,10 @@ switch ($view)
 		case 'zefaniascriptureitem' :
         	$controllerName = "zefaniascripture";
 			break;		
-
+		case 'zefaniaupload' :
+		case 'zefaniauploaditem' :
+        	$controllerName = "zefaniaupload";
+			break;	
 		default:
 			$view = 'zefaniabible';
 			$layout = 'default';

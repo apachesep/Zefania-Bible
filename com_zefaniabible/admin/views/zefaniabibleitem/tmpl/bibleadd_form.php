@@ -132,12 +132,25 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 						echo JURI::root().$str_xml_bibles_path;
 					?>
                     <input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="32" type="text">
-                </div>
-                <div id="infoUpload1" style="float:left" class="intend">
-					<span id="btnUpload1"></span>
-					<button id="btnCancel1" style="top:-5px;" type="button" onclick="cancelQueue(upload1);" class="zb-hide upload_button" disabled="disabled">Cancel</button>
-				</div>                  
+                </div>                                
 			</td>
+        <tr>
+        	<td></td>
+        	<td>
+				<div id="swfuploader">
+                    <fieldset class="adminform">
+						<div class="fieldset flash" id="fsUploadProgress">
+                        	<span class="legend"><?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_QUEUE");?></span>
+	                        <span id="divStatus"><?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_STATUS");?></span>                            
+						</div> 
+                        <div>
+                        	<span id="spanButtonPlaceHolder"></span>
+                            <input id="btnCancel" type="button" value="<?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_CANCEL");?>" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px" />
+						</div>
+					</fieldset> 
+                </div>             
+            </td>
+        </tr>
 		</tr>
 		<tr>
 			<td align="right" class="key">
