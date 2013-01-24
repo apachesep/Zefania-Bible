@@ -126,7 +126,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	{
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_xml_bibles_path = JURI::root(). $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/').$str_bible_xml_file_url;		
+		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
 		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
 		try
 		{
@@ -321,7 +321,14 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			$int_max_ids = $this->fnc_Find_Last_Row_Names();
 			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->xml_file_url, $int_max_ids);
 			$app = JFactory::getApplication();
-			$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+			if($int_rows_inserted > 1)
+			{
+				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+			}
+			else
+			{
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
+			}	
 		}
 
 		return true;
@@ -345,14 +352,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 				. ' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'
 				. ' WHERE b.id = "'.$cids.'"';					
 			$this->_db->setQuery( $query );
-			/*$db = JFactory::getDBO();	
-			$query = 'DELETE a.* FROM `#__zefaniabible_bible_text` AS a'
-				. ' WHERE a.id = "'.$cids.'"';		
-			$db->setQuery($query);
-			$db->query();			
-			$query = 'DELETE a.* FROM `#__zefaniabible_bible_names` AS a'
-				. ' WHERE a.id = "'.$cids.'"';				
-			$this->_db->setQuery( $query );	*/		
 			if(!$this->_db->query()) {
 				JError::raiseWarning(1000, $this->_db->getErrorMsg());
 				return false;

@@ -113,7 +113,8 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 												'labelKey' => 'bible_name',
 												'aclAccess' => '',
 												'validatorHandler' => "numeric"
-												)); ?>
+												)); 						
+				?>
 			</td>
 		</tr>
 
@@ -126,31 +127,35 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 			</td>
 			<td>
             	<div style="float:left">
-					<?php 
-						$params = &JComponentHelper::getParams( 'com_zefaniabible' );
-						$str_xml_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-						echo JURI::root().$str_xml_bibles_path;
-					?>
-                    <input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="32" type="text">
+					<?php if($isNew){ ?>
+                    	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="75" type="text">
+                    <?php }else{?>
+                    	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="75"  disabled="disabled" type="text">
+                     <?php }?>
                 </div>                                
 			</td>
+        <?php if($isNew){ ?>
+        <?php 
+			$params	= JComponentHelper::getParams('com_zefaniabible');
+		?>
         <tr>
-        	<td></td>
+        	<td>            	
+            </td>
         	<td>
-				<div id="swfuploader">
-                    <fieldset class="adminform">
-						<div class="fieldset flash" id="fsUploadProgress">
-                        	<span class="legend"><?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_QUEUE");?></span>
-	                        <span id="divStatus"><?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_STATUS");?></span>                            
-						</div> 
-                        <div>
-                        	<span id="spanButtonPlaceHolder"></span>
-                            <input id="btnCancel" type="button" value="<?php echo JText::_("ZEFANIABIBLE_FIELD_XML_UPLOAD_CANCEL");?>" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px" />
-						</div>
-					</fieldset> 
-                </div>             
+				<div id="infoUpload1" class="intend">
+					<span id="btnUpload1"></span>
+					<button id="btnCancel1" type="button" onclick="cancelQueue(upload1);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
+					<span id="biblepathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
+							<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/'), '/').'/'; ?>
+                    </span>
+				</div>
+                <div>
+    	            <div style="float:left"><button onClick="window.open('http://www.churchsw.org/bibles');"><?php echo JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES'); ?> 1</button></div>
+		            <div style="float:left"><button onClick="window.open('http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/');"><?php echo JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES'); ?> 2</button></div>
+                </div>
             </td>
         </tr>
+        <?php }?>
 		</tr>
 		<tr>
 			<td align="right" class="key">
@@ -159,19 +164,23 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php 
-				
-				$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');				
-				echo JURI::root().$str_xml_audio_path;
-				 echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'xml_audio_url',
-												'dataObject' => $this->zefaniabibleitem,
-												'size' => "32"
-												));
-				?>
+            	<input name="xml_audio_url" id="xml_audio_url" value="<?php echo $this->zefaniabibleitem->xml_audio_url; ?>" size="75" type="text">
 			</td>
 		</tr>
-
+        <?php if($isNew){ ?>
+		<tr>
+        	<td></td>
+        	<td>
+				<div id="infoUpload2" class="intend">
+					<span id="btnUpload2"></span>
+					<button id="btnCancel2" type="button" onclick="cancelQueue(upload2);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
+					<span id="audiopathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
+	                    <?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($params->get('xmlAudioPath', 'media/com_zefaniabible/audio/'), '/').'/'; ?>
+                    </span>
+				</div>
+            </td>
+        </tr>
+        <?php }?>
 
 	</table>
 </fieldset>

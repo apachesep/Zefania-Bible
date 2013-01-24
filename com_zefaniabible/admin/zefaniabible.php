@@ -49,7 +49,7 @@ if (defined('JDEBUG') && count($_POST))
 
 $view = JRequest::getCmd( 'view');
 $layout = JRequest::getCmd( 'layout');
-
+$temp_view = $view;
 $mainMenu = true;
 
 switch ($view)
@@ -90,8 +90,7 @@ switch ($view)
         	$controllerName = "zefaniascripture";
 			break;		
 		case 'zefaniaupload' :
-		case 'zefaniauploaditem' :
-        	$controllerName = "zefaniaupload";
+			$controllerName = "zefaniaupload";
 			break;	
 		default:
 			$view = 'zefaniabible';
@@ -123,13 +122,20 @@ $controllerName = 'ZefaniabibleController'.$controllerName;
 
 
 
-
-// Create the controller
-$controller = new $controllerName();
-
-// Perform the Request task
-$controller->execute( JRequest::getCmd('task') );
-
-// Redirect if set by the controller
-$controller->redirect();
-
+if($temp_view)
+{
+	// Create the controller
+	$controller = new $controllerName();
+	
+	// Perform the Request task
+	$controller->execute( JRequest::getCmd('task') );
+	
+	// Redirect if set by the controller
+	$controller->redirect();
+}
+else
+{
+	$controller	= JControllerLegacy::getInstance('Zefaniabible');
+	$controller->execute(JRequest::getCmd('task'));
+	$controller->redirect();
+}
