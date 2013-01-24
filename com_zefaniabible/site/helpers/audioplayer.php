@@ -31,16 +31,16 @@ class ZefaniaAudioPlayer
 		$int_player_width = $params->get('player_width', '250');
 		$int_player_height = $params->get('player_height', '24');
 		$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
-		$str_xml_audio_full_path = $str_xml_audio_path . $this->fnc_get_audio_path($str_Bible_Version);
+		$str_xml_audio_full_path = substr_replace(JURI::root(),"",-1).$this->fnc_get_audio_path($str_Bible_Version);
 		$str_mp3_file_path = $this->fnc_parse_xml_file($str_xml_audio_full_path, $int_Bible_Book_ID,$int_Bible_Chapter,$str_xml_audio_path);
 		$str_player = $this->fnc_get_audio_player($id,$int_player_type,$int_player_width,$int_player_height, $str_mp3_file_path,$int_Bible_Book_ID, $int_Bible_Chapter);
 		return $str_player;
 	}
 	protected function fnc_parse_xml_file($str_xml_audio_full_path,$int_Bible_Book_ID,$int_Bible_Chapter,$str_xml_audio_path)
 	{
-		
-		if(is_file($str_xml_audio_full_path))
+		//if(is_file($str_xml_audio_full_path))
 		{
+		
 			$arr_audio_file = simplexml_load_file($str_xml_audio_full_path);
 			$str_mp3_file_path = '';
 			foreach($arr_audio_file->book as $arr_book)
@@ -63,10 +63,10 @@ class ZefaniaAudioPlayer
 				JError::raiseWarning('',$str_error);
 			}
 		}
-		else
+		/*else
 		{
 			JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID'));
-		}
+		}*/
 		return $str_mp3_file_path;
 	}
 	protected function fnc_get_audio_path($str_Bible_Version)

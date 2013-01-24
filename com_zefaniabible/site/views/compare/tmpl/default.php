@@ -285,9 +285,9 @@ class BibleCompare {
              <div style="clear:both;"></div>
             <div class="zef_top_pagination">
          		<?php if($cls_bibleBook->flg_show_page_top){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter,$this->str_Bible_Version2);} ?>
-            </div> 
-        </div>
-			<?php if($cls_bibleBook->flg_show_audio_player){ ?>
+            </div>              
+        </div>   
+		<?php if($cls_bibleBook->flg_show_audio_player){ ?> 
              <div class="zef_player">
              	<div class="zef_player-1"> 
                 	<?php echo $this->obj_player_one; 
@@ -304,8 +304,7 @@ class BibleCompare {
                 </div>
                 <?php }?>
             </div>
-            <?php }?>            
-            <div style="clear:both;"></div>        
+            <?php }?>           
         <div style="clear:both;"></div>
         <div class="zef_bible_Chapter"><?php echo $cls_bibleBook->str_Chapter_Output; ?></div>     
         <div class="zef_footer">

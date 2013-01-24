@@ -51,7 +51,7 @@ class BiblePlayer
 	}
 	protected function fnc_get_playlist($str_xml_audio_url,$str_xml_audio_path, $int_Bible_Book_ID )
 	{
-		$arr_audio_file = simplexml_load_file($str_xml_audio_path.$str_xml_audio_url);
+		$arr_audio_file = simplexml_load_file(substr_replace(JURI::root(),"",-1).$str_xml_audio_url);
 		$x = 1;
 		foreach($arr_audio_file as $obj_book)
 		{
