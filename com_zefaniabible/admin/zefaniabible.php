@@ -32,7 +32,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 function cimport($namespace){
 	include_once JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . str_replace(".", DIRECTORY_SEPARATOR, $namespace) . '.php';
 }
-
+JHTML::stylesheet('administrator/components/com_zefaniabible/zefaniabible.css');
+		
 require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'helper.php');
 JHTML::_('behavior.framework');
 // Set the table directory
