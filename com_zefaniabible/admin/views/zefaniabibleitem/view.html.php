@@ -93,7 +93,11 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
+		
 		$bar = JToolBar::getInstance('toolbar');
+		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 1', 'http://www.churchsw.org/bibles');
+		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 2', 'http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/');
+		
 		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
@@ -116,7 +120,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
 		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
 		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
-		$document->addStyleSheet(JURI::root().'administrator/components/com_zefaniabible/zefaniabible.css');
+
 		$uploader_script = '
 			window.onload = function() 
 			{
