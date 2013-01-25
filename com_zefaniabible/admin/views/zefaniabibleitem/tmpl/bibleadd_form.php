@@ -149,10 +149,6 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 							<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/'), '/').'/'; ?>
                     </span>
 				</div>
-                <div>
-    	            <div style="float:left"><button onClick="window.open('http://www.churchsw.org/bibles');"><?php echo JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES'); ?> 1</button></div>
-		            <div style="float:left"><button onClick="window.open('http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/');"><?php echo JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES'); ?> 2</button></div>
-                </div>
             </td>
         </tr>
         <?php }?>
