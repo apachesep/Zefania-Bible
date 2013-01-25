@@ -41,6 +41,7 @@ class BibleStandard {
 	public $flg_show_audio_player;
 	public $int_player_popup_height;
 	public $int_player_popup_width;
+	public $flg_use_bible_selection;
 	
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter)
 	{
@@ -49,6 +50,7 @@ class BibleStandard {
 		$this->flg_show_page_top 	= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 	= $this->params->get('show_pagination_bot', '1');	
 		$this->flg_email_button 	= $this->params->get('flg_email_button', '1');	
+		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');	
 		
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
@@ -199,7 +201,7 @@ class BibleStandard {
             <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></div>
-            <?php if($cls_bibleBook->int_Bibles_loaded > 1){?>
+            <?php if($cls_bibleBook->flg_use_bible_selection){?>
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
                     <select name="a" id="bible" class="inputbox" onchange="this.form.submit()">
@@ -209,7 +211,7 @@ class BibleStandard {
             <?php }else{
 					echo '<input type="hidden" name="a" value="'.$this->str_Bible_Version.'" />';
 				}
-				?>  
+				?> 
             <div class="zef_book_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK');?></div>
             <div class="zef_book">
                 <select name="b" id="book" class="inputbox" onchange="this.form.submit()">

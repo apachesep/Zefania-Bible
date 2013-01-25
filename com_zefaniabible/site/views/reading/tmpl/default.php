@@ -67,6 +67,7 @@ class BibleReadingPlan
 	public $flg_email_button;
 	public $flg_reading_rss_button;
 	public $flg_show_audio_player;
+	public $flg_use_bible_selection;
 	
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan)
 	{
@@ -90,6 +91,8 @@ class BibleReadingPlan
 		$this->flg_show_page_bot 		= $this->params->get('show_pagination_bot', '1');
 		$this->flg_email_button 		= $this->params->get('flg_email_button', '1');	
 		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
+		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
+		 
 		foreach($arr_reading as $obj_reading)
 		{
 			$this->int_day_number = $obj_reading->day_number;
@@ -271,12 +274,16 @@ class BibleReadingPlan
                     </select>
                 </div>
                 <div style="clear:both"></div>     
+                 <?php if($cls_bible_reading_plan->flg_use_bible_selection){?>                
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
                     <select name="b" id="bible" class="inputbox" onchange="this.form.submit()">
                         <?php echo $cls_bible_reading_plan->createBibleDropDown($this->bibles);?>
                     </select>
                 </div>
+				 <?php }else {
+					echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan->str_bibleVersion.'" />';
+				} ?>
                  <div style="clear:both"></div>      
             <div class="zef_top_pagination">        
                     <?php 

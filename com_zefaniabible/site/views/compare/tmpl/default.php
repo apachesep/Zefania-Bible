@@ -44,7 +44,8 @@ class BibleCompare {
 	public $int_player_popup_height;
 	public $int_player_popup_width;
 	public $flg_show_second_player;
-	
+	public $flg_use_bible_selection;
+		
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter)
 	{
 		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
@@ -58,6 +59,8 @@ class BibleCompare {
 		$this->flg_show_second_player = $this->params->get('show_second_player','1');
 		$this->int_player_popup_height = $this->params->get('player_popup_height','300');
 		$this->int_player_popup_width = $this->params->get('player_popup_width','300');
+		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
+		
 		$obj_Bible_Dropdown = '';
 		$str_Chapter_Output = '';
 		$obj_Book_Dropdown = '';
@@ -241,7 +244,7 @@ class BibleCompare {
             <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></div>
-            
+            <?php if($cls_bibleBook->flg_use_bible_selection){?>            
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION_FIRST');?></div>
                 <div class="zef_bible">
                     <select name="a" id="bible" class="inputbox" onchange="this.form.submit()">
@@ -255,7 +258,10 @@ class BibleCompare {
                         <?php echo $cls_bibleBook->obj_Bible_Dropdown2; ?>
                     </select>
                 </div>                
-			
+            <?php } else {
+				echo '<input type="hidden" name="a" value="'.$this->str_Bible_Version.'" />';
+				echo '<input type="hidden" name="b" value="'.$this->str_Bible_Version2.'" />';
+             }?> 			
             <div class="zef_book_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK');?></div>
             <div class="zef_book">
                 <select name="c" id="book" class="inputbox" onchange="this.form.submit()">
@@ -264,6 +270,7 @@ class BibleCompare {
 					?>
                 </select>
             </div>
+
             <div class="zef_chapter_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_CHAPTER');?></div>
             <div class="zef_Chapter">
                 <select name="d" id="chapter" class="inputbox" onchange="this.form.submit()">

@@ -43,12 +43,16 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
                 </select>
             </div>
             <div style="clear:both"></div>       
+            <?php if($cls_bible_reading_plan_overview->flg_use_bible_selection){?>
             <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
             <div class="zef_bible">
                 <select name="b" id="bible" class="inputbox" onchange="this.form.submit()">
                     <?php echo $cls_bible_reading_plan_overview->createBibleDropDown($this->bibles);?>
                 </select>
             </div>
+            <?php }else {
+				echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan_overview->str_bibleVersion.'" />';
+			} ?>
              <div style="clear:both"></div>
         <div class="zef_reading_name"><?php echo $cls_bible_reading_plan_overview->str_plan_name;?></div>
         <div class="zef_reading_desc"><?php echo JText::_($cls_bible_reading_plan_overview->str_plan_description); ?></div>
@@ -101,7 +105,7 @@ class BibleReadingPlanOverview
 		*/
 	public $str_bible_layout;
 	private $str_primary_bible;
-	private $str_bibleVersion;
+	public $str_bibleVersion;
 	private $str_primary_reading;
 	private $str_reading_plan;
 	public $flg_show_credit;
@@ -112,6 +116,7 @@ class BibleReadingPlanOverview
 	public $str_plan_name;
 	private $str_Bible_name;
 	public $flg_email_button;
+	public $flg_use_bible_selection;
 	
 	public function __construct($arr_bibles, $arr_reading, $arr_readingplans)
 	{
@@ -126,6 +131,8 @@ class BibleReadingPlanOverview
 		$this->flg_show_page_top = $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot = $this->params->get('show_pagination_bot', '1');	
 		$this->flg_email_button 	= $this->params->get('flg_email_button', '1');	
+		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
+		
 		$this->createReadingDesc($arr_readingplans);
 		$this->createChapterOutput($arr_reading);
 		$this->getBibleName($arr_bibles);

@@ -32,6 +32,14 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 			</field>
+			<field name="flg_use_bible_selection"
+				type="list"
+				default="1"
+				label="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION"
+				description="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>			
 		</fieldset>
 		<fieldset name="commentary" label="COM_ZEFANIABIBLE_COMMENTARY_LABEL" description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
 				<field name="xmlCommentaryPath" 
