@@ -16,3 +16,4 @@ Email Plug-in allows you to send out 'Verse of the Day' or 'Daily Bible Reading'
 Scripture Look up plug-in allows you to either create a link to Biblegateway, Zefania Bible modal popup window, or insert scripture directly into the page.
 
 Support for Facebook Open Graph.
+RSS feeds can be used by any application, or Facebook
