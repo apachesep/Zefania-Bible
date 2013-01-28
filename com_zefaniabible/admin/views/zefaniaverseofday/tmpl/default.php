@@ -63,24 +63,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm" class="">
 
-
-
-
-
 	<div>
 		<?php echo $this->loadTemplate('filters'); ?>
 		<?php echo $this->loadTemplate('grid'); ?>
 	</div>
-
-
-
-
-
-
-
-
-
-
 
 	<?php echo JDom::_('html.form.footer', array(
 		'values' => array(

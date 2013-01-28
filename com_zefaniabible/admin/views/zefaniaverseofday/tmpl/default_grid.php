@@ -45,7 +45,9 @@ defined('_JEXEC') or die('Restricted access');
 			<th style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE", '_book_name_.bible_book_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
-
+			<th style="text-align:center">
+				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_VERSE", '', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
+			</th>
 
 			<?php if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
 			<th>
@@ -72,8 +74,20 @@ defined('_JEXEC') or die('Restricted access');
 	for ($i=0, $n=count( $this->items ); $i < $n; $i++):
 
 		$row = &$this->items[$i];
-
-
+		$str_verse = '';
+		$z = 1;
+		foreach($this->arr_verses[$i] as $obj_verse)
+		{
+			if($z > 1)
+			{
+				$str_verse = $str_verse.'<br>'.$obj_verse->verse;
+			}
+			else
+			{
+				$str_verse = $obj_verse->verse;
+			}
+			$z++;
+		}
 
 		?>
 
@@ -113,6 +127,9 @@ defined('_JEXEC') or die('Restricted access');
 				?>
                  
 			</td>
+            <td style="text-align:left">
+            	<?php echo $str_verse;?>
+            </td>            
 			<?php if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
             <td>
 				<?php echo JDom::_('html.grid.publish', array(
@@ -123,7 +140,6 @@ defined('_JEXEC') or die('Restricted access');
 				?>
 			</td>
 			<?php endif; ?>
-
 			<?php if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
             <td class="order">
 				<?php echo JDom::_('html.grid.ordering', array(

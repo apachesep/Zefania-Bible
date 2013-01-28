@@ -84,12 +84,12 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 		$model->activeAll();
 		$model->active('predefined', 'default');
 		$model->active("publish", false);
-
-
-
-
-
+		
 		$items		= $model->getItems();
+
+		//require_once(JPATH_ADMINISTRATOR.'/models/zefaniaverseofday.php');
+		$mdl_bible_verse = new ZefaniabibleModelZefaniaverseofday;
+		$arr_verses = $mdl_bible_verse-> _buildQuery_verse($items);
 
 		$total		= $this->get( 'Total');
 		$pagination = $this->get( 'Pagination' );
@@ -137,7 +137,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('config',		$config);
-
+		$this->assignRef('arr_verses',	$arr_verses);
 		parent::display($tpl);
 	}
 

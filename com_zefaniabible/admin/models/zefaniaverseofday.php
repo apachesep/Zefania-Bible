@@ -160,7 +160,49 @@ class ZefaniabibleModelZefaniaverseofday extends ZefaniabibleModelList
 		
 		return $query;
 	}
+	function _buildQuery_verse($arr_items)
+	{
 
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_primary_bible = $params->get('primaryBible', 'kjv');
+		$x = 0;
+		foreach($arr_items as $obj_item)
+		{
+			 $obj_item->book_name;
+			 $obj_item->chapter_number;
+			 $obj_item->begin_verse;
+			 $obj_item->end_verse;
+			 try
+			 {
+				$db = $this->getDbo();
+				$query  = $db->getQuery(true);				 
+				$query->select('a.verse');
+				$query->from('`#__zefaniabible_bible_text` AS a');
+				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+				$query->where('b.alias="'.$str_primary_bible.'"');
+				$query->where('a.book_id='.$obj_item->book_name);
+				$query->where('a.chapter_id='.$obj_item->chapter_number);
+				if(!$obj_item->end_verse)
+				{
+					$query->where('a.verse_id='.$obj_item->begin_verse);
+				}
+				else
+				{
+					$query->where('a.verse_id>='.$obj_item->begin_verse);
+					$query->where('a.verse_id<='.$obj_item->end_verse);
+				}
+				$query->order('a.verse_id ASC');
+				$db->setQuery($query);
+				$data[$x] = $db->loadObjectList();
+				$x++;
+			 }
+			catch (JException $e)
+			{
+				$this->setError($e);
+			}
+		}
+		return $data;
+	}
 	function _buildQuery_default()
 	{
 
