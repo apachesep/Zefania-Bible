@@ -236,12 +236,12 @@ window.addEvent('domready', function()
 
 
 		// Run custom form validators if present
-		$A(this.custom).each(function(validator){
+		/*$A(this.custom).each(function(validator){
 			if ((validator.exec) && (validator.exec() != true))
 			{
 				valid = false;
 			}
-		});
+		});*/
 
 
 		var argsAlert = new Object();
@@ -630,7 +630,7 @@ window.addEvent('domready', function()
 		switch(framework.name)
 		{
 			case 'jQuery':
-				return el.attr(property);
+				//return el.attr(property);
 				break;
 
 
