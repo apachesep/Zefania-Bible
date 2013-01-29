@@ -32,42 +32,42 @@ defined('_JEXEC') or die('Restricted access');
 	<table id='grid' class='adminlist' cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th width="5">
+			<th width="5%">
 				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 
 			<?php if ($this->access->get('core.edit.own') || $this->access->get('core.edit')): ?>
-            <th width="20">
+            <th width="5%">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<?php endif; ?>
 
-			<th style="text-align:center">
+			<th width="20%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_USER_NAME", 'a.user_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th style="text-align:center">
+			<th width="15%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_VERSION", '_bible_version_.bible_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th style="text-align:center">
+			<th width="15%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_READING_PLAN", '_plan_.name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th>
+			<th width="15%">
             	<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_EMAIL", 'a.email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 				
 			</th>
 
-			<th style="text-align:center">
+			<th width="5%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_READING_PLAN", 'a.send_reading_plan_email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th style="text-align:center">
+			<th width="5%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_VERSE_OF_DAY", 'a.send_verse_of_day_email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th style="text-align:center">
+			<th width="15%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_READING_START_DATE", 'a.reading_start_date', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 

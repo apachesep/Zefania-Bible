@@ -32,31 +32,31 @@ defined('_JEXEC') or die('Restricted access');
 	<table id='grid' class='adminlist' cellpadding="0" cellspacing="0">
 	<thead>
 		<tr>
-			<th width="5">
+			<th width="5%">
 				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 
 			<?php if ($this->access->get('core.edit.own') || $this->access->get('core.edit')): ?>
-            <th width="20">
+            <th width="5%">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<?php endif; ?>
 
-			<th style="text-align:center">
+			<th width="15%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE", '_book_name_.bible_book_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
-			<th style="text-align:center">
+			<th width="55%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_VERSE", '', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
 			<?php if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
-			<th>
+			<th width="5%">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_PUBLISH", 'a.publish', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 			<?php endif; ?>
 
 			<?php if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
-			<th class="order">
+			<th width="5%" class="order">
 				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				<?php echo JDom::_('html.grid.header.saveorder', array('list' => $this->items));?>
 			</th>
