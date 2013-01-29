@@ -108,7 +108,7 @@ class ZefaniabibleViewZefaniauser extends JViewLegacy
 		if ($access->get('core.delete') || $access->get('core.delete.own'))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
 		if ($access->get('core.admin'))
-			$bar->appendButton( 'Popup', 'options', JText::_('JTOOLBAR_OPTIONS'), 'index.php?option=com_config&view=component&component=' . $option . '&path=&tmpl=component');
+			JToolBarHelper::preferences( 'com_zefaniabible' );
 
 
 
