@@ -115,7 +115,7 @@ class ZefVerseOfTheDay
 					.$this->arr_verse_info['begin_verse'][$this->int_verse_remainder]."</div>";
 					if($this->int_link_type == 1)
 					{
-						$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&c=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&d=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
+						$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&b=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&c=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
 						.$str_temp."</a>";
 					}
 					else
@@ -135,7 +135,7 @@ class ZefVerseOfTheDay
 					}
 					if($this->int_link_type == 1)
 					{
-						$str_verse_output = $str_verse_output. "<a rel='nofollow'  title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&c=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&d=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
+						$str_verse_output = $str_verse_output. "<a rel='nofollow'  title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&b=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&c=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
 						.$str_temp
 						."</a>";
 					}
@@ -148,7 +148,7 @@ class ZefVerseOfTheDay
 			}
 			if($this->int_link_type == 2)
 			{
-				$str_verse_output = $str_verse_output. "<a title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&c=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&d=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
+				$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$this->str_bible_alias."&b=".$this->arr_verse_info['book_name'][$this->int_verse_remainder]."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$this->int_verse_remainder],'UTF-8')))."&c=".$this->arr_verse_info['chapter_number'][$this->int_verse_remainder].'-'.mb_strtolower(JText::_('MOD_ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8'))."'>"
 				.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK')."</a>";
 			}			
 			$str_verse_output = $str_verse_output. '<div style="clear:both"></div>';
