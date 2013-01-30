@@ -45,7 +45,7 @@ defined('_JEXEC') or die('Restricted access');
 			<th width="15%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE", '_book_name_.bible_book_name', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
-			<th width="55%" style="text-align:center">
+			<th width="50%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_VERSE", '', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
 
 			<?php if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
-			<th width="5%" class="order">
+			<th width="10%" class="order">
 				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				<?php echo JDom::_('html.grid.header.saveorder', array('list' => $this->items));?>
 			</th>
