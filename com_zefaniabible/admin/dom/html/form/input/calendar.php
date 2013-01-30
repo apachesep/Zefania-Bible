@@ -96,7 +96,7 @@ array(	'\\\\', '\\/','\\#','\\!','\\^','\\$','\\(','\\)','\\[','\\]','\\{','\\}'
 		{
 			jimport("joomla.utilities.date");
 			$date = new JDate($this->dataValue);
-			$formatedDate = $date->format($this->dateFormat);
+			$formatedDate = $date->format(str_replace('%','',$this->dateFormat));
 		}
 		else
 			$formatedDate = "";
