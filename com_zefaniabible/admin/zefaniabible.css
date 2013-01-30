@@ -136,3 +136,10 @@ a.progressCancel:hover {
 .tip-wrap{
     z-index: 15;
 }
+
+.radio input[type="radio"]
+{
+	float: left;
+	margin-left: 1px;
+}
+}
