@@ -113,12 +113,8 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.bool', array(
-												'dataKey' => 'publish',
-												'dataObject' => $this->zefaniareadingitem,
-												'aclAccess' => 'core.edit.state'
-												));
-				?>
+            	<input type="radio" name='publish' value="0" required="required" <?php if(!$this->zefaniareadingitem->publish){?>checked="checked" <?php } ?>/><?php echo JText::_( "JNO" ); ?>
+            	<input type="radio" name='publish' value="1" required="required" <?php if($this->zefaniareadingitem->publish){?>checked="checked" <?php } ?>/><?php echo JText::_( "JYES" ); ?>
 			</td>
 		</tr>
 

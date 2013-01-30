@@ -109,11 +109,8 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.bool', array(
-												'dataKey' => 'send_reading_plan_email',
-												'dataObject' => $this->zefaniauseritem
-												));
-				?>
+            	<input type="radio" name='send_reading_plan_email' value="0" required="required" <?php if(!$this->zefaniauseritem->send_reading_plan_email){?>checked="checked" <?php } ?>/><?php echo JText::_( "JNO" ); ?>
+            	<input type="radio" name='send_reading_plan_email' value="1" required="required" <?php if($this->zefaniauseritem->send_reading_plan_email){?>checked="checked" <?php } ?>/><?php echo JText::_( "JYES" ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -123,11 +120,8 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.bool', array(
-												'dataKey' => 'send_verse_of_day_email',
-												'dataObject' => $this->zefaniauseritem
-												));
-				?>
+            	<input type="radio" name='send_verse_of_day_email' value="0" required="required" <?php if(!$this->zefaniauseritem->send_verse_of_day_email){?>checked="checked" <?php } ?>/><?php echo JText::_( "JNO" ); ?>
+            	<input type="radio" name='send_verse_of_day_email' value="1" required="required" <?php if($this->zefaniauseritem->send_verse_of_day_email){?>checked="checked" <?php } ?>/><?php echo JText::_( "JYES" ); ?>
 			</td>
 		</tr>
 		<tr>
