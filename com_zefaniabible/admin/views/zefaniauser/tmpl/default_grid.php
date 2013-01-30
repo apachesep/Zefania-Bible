@@ -169,7 +169,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php echo JDom::_('html.grid.datetime', array(
 										'dataKey' => 'reading_start_date',
 										'dataObject' => $row,
-										'dateFormat' => "%Y-%m-%d"
+										'dateFormat' => "Y-m-d"
 											));
 				?>
 			</td>
