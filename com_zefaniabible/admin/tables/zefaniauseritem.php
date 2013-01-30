@@ -160,7 +160,7 @@ class TableZefaniauseritem extends JTable
 				$valid = false;
 			}
 			else
-				$this->reading_start_date = $reading_start_date->toMySQL();
+				$this->reading_start_date = $reading_start_date->toSql();
 		}
 
 

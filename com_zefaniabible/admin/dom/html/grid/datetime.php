@@ -65,7 +65,7 @@ class JDomHtmlGridDatetime extends JDomHtmlGrid
 		{
 			jimport("joomla.utilities.date");
 			$date = new JDate($this->dataValue);
-			$formatedDate = $date->toFormat($this->dateFormat);
+			$formatedDate = $date->format($this->dateFormat);
 		}
 
 		$this->addClass('grid-date');
