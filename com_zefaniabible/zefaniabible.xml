@@ -6,7 +6,7 @@
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
-	<version><![CDATA[2.7.1]]></version>
+	<version><![CDATA[2.7.2]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description><![CDATA[ZefaniaBible uses Zefania XML bibles to display word of God.]]></description>
 
@@ -58,6 +58,7 @@
 			<filename>config.xml</filename>
 			<filename>index.html</filename>
 			<filename>zefaniabible.php</filename>
+			<filename>script.php</filename>
 			<filename>zefaniabible.css</filename>
 		</files>
 	</administration>
