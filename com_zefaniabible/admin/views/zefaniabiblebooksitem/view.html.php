@@ -59,7 +59,9 @@ class ZefaniabibleViewZefaniabiblebooksitem extends JView
 
 		$user 	= JFactory::getUser();
 
-		$access = ZefaniabibleHelper::getACL();
+		//$access = ZefaniabibleHelper::getACL();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 
 		$model	= $this->getModel();
 		$model->activeAll();

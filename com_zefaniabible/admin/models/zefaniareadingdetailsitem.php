@@ -169,7 +169,9 @@ class ZefaniabibleModelZefaniareadingdetailsitem extends ZefaniabibleModelItem
 	function _buildQueryWhere($where = array())
 	{
 		$app = JFactory::getApplication();
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		$where[] = 'a.id = '.(int) $this->_id;
 
@@ -361,7 +363,9 @@ class ZefaniabibleModelZefaniareadingdetailsitem extends ZefaniabibleModelItem
 			return;
 
 		$item = $this->_data;
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		$item->params->set('access-view', true);
 

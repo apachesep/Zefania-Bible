@@ -73,7 +73,9 @@ class ZefaniabibleViewZefaniareadingdetails extends JViewLegacy
 
 		$user 	= JFactory::getUser();
 
-		$access = ZefaniabibleHelper::getACL();
+		//$access = ZefaniabibleHelper::getACL();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 		$state		= $this->get('State');
 
 		$document	= JFactory::getDocument();

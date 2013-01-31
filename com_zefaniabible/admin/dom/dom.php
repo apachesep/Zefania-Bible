@@ -82,7 +82,7 @@ class JDom extends JObject
 	 * Static function to render a DOM object/input
 	 *
 	 */
-	static function _($namespace, $options = array())
+	function _($namespace, $options = array())
 	{
 		$args = func_get_args();
 		$class = self::getClass($namespace, $args);
@@ -90,10 +90,11 @@ class JDom extends JObject
 		return $class->build($args);
 	}
 
-	function getClass($namespace, $args)
+	static function getClass($namespace, $args)
 	{
 
 		$domType = self::getName($namespace);
+		
 		$class = self::getInstance($args, $domType);
 
 		return $class;
@@ -281,7 +282,7 @@ class JDom extends JObject
 	 * Search the appropriate class file, depending on context
 	 *
 	 */
-	function includeFile($relativeName, $className, $options = array())
+	static function includeFile($relativeName, $className, $options = array())
 	{
 
 		$file = self::searchFile($relativeName, $options);
@@ -301,7 +302,7 @@ class JDom extends JObject
 	}
 
 
-	function searchFile($relativeName, $options = array())
+	static function searchFile($relativeName, $options = array())
 	{
 		// Defines the priority ORDER for classes FALLBACKS
 		// TODO : Comment some lines, or change order depending on how you want to use this functionnality

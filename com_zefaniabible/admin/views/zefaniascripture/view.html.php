@@ -71,7 +71,9 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 
 		$user 	= JFactory::getUser();
 
-		$access = ZefaniabibleHelper::getACL();
+		//$access = ZefaniabibleHelper::getACL();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 		$state		= $this->get('State');
 		
 		$document	= JFactory::getDocument();
@@ -127,7 +129,8 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 		if ($access->get('core.admin'))
 			JToolBarHelper::preferences( 'com_zefaniabible' );
 		
-		$this->assignRef('user',				JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',				$access);
 		$this->assignRef('state',				$state);
 		$this->assignRef('lists',				$lists);

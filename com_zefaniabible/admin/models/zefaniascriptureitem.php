@@ -153,7 +153,9 @@ class ZefaniabibleModelZefaniascriptureitem extends ZefaniabibleModelItem
 	function _buildQueryWhere($where = array())
 	{
 		$app = JFactory::getApplication();
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		$where[] = 'a.id = '.(int) $this->_id;
 
@@ -212,7 +214,9 @@ class ZefaniabibleModelZefaniascriptureitem extends ZefaniabibleModelItem
 			$row->load($id);
 
 		//Some security checks
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 
 		// Bind the form fields to the zefaniabible table
@@ -348,7 +352,9 @@ class ZefaniabibleModelZefaniascriptureitem extends ZefaniabibleModelItem
 			return;
 
 		$item = $this->_data;
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		if ($acl->get('core.edit.state')
 			|| (bool)$item->publish)

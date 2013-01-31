@@ -239,7 +239,9 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 	{
 		$app = JFactory::getApplication();
 		$db= JFactory::getDBO();
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 
 		if (isset($this->_active['filter']) && $this->_active['filter'])
@@ -290,7 +292,9 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 	{
 
 		parent::populateParams();
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 		if (!isset($this->_data))
 			return;
 

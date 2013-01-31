@@ -59,7 +59,9 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 
 		$user 	= JFactory::getUser();
 
-		$access = ZefaniabibleHelper::getACL();
+		//$access = ZefaniabibleHelper::getACL();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 
 		$model	= $this->getModel();
 		$model->activeAll();
@@ -96,7 +98,9 @@ class ZefaniabibleViewZefaniauseritem extends JViewLegacy
 		$model_plan->addGroupBy("a.ordering");
 		$lists['fk']['plan'] = $model_plan->getItems();
 
-		$lists['fk']['user_id'] = ZefaniabibleJUserHelper::userList();
+		//$lists['fk']['user_id'] = ZefaniabibleJUserHelper::userList();
+		$mdl_user_list_helper = new ZefaniabibleJUserHelper;
+		$lists['fk']['user_id'] = $mdl_user_list_helper->userList();
 
 		// Toolbar
 		jimport('joomla.html.toolbar');

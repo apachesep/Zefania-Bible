@@ -59,7 +59,9 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 		$user 	= JFactory::getUser();
 
-		$access = ZefaniabibleHelper::getACL();
+		//$access = ZefaniabibleHelper::getACL();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 
 		$model	= $this->getModel();
 		$model->activeAll();
@@ -112,9 +114,9 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 
 
-		$session = & JFactory::getSession();
+		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
 		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
 		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');

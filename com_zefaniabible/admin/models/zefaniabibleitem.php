@@ -226,7 +226,9 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	function _buildQueryWhere($where = array())
 	{
 		$app = JFactory::getApplication();
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		$where[] = 'a.id = '.(int) $this->_id;
 
@@ -285,7 +287,9 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			$row->load($id);
 
 		//Some security checks
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		//Secure the published tag if not allowed to change
 		if (isset($data['publish']) && !$acl->get('core.edit.state'))
@@ -460,7 +464,9 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			return;
 
 		$item = $this->_data;
-		$acl = ZefaniabibleHelper::getAcl();
+		//$acl = ZefaniabibleHelper::getAcl();
+		$mdl_acl = new ZefaniabibleHelper;
+		$acl = $mdl_acl->getAcl();
 
 		if ($acl->get('core.edit.state')
 			|| (bool)$item->publish)
