@@ -56,7 +56,7 @@ class ZefaniabibleController extends JControllerLegacy
 		if (isset($itemAccess))
 			$acl = $itemAccess;
 		else
-			$acl = ZefaniabibleHelper::getAcl();
+		$acl = ZefaniabibleHelper::getAcl();
 
 
 		foreach($accesses as $access)
