@@ -86,10 +86,6 @@ class ZefaniabibleViewZefaniabible extends JViewLegacy
 		$model->active('predefined', 'default');
 		$model->active("publish", false);
 
-
-
-
-
 		$items		= $model->getItems();
 
 		$total		= $this->get( 'Total');
