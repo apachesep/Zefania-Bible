@@ -71,7 +71,7 @@ class JDomHtmlGridOrdering extends JDomHtmlGrid
 
 		$this->enabled = ((!isset($this->ordering)) || (($this->ordering == 'a.' . $this->dataKey) && ($this->direction != 'desc')));
 
-		$this->imagesDir = $this->pathToUrl($this->systemImagesDir(), true);
+		$this->imagesDir = 'components/com_zefaniabible/images';
 	}
 
 	function build($args)

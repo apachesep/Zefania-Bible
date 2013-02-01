@@ -112,8 +112,8 @@ class JDomHtmlGridBool extends JDomHtmlGrid
 			$task = $this->taskNo;
 		}
 
-		$imagesFolder = JURI::base() . $this->pathToUrl($this->systemImagesDir(), true);
-
+		//$imagesFolder = JURI::base() . $this->pathToUrl($this->systemImagesDir(), true);
+		$imagesFolder = JURI::base() . 'components/com_zefaniabible/images';
 		$this->task = $task;
 		$this->image = $imagesFolder . '/' . $image;
 		$this->text = $this->JText($text);
