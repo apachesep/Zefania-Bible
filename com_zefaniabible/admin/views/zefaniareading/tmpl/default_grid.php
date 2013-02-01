@@ -108,7 +108,7 @@ defined('_JEXEC') or die('Restricted access');
 			</td>
 
             <td style="text-align:left">
-				<?php echo JText::_(JDom::_('html.fly', array('dataKey' => 'description','dataObject' => $row)));?>
+				<?php echo JText::_(strip_tags(JDom::_('html.fly', array('dataKey' => 'description','dataObject' => $row))));?>
 			</td>
 
 			<?php if ($this->access->get('core.edit') || $this->access->get('core.edit.state')): ?>
