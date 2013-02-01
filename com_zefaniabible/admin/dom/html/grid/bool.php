@@ -120,7 +120,7 @@ class JDomHtmlGridBool extends JDomHtmlGrid
 
 	}
 
-	function build()
+	function build($args)
 	{
 
 		$togglable = $this->togglable;

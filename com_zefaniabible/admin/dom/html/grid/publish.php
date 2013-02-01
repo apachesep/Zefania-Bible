@@ -60,7 +60,7 @@ class JDomHtmlGridPublish extends JDomHtmlGrid
 		$this->arg('commandAcl'		, 7, $args, 'core.edit.state');
 	}
 
-	function build()
+	function build($args)
 	{
 		$html = '';
 

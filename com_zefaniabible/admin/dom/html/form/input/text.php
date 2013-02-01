@@ -58,7 +58,7 @@ class JDomHtmlFormInputText extends JDomHtmlFormInput
 
 	}
 
-	function build()
+	function build($args)
 	{
 
 		$html =	'<input type="text" id="<%DOM_ID%>" name="<%INPUT_NAME%>"<%STYLE%><%CLASS%><%SELECTORS%>'

@@ -49,7 +49,7 @@ class JDomHtmlGridCheckedout extends JDomHtmlGrid
 
 	}
 
-	function build()
+	function build($args)
 	{
 		// Set to null the checked_out property to avoid a Notice
 		// TODO : Copy the JHTML class for grid.checkout here to allow whatever field name

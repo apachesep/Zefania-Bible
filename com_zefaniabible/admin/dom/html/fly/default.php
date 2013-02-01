@@ -50,7 +50,7 @@ class JDomHtmlFlyDefault extends JDomHtmlFly
 		parent::__construct($args);
 	}
 
-	function build()
+	function build($args)
 	{
 		$html = "";
 

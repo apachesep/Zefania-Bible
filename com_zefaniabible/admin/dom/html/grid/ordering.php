@@ -74,7 +74,7 @@ class JDomHtmlGridOrdering extends JDomHtmlGrid
 		$this->imagesDir = $this->pathToUrl($this->systemImagesDir(), true);
 	}
 
-	function build()
+	function build($args)
 	{
 
 		$html = '';

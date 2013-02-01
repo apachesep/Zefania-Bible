@@ -82,20 +82,20 @@ class JDom extends JObject
 	 * Static function to render a DOM object/input
 	 *
 	 */
-	function _($namespace, $options = array())
+	static function _($namespace, $options = array())
 	{
 		$args = func_get_args();
 		$class = self::getClass($namespace, $args);
-
 		return $class->build($args);
 	}
 
 	static function getClass($namespace, $args)
 	{
-
-		$domType = self::getName($namespace);
-		
-		$class = self::getInstance($args, $domType);
+		//$domType = self::getName($namespace);
+		//$class = self::getInstance($args, $domType);
+		$mdl_JDom = new JDom($args);
+		$domType = $mdl_JDom->getName($namespace);
+		$class = $mdl_JDom->getInstance($args, $domType);
 
 		return $class;
 	}
@@ -108,39 +108,6 @@ class JDom extends JObject
 		//ACL Access
 		if (!$class->access())
 			return "";
-
-/* DEPRECATED
-
-		$lastLevel = count(explode('.', $this->namespace)) - 1;
-
-
-		$lastCall = ($class->last
-		|| ($this->level == $lastLevel)
-		||  (($this->level == $lastLevel-1) && (($this->getName() == $this->fallback))));
-
-
-
-		if ($lastCall)
-		{
-			//Assets implementations
-			$class->addScript();
-			$this->buildJS();		//Scripts inline
-		}
-
-
-		$html = $class->build($args);  //Recursivity
-
-		if ($lastCall)
-			$html = $class->embedLink($html);
-
-		$html = $class->parse($html);   //Recursivity and parsing
-
-		if ($lastCall && $class->canEmbed)
-			$this->ajaxHeader($html);	//Embed javascript and CSS in case of Ajax call
-
-*/
-
-
 
 		$html = $class->build($args);  //Recursivity
 

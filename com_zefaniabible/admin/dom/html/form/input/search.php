@@ -63,7 +63,7 @@ class JDomHtmlFormInputSearch extends JDomHtmlFormInput
 		$this->arg('label'		, null, $args);
 	}
 
-	function build()
+	function build($args)
 	{
 		$empty = false;
 		if (isset($this->label))
@@ -145,6 +145,4 @@ class JDomHtmlFormInputSearch extends JDomHtmlFormInput
 		return json_encode($args);
 
 	}
-
-
 }

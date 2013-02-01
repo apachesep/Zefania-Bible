@@ -54,7 +54,7 @@ class JDomHtmlGridDatetime extends JDomHtmlGrid
 		$this->arg('dateFormat'			, 6, $args, "%Y-%m-%d");
 	}
 
-	function build()
+	function build($args)
 	{
 		$formatedDate = "";
 

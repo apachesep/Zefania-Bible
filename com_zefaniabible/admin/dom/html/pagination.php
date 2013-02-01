@@ -59,7 +59,7 @@ class JDomHtmlPagination extends JDomHtml
 
 	}
 
-	function build()
+	function build($args)
 	{
 		$pagination = $this->pagination;
 

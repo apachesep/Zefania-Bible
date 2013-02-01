@@ -52,7 +52,7 @@ class JDomHtmlFormInputHidden extends JDomHtmlFormInput
 
 	}
 
-	function build()
+	function build($args)
 	{
 
 		$html =	'<input type="hidden" id="<%DOM_ID%>" name="<%INPUT_NAME%>"<%CLASS%>'

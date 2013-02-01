@@ -76,7 +76,7 @@ class JDomHtmlFormInputEditor extends JDomHtmlFormInput
 
 	}
 
-	function build()
+	function build($args)
 	{
 		$editor = JFactory::getEditor($this->editor);
 		$editor->set( 'toolbar', 'Default' );

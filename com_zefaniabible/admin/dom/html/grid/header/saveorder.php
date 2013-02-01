@@ -50,7 +50,7 @@ class JDomHtmlGridHeaderSaveorder extends JDomHtmlGridHeader
 		$this->arg('list'		, null, $args);
 	}
 
-	function build()
+	function build($args)
 	{
 
 		$dir = $this->pathToUrl($this->systemImagesDir(), true);

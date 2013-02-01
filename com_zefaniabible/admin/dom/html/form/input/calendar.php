@@ -85,7 +85,7 @@ array(	'\\\\', '\\/','\\#','\\!','\\^','\\$','\\(','\\)','\\[','\\]','\\{','\\}'
 		return "^" . str_replace($patterns, $replacements, $this->dateFormat) . "$";
 	}
 
-	function build()
+	function build($args)
 	{
 		$formatedDate = $this->dataValue;
 

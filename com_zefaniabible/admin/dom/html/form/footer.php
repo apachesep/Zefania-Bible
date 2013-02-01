@@ -65,7 +65,7 @@ class JDomHtmlFormFooter extends JDomHtmlForm
 
 	}
 
-	function build()
+	function build($args)
 	{
 
 		//Initialize default form

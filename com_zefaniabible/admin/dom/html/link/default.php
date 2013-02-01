@@ -56,7 +56,7 @@ class JDomHtmlLinkDefault extends JDomHtmlLink
 		parent::__construct($args);
 	}
 
-	function build()
+	function build($args)
 	{
 		$html = $this->buildLink();
 

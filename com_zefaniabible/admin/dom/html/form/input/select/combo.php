@@ -61,7 +61,7 @@ class JDomHtmlFormInputSelectCombo extends JDomHtmlFormInputSelect
 
 	}
 
-	function build()
+	function build($args)
 	{
 		if ($this->groupBy)
 			$options = $this->buildOptionsGroup();

@@ -90,7 +90,7 @@ class JDomHtmlFormInputOrdering extends JDomHtmlFormInput
 
 	}
 
-	function build()
+	function build($args)
 	{
 		$items = array();
 
