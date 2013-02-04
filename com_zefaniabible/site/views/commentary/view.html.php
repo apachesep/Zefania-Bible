@@ -71,20 +71,34 @@ class ZefaniabibleViewCommentary extends JView
 		$access = ZefaniabibleHelper::getACL();
 		$document	= &JFactory::getDocument();
 
-		require_once(JPATH_COMPONENT_SITE.'/models/zefaniabible.php');
-		$biblemodel = new ZefaniabibleModelZefaniabible;
-		$comment = 	$biblemodel->_buildQuery_comment();
-		$bibleBooks = $biblemodel->_buildQuery_bookNames();			
-
+		/*
+			a = commentary
+			b = book
+			c = chapter
+			d = verse	
+		*/	
+		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_primary_commentary = $params->get('primaryCommentary');
+		
+		$str_commentary = JRequest::getCmd('a',$str_primary_commentary);			
+		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
+		$int_Bible_Chapter = JRequest::getInt('c', '1');
+		$int_Bible_Verse = JRequest::getInt('d', '1');
+		
+		require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
+		$mdl_commentary = new ZefaniabibleModelCommentary;				
+		$str_commentary_text =	$mdl_commentary-> _buildQuery_commentary_verse($str_commentary, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse);
+		$str_commentary_name = $mdl_commentary->_buildQuery_commentary_name($str_commentary);
+		
+		echo '<div class="zef_commentary_title">'.$str_commentary_name."</div>";
+		echo '<div class="zef_commentary_book">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter.":".$int_Bible_Verse."</div>";
+		echo '<div class="zef_commentary_verse">'.$str_commentary_text."</div>";
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);	
-		$this->assignRef('comment',		$comment);
-		$this->assignRef('bibleBooks',	$bibleBooks);
+		$this->assignRef('lists',		$lists);
 		$this->assignRef('config',		$config);
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'zephBible.php');
 		parent::display($tpl);
 	}
 }
