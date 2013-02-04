@@ -35,6 +35,11 @@ JHTML::_('behavior.framework');
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . 'tables');
 
+// Load languages and merge with fallbacks
+$jlang = JFactory::getLanguage();
+$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+
 //Document title
 $document	= &JFactory::getDocument();
 $document->titlePrefix = "ZefaniaBible - ";
