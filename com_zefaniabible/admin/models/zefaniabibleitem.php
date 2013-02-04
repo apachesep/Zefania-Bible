@@ -141,7 +141,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 							$arr_bible_book['bnumber'],
 							$arr_bible_chapter['cnumber'],
 							$arr_bible_verse['vnumber'],
-							$arr_bible_verse
+							$arr_bible_verse->asXML()
 							);
 							$x++;
 					}
