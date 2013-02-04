@@ -94,6 +94,17 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniacomment` (
 	
 );
 
+CREATE TABLE IF NOT EXISTS `#__zefaniabible_comment_text` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `params` text NOT NULL,
+  `bible_id` int(11) NOT NULL,
+  `book_id` int(11) DEFAULT NULL,
+  `chapter_id` int(11) DEFAULT NULL,
+  `verse_id` int(11) DEFAULT NULL,
+  `verse` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniabiblebooknames` (
 	`id` int(11) NOT NULL auto_increment,
 	`params` text NOT NULL default '',

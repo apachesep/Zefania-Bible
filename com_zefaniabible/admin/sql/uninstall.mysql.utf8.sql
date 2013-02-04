@@ -16,3 +16,5 @@ DROP TABLE IF EXISTS `#__zefaniabible_bible_names`;
 DROP TABLE IF EXISTS `#__zefaniabible_bible_text`;
 
 DROP TABLE IF EXISTS `#__zefaniabible_zefaniacomment`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_comment_text`;
