@@ -70,7 +70,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 			b = bible2
 			c = book
 			d = chapter
-			e = verse			
+			e = commentary			
 		*/		
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
@@ -117,6 +117,30 @@ class ZefaniabibleViewCompare extends JViewLegacy
 				$this->assignRef('obj_player_two',		$obj_player_two);
 			}
 		}
+		// commentary code
+		$flg_show_commentary = $params->get('show_commentary', '0');
+		$obj_commentary_dropdown = '';
+		if($flg_show_commentary)
+		{
+			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
+			$mdl_commentary = new ZefaniabibleModelCommentary;			
+			$str_primary_commentary = $params->get('primaryCommentary');
+			$str_commentary = JRequest::getCmd('e', $str_primary_commentary);
+			$arr_commentary =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$int_Bible_Book_ID,$int_Bible_Chapter);
+			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
+			foreach($arr_commentary_list as $obj_comm_list)
+			{
+				if($str_commentary == $obj_comm_list->alias)
+				{
+					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>';
+				}
+				else
+				{
+					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>';
+				}
+			}
+		}
+		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->assignRef('user',		JFactory::getUser());
@@ -133,7 +157,9 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$this->assignRef('str_Bible_Version2',	$str_Second_Bible_Version);		
 		$this->assignRef('obj_player_one',		$obj_player_one);	
 		$this->assignRef('config',				$config);
-
+		$this->assignRef('arr_commentary',		$arr_commentary);
+		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
+		
 		parent::display($tpl);
 	}
 }

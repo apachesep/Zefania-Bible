@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
 JHTML::_('behavior.modal');
 
-$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan);
+$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary);
 
 class BibleReadingPlan
 {
@@ -55,7 +55,7 @@ class BibleReadingPlan
 	public $str_reading_plan;
 	private $str_prmary_commentary;
 	private $str_Commentary_XML_Path;
-	private $flg_show_commentary;
+	public $flg_show_commentary;
 	public $int_day_number;
 	private $str_chapter_headings;
 	private $str_curr_read_plan;
@@ -68,10 +68,11 @@ class BibleReadingPlan
 	public $flg_reading_rss_button;
 	public $flg_show_audio_player;
 	public $flg_use_bible_selection;
-	
-	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan)
+	private $str_commentary;
+		
+	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary)
 	{
-
+		
 		$this->arr_reading = $arr_reading;
 		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );		
 		$this->doc_page =& JFactory::getDocument();	
@@ -80,11 +81,14 @@ class BibleReadingPlan
 		$this->str_primary_reading = 	$this->params->get('primaryReading', 'ttb');
 		$this->str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
 		$this->flg_show_audio_player = 	$this->params->get('show_audioPlayer', '0');
+		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
 
 		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
 		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
-		//$this->int_day_number 	= 	JRequest::getInt('c');	
-		
+
+		$str_primary_commentary = $this->params->get('primaryCommentary');
+		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
+								
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
@@ -107,13 +111,13 @@ class BibleReadingPlan
 		$this->getMetaData();
 		
 	}
-	public function fnc_output_chapter($arr_plan)
+	public function fnc_output_chapter($arr_plan, $arr_commentary)
 	{
 			$book = 0;
 			$chap = 0;
 			$x = 1;
-			$y = 1;
-			
+			$y = 1;		
+
 		if($this->flg_show_audio_player)
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');	
@@ -140,6 +144,7 @@ class BibleReadingPlan
 						echo '<div class="zef_bible_Header_Label_Plan"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
 						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</div>';
 						echo '<div class="zef_bible_Chapter">';
+						$arr_single_commentary  = $arr_commentary[($y-1)];
 						if($this->flg_show_audio_player)
 						{
 							$obj_player = $mdl_audio->fnc_audio_player($this->str_primary_bible,$plan->book_id,$plan->chapter_id, $y);
@@ -161,6 +166,20 @@ class BibleReadingPlan
 						echo '<div class="even">'; 
 					}
 					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
+					if($this->flg_show_commentary)
+					{
+						$int_commentary_width = $this->params->get('commentaryWidth','800');
+						$int_commentary_heigh = $this->params->get('commentaryHeight','500');
+						
+						foreach($arr_single_commentary as $int_verse_commentary)
+						{
+							if($plan->verse_id == $int_verse_commentary->verse_id)
+							{
+								$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&a=".$this->str_commentary."&b=".$plan->book_id."&c=".$plan->chapter_id."&d=".$plan->verse_id."&tmpl=component");
+								echo '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_heigh.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY')."</a></div>";
+							}
+						}
+					}	
 					echo '<div style="clear:both"></div></div>';		
 					$x++;
 					$z++;
@@ -186,7 +205,12 @@ class BibleReadingPlan
 		$urlPostpend = "')";		
 		if($this->arr_reading[0]->day_number > 1)
 		{
-			$url[2] = JRoute::_("index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number-1));
+			$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number-1);
+			if($this->flg_show_commentary)
+			{
+				$url[2] = $url[2]."&d=".$this->str_commentary;
+			}
+			$url[2] = JRoute::_($url[2]);			
 			if($this->flg_show_pagination_type == 0)
 			{
 				echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING').'" type="button" id="zef_Buttons" class="zef_last_day" name="lastday" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number-1).'" />';
@@ -204,8 +228,13 @@ class BibleReadingPlan
 		{
 			echo JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($this->arr_reading[0]->day_number);			
 		}
-		$url[3] = JRoute::_("index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number+1));
-		
+		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number+1);
+		if($this->flg_show_commentary)
+		{
+			$url[3] = $url[3]."&d=".$this->str_commentary;
+		}
+		$url[3] = JRoute::_($url[3]);	
+			
 		if($this->flg_show_pagination_type == 0)
 		{
 			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING').'" type="button" id="zef_Buttons" class="zef_next_day" name="nextday" onclick="'.$urlPrepend.$url[3].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number+1).'" />';
@@ -284,6 +313,16 @@ class BibleReadingPlan
 				 <?php }else {
 					echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan->str_bibleVersion.'" />';
 				} ?>
+				<?php if($cls_bible_reading_plan->flg_show_commentary){ ?>
+                <div>
+                    <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
+                    <div>
+                        <select name="d" id="commentary" class="inputbox" onchange="this.form.submit()">
+                            <?php echo $this->obj_commentary_dropdown;?>
+                         </select>
+                    </div>
+                </div>
+                <?php } ?>                
                  <div style="clear:both"></div>      
             <div class="zef_top_pagination">        
                     <?php 
@@ -294,7 +333,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-        <?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan); ?></div>
+        <?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary); ?></div>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 

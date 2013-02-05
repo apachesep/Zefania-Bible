@@ -67,6 +67,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 			a = plan
 			b = bible
 			c = day
+			d = commentary
 		*/		
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
@@ -103,7 +104,38 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$arr_reading_plans 	= 	$biblemodel->_buildQuery_readingplan();
 		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
 		
-		
+		// commentary code
+		$flg_show_commentary = $params->get('show_commentary', '0');
+		$obj_commentary_dropdown = '';
+		if($flg_show_commentary)
+		{
+			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
+			$mdl_commentary = new ZefaniabibleModelCommentary;			
+			$str_primary_commentary = $params->get('primaryCommentary');
+			$str_commentary = JRequest::getCmd('d', $str_primary_commentary);
+			$x = 0;
+			foreach($arr_reading as $obj_reading)
+			{
+				for($y = $obj_reading->begin_chapter; $y <= $obj_reading->end_chapter; $y++)
+				{
+					$arr_commentary[$x] =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$obj_reading->book_id,$y);
+					$x++;
+				}
+			}
+
+			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
+			foreach($arr_commentary_list as $obj_comm_list)
+			{
+				if($str_commentary == $obj_comm_list->alias)
+				{
+					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>';
+				}
+				else
+				{
+					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>';
+				}
+			}
+		}	
 		//Filters
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('int_day_number',		$int_day_number);
@@ -114,6 +146,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$this->assignRef('reading',				$arr_reading);
 		$this->assignRef('arr_reading_plans',	$arr_reading_plans);
 		$this->assignRef('config',				$config);
+		$this->assignRef('arr_commentary',		$arr_commentary);
+		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
+				
 		parent::display($tpl);
 	}
 }
