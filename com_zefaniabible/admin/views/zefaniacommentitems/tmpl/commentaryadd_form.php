@@ -121,12 +121,17 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'file_location',
-												'dataObject' => $this->zefaniacommentitems,
-												'size' => "32"
-												));
-				?>
+            <?php 
+			$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+			$str_commentary_path = $params->get('xmlCommentaryPath');
+			?>
+            	<select name="file_location" <?php if(!$isNew){?>disabled="disabled"<?php }?>> 
+                	<option value=""><?php echo JText::_('ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY');?></option>
+                	<option value="<?php echo '/'.$str_commentary_path.'GillEn/GillEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'GillEn/GillEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_GILLEN')?></option>
+                    <option value="<?php echo '/'.$str_commentary_path.'KDEn/KDEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'KDEn/KDEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_KDEN')?></option>
+                    <option value="<?php echo '/'.$str_commentary_path.'MHCEn/MHCEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'MHCEn/MHCEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_MHCEN')?></option>
+                </select>
+                <?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_NOTE');?>
 			</td>
 		</tr>
 
