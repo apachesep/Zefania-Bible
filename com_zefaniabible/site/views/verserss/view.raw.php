@@ -57,19 +57,18 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 		
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		require_once(JPATH_COMPONENT_SITE.'/models/verserss.php');
 		$biblemodel = new ZefaniabibleModelVerserss;		
 		
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
-		$str_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
+		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
 		$str_today = new DateTime(date('Y-m-d'));
 		$int_day_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_bibleVersion = JRequest::getCmd('a', $str_primary_bible);	
 				
 		$arr_verse_info	=	$biblemodel->_buildQuery_get_verses();

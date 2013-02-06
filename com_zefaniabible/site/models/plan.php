@@ -117,7 +117,7 @@ class ZefaniabibleModelPlan extends ZefaniabibleModelList
 	{
 		try 
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$mainframe = JFactory::getApplication();			
 			$lim = $mainframe->getUserStateFromRequest('$option.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 			$lim0	= JRequest::getVar('limitstart', 0, '', 'int');			

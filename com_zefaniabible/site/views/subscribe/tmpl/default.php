@@ -24,7 +24,9 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-ZefaniabibleHelper::headerDeclarations();
+//ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations();
 jimport( 'joomla.html.html' );
 jimport( 'joomla.error.error' );
 jimport( 'joomla.mail.mail' );
@@ -77,7 +79,7 @@ class BibleSubscribe
 		$this->flg_date_valid = 0;
 		$this->flg_no_sql_inection = 1;
 		
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$this->str_from_email 		= $config->get( 'config.mailfrom' );
     	$this->str_from_email_name	= $config->get( 'config.fromname' );		
 		
@@ -89,7 +91,7 @@ class BibleSubscribe
 		$this->flg_send_verse			=	JRequest::getCmd('f'); 
 		$this->str_start_reading_date 	= 	JRequest::getString('g');
 		
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );	
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );	
 		$this->flg_use_catcha = $this->params->get('flg_use_catcha', '0');
 		$this->str_admin_email = $this->params->get('adminEmail');
 		$this->str_catcha_color = $this->params->get('catcha_color', 'red');

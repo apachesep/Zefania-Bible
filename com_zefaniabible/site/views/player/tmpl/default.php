@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 $cls_player= new BiblePlayer($this->arr_book_info, $this->int_Bible_Book_ID); 
 
@@ -33,7 +35,7 @@ class BiblePlayer
 	
 	public function __construct($arr_book_info, $int_Bible_Book_ID)
 	{
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
 		$int_player_type = $params->get('player_type', '0');
 		$int_player_popup_height = $params->get('player_popup_height','300');
@@ -68,7 +70,7 @@ class BiblePlayer
 	}
 	protected function fnc_get_player($arr_mp3_files,$int_player_type, $int_Bible_Book_ID, $int_player_popup_height, $int_player_popup_width)
 	{
-		$doc_page =& JFactory::getDocument();
+		$doc_page = JFactory::getDocument();
 		switch ($int_player_type)
 		{
 		case 0:

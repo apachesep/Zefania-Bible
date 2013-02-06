@@ -71,19 +71,22 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
 		
 		// menu item overwrites
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
-			$menu = JSite::getMenu();
+			//$menu = JSite::getMenu();
+			$mdl_menu = new JSite;
+			$menu = $mdl_menu->getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
 		
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		require_once(JPATH_COMPONENT_SITE.'/models/plan.php');
 		$biblemodel = new ZefaniabibleModelPlan;
 		
@@ -101,7 +104,8 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		$arr_bibles = $biblemodel->_buildQuery_Bibles();
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('bibles',		$arr_bibles);

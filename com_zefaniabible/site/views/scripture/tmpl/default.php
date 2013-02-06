@@ -45,7 +45,7 @@ class BibleReadingPlan
 			e = End Chapter
 			f = End Verse
 		*/	
-    	$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );	
+    	$this->params = JComponentHelper::getParams( 'com_zefaniabible' );	
 		$this->flg_show_credit = $this->params->get('show_credit','0');
 		$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title);
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');

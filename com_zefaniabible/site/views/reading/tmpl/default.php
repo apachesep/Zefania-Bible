@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
 
@@ -74,8 +76,8 @@ class BibleReadingPlan
 	{
 		
 		$this->arr_reading = $arr_reading;
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );		
-		$this->doc_page =& JFactory::getDocument();	
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
+		$this->doc_page = JFactory::getDocument();	
 
 		$this->str_view = JRequest::getCmd('view');
 		$this->str_primary_reading = 	$this->params->get('primaryReading', 'ttb');

@@ -48,7 +48,7 @@ class ZefaniabibleControllerCompare extends ZefaniabibleController
 		$this->registerTask( 'apply',  'apply' );
 	}
 
-	function display( )
+	function display($cachable = false, $urlparams = false)
 	{
 		if (!JRequest::getCmd('option',null, 'get'))
 		{

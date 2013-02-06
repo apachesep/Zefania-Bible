@@ -26,7 +26,7 @@ class ZefaniaAudioPlayer
 {
 	public function fnc_audio_player($str_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter,$id)
 	{
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$int_player_type = $params->get('player_type', '0');
 		$int_player_width = $params->get('player_width', '250');
 		$int_player_height = $params->get('player_height', '24');
@@ -88,7 +88,7 @@ class ZefaniaAudioPlayer
 	}
 	protected function fnc_get_audio_player($id,$int_player_type,$int_player_width,$int_player_height, $str_mp3_file_path, $int_Bible_Book_ID, $int_Bible_Chapter)
 	{
-		$doc_page =& JFactory::getDocument();
+		$doc_page = JFactory::getDocument();
 		$str_output = '';
 		switch ($int_player_type)
 		{

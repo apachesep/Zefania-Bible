@@ -70,15 +70,18 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 	
 		// menu item overwrites
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
-			$menu = JSite::getMenu();
+			//$menu = JSite::getMenu();
+			$mdl_menu = new JSite;
+			$menu = $mdl_menu->getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
@@ -91,8 +94,8 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 		$arr_book_info = $mdl_player->_buildQuery_Bible($str_Bible_Alias,$int_Bible_Book_ID);
 		
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',				$access);
 		$this->assignRef('arr_book_info',		$arr_book_info);
 		$this->assignRef('int_Bible_Book_ID',	$int_Bible_Book_ID);

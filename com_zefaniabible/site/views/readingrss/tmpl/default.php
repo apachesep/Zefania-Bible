@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
 
@@ -40,8 +42,8 @@ class BibleReadingPlan
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $str_bible_Version, $int_day_number)
 	{
 		$this->arr_reading = $arr_reading;
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );		
-		$this->doc_page =& JFactory::getDocument();	
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );		
+		$this->doc_page = JFactory::getDocument();	
 
 		$str_primary_reading = 		$params->get('primaryReading', 'ttb');		
 		$str_reading_plan = 	JRequest::getCmd('a', $str_primary_reading);		
@@ -77,9 +79,9 @@ class BibleReadingPlan
 	}
 	private function fnc_output_podcast($arr_plan, $str_reading_plan, $str_bible_Version, $int_day_number, $str_curr_read_plan, $str_bible_name, $int_day_number, $str_desc, $str_bible_audio_file)
 	{
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 	
 		$str_audio_path = 		$params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
 		$str_admin_email = 		$params->get('adminEmail');
@@ -201,7 +203,7 @@ class BibleReadingPlan
 		$book = 0;
 		$chap = 0;
 		$y = 1;
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
 		echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
@@ -257,7 +259,7 @@ class BibleReadingPlan
 		$str_desc = '';
 		$y = 1;
 		$int_len = 0;
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
 		echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;

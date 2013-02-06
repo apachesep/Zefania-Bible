@@ -39,7 +39,7 @@ jimport( '0');
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewCommentary extends JView
+class ZefaniabibleViewCommentary extends JViewLegacy
 {
 	/*
 	 * Define here the default list limit
@@ -68,8 +68,10 @@ class ZefaniabibleViewCommentary extends JView
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+
+		$document	= JFactory::getDocument();
 
 		/*
 			a = commentary
@@ -77,7 +79,7 @@ class ZefaniabibleViewCommentary extends JView
 			c = chapter
 			d = verse	
 		*/	
-		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_commentary = $params->get('primaryCommentary');
 		
 		$str_commentary = JRequest::getCmd('a',$str_primary_commentary);			
@@ -95,7 +97,8 @@ class ZefaniabibleViewCommentary extends JView
 		echo '<div class="zef_commentary_verse">'.$str_commentary_text."</div>";
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('config',		$config);

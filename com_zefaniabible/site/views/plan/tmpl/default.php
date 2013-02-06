@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
 ?>
@@ -120,7 +122,7 @@ class BibleReadingPlanOverview
 	
 	public function __construct($arr_bibles, $arr_reading, $arr_readingplans)
 	{
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );	
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );	
 		$this->str_bible_layout = JRequest::getCmd('layout','default');
 		$this->str_primary_bible = $this->params->get('primaryBible', 'kjv');
 		$this->str_bibleVersion = JRequest::getCmd('b', $this->str_primary_bible);		
@@ -137,7 +139,7 @@ class BibleReadingPlanOverview
 		$this->createChapterOutput($arr_reading);
 		$this->getBibleName($arr_bibles);
 		
-		$this->doc_page =& JFactory::getDocument();	
+		$this->doc_page = JFactory::getDocument();	
 		$app_site = JFactory::getApplication();	
 		$this->doc_page->setTitle($this->str_plan_name);
 		$this->doc_page->setMetaData( 'keywords', '');

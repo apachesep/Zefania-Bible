@@ -67,21 +67,23 @@ class ZefaniabibleViewVerseofday extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 		require_once(JPATH_COMPONENT_SITE.'/models/verseoftheday.php');
 		$biblemodel = new ZefaniabibleModelVerseoftheday;
 		// create pagination
 		jimport('joomla.html.pagination');
 		$pagination = $biblemodel->_get_pagination_verseofday();
 		$arr_Verse_Of_Day = $biblemodel->_buildQuery_verseofday($pagination);
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = $this->params->get('primaryBible', 'kjv');
 				
 		$arr_verses = $biblemodel->_buildQuery_get_verses($arr_Verse_Of_Day,$str_primary_bible);
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',			$access);
 		$this->assignRef('lists',			$lists);
 		$this->assignRef('pagination',		$pagination);	

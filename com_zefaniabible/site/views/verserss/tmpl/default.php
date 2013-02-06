@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
 
@@ -34,7 +36,7 @@ class ClsVerseRSS
 	
 	public function __construct($arr_verse_info, $int_verse_remainder, $arr_verse, $str_bible_Version)
 	{
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
 		$flg_redirect_request = JRequest::getCmd('b', 1);
 		$str_verse = '';

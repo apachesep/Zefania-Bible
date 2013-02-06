@@ -57,10 +57,11 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 		
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		require_once(JPATH_COMPONENT_SITE.'/models/readingrss.php');
 		$biblemodel = new ZefaniabibleModelReadingrss;		
 		
@@ -82,7 +83,8 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
 		
 		//Filters
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('int_day_number',		$int_day_number);
 		$this->assignRef('access',				$access);
 		$this->assignRef('lists',				$lists);

@@ -24,7 +24,9 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-ZefaniabibleHelper::headerDeclarations();
+//ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations();
 jimport( 'joomla.html.html' );
 jimport( 'joomla.error.error' );
 jimport( 'joomla.mail.mail' );
@@ -57,7 +59,7 @@ class BibleUnsubscribe
 		$this->flg_email_valid = 0;
 		$this->flg_catcha_correct = 0;
 		$this->flg_no_sql_inection = 1;
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->flg_use_catcha = $this->params->get('flg_use_catcha', '0');
 		$this->str_admin_email = $this->params->get('adminEmail');
 		$this->str_catcha_color = $this->params->get('catcha_color', 'red');

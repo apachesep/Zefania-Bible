@@ -67,15 +67,17 @@ class ZefaniabibleViewUnsubscribe extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 
 		// create pagination
 		jimport('joomla.html.pagination');
 		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('config',		$config);

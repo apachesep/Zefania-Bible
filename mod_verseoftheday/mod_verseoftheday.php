@@ -79,7 +79,7 @@ class ZefVerseOfTheDay
 		{
 			$this->int_verse_remainder = $this->int_max_verses;
 		}
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->biblePath = $this->params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$this->arr_db_call_info = $this->fnc_Get_Bible_Book_Info();
 		$this->fnc_Get_Bible_Book_XML_File();	

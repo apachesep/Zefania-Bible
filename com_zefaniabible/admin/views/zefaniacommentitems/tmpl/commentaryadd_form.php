@@ -122,7 +122,7 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 			</td>
 			<td>
             <?php 
-			$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+			$params = JComponentHelper::getParams( 'com_zefaniabible' );
 			$str_commentary_path = $params->get('xmlCommentaryPath');
 			?>
             	<select name="file_location" <?php if(!$isNew){?>disabled="disabled"<?php }?>> 

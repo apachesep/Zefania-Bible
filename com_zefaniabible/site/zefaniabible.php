@@ -41,7 +41,7 @@ $jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
 $jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
 
 //Document title
-$document	= &JFactory::getDocument();
+$document	= JFactory::getDocument();
 $document->titlePrefix = "ZefaniaBible - ";
 $document->titleSuffix = "";
 

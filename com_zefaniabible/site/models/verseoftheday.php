@@ -104,7 +104,7 @@ class ZefaniabibleModelVerseoftheday extends ZefaniabibleModelList
 				$int_chpater 		= 	$arr_verse->chapter_number;
 				$int_begin_verse 	=	$arr_verse->begin_verse;
 				$int_end_verse		=	$arr_verse->end_verse;
-				$db =& JFactory::getDBO();
+				$db = JFactory::getDBO();
 				$query =  'SELECT a.book_id, a.chapter_id, a.verse_id, a.verse FROM `#__zefaniabible_bible_text` AS a'.
 						' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.
 						' WHERE a.book_id='.$int_book.' AND a.chapter_id='.$int_chpater.
@@ -134,7 +134,7 @@ class ZefaniabibleModelVerseoftheday extends ZefaniabibleModelList
 	{
 		try 
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$mainframe = JFactory::getApplication();			
 			$lim = $mainframe->getUserStateFromRequest('$option.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 			$lim0	= JRequest::getVar('limitstart', 0, '', 'int');			
@@ -152,7 +152,7 @@ class ZefaniabibleModelVerseoftheday extends ZefaniabibleModelList
 	{
 		try 
 		{
-			$db =& JFactory::getDBO();	
+			$db = JFactory::getDBO();	
 			$query =  'SELECT a.* FROM `#__zefaniabible_zefaniaverseofday` AS a INNER JOIN `#__zefaniabible_zefaniabiblebooknames` AS b ON a.book_name = b.id WHERE b.publish = 1 AND a.publish = 1 ORDER BY a.book_name, a.chapter_number, a.begin_verse';
 			$db->setQuery($query, $pagination->limitstart, $pagination->limit);
 			$data = $db->loadObjectList();

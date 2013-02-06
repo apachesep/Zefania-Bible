@@ -23,7 +23,9 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php ZefaniabibleHelper::headerDeclarations(); ?>
+<?php //ZefaniabibleHelper::headerDeclarations();
+$mdl_zef_bible_helper = new ZefaniabibleHelper();
+$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
 $cls_bibleBook = new BibleCompare($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->str_Bible_Version2, $this->arr_Chapter2, $this->int_Bible_Chapter,$this->arr_commentary); 
@@ -50,8 +52,8 @@ class BibleCompare {
 			
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter,$arr_commentary)
 	{
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->doc_page =& JFactory::getDocument();	
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->doc_page = JFactory::getDocument();	
 		$this->flg_show_page_top 	= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 	= $this->params->get('show_pagination_bot', '1');	
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');

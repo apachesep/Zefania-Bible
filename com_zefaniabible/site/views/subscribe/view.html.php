@@ -66,8 +66,9 @@ class ZefaniabibleViewSubscribe extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 		require_once(JPATH_COMPONENT_SITE.'/models/subscribe.php');
 		$biblemodel = new ZefaniabibleModelSubscribe;
 		// create pagination
@@ -78,7 +79,8 @@ class ZefaniabibleViewSubscribe extends JViewLegacy
 		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('bibles',		$arr_bibles);

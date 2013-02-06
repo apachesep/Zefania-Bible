@@ -66,8 +66,9 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$access = ZefaniabibleHelper::getACL();
-		$document	= &JFactory::getDocument();
+		$mdl_access = new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$document	= JFactory::getDocument();
 
 		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
 		$str_Bible_Version = JRequest::getCmd('a', 'kjv');
@@ -77,7 +78,7 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$str_end_chap = JRequest::getInt('e', '0');
 		$str_end_verse = JRequest::getInt('f', '0');	
 		$flg_add_title = 0;	
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );		
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
 		$str_Bible_alias = $this->params->get('content_Bible_alias', 'kjv');
 		if($str_Bible_alias != $str_Bible_Version)
 		{
@@ -88,7 +89,8 @@ class ZefaniabibleViewScripture extends JViewLegacy
 
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->assignRef('user',		JFactory::getUser());
+		$user = JFactory::getUser();
+		$this->assignRef('user',				$user);
 		$this->assignRef('access',					$access);
 		$this->assignRef('arr_verses',				$arr_verses);
 		$this->assignRef('str_Bible_Version',		$str_Bible_Version);

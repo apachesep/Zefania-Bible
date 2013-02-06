@@ -43,8 +43,8 @@ class VersesOfTheDay
 	private $arr_book_paths;
 	public function __construct($arr_verses)
 	{
-		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->doc_page =& JFactory::getDocument();	
+		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->doc_page = JFactory::getDocument();	
 		$this->str_primary_bible = $this->params->get('primaryBible', 'kjv');
 		$this->str_biblePath = $this->params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$this->fnc_Get_Bible_Info($arr_verses);
