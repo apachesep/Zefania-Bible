@@ -335,9 +335,10 @@ class BibleCompare {
                 </select>
             </div>
 			<?php if($cls_bibleBook->flg_show_commentary){ ?>
+            <div style="clear:both;"></div>
             <div>
                 <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
-                <div>
+                <div class="zef_commentary">
                     <select name="e" id="commentary" class="inputbox" onchange="this.form.submit()">
                         <?php echo $this->obj_commentary_dropdown;?>
                      </select>

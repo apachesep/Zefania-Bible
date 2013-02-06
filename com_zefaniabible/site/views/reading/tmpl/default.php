@@ -316,9 +316,10 @@ class BibleReadingPlan
 					echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan->str_bibleVersion.'" />';
 				} ?>
 				<?php if($cls_bible_reading_plan->flg_show_commentary){ ?>
+                <div style="clear:both;"></div>
                 <div>
                     <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
-                    <div>
+                    <div class="zef_commentary">
                         <select name="d" id="commentary" class="inputbox" onchange="this.form.submit()">
                             <?php echo $this->obj_commentary_dropdown;?>
                          </select>
