@@ -98,7 +98,8 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 
 		// Toolbar
 		jimport('joomla.html.toolbar');
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar'); 
+		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_COMMENTARY'), 'http://www.zefaniabible.com/download/viewcategory/3-commentaries.html');
 		if (!$isNew && ($access->get('core.delete') || $zefaniacommentitems->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
 		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
