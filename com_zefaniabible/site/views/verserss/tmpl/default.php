@@ -79,7 +79,7 @@ class ClsVerseRSS
 			echo '		<guid>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;a='.$str_bible_Version.'&amp;b=0&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
 			echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;		
 			echo '		<description>'.PHP_EOL;	
-			echo '			'.$str_verse.PHP_EOL;	
+			echo '			'.strip_tags($str_verse).PHP_EOL;	
 			echo '		</description>'.PHP_EOL;
 			echo '	</item>'.PHP_EOL;			
 			echo '</channel>'.PHP_EOL;

@@ -181,7 +181,7 @@ class BibleReadingPlan
 					$arr_verse[$x] = '';					
 				}
 				
-				$arr_verse[$x] = $arr_verse[$x]. '			'.$plan->verse.PHP_EOL;	
+				$arr_verse[$x] = $arr_verse[$x]. '			'.strip_tags($plan->verse).PHP_EOL;	
 			}		
 		}
 		$z = 1;
@@ -243,7 +243,7 @@ class BibleReadingPlan
 					echo '		<description>'.PHP_EOL;
 					$y++;
 				}
-				echo "		 ".$plan->verse. PHP_EOL;
+				echo "		 ".strip_tags($plan->verse). PHP_EOL;
 				$x++;
 			}
 			echo '		</description>'.PHP_EOL.'	</item>'.PHP_EOL;
@@ -289,7 +289,7 @@ class BibleReadingPlan
 					$chap = $plan->chapter_id;
 					$str_title = $str_title. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id. ", ";
 				}
-				$str_desc = $str_desc. "		 ".$plan->verse. PHP_EOL;
+				$str_desc = $str_desc. "		 ".strip_tags($plan->verse). PHP_EOL;
 				$x++;
 			}
 		}
