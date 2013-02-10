@@ -191,7 +191,7 @@ class BibleCompare {
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$this->doc_page->setMetaData( 'og:type', "article" );	
 		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
-		$this->doc_page->setMetaData( 'og:description', $str_descr );
+		$this->doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}
 	public function fnc_Pagination_Buttons($str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $int_max_chapter, $str_Bible_Version2)

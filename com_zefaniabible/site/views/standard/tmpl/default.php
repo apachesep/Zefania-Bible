@@ -146,7 +146,7 @@ class BibleStandard {
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$this->doc_page->setMetaData( 'og:type', "article" );	
 		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
-		$this->doc_page->setMetaData( 'og:description', $str_descr );
+		$this->doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}
 	
