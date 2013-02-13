@@ -4,7 +4,7 @@ Zefania-Bible
 Zefania Bible is a XML file reader program that reads XML files entering them into database, and then displaying it on a site.
 Zefania Bible can display over 140 versions of bibles.
 There is also an ability to add an audio player to play bible mp3 files.
-Available Joomla Languages in include English, Russian, German, Czech, Chinease
+Available Joomla Languages in include English, Russian, German, Czech, Chinese
 
 Modules
 Bible Reading plan module allows for easy quick glance of today's reading, with a link to today's reading. Verse of the Day module displays today's verse of day scripture. Scripture list can be managed using backend access.
