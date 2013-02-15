@@ -655,8 +655,8 @@ window.addEvent('domready', function()
 		{
 			if (show)
 				el.show();
-			else
-				el.hide();
+			//else
+				//el.hide();
 		}
 		else
 		{
