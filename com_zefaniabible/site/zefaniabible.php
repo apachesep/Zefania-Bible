@@ -116,12 +116,7 @@ if ($controllerName)
 $controllerName = 'ZefaniabibleController'.$controllerName;
 
 
-// Create the controller
-$controller = new $controllerName();
 
-// Perform the Request task
-$controller->execute( JRequest::getCmd('task') );
-
-// Redirect if set by the controller
+$controller	= JControllerLegacy::getInstance('Zefaniabible');
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
-
