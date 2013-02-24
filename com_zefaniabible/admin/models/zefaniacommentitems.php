@@ -162,6 +162,12 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 		$str_subfolder_commentary = substr_replace(str_replace(basename($str_subfolder_commentary),'',$str_subfolder_commentary),'',0,1);
 		$str_commentary_path 		= JURI::root().$str_path_commentary_folder.$str_subfolder_commentary;
 		
+		// check if file exists
+		if(!get_headers($str_commentary_path))
+		{
+			JError::raiseWarning('',str_replace('%s',$str_commentary_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
+		}
+				
 		$arr_xml_main_commentary 	= simplexml_load_file(substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url);
 		$int_bible_book_id = 1;
 		$x = 1;
@@ -194,7 +200,7 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 		}
 		if($x == 1)
 		{
-			$this->fnc_insert_commentary_verses($int_max_ids,1,1,1,'');
+			$this->fnc_insert_commentary_verses($int_max_ids,1,1,1,'Failed to load commentary');
 		}	
 		return $x;
 	}

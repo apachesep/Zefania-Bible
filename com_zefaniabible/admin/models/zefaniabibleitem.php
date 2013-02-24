@@ -99,7 +99,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-
+		
 		if ($filter_publish = $app->getUserState($this->context.'.filter.publish'))
 			$this->setState('filter.publish', $filter_publish, null, 'cmd');
 
@@ -127,6 +127,13 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
+
+		// check if file exists
+		if(!get_headers($str_xml_bibles_path))
+		{
+			JError::raiseWarning('',str_replace('%s',$str_xml_bibles_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
+		}
+		
 		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
 		try
 		{
@@ -149,7 +156,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			}
 			if($x ==1)
 			{
-				$this->fnc_Update_Bible_Verses($int_max_ids,1,1,1 ,'');
+				$this->fnc_Update_Bible_Verses($int_max_ids,1,1,1 ,'Failed to load Bible');
 			}
 		}
 		catch (JException $e)
