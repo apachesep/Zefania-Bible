@@ -15,7 +15,9 @@ class com_zefaniabibleInstallerScript
 	function install($parent)
 	{
 		// $parent is the class calling this method
+		JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_INSTRUCTIONS'));
 		$parent->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
+		
 	}
 
 	/**
@@ -37,7 +39,7 @@ class com_zefaniabibleInstallerScript
 	function update($parent)
 	{
 		//TODO : WRITE HERE YOUR CODE
-		echo '';
+		JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_INSTRUCTIONS'));
 	}
 
 	/**
