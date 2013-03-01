@@ -72,8 +72,8 @@ class plgSystemZefaniaEmail extends JPlugin
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$config =& JFactory::getConfig();
 		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->str_from_email 				= $config->getValue( 'config.mailfrom' );
-    	$this->str_from_email_name			= $config->getValue( 'config.fromname' );
+		$this->str_from_email 				= $config->get( 'config.mailfrom' );
+    	$this->str_from_email_name			= $config->get( 'config.fromname' );
 		$this->arr_verse_start_date 		= $this->params->get('verse_of_day_start_date', '2012-01-01');
 		$this->str_Bible_Path 				= $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		
