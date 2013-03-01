@@ -65,8 +65,8 @@ class BibleUnsubscribe
 		$this->str_catcha_color = $this->params->get('catcha_color', 'red');
 		
 		$config =& JFactory::getConfig();
-		$this->str_from_email 		= $config->getValue( 'config.mailfrom' );
-    	$this->str_from_email_name	= $config->getValue( 'config.fromname' );	
+		$this->str_from_email 		= $config->get( 'config.mailfrom' );
+    	$this->str_from_email_name	= $config->get( 'config.fromname' );	
 		
 		$this->str_user_name = $user->name;
 		$this->str_user_id = $user->id;
