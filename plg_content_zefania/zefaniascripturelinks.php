@@ -160,8 +160,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$arr_scripture = explode("-",$arr_scripture[1]);	
 				$str_begin_verse = $arr_scripture[0];
 				$str_end_chap = $arr_scripture[1];						
-			}
-			// Genesis 1:1-3 or Genesis 1:1
+			}			
+			// Genesis 1:1-3
 			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}):(\d{1,3})-?(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
 				$str_proper_name = $arr_look_up_orig[0];
@@ -170,27 +170,21 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_Bible_book_name = $arr_Bible_book_name[0];	
 				$arr_scripture = explode(":",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
 				$str_begin_chap = $arr_scripture[0];
-				if(preg_match('/-/',$arr_scripture[1]))
-				{
-					$arr_scripture = explode("-",$arr_scripture[1]);
-					$str_begin_verse = $arr_scripture[0];
-					$str_end_verse = $arr_scripture[1];
-				}
-				else
-				{
-					$str_begin_verse = $arr_scripture[1];
-				}
+				$arr_scripture = explode("-",$arr_scripture[1]);
+				$str_begin_verse = $arr_scripture[0];
+				$str_end_verse = $arr_scripture[1];
 			}
-			// Genesis 1
-			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}))/siU', mb_strtolower($str_scripture,'UTF-8')))
+			//Genesis 8:36
+			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}):(\d{1,3}))/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
 				$str_proper_name = $arr_look_up_orig[0];
 				$str_Bible_book_id = $z;
 				$arr_Bible_book_name = explode("|",$arr_look_up[$z]);
 				$str_Bible_book_name = $arr_Bible_book_name[0];	
-				$arr_scripture = explode("-",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
+				$arr_scripture = explode(":",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
 				$str_begin_chap = $arr_scripture[0];
-			}			
+				$str_begin_verse = $arr_scripture[1];
+			}						
 			// Genesis 1-2
 			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3})-?(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
@@ -201,8 +195,18 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$arr_scripture = explode("-",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
 				$str_begin_chap = $arr_scripture[0];
 				$str_end_chap = $arr_scripture[1];
-				echo $str_scripture."<br>";
-			}
+			}			
+			// Genesis 1
+			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}))/siU', mb_strtolower($str_scripture,'UTF-8')))
+			{
+				$str_proper_name = $arr_look_up_orig[0];
+				$str_Bible_book_id = $z;
+				$arr_Bible_book_name = explode("|",$arr_look_up[$z]);
+				$str_Bible_book_name = $arr_Bible_book_name[0];	
+				$arr_scripture = explode("-",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
+				$str_begin_chap = $arr_scripture[0];
+			}			
+			
 		}
 		
 		if(trim($arr_matches[1]))
