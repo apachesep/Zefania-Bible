@@ -71,35 +71,15 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			'hideDelay'=>'5000'
 			);						
 		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
-				
-		// {zefaniabible text}##{/zefaniabible}
-		$str_match_fuction = "#{zefaniabible\stext*(.*?)}(.*?){/zefaniabible}#";
-		$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'), $row->text );
-		
-		//{zefaniabible label=''}##{/zefaniabible}
-		$str_match_fuction = "#{zefaniabible\slabel=*(.*?)}(.*?){/zefaniabible}#";
-		$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'), $row->text );
-		
-		//{zefaniabible tooltip}##{/zefaniabible}
-		$str_match_fuction = "#{zefaniabible\stooltip=*(.*?)}(.*?){/zefaniabible}#";
-		$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'), $row->text );
-				
-		if($this->flg_auto_replace)
+								
+		$str_Bible_books = "";
+		for($z = 1; $z <= 66; $z ++)
 		{
-			$str_Bible_books = "";
-			for($z = 1; $z <= 66; $z ++)
-			{
-				$str_Bible_books = $str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
-			}
-			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
-			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
-			
+			$str_Bible_books = $str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
 		}
-		else
-		{
-			$str_match_fuction = "#{zefaniabible\s*(.*?)}(.*?){/zefaniabible}#";		
-			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'), $row->text );			
-		}
+		$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
+		$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
+		
       	return true;
 	}
 
@@ -125,16 +105,32 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		// text into page flag
 		if(preg_match('#{zefaniabible text(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
+			$str_match_fuction = "#{/zefaniabible}#";
+			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
+			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));	
+			$str_scripture = $arr_matches[0];
+			$arr_matches[1] = preg_replace( '#text#', '', $arr_matches[2] );
 			$flg_insert_text = 1;
 		}
 		// label flag
 		else if(preg_match('#{zefaniabible\slabel=*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
+			$str_match_fuction = "#{/zefaniabible}#";
+			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
+			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));	
+			$str_scripture = $arr_matches[0];	
+			$arr_matches[1] = preg_replace( "#}#", '', $arr_matches[2] );
 			$flg_insert_label = 1;
 		}
 		// mouseover tooltip flag
 		else if(preg_match('#{zefaniabible\stooltip*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
+			$str_match_fuction = "#{/zefaniabible}#";
+			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
+			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));
+			$str_scripture = $arr_matches[0];
+			$arr_matches[1] = preg_replace( '#tooltip#', '', $arr_matches[2] );
+									
 			$flg_insert_tooltip = 1;
 		}
 		// zefania bible regular flag
@@ -151,7 +147,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$str_scripture = $arr_matches[0];
 		}
-		
+
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$arr_look_up[$z] = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
@@ -215,9 +211,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$arr_scripture = explode("-",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
 				$str_begin_chap = $arr_scripture[0];
 			}
-
 		}	
-
+		
 		if(trim($arr_matches[1]))
 		{
 			$str_alias = trim($arr_matches[1]);
@@ -226,7 +221,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		else
 		{
 			$str_alias = $str_Bible_alias;
-		} 
+		}
+				
 		$arr_verses = $this->fnc_Find_Bible_Passage($str_alias, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse);
 		if($flg_insert_text)
 		{
@@ -235,7 +231,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		else if($flg_insert_tooltip)
 		{
 			$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );
-			$str_scripture = JHTML::tooltip($str_scripture,'', '', $arr_matches[2], '', false,'hasTip-zefania');	
+			$str_scripture = JHTML::tooltip($str_scripture,'', '', $arr_matches[0], '', false,'hasTip-zefania');	
 		}
 		else if($flg_insert_label)
 		{
