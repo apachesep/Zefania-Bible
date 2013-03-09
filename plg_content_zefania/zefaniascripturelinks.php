@@ -87,15 +87,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		if($this->flg_auto_replace)
 		{
 			$str_Bible_books = "";
-			$str_match_fuction = "#{/zefaniabible}#";
-			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
-			$row->text = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $row->text ));
 			for($z = 1; $z <= 66; $z ++)
 			{
 				$str_Bible_books = $str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
 			}
-			
-			$str_match_fuction = '/(?=\S)(('.$str_Bible_books.')[\.]?[\s]?(\d{1,3})[:]?(\d{1,3})?[-]?(\d{1,3})?[:]?(\d{1,3})?)/siu';
+			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
 			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
 			
 		}
@@ -141,12 +137,25 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$flg_insert_tooltip = 1;
 		}
-				
+		// zefania bible regular flag
+		else if(preg_match('#{zefaniabible*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
+		{
+			$str_match_fuction = "#{/zefaniabible}#";
+			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
+			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));
+			$arr_matches[1] = $str_Bible_alias;
+			$str_scripture = $arr_matches[0];
+		}
+		// auto replace function
+		else if($arr_matches[2] == '')
+		{
+			$str_scripture = $arr_matches[0];
+		}
+		
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$arr_look_up[$z] = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
 			$arr_look_up_orig = explode('|',JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z));
-			
 			// Genesis 1:28-2:3
 			if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}):(\d{1,3})-(\d{1,3}):(\d{1,3}))/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
@@ -159,10 +168,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_end_verse = $arr_scripture[2];
 				$arr_scripture = explode("-",$arr_scripture[1]);	
 				$str_begin_verse = $arr_scripture[0];
-				$str_end_chap = $arr_scripture[1];						
+				$str_end_chap = $arr_scripture[1];					
 			}			
 			// Genesis 1:1-3
-			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}):(\d{1,3})-?(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
+			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3}):(\d{1,3})-(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
 				$str_proper_name = $arr_look_up_orig[0];
 				$str_Bible_book_id = $z;
@@ -186,7 +195,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_begin_verse = $arr_scripture[1];
 			}						
 			// Genesis 1-2
-			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3})-?(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
+			else if(preg_match('/(?=\S)((^'.$arr_look_up[$z].')[\.]?(\s)?(\d{1,3})-(\d{1,3})?)/siU', mb_strtolower($str_scripture,'UTF-8')))
 			{
 				$str_proper_name = $arr_look_up_orig[0];
 				$str_Bible_book_id = $z;
@@ -205,10 +214,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_Bible_book_name = $arr_Bible_book_name[0];	
 				$arr_scripture = explode("-",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($str_scripture,'UTF-8')));
 				$str_begin_chap = $arr_scripture[0];
-			}			
-			
-		}
-		
+			}
+
+		}	
+
 		if(trim($arr_matches[1]))
 		{
 			$str_alias = trim($arr_matches[1]);
@@ -254,7 +263,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			// 0 = Zefania
 			// 1 = BibleGateway
 		$verse = '';			
-		$str_link = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id)." ".$str_begin_chap; 
+		$str_link = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id)."&nbsp;&nbsp;".$str_begin_chap; 
 		if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
 		{
 			$str_link = $str_link.":".$str_begin_verse;
@@ -287,6 +296,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			{
 				$str_end_verse = 0;
 			}			
+			
 			$temp = 'a='.$str_alias.'&b='.$str_Bible_book_id.'&c='.$str_begin_chap.'&d='.$str_begin_verse.'&e='.$str_end_chap.'&f='.$str_end_verse;
 			$str_pre_link = '<a title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link.'" target="blank" href="index.php?view=scripture&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_modal_box_width.',y:'.$int_modal_box_height.'}}">';
 			if($str_scripture_name)
@@ -322,7 +332,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
 			{
 				$verse = 		'<div class="zef_content_scripture">';
-				$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse;
+				$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$str_begin_chap.':'.$str_begin_verse;
 				if($flg_add_title)
 				{
 					$verse = $verse.' - '.$obj_verses->bible_name;
@@ -336,7 +346,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				if($obj_verses->verse_id == $str_begin_verse)
 				{
 					$verse = $verse.'<div class="zef_content_scripture">';
-					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_verse;
+					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_verse;
 					if($flg_add_title)
 					{
 						$verse = $verse.' - '.$obj_verses->bible_name;
@@ -367,7 +377,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				if($obj_verses->verse_id == '1')
 				{
 					$verse = $verse.'<div class="zef_content_scripture">';
-					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap;
+					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$str_begin_chap;
 					if($flg_add_title)
 					{
 						$verse = $verse.' - '.$obj_verses->bible_name;
@@ -398,7 +408,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				if(($obj_verses->verse_id == '1')and($str_begin_chap == $obj_verses->chapter_id))
 				{
 					$verse = $verse.'<div class="zef_content_scripture">';
-					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.'-'.$str_end_chap;
+					$verse = $verse.	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$str_begin_chap.'-'.$str_end_chap;
 					if($flg_add_title)
 					{
 						$verse = $verse.' - '.$obj_verses->bible_name;
@@ -407,7 +417,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				}		
 				if(($obj_verses->verse_id == '1')and($str_begin_chap != $obj_verses->chapter_id))
 				{
-					$verse = $verse. '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$obj_verses->chapter_id.'</div>';
+					$verse = $verse. '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$obj_verses->chapter_id.'</div>';
 				}
 				if ($x % 2 )
 				{
@@ -432,7 +442,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			{
 				if(($obj_verses->verse_id == $str_begin_verse)and($str_begin_chap == $obj_verses->chapter_id))
 				{
-					$title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_chap.':'.$str_end_verse;
+					$title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_chap.':'.$str_end_verse;
 					if($flg_add_title)
 					{
 						$title = $title.' - '.$obj_verses->bible_name;
@@ -443,7 +453,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				}
 				if(($obj_verses->verse_id == '1')and($str_begin_chap != $obj_verses->chapter_id))
 				{
-					$verse = $verse. '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$obj_verses->chapter_id.'</div>';
+					$verse = $verse. '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).'&nbsp;&nbsp;'.$obj_verses->chapter_id.'</div>';
 				}							
 				if ($x % 2 )
 				{
