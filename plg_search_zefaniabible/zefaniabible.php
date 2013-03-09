@@ -97,6 +97,10 @@ class plgSearchZefaniaBible extends JPlugin
 			$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
 			$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 			$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
+
+			$flg_search_one_bible = $this->params->get('flg_search_one_bible', '0');
+			$params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
+			$str_primary_bible = $params_zefania_comp->get('primaryBible', 'kjv');
 			
 			$flg_search_by_scripture = 0;
 			$arr_result[0]->href = "";
@@ -125,22 +129,35 @@ class plgSearchZefaniaBible extends JPlugin
 			
 			if($flg_search_by_scripture == 0)
 			{
+				
 				$db		= JFactory::getDbo();
-				$query	= "SELECT * FROM `#__zefaniabible_bible_text` AS a".
-				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
-				" WHERE a.verse LIKE '%".$text."%'".
-				" ORDER BY a.book_id, a.chapter_id, a.verse_id ";  
+				$query  = $db->getQuery(true);
+				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name, b.alias');
+				$query->from('`#__zefaniabible_bible_text` AS a');	
+				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+				$query->where("a.verse LIKE '%".$text."%'");
+				$query->order('b.bible_name, a.book_id, a.chapter_id, a.verse_id');		
+				if($flg_search_one_bible)
+				{
+					$query->where("b.alias='".$str_primary_bible."'");
+				}
+				
 				$db->setQuery($query);
 				$data = $db->loadObjectList();	
 			}
 			else
 			{
 				$db		= JFactory::getDbo();
-				$query	= "SELECT * FROM `#__zefaniabible_bible_text` AS a".
-				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
-				" WHERE a.book_id='".(int)$arr_bible_Book_id."' AND a.chapter_id='".(int)$arr_scripture[0]."' AND a.verse_id='".(int)$arr_scripture[1]."'".
-				" ORDER BY a.book_id, a.chapter_id, a.verse_id ";  
-				
+				$query  = $db->getQuery(true);
+				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name, b.alias');
+				$query->from('`#__zefaniabible_bible_text` AS a');	
+				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+				$query->where("a.book_id='".(int)$arr_bible_Book_id."' AND a.chapter_id='".(int)$arr_scripture[0]."' AND a.verse_id='".(int)$arr_scripture[1]."'");
+				$query->order('b.bible_name, a.book_id, a.chapter_id, a.verse_id');		
+				if($flg_search_one_bible)
+				{
+					$query->where("b.alias='".$str_primary_bible."'");
+				}
 				$db->setQuery($query);
 				$data = $db->loadObjectList();					
 			}
