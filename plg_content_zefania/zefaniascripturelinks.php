@@ -77,9 +77,17 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$str_Bible_books = $str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
 		}
-		$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
-		$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
 		
+		if($this->flg_auto_replace)
+		{			
+			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
+			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
+		}
+		else
+		{
+			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})/iu";
+			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);				
+		}
       	return true;
 	}
 
