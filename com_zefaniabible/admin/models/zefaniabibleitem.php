@@ -137,6 +137,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
 		try
 		{
+			$t = 0;
 			foreach($arr_xml_bible->BIBLEBOOK as $arr_bible_book)
 			{
 				foreach($arr_bible_book->CHAPTER as $arr_bible_chapter)
@@ -153,6 +154,11 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 							$x++;
 					}
 				}
+				$t++;
+			}
+			if($t > 66)
+			{
+				JError::raiseWarning('',str_replace('%s',$t,JText::_('ZEFANIABIBLE_EXTRA_BOOKS_DETECTED')));
 			}
 			if($x ==1)
 			{
