@@ -296,7 +296,7 @@ window.addEvent('domready', function()
 
 		}
 
-		if (el.hasClass('required') || el.className.test(/validate-[a-zA-Z0-9\_\-]+/))
+		//if (el.hasClass('required') || el.className.test(/validate-[a-zA-Z0-9\_\-]+/))
 			return el;
 
 		return null;
