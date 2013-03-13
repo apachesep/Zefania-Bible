@@ -71,7 +71,6 @@
 	<uninstall>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
-			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
 	<scriptfile>script.php</scriptfile>
