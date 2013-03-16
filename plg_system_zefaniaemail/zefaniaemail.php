@@ -62,6 +62,11 @@ class plgSystemZefaniaEmail extends JPlugin
 	private $arr_plan_info;
 	private $str_book_title;
 	private $str_unsubscribe_message;
+	private $str_verse_of_day_image;
+	private $str_reading_plan_image;
+	private $str_image_verse_of_day;
+	private $str_image_reading_plan;
+	
 	public function  onContentPrepare($context, &$row, &$params, $page = 0)
 	{
 		$document	= JFactory::getDocument();
@@ -72,11 +77,15 @@ class plgSystemZefaniaEmail extends JPlugin
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$config =& JFactory::getConfig();
 		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->str_from_email 				= $config->get( 'config.mailfrom' );
-    	$this->str_from_email_name			= $config->get( 'config.fromname' );
+		$this->str_from_email 				= $config->getValue( 'config.mailfrom' );
+    	$this->str_from_email_name			= $config->getValue( 'config.fromname' );
 		$this->arr_verse_start_date 		= $this->params->get('verse_of_day_start_date', '2012-01-01');
 		$this->str_Bible_Path 				= $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-		
+		$this->str_image_verse_of_day		= $this->params->get('verse_of_day_image');
+		$this->str_image_reading_plan 		= $this->params->get('reading_plan_image');
+		$this->str_verse_of_day_image 		= JRoute::_(JUri::base().'images/'.$this->str_image_verse_of_day);
+		$this->str_reading_plan_image 		= JRoute::_(JUri::base().'images/'.$this->str_image_reading_plan);
+				  
 		$this->str_reading_send_date		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_READING_PLAN_EMAIL');
 		$this->str_verse_send_date 			= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL');
 		$this->str_facebook_send_date 		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_FACEBOOK');
@@ -208,6 +217,10 @@ class plgSystemZefaniaEmail extends JPlugin
 			$book = 0;
 			$chap = 0;
 			$y = 1;
+			if($this->str_image_reading_plan)
+			{
+				$str_message = $str_message. '<table><img src="'.$this->str_reading_plan_image.'" border="0" /></table>';
+			}
 			foreach($arr_data as $reading)
 			{
 				foreach($reading as $plan)
@@ -282,7 +295,10 @@ class plgSystemZefaniaEmail extends JPlugin
 				$query = $query. " AND a.bible_id=".$int_id;
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
-			
+			if($this->str_image_verse_of_day)
+			{
+				$str_verse = $str_verse . '<table><img src="'.$this->str_verse_of_day_image.'" border="0" /></table>';			
+			}
 			if($this->arr_verse_info['end_verse'] == 0)
 			{
 				$this->str_verse_name = JText::_('PLG_ZEFANIABIBLE_BIBLE_EMAIL_SUBJECT')." - ".$this->str_book_title." - ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ". $this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse'];

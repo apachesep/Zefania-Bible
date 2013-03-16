@@ -22,7 +22,9 @@
 					description="PLG_ZEFANIABIBLE_READING_START_DATE_DESC" 
 					default="2012-1-1"
 					format="%Y-%m-%d"
-				/>		
+				/>
+				<field name="verse_of_day_image" type="imagelist" default="" label="PLG_ZEFANIABIBLE_VERSE_OF_DAY_IMAGE" description="PLG_ZEFANIABIBLE_VERSE_OF_DAY_IMAGE_DESC" directory="images" exclude="" stripext="" />
+				<field name="reading_plan_image" type="imagelist" default="" label="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE" description="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE_DESC" directory="images" exclude="" stripext="" />				
 			</fieldset>
 		</fields>
 	</config>	
