@@ -51,69 +51,10 @@ if (defined('JDEBUG') && count($_POST))
 
 $view = JRequest::getCmd( 'view');
 
-switch ($view)
-{
-		case 'commentary' :
-		case 'commentaryitem' :
-			$controllerName = "commentary";
-			break;
-		case 'compare' :
-		case 'compareitem' :
-			$controllerName = "compare";			
-			break;
-		case 'reading' :
-		case 'readingitem' :
-			$controllerName = "reading";	
-		case 'readingrss' :
-		case 'readingrssitem' :
-			$controllerName = "readingrss";						
-			break;
-		case 'verserss' :
-		case 'verserssitem' :
-			$controllerName = "verserss";						
-			break;			
-		case 'plan' :
-		case 'planitem' :
-			$controllerName = "plan";			
-			break;		
-		case 'player' :
-		case 'playeritem' :
-			$controllerName = "player";			
-			break;
-		case 'scripture' :
-		case 'scriptureitem' :
-			$controllerName = "scripture";			
-			break;
-		case 'standard' :
-		case 'standarditem' :
-			$controllerName = "standard";			
-			break;									
-		case 'subscribe' :
-		case 'subscribeitem' :
-			$controllerName = "subscribe";			
-			break;
-		case 'unsubscribe' :
-		case 'unsubscribeitem' :
-			$controllerName = "unsubscribe";			
-			break;
-		case 'verseofday' :
-		case 'verseofdayitem' :
-			$controllerName = "verseofday";			
-			break;								
-		default:
-			$view = 'standard';
-			$layout = 'default';
-			JRequest::setVar( 'view', $view);
-			JRequest::setVar( 'layout', $layout);
-			$controllerName = "standard";
-			break;
-}
+
 
 require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jcontroller.php');
-if ($controllerName)
-	require_once( JPATH_SITE_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controllerName.'.php' );
 
-$controllerName = 'ZefaniabibleController'.$controllerName;
 
 
 
