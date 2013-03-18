@@ -80,7 +80,7 @@ zef_email_button/**                               ______________________________
 .zef_verse
 {
 	float:left;
-	max-width:95%;
+	max-width:90%;
 	width:auto;
 }
 .zef_verse_number
@@ -166,7 +166,7 @@ zef_email_button/**                               ______________________________
 	font-weight:bold;
 	font-size:24px;
 }
-.zef_commentary_hash
+.zef_commentary_hash, .zef_reference_hash
 {
 	float:right;	
 }
@@ -179,4 +179,13 @@ zef_email_button/**                               ______________________________
 {
 	font-weight:bold;
 	font-size:16px;	
+}
+.zef_reference, .zef_content_verse_link
+{
+	float:right;	
+}
+.zef_reference_word
+{
+	font-size:16px;
+	font-weight:bold;	
 }
