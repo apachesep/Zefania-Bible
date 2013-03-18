@@ -91,6 +91,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		
 		$str_primary_bible = $params->get('primaryBible', 'kjv');
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
+		$flg_show_references = $params->get('show_references', '0');
 		
 												  
 		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);			
@@ -101,8 +102,13 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$biblemodel = new ZefaniabibleModelStandard;
 		$arr_Bibles = 		$biblemodel-> _buildQuery_Bibles();
 		$arr_Chapter = 		$biblemodel-> _buildQuery_Chapter($str_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter);
+		$arr_References = 	$biblemodel-> _buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter);
 		$int_max_chapter = 	$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
 		$int_max_verse = 	$biblemodel-> _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter);
+		if($flg_show_references)
+		{
+			$obj_references = $biblemodel->_buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter);
+		}
 		
 		if($flg_show_audio_player)
 		{
@@ -153,8 +159,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$this->assignRef('obj_player',			$obj_player_one);
 		$this->assignRef('config',				$config);
 		$this->assignRef('arr_commentary',		$arr_commentary);
-		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
-		
+		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);	
+		$this->assignRef('obj_references',		$obj_references);	
 		parent::display($tpl);
 	}
 }
