@@ -109,6 +109,26 @@ class ZefaniabibleModelCompare extends ZefaniabibleModelList
 		}
 		return $data;			
 	}
+	function _buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('a.verse_id');
+			$query->from('`#__zefaniabible_crossref` AS a');	
+			$query->where("a.book_id=".$int_Bible_Book_ID);
+			$query->where("a.chapter_id=".$int_Bible_Chapter);
+			$query->order('a.verse_id, a.sort_order');		
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}
 	function _buildQuery_Max_Chapter($int_Bible_Book_ID)
 	{
 		try 
