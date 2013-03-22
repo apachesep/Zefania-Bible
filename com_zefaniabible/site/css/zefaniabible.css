@@ -90,13 +90,14 @@ zef_email_button/**                               ______________________________
 	margin-left:3px;
 	width:2%;
 }
-.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book,.zef_commentary_title
+.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book
 {
 	text-align:center;
 	line-height:40px;
 	font-size:xx-large;	
 	font-weight:bolder;
 }
+
 .zef_bible_Header_Label_Plan
 {
 	border-top:none;
@@ -188,4 +189,10 @@ zef_email_button/**                               ______________________________
 {
 	font-size:16px;
 	font-weight:bold;	
+}
+.zef_commentary_title, .zef_reference_title 
+{
+	font-size:24px;
+	font-weight:bold;
+	text-align:center;
 }
