@@ -87,6 +87,22 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
+		<field name="flg_reference_words"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_REFERENCE_WORD"
+			description="COM_ZEFANIABIBLE_REFERENCE_WORD_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		<field name="flg_reference_chapter_link"
+			type="list"
+			default="1"
+			label="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK"
+			description="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>		
 	</fieldset>
 
 	<fieldset name="commentary"
