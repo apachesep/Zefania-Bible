@@ -95,6 +95,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$str_secondary_bible = $params->get('secondaryBible', 'kjv');
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
 		$flg_show_second_player = $params->get('show_second_player','1');
+		$flg_show_references = $params->get('show_references', '0');
 		
 		$str_Main_Bible_Version = JRequest::getCmd('a',$str_primary_bible);
 		$str_Second_Bible_Version = JRequest::getCmd('b',$str_secondary_bible);	
@@ -108,6 +109,11 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$arr_Chapter2		= 		$biblemodel-> _buildQuery_Chapter($str_Second_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter);
 		$int_max_chapter 	= 		$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
 		$int_max_verse 		= 		$biblemodel-> _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter);
+		
+		if($flg_show_references)
+		{
+			$obj_references = $biblemodel->_buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter);
+		}
 		
 		if($flg_show_audio_player)
 		{
@@ -163,7 +169,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$this->assignRef('config',				$config);
 		$this->assignRef('arr_commentary',		$arr_commentary);
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
-		
+		$this->assignRef('obj_references',		$obj_references);
 		parent::display($tpl);
 	}
 }

@@ -89,6 +89,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
 
+		$flg_reference_words = $params->get('flg_reference_words', '1');
+		$flg_reference_chapter_link = $params->get('flg_reference_chapter_link', '1');
 		
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		require_once(JPATH_COMPONENT_SITE.'/models/references.php');
@@ -161,11 +163,14 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$arr_orig_ref[64]='3jo';
 		$arr_orig_ref[65]='jude';
 		$arr_orig_ref[66]='re';	
-
+		echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>";
 		foreach($arr_references as $obj_References)
 		{
 			$arr_single_ref = preg_split('/;/',$obj_References->reference);
-			echo '<div class="zef_reference_word">'.$obj_References->word.'</div>';
+			if($flg_reference_words)
+			{
+				echo '<div class="zef_reference_word">'.$obj_References->word.'</div>';
+			}
 			foreach($arr_single_ref as $obj_single_ref)
 			{
 				$int_book_id = 1;
@@ -181,57 +186,66 @@ class ZefaniabibleViewReferences extends JViewLegacy
 				$str_bible_single_ref = preg_replace( "/\b(".$arr_orig_ref[$int_book_id].")\b/", $str_bible_book_abr, $obj_single_ref );
 				$arr_bible_chapter = preg_split('/:/', preg_replace( "#".$str_bible_book_abr."(\s)?#", '', $str_bible_single_ref ));
 				$int_bible_chapter = $arr_bible_chapter[0];
-				$arr_bible_verses = preg_split('/\b(,)\b/',$arr_bible_chapter[1]);
+				$arr_bible_verses = preg_split('/,/',$arr_bible_chapter[1]);
+
 				$str_end_chap = 0;
 				$str_end_verse = 0;
 				$str_verse = '';
 				
 				foreach($arr_bible_verses as $obj_bible_verses)
-				{
-					$str_start_verse = $obj_bible_verses;					
+				{			
+
+					
+					if(preg_match('/-/',$obj_bible_verses))
+					{
+						$arr_verses_split = preg_split('/-/',$obj_bible_verses);
+						$str_start_verse = $arr_verses_split[0];
+						$str_end_verse = $arr_verses_split[1];
+					}
+					else
+					{
+						$str_start_verse = $obj_bible_verses;	
+					}				
 					$str_bible_verse_full = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id)." ".$int_bible_chapter.":".$str_start_verse;
 					if($str_end_verse != 0)
 					{
 						$str_bible_verse_full = $str_bible_verse_full.'-'.$str_end_verse;
-					}
-					if(preg_match('/\b(-)\b/',$obj_single_ref))
+					}											
+					$arr_verse = $mdl_references->fnc_make_verse($str_bible_version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse);
+					echo '<div class="zef_content_title">'.$str_bible_verse_full."</div>";
+					$x = 1;
+					foreach ($arr_verse as $obj_verse)
 					{
-						$arr_verses_split = preg_split('/-/',$arr_bible_chapter[1]);
-						$str_start_verse = $arr_verses_split[0];
-						$str_end_verse = $arr_verses_split[1];
+						if ($x % 2 )
+						{
+							echo '<div class="odd">';
+						}
+						else
+						{
+							echo '<div class="even">';
+						}
+						if($str_end_verse != 0)
+						{
+							echo '<div class="zef_content_verse_id" >'.$obj_verse->verse_id.'</div>';
+						}
+						echo '<div class="zef_content_verse">'.$obj_verse->verse."</div>";
+						echo '<div style="clear:both"></div>';
+						echo '</div>';
+						$x++;
+					}				
+					$str_url = "index.php?option=com_zefaniabible&a=".$str_bible_version."&view=standard&b=".
+							$int_book_id."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id,'UTF-8')))."&c=".($int_bible_chapter).
+							"-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
+					if($flg_show_commentary)
+					{
+						$str_url = $str_url. "&d=".$str_primary_commentary;
 					}
+					if($flg_reference_chapter_link)
+					{
+						echo "<div class='zef_content_verse_link'><a title='".JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER')." ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id)." ".$int_bible_chapter."' id='zef_links' href='".JRoute::_($str_url)."' target='_parent'>".JText::_("ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER")."</a></div>";
+					}
+					echo '<div style="clear:both"></div>';					
 				}
-				$arr_verse = $mdl_references->fnc_make_verse($str_bible_version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse);
-				echo '<div class="zef_content_title">'.$str_bible_verse_full."</div>";
-				$x = 1;
-				foreach ($arr_verse as $obj_verse)
-				{
-					if ($x % 2 )
-					{
-						echo '<div class="odd">';
-					}
-					else
-					{
-						echo '<div class="even">';
-					}
-					if($str_end_verse != 0)
-					{
-						echo '<div class="zef_content_verse_id" >'.$obj_verse->verse_id.'</div>';
-					}
-					echo '<div class="zef_content_verse">'.$obj_verse->verse."</div>";
-					echo '<div style="clear:both"></div>';
-					echo '</div>';
-					$x++;
-				}				
-				$str_url = "index.php?option=com_zefaniabible&a=".$str_bible_version."&view=standard&b=".
-						$int_book_id."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id,'UTF-8')))."&c=".($int_bible_chapter).
-						"-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
-				if($flg_show_commentary)
-				{
-					$str_url = $str_url. "&d=".$str_primary_commentary;
-				}
-				echo "<div class='zef_content_verse_link'><a title='".JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER')." ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id)." ".$int_bible_chapter."' id='zef_links' href='".$str_url."' target='_blank'>".JText::_("ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER")."</a></div>";
-				echo '<div style="clear:both"></div>';
 			}
 		}				
 		//Filters

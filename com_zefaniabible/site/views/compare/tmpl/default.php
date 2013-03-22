@@ -28,7 +28,7 @@ $mdl_zef_bible_helper = new ZefaniabibleHelper();
 $mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 JHTML::_('behavior.modal');
-$cls_bibleBook = new BibleCompare($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->str_Bible_Version2, $this->arr_Chapter2, $this->int_Bible_Chapter,$this->arr_commentary); 
+$cls_bibleBook = new BibleCompare($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->str_Bible_Version2, $this->arr_Chapter2, $this->int_Bible_Chapter,$this->arr_commentary, $this->obj_references); 
 
 class BibleCompare {
 	public $obj_Bible_Dropdown;
@@ -49,8 +49,9 @@ class BibleCompare {
 	public $flg_use_bible_selection;
 	public $flg_show_commentary;
 	private $str_commentary;
-			
-	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter,$arr_commentary)
+	public $flg_show_references;
+		
+	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter,$arr_commentary, $arr_references)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->doc_page = JFactory::getDocument();	
@@ -65,7 +66,12 @@ class BibleCompare {
 		$this->int_player_popup_width = $this->params->get('player_popup_width','300');
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
-		
+		$this->flg_show_references = $this->params->get('show_references', '0');
+		$str_primary_commentary = $this->params->get('primaryCommentary');
+		$this->str_commentary = JRequest::getCmd('e',$str_primary_commentary);
+		$int_commentary_width = $this->params->get('commentaryWidth','800');
+		$int_commentary_height = $this->params->get('commentaryHeight','500');
+								
 		$obj_Bible_Dropdown = '';
 		$str_Chapter_Output = '';
 		$obj_Book_Dropdown = '';
@@ -155,18 +161,27 @@ class BibleCompare {
 				else
 				{
 					$this->str_Chapter_Output  = $this->str_Chapter_Output. '<div class="zef_bible_2">'.$temp2[$x].'</div>';
+					if($this->flg_show_references)
+					{
+						foreach($arr_references as $obj_references)
+						{
+							if($obj_references->verse_id == $x)
+							{
+								$temp_link = 'a='.$str_Bible_Version.'&b='.$int_Bible_Book_ID.'&c='.$int_Bible_Chapter.'&d='.$x;
+								$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp_link.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_height.'}}">';
+								$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';	
+								break;
+							}
+						}
+					}				
 					if($this->flg_show_commentary)
 					{
-						$str_primary_commentary = $this->params->get('primaryCommentary');
-						$this->str_commentary = JRequest::getCmd('e',$str_primary_commentary);
-						$int_commentary_width = $this->params->get('commentaryWidth','800');
-						$int_commentary_heigh = $this->params->get('commentaryHeight','500');
 						foreach($arr_commentary as $int_verse_commentary)
 						{
 							if($x == $int_verse_commentary->verse_id)
 							{
 								$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&a=".$this->str_commentary."&b=".$int_Bible_Book_ID."&c=".$int_Bible_Chapter."&d=".$x."&tmpl=component");
-								$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_heigh.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY')."</a></div>";
+								$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
 							}
 						}
 					}						
