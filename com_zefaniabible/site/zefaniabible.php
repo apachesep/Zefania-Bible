@@ -29,34 +29,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 @define('JPATH_ADMIN_ZEFANIABIBLE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_zefaniabible');
 @define('JPATH_SITE_ZEFANIABIBLE', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_zefaniabible');
 
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'helper.php');
-//JHTML::_("behavior.mootools");
+// Include dependancies
+jimport('joomla.application.component.controller');
 JHTML::_('behavior.framework');
-// Set the table directory
-JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . 'tables');
 
+JHTML::stylesheet('components/com_zefaniabible/css/zefaniabible.css');
 // Load languages and merge with fallbacks
 $jlang = JFactory::getLanguage();
 $jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
 $jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
-
-//Document title
-$document	= JFactory::getDocument();
-$document->titlePrefix = "ZefaniaBible - ";
-$document->titleSuffix = "";
-
-if (defined('JDEBUG') && count($_POST))
-	$_SESSION['Zefaniabible']['$_POST'] = $_POST;
-
-
-$view = JRequest::getCmd( 'view');
-
-
-
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jcontroller.php');
-
-
-
 
 $controller	= JControllerLegacy::getInstance('Zefaniabible');
 $controller->execute(JFactory::getApplication()->input->get('task'));
