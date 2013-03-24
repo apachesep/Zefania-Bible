@@ -26,8 +26,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.list.php');
-
+jimport('joomla.application.component.modelitem');
 /**
  * Zefaniabible Component Zefaniabible Model
  *
@@ -35,24 +34,9 @@ require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_S
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleModelStandard extends ZefaniabibleModelList
+class ZefaniabibleModelStandard extends JModelItem
 {
-	var $_name_sing = 'standarditem';
-	/**
-	 * Constructor
-	 *
-	 */
-	function __construct($config = array())
-	{
-		//Define the sortables fields (in lists)
-		if (empty($config['filter_fields'])) {
-			$config['filter_fields'] = array(
 
-			);
-		}
-		parent::__construct($config);
-		$this->_modes = array_merge($this->_modes, array('publish'));
-	}
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
