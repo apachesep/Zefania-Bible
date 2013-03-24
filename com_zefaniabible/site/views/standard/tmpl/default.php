@@ -23,10 +23,8 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php //ZefaniabibleHelper::headerDeclarations();
-$mdl_zef_bible_helper = new ZefaniabibleHelper();
-$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
+jimport( 'joomla.application.application' );
 JHTML::_('behavior.modal');
 $cls_bibleBook = new BibleStandard($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->arr_commentary, $this->obj_references); 
 

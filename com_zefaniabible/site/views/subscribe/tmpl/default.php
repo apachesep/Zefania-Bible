@@ -24,9 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-//ZefaniabibleHelper::headerDeclarations();
-$mdl_zef_bible_helper = new ZefaniabibleHelper();
-$mdl_zef_bible_helper->headerDeclarations();
 jimport( 'joomla.html.html' );
 jimport( 'joomla.error.error' );
 jimport( 'joomla.mail.mail' );

@@ -23,9 +23,6 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php //ZefaniabibleHelper::headerDeclarations();
-$mdl_zef_bible_helper = new ZefaniabibleHelper();
-$mdl_zef_bible_helper->headerDeclarations(); ?>
 <?php 
 $cls_player= new BiblePlayer($this->arr_book_info, $this->int_Bible_Book_ID); 
 

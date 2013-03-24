@@ -1,8 +1,5 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-//ZefaniabibleHelper::headerDeclarations();
-$mdl_zef_bible_helper = new ZefaniabibleHelper();
-$mdl_zef_bible_helper->headerDeclarations();
 JHTML::addIncludePath(JPATH_COMPONENT.'/helpers');
 ?>
 
