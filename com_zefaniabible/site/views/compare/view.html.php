@@ -75,8 +75,6 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$mdl_access = new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
 		$document	= JFactory::getDocument();
 	
 		// menu item overwrites
@@ -84,9 +82,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
-			//$menu = JSite::getMenu();
-			$mdl_menu = new JSite;
-			$menu = $mdl_menu->getMenu();
+			$menu = JSite::getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}

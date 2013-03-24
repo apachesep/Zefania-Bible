@@ -67,8 +67,6 @@ class ZefaniabibleViewVerseofday extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$mdl_access = new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
 		$document	= JFactory::getDocument();
 		require_once(JPATH_COMPONENT_SITE.'/models/verseoftheday.php');
 		$biblemodel = new ZefaniabibleModelVerseoftheday;

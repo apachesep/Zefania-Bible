@@ -71,8 +71,6 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
-		$mdl_access = new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
 		$document	= JFactory::getDocument();
 		
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
