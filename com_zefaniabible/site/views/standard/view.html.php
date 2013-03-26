@@ -81,6 +81,11 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new Exception(implode("\n", $errors));
+        }
+
 		
 		$str_primary_bible = $params->get('primaryBible', 'kjv');
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
