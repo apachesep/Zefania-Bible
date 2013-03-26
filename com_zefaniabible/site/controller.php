@@ -28,6 +28,11 @@ defined('_JEXEC') or die;
 
 class ZefaniabibleController extends JControllerLegacy
 {
+	
+	public function __construct($config = array()) 
+	{
+		parent::__construct($config);
+	}
 	/**
 	 * Method to display a view.
 	 *
@@ -43,8 +48,19 @@ class ZefaniabibleController extends JControllerLegacy
 		$view		= JFactory::getApplication()->input->getCmd('view', 's');
         JFactory::getApplication()->input->set('view', $view);
 		
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+
+		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/helper.php');
+		$str_redirect_url = JRoute::_(JURI::root(true).ZefaniabibleHelper::urlRequest());
+
+		if (!JRequest::getCmd('option',null, 'get'))
+		{
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: '.$str_redirect_url);   			
+		}
 		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING');
 		
-		return parent::display($cachable, $urlparams);
+		parent::display($cachable, $urlparams);
+		return;
 	}
 }
