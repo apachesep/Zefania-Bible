@@ -46,18 +46,29 @@ class ZefaniabibleController extends JControllerLegacy
 	{
 
 		$view		= JFactory::getApplication()->input->getCmd('view', 's');
+		$option		=JFactory::getApplication()->input->getCmd('option', 's');
         JFactory::getApplication()->input->set('view', $view);
-		
+
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 
 		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/helper.php');
 		$str_redirect_url = JRoute::_(JURI::root(true).ZefaniabibleHelper::urlRequest());
+		$jversion = new JVersion();
 
-		if (!JRequest::getCmd('option',null, 'get'))
+		$str_requested_url =  JURI::root(false, JRoute::_(ZefaniabibleHelper::urlRequest() ));
+		$str_current_url = JURI::current().'/';
+		// Joomla 3.0 Redirect
+		if (($str_requested_url != $str_current_url)and($jversion->RELEASE >= '3.0'))
 		{
 			header('HTTP/1.1 301 Moved Permanently');
 			header('Location: '.$str_redirect_url);   			
 		}
+		// less than 2.5 Redirect
+		elseif((!JRequest::getCmd('option',null, 'get'))and($jversion->RELEASE <= '2.5'))
+		{
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: '.$str_redirect_url);   			
+		}		
 		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING');
 		
 		parent::display($cachable, $urlparams);
