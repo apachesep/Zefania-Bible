@@ -32,7 +32,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Include dependancies
 jimport('joomla.application.component.controller');
 JHTML::_('behavior.framework');
-
+JHTML::_('behavior.modal');
 JHTML::stylesheet('components/com_zefaniabible/css/zefaniabible.css');
 // Load languages and merge with fallbacks
 $jlang = JFactory::getLanguage();
