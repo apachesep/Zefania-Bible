@@ -23,9 +23,6 @@
 */
 
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php 
-JHTML::_('behavior.modal');
-?>
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
 <?php 
 $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $this->reading, $this->readingplans);
