@@ -58,13 +58,13 @@ class ZefaniabibleController extends JControllerLegacy
 		$str_requested_url =  JURI::root(false, JRoute::_(ZefaniabibleHelper::urlRequest() ));
 		$str_current_url = JURI::current().'/';
 		// Joomla 3.0 Redirect
-		if (($str_requested_url != $str_current_url)and($jversion->RELEASE >= '3.0'))
+		if (($str_requested_url != $str_current_url)and($jversion->RELEASE == '3.0'))
 		{
 			header('HTTP/1.1 301 Moved Permanently');
 			header('Location: '.$str_redirect_url);   			
 		}
 		// less than 2.5 Redirect
-		elseif((!JRequest::getCmd('option',null, 'get'))and($jversion->RELEASE <= '2.5'))
+		elseif((!JRequest::getCmd('option',null, 'get'))and($jversion->RELEASE == '2.5'))
 		{
 			header('HTTP/1.1 301 Moved Permanently');
 			header('Location: '.$str_redirect_url);   			
