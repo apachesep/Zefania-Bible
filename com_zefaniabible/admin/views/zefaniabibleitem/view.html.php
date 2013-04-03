@@ -112,7 +112,22 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 
 		JRequest::setVar( 'hidemainmenu', true );
 
-
+		if(ini_get('max_execution_time') < 30)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_EXECUTION_TIME'));
+		}
+		if(!ini_get('allow_url_fopen'))
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_FOPEN'));
+		}
+		if((substr(ini_get('upload_max_filesize'),0,-1))<10)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_FILE_SIZE'));		
+		}
+		if((substr(ini_get('post_max_size'),0,-1))<10)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_POST_SIZE'));		
+		}
 
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );

@@ -127,7 +127,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
-
+		
 		// check if file exists
 		if(!get_headers($str_xml_bibles_path))
 		{
