@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Script file of Zefaniabible component
  */
-class com_zefaniabibleInstallerScript
+class Com_ZefaniabibleInstallerScript
 {
 	/**
 	 * method to install the component
@@ -39,7 +39,6 @@ class com_zefaniabibleInstallerScript
 	function update($parent)
 	{
 		//TODO : WRITE HERE YOUR CODE
-		JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_INSTRUCTIONS'));
 	}
 
 	/**
@@ -52,7 +51,28 @@ class com_zefaniabibleInstallerScript
 		// $type is the type of change (install, update or discover_install)
 
 		//TODO : WRITE HERE YOUR CODE
-		echo '';
+		echo 'hello'.JText::_('ZEFANIABIBLE_INSTALL_MAX_EXECUTION_TIME');
+		if(ini_get('max_execution_time') < 30)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_EXECUTION_TIME'));
+			return false;
+		}
+		if(!ini_get('allow_url_fopen'))
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_FOPEN'));
+			return false;
+		}
+		if((substr(ini_get('upload_max_filesize'),0,-1))<10)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_FILE_SIZE'));
+			return false;			
+		}
+		if((substr(ini_get('post_max_size'),0,-1))<10)
+		{
+			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_POST_SIZE'));
+			return false;			
+		}
+		JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_INSTRUCTIONS'));	
 	}
 
 	/**
