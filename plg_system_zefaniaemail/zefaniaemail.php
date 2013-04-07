@@ -88,7 +88,6 @@ class plgSystemZefaniaEmail extends JPlugin
 				  
 		$this->str_reading_send_date		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_READING_PLAN_EMAIL');
 		$this->str_verse_send_date 			= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL');
-		$this->str_facebook_send_date 		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_FACEBOOK');
 		
 		$link = '<a href="'.JRoute::_(JUri::base().'index.php?view=unsubscribe&option=com_zefaniabible').'" target="blank">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_WORD').'</a>';
 		$this->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
