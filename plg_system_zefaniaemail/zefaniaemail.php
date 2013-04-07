@@ -91,7 +91,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		
 		$link = '<a href="'.JRoute::_(JUri::base().'index.php?view=unsubscribe&option=com_zefaniabible').'" target="blank">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_WORD').'</a>';
 		$this->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
-	
+		
+		// time zone offset.
+		date_default_timezone_set($config->getValue('config.offset'));		
+		
 		if($this->str_reading_send_date != date("Y-m-d"))
 		{
 			$this->arr_reading_subscribers = $this->fnc_get_subsribers_reading();
