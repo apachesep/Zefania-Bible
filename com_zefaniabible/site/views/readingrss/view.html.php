@@ -74,12 +74,22 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_reading = 		$this->params->get('primaryReading', 'ttb');
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');		
+		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
+		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
+			
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);	
+		// time zone offset.
+		$config =& JFactory::getConfig();
+		date_default_timezone_set($config->getValue('config.offset'));	
+		$arr_start_date = new DateTime($str_start_reading_date);	
+		$arr_today = new DateTime(date('Y-m-d'));		
+		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
+		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
+		
 		$int_feed_type = JRequest::getCmd('d', 0);	
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$str_reading_plan."&b=".$str_bibleVersion.'&d='.$int_feed_type);	
+		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$str_reading_plan."&b=".$str_bibleVersion.'&c='.$int_day_number.'&d='.$int_feed_type);	
 		parent::display($tpl);
 	}
 }
