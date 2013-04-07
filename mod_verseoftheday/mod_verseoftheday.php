@@ -52,19 +52,14 @@ class ZefVerseOfTheDay
 		$this->int_display_order = $params->get('display_order', 0);
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		
-		$this->str_start_date = new DateTime($params->get('start_date'));		
+		$this->str_start_date = new DateTime($params->get('start_date'));	
+		// time zone offset.
+		$config =& JFactory::getConfig();
+		date_default_timezone_set($config->getValue('config.offset'));	
+
 		$this->str_today = new DateTime(date('Y-m-d'));
-		
-		if (version_compare(PHP_VERSION, '5.3.0') >= 0) 
-		{
-			$interval = $this->str_start_date->diff($this->str_today);	
-			$this->int_day_diff = $interval->format('%a');	
-		}
-		else
-		{
-			$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_start_date->format('U')) / (60*60*24));	
-		}
+		$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_start_date->format('U')) / (60*60*24));	
+
 		
 		$this->fnc_Get_Verse_Of_The_Day_Info();
 		if($this->int_display_order == 0)
@@ -79,7 +74,7 @@ class ZefVerseOfTheDay
 		{
 			$this->int_verse_remainder = $this->int_max_verses;
 		}
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->biblePath = $this->params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$this->arr_db_call_info = $this->fnc_Get_Bible_Book_Info();
 		$this->fnc_Get_Bible_Book_XML_File();	

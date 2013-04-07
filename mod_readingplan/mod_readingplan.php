@@ -46,10 +46,15 @@ class zefReadingPlan
 		$this->str_reading_plan = $params->get('reading_plan', 'ttb');
 		$this->str_Bible_alias = $params->get('bibleAlias', 'kjv');
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
+
+		// time zone offset.
+		$config =& JFactory::getConfig();
+		date_default_timezone_set($config->getValue('config.offset'));	
+		
 		$this->str_today = new DateTime(date('Y-m-d'));
 		$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_reading_start_date->format('U')) / (60*60*24));	
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		
+
 		$this->get_max_verses();
 		$this->int_verse_remainder = $this->int_day_diff % $this->int_max_verses;
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
