@@ -55,7 +55,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$str_redirect_url = JRoute::_(JURI::root(true).ZefaniabibleHelper::urlRequest());
 		$jversion = new JVersion();
 
-		$str_requested_url =  JURI::root(false, JRoute::_(ZefaniabibleHelper::urlRequest() ));
+		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_current_url = JURI::current().'/';
 		// Joomla 3.0 Redirect
 		if (($str_requested_url != $str_current_url)and($jversion->RELEASE == '3.0'))
