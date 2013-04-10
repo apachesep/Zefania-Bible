@@ -52,9 +52,9 @@ class ZefaniabibleController extends JControllerLegacy
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 
 		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/helper.php');
-		$str_redirect_url = JRoute::_(JURI::root(true).ZefaniabibleHelper::urlRequest());
+		
 		$jversion = new JVersion();
-
+		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_current_url = JURI::current().'/';
 		// Joomla 3.0 Redirect
