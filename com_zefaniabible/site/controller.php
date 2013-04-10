@@ -60,8 +60,8 @@ class ZefaniabibleController extends JControllerLegacy
 		// Joomla 3.0 Redirect
 		if (($str_requested_url != $str_current_url)and($jversion->RELEASE == '3.0'))
 		{
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.$str_redirect_url);   			
+		//	header('HTTP/1.1 301 Moved Permanently');
+		//header('Location: '.$str_redirect_url);   			
 		}
 		// less than 2.5 Redirect
 		elseif((!JRequest::getCmd('option',null, 'get'))and($jversion->RELEASE == '2.5'))
