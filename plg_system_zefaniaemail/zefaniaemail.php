@@ -97,6 +97,7 @@ class plgSystemZefaniaEmail extends JPlugin
 		
 		if($this->str_reading_send_date != date("Y-m-d"))
 		{
+			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING_PLAN_EMAIL', 2);
 			$this->arr_reading_subscribers = $this->fnc_get_subsribers_reading();
 			foreach($this->arr_reading_subscribers as $arr_subscriber)
 			{
@@ -137,15 +138,14 @@ class plgSystemZefaniaEmail extends JPlugin
 					$this->fnc_Send_SignUp_Email($arr_subscriber->user_name,$arr_subscriber->email,$str_message, $str_subject);
 				}
 			}
-			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING_PLAN_EMAIL', 2);
-			
 		}
 		else if($this->str_verse_send_date != date("Y-m-d"))
 		{
+			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL', 1);
 			$this->arr_verse_subscribers = $this->fnc_get_subsribers_verse();
 			$this->str_verse_start_date = new DateTime($this->arr_verse_start_date);		
 			$this->str_today = new DateTime(date('Y-m-d'));
-					
+			
 			if (version_compare(PHP_VERSION, '5.3.0') >= 0) 
 			{
 				$interval = $this->str_verse_start_date->diff($this->str_today);	
@@ -180,9 +180,7 @@ class plgSystemZefaniaEmail extends JPlugin
 
 					$this->fnc_Send_SignUp_Email($arr_subscriber->user_name,$arr_subscriber->email,$verse, $this->str_verse_name);
 				}
-			}
-			
-			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL', 1);
+			}		
 		}
 	}
 	private function fnc_Build_Bible_reading($arr_reading,$arr_book_info,$str_plan_id)
