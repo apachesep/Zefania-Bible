@@ -64,6 +64,13 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->flg_inpage_scripture = $this->params->get('flg_inpage_scripture', '0');
 		$this->flg_auto_replace = $this->params->get('flg_automatic_scripture_detection', '0');
+
+		$arr_toolTipArray = array('className'=>'zefania-tip', 
+			'fixed'=>true,
+			'showDelay'=>'500',
+			'hideDelay'=>'5000'
+			);						
+		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
 								
 		$str_Bible_books = "";
 		for($z = 1; $z <= 66; $z ++)
