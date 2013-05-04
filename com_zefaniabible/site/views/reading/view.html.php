@@ -95,7 +95,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		
 		// time zone offset.
 		$config =& JFactory::getConfig();
-		date_default_timezone_set($config->getValue('config.offset'));		
+		date_default_timezone_set($config->get('offset'));		
 		
 		$arr_start_date = new DateTime($str_start_reading_date);	
 		$arr_today = new DateTime(date('Y-m-d'));

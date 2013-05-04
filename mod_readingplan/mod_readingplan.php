@@ -49,7 +49,7 @@ class zefReadingPlan
 
 		// time zone offset.
 		$config =& JFactory::getConfig();
-		date_default_timezone_set($config->getValue('config.offset'));	
+		date_default_timezone_set($config->get('offset'));		
 		
 		$this->str_today = new DateTime(date('Y-m-d'));
 		$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_reading_start_date->format('U')) / (60*60*24));	
