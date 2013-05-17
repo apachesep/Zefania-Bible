@@ -36,6 +36,8 @@ class zefReadingPlan
 	private $arr_reading_plan;
 	private $cnt_reading_elements;
 	private $str_Bible_alias;
+	public $str_menuItem;
+	
 	public function __construct($params)
 	{
 		/*
@@ -45,6 +47,7 @@ class zefReadingPlan
 		*/
 		$this->str_reading_plan = $params->get('reading_plan', 'ttb');
 		$this->str_Bible_alias = $params->get('bibleAlias', 'kjv');
+		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
 
 		// time zone offset.
@@ -68,7 +71,7 @@ class zefReadingPlan
 		$x = 0;
 		foreach ($this->arr_reading_plan as $arr_reading)
 		{
-			echo '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder).'" target="_self">';
+			echo '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder).'" target="_self">';
 			if(($arr_reading->begin_verse == 0)and($arr_reading->end_verse == 0))
 			{
 				if($arr_reading->begin_chapter == $arr_reading->end_chapter)

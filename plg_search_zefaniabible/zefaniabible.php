@@ -97,7 +97,8 @@ class plgSearchZefaniaBible extends JPlugin
 			$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
 			$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 			$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
-
+			$str_menuItem = $this->params->get('zb_search_mo_menuitem', 0);
+			
 			$flg_search_one_bible = $this->params->get('flg_search_one_bible', '0');
 			$params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
 			$str_primary_bible = $params_zefania_comp->get('primaryBible', 'kjv');
@@ -161,7 +162,7 @@ class plgSearchZefaniaBible extends JPlugin
 				$db->setQuery($query);
 				$data = $db->loadObjectList();					
 			}
-			$arr_result = $this->fnc_make_Search_Query($data);	
+			$arr_result = $this->fnc_make_Search_Query($data,$str_menuItem);	
 			
 			if($arr_result[0]->title != "")
 			{
@@ -169,10 +170,11 @@ class plgSearchZefaniaBible extends JPlugin
 			}
 		}
 	}
-	private function fnc_make_Search_Query($data)
+	private function fnc_make_Search_Query($data,$str_menuItem)
 	{
 		$x = 0;
-		$y = 0;		
+		$y = 0;
+		
 		foreach($data as $datum)
 		{
 			$arr_book_id[$x] = $datum->book_id;
@@ -187,7 +189,7 @@ class plgSearchZefaniaBible extends JPlugin
 		{
 			$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_book_id[$y]));
 			$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
-			$arr_result[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&a=".$arr_bible_alias[$y].
+			$arr_result[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&a=".$arr_bible_alias[$y].
 				"&b=".$arr_book_id[$y]."-".str_replace(" ","-",$str_temp_title).
 				"&c=".$arr_chapter_id[$y].'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8'));
 			$arr_result[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_book_id[$y])." ".$arr_chapter_id[$y].":".$arr_verse_id[$y];
