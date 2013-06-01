@@ -101,16 +101,24 @@ function resetFilters()
                     </select>
                                         
                     <?php
-						$choices = array();
-						$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" ));
-						for($x = 1; $x<= 66; $x++)
-						{
-							$choices[] = array("value" => $x, 'text'=>JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x));
-
-						}
-						?>
+						$params = JComponentHelper::getParams( 'com_zefaniabible' );
+						$int_primary_backend_book = $params->get('primary_book_backend');						
+					?>
                         <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
-	                        <?php echo JHtml::_('select.options', $choices, 'value', 'text', $this->state->get('filter.book_id'));?>						
+							<option value=""><?php echo JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" );?></option>	
+                            <?php 
+								for($x = 1; $x<=66; $x++)
+								{
+									if(($this->state->get('filter.book_id') == $x)or(($int_primary_backend_book == $x)and($this->state->get('filter.book_id') == '')))
+									{
+										echo '<option value="'.$x.'" selected="selected">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+									}
+									else
+									{
+										echo '<option value="'.$x.'">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+									}
+								}
+							?>
 						</select>
                     <?php
 						$arr_bible_chapter = array();

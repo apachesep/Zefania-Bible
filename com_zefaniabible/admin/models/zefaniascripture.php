@@ -250,15 +250,21 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		//$acl = ZefaniabibleHelper::getAcl();
 		$mdl_acl = new ZefaniabibleHelper;
 		$acl = $mdl_acl->getAcl();
-
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$int_primary_backend_book = $params->get('primary_book_backend');
+						
 		if (isset($this->_active['filter']) && $this->_active['filter'])
 		{
 			$filter_bible_name = $this->getState('filter.bible_name');
 			if ($filter_bible_name != '')		$where[] = "_bible_version_.bible_name = " . $db->Quote($filter_bible_name);			
 			
 			$filter_book_id = $this->getState('filter.book_id');
+			if((($int_primary_backend_book != '')or(int_primary_backend_book != 0))and($filter_book_id == ''))
+			{
+				$filter_book_id = $int_primary_backend_book;
+			}
 			if ($filter_book_id != '')		$where[] = "a.book_id = " . $db->Quote($filter_book_id);
-
+			
 			$filter_chapter_id = $this->getState('filter.chapter_id');
 			if ($filter_chapter_id != '')		$where[] = "a.chapter_id = " . $db->Quote($filter_chapter_id);
 			
