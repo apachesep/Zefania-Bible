@@ -93,10 +93,11 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$flg_show_second_player = $params->get('show_second_player','1');
 		$flg_show_references = $params->get('show_references', '0');
 		$flg_show_commentary = $params->get('show_commentary', '0');
-				
+		$int_primary_book_front_end = $params->get('primary_book_frontend');
+		
 		$str_Main_Bible_Version = JRequest::getCmd('a',$str_primary_bible);
 		$str_Second_Bible_Version = JRequest::getCmd('b',$str_secondary_bible);	
-		$int_Bible_Book_ID = JRequest::getInt('c', '1');	
+		$int_Bible_Book_ID = JRequest::getInt('c', $int_primary_book_front_end);	
 		$int_Bible_Chapter = JRequest::getInt('d', '1');	
 	
 		require_once(JPATH_COMPONENT_SITE.'/models/compare.php');

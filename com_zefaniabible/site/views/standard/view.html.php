@@ -91,9 +91,11 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
 		$flg_show_references = $params->get('show_references', '0');
 		$flg_show_commentary = $params->get('show_commentary', '0');
-												  
-		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);			
-		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
+		$int_primary_book_front_end = $params->get('primary_book_frontend');
+								  
+		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);	
+				
+		$int_Bible_Book_ID = JRequest::getInt('b', $int_primary_book_front_end);	
 		$int_Bible_Chapter = JRequest::getInt('c', '1');	
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/standard.php');
