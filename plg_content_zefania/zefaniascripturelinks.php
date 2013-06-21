@@ -26,34 +26,36 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 class plgContentZefaniaScriptureLinks extends JPlugin
 {
-	private $flg_inpage_scripture;
-	private $flg_auto_replace;
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		if(JRequest::getCmd('option') == "com_gcalendar")
-		{
-			return;	
-		}	
-		$document	= JFactory::getDocument();
-		$docType = $document->getType();
-		if($docType != 'html') return; 
-		// exclude component that is broken by this pluin
-	
+		
 		$this->loadLanguage();
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		JHTML::_('behavior.modal');
-
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		if(JRequest::getCmd('option') == "com_gcalendar")
+		
+		// exclude component code here 
+		$params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_component_list = $this->params->get('str_exclude_component', '');
+		if($str_component_list != '')
 		{
-			return;	
-		}			
+			$arr_component_list = explode(',',$str_component_list);
+			foreach($arr_component_list as $str_component)
+			{
+				if(JRequest::getCmd('option') ==  trim(strip_tags($str_component)))
+				{
+					return;	
+				}	
+			}
+		}
+		
+		// Remove tags in XML Files
 		if($docType != 'html')
 		{
 			$str_match_fuction = "#{zefaniabible\s*(.*?)}#";
@@ -61,10 +63,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$row->text = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, ', ', $row->text ));			
 			return; 
 		}	
-		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->flg_inpage_scripture = $this->params->get('flg_inpage_scripture', '0');
-		$this->flg_auto_replace = $this->params->get('flg_automatic_scripture_detection', '0');
-
+		
+		$flg_auto_replace = $this->params->get('flg_automatic_scripture_detection', '0');
 		$arr_toolTipArray = array('className'=>'zefania-tip', 
 			'fixed'=>true,
 			'showDelay'=>'500',
@@ -78,7 +78,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$str_Bible_books = $str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
 		}
 		
-		if($this->flg_auto_replace)
+		if($flg_auto_replace)
 		{			
 			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
 			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
@@ -155,7 +155,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$str_scripture = $arr_matches[0];
 		}
-
+		
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$arr_look_up[$z] = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
@@ -486,33 +486,35 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		try 
 		{
 			$db		= JFactory::getDbo();
-			$query	= "SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a".
-				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
-				" WHERE a.book_id=".(int)$str_Bible_book_id;
-				$query	= $query . " AND b.alias='".trim($str_alias)."'";
+			$data = '';
+			$query  = $db->getQuery(true);
+			$query->select("a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a");
+			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+			$query->where("a.book_id=".(int)$str_Bible_book_id);
+			$query->where("b.alias='".trim($str_alias)."'");
 				// Genesis 1
 				if(($str_begin_chap)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
 				{
-					$query	= $query . " AND a.chapter_id=".(int)$str_begin_chap;
-					$query	= $query . " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+					$query->where("a.chapter_id=".(int)$str_begin_chap);
+					$query->order("a.book_id, a.chapter_id, a.verse_id"); 
 				}
 				// Genesis 1-2
 				else if(($str_begin_chap)and($str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
 				{
-					$query	= $query . " AND a.chapter_id>=".(int)$str_begin_chap." AND a.chapter_id<=".(int)$str_end_chap;
-					$query	= $query . " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+					$query->where("a.chapter_id>=".(int)$str_begin_chap." AND a.chapter_id<=".(int)$str_end_chap);
+					$query->order("a.book_id, a.chapter_id, a.verse_id"); 
 				}
 				// Genesis 1:1
 				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
 				{
-					$query	= $query . " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id=".(int)$str_begin_verse;
-					$query	= $query . " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+					$query->where("a.chapter_id=".(int)$str_begin_chap." AND a.verse_id=".(int)$str_begin_verse);
+					$query->order("a.book_id, a.chapter_id, a.verse_id"); 
 				}
 				// Genesis 1:1-2
 				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and($str_end_verse))
 				{
-					$query	= $query . " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " AND a.verse_id<=".$str_end_verse;
-					$query	= $query . " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+					$query->where("a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " AND a.verse_id<=".$str_end_verse);
+					$query->order("a.book_id, a.chapter_id, a.verse_id"); 
 				}
 				// Genesis 1:2-2:3
 				else if(($str_begin_chap)and($str_end_chap)and($str_begin_verse)and($str_end_verse))
@@ -527,7 +529,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					$query  = $query. " ORDER BY chapter_id, verse_id";
 				}
 				
-				
+
 			$db->setQuery($query);
 			$data = $db->loadObjectList();
 		}
