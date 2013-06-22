@@ -29,40 +29,36 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		
+		// Remove tags in XML Files
+		$document	= JFactory::getDocument();
+		$docType = $document->getType();		
+		if($docType != 'html')
+		{
+			return; 
+		}				
+			
+		$flg_return = $this->fnc_exclude_plugin();
+		if($flg_return)
+		{
+			return;
+		}
 		$this->loadLanguage();
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		JHTML::_('behavior.modal');
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
-		$document	= JFactory::getDocument();
-		$docType = $document->getType();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		
-		// exclude component code here 
-		$params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_component_list = $this->params->get('str_exclude_component', '');
-		if($str_component_list != '')
-		{
-			$arr_component_list = explode(',',$str_component_list);
-			foreach($arr_component_list as $str_component)
-			{
-				if(JRequest::getCmd('option') ==  trim(strip_tags($str_component)))
-				{
-					return;	
-				}	
-			}
-		}
-		
-		// Remove tags in XML Files
+		$document	= JFactory::getDocument();
+		$docType = $document->getType();		
 		if($docType != 'html')
 		{
 			$str_match_fuction = "#{zefaniabible\s*(.*?)}#";
 			$str_match_fuction_v2 = "#{/zefaniabible}#";
 			$row->text = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, ', ', $row->text ));			
 			return; 
-		}	
+		}
 		
 		$flg_auto_replace = $this->params->get('flg_automatic_scripture_detection', '0');
 		$arr_toolTipArray = array('className'=>'zefania-tip', 
@@ -538,6 +534,71 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$this->setError($e);
 		}		
 		return $data;
+	}
+	protected function fnc_exclude_plugin()
+	{
+		
+		$params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_component_list = $this->params->get('str_exclude_component', '');
+		$str_menu_list = $this->params->get('str_exclude_menuitem', '');
+		$str_article_list = $this->params->get('str_exclude_article_id', '');
+		$str_URI_list = $this->params->get('str_exclude_URI', '');
+		
+		$flg_return = 0;
+		// exclude component code here 
+		if($str_component_list != '')
+		{
+			$arr_component_list = explode(',',$str_component_list);
+			foreach($arr_component_list as $str_component)
+			{
+				if(JRequest::getCmd('option') ==  trim(strip_tags($str_component)))
+				{
+					$flg_return = 1;
+					return $flg_return;
+				}	
+			}
+		}
+		// exclude menu item here 
+		if(($str_menu_list != '')and(JRequest::getInt('Itemid') >= 1))
+		{
+			$arr_menu_list = explode(',',$str_menu_list);
+			foreach($arr_menu_list as $str_menu)
+			{
+				if(JRequest::getInt('Itemid') ==  trim(strip_tags($str_menu)))
+				{
+					$flg_return = 1;	
+					return $flg_return;
+				}
+			}
+		}
+		// exclude article ID.
+		if(($str_article_list != '')and(JRequest::getInt('id') >= 1))
+		{
+			$arr_article_list = explode(',',$str_article_list);
+			foreach($arr_article_list as $str_article)
+			{
+				if(JRequest::getInt('id') ==  trim(strip_tags($str_article)))
+				{
+					$flg_return = 1;
+					return $flg_return;
+				}				
+			}
+		}
+		// exclude URI
+		if($str_URI_list != "")
+		{
+			$arr_URI_list = explode(',',$str_URI_list);
+			foreach($arr_URI_list as $str_uri)
+			{
+				if(preg_match('#'.trim(strip_tags($str_uri)).'#',JURI::getInstance()))
+				{
+					$flg_return = 1;
+					return $flg_return;
+				}	
+			}
+		}
+		
+		return $flg_return;
 	}
 }
 ?>

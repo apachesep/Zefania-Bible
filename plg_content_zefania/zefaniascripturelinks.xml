@@ -49,8 +49,6 @@
 					<option value="0">Zefania Bible</option>
 					<option value="1">BibleGateway</option>					
 			</field>
-			<field name="str_exclude_component" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT_DESC" rows="5" cols="25" />
-			
 			<field name="bible_gateway_version" type="list" default="51" 
 				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY"
 				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
@@ -184,6 +182,12 @@
 				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" 
 				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />							
 			</fieldset>
+			<fieldset name="advanced">
+				<field name="str_exclude_component" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT_DESC" rows="3" cols="25" />
+				<field name="str_exclude_menuitem" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM_DESC" rows="3" cols="25" />
+				<field name="str_exclude_article_id" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_ARTICLE_ID" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_ARTICLE_ID_DESC" rows="3" cols="25" />
+				<field name="str_exclude_URI" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_URI" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_URI_DESC" rows="3" cols="25" />
+			</fieldset>			
 		</fields>
 	</config>
 </extension>
