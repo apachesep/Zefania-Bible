@@ -60,13 +60,15 @@ class ZefaniaAudioPlayer
 			if(!is_file($str_mp3_file_path))
 			{
 				$str_error = JText::_('ZEFANIABIBLE_FIELD_MP3_AUDIO_FILE_NOT_VALID')." ". JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter;
+				$str_error = $str_error.'<br> mp3 file path: '.$str_mp3_file_path;		
 				JError::raiseWarning('',$str_error);
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID').'<br>'.$str_xml_audio_full_path);
 			}
 		}
-		/*else
-		{
-			JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID'));
-		}*/
+		//else
+		//{
+		//	JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID').'<br>'.$str_xml_audio_full_path);
+		//}
 		return $str_mp3_file_path;
 	}
 	protected function fnc_get_audio_path($str_Bible_Version)
