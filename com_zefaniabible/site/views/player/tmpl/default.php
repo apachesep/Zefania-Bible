@@ -51,14 +51,16 @@ class BiblePlayer
 	protected function fnc_get_playlist($str_xml_audio_url,$str_xml_audio_path, $int_Bible_Book_ID )
 	{
 		$arr_audio_file = simplexml_load_file(substr_replace(JURI::root(),"",-1).$str_xml_audio_url);
-		$x = 1;
+		$x = 1;		
 		foreach($arr_audio_file as $obj_book)
 		{
 			if($int_Bible_Book_ID == $obj_book['id'])
 			{
 				foreach($obj_book as $obj_chapter)
 				{
-					$arr_mp3_files[$x] = JURI::root().$str_xml_audio_path.$obj_chapter;
+				//	$arr_mp3_files[$x] = JURI::root().$str_xml_audio_path.$obj_chapter;
+					$arr_fileinfo = pathinfo($str_xml_audio_url);							
+					$arr_mp3_files[$x] =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_url).$obj_chapter;					
 					$x++;
 				}
 			}

@@ -40,7 +40,6 @@ class ZefaniaAudioPlayer
 	{
 		//if(is_file($str_xml_audio_full_path))
 		{
-		
 			$arr_audio_file = simplexml_load_file($str_xml_audio_full_path);
 			$str_mp3_file_path = '';
 			foreach($arr_audio_file->book as $arr_book)
@@ -51,7 +50,8 @@ class ZefaniaAudioPlayer
 					{
 						if($arr_chapter['id'] == $int_Bible_Chapter)
 						{
-							$str_mp3_file_path =  $str_xml_audio_path.$arr_chapter;	
+							$arr_fileinfo = pathinfo($str_xml_audio_full_path);							
+							$str_mp3_file_path =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_full_path).$arr_chapter;	
 						}
 					}
 					break;
