@@ -57,13 +57,13 @@ class ZefaniaAudioPlayer
 					break;
 				}
 			}
-			if(!is_file($str_mp3_file_path))
+			/*if(!is_uploaded_file(str_replace(JURI::root(),'/',$str_mp3_file_path)))
 			{
 				$str_error = JText::_('ZEFANIABIBLE_FIELD_MP3_AUDIO_FILE_NOT_VALID')." ". JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter;
 				$str_error = $str_error.'<br> mp3 file path: '.$str_mp3_file_path;		
 				JError::raiseWarning('',$str_error);
 				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION_NOT_VALID').'<br>'.$str_xml_audio_full_path);
-			}
+			}*/
 		}
 		//else
 		//{
@@ -101,7 +101,7 @@ class ZefaniaAudioPlayer
 				$str_output = $str_output .  "<script type='text/javascript'>".PHP_EOL;
 				$str_output = $str_output .  "jwplayer('mediaspace-".$id."').setup({".PHP_EOL;
 				$str_output = $str_output .  "'flashplayer': '". JURI::root()."media/com_zefaniabible/player/jwplayer/player.swf',".PHP_EOL;
-				$str_output = $str_output .  "'file': '".JURI::root().$str_mp3_file_path."',".PHP_EOL;
+				$str_output = $str_output .  "'file': '".$str_mp3_file_path."',".PHP_EOL;
 				$str_output = $str_output .  "'controlbar': 'bottom',".PHP_EOL;
 				$str_output = $str_output .  "'width': '".$int_player_width."',".PHP_EOL;
 				$str_output = $str_output .  "'height': '".$int_player_height."'".PHP_EOL;
@@ -119,7 +119,7 @@ class ZefaniaAudioPlayer
 				$str_output = $str_output .'	transparentpagebg: "yes",'.PHP_EOL;
 				$str_output = $str_output .'	});  '.PHP_EOL;
 				$str_output = $str_output .'	AudioPlayer.embed("mediaspace-'. $id.'", {  '.PHP_EOL;
-				$str_output = $str_output .'	soundFile: "'. JURI::root().$str_mp3_file_path.'",  '.PHP_EOL;
+				$str_output = $str_output .'	soundFile: "'. $str_mp3_file_path.'",  '.PHP_EOL;
 				$str_output = $str_output .'	titles: "'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter.'",'.PHP_EOL;  
 				$str_output = $str_output .'	artists: "';
 				$str_output = $str_output . JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter;
@@ -132,7 +132,7 @@ class ZefaniaAudioPlayer
 		default:
 			// flow player
 			$doc_page->addScript('media/com_zefaniabible/player/flowplayer/flowplayer-3.2.6.min.js');
-            $str_output = $str_output .'<a href="'. JURI::root().$str_mp3_file_path.'"'.PHP_EOL;
+            $str_output = $str_output .'<a href="'. $str_mp3_file_path.'"'.PHP_EOL;
             $str_output = $str_output .'  style="display:block;width:'. $int_player_width.'px;height:'. $int_player_height.'px;"'.PHP_EOL;
             $str_output = $str_output .'  id="mediaspace-'.$id.'">'.PHP_EOL;
             $str_output = $str_output .'    </a>'.PHP_EOL;
@@ -150,7 +150,7 @@ class ZefaniaAudioPlayer
 			$str_output = $str_output .'		},'.PHP_EOL;
 			$str_output = $str_output .'		clip: '.PHP_EOL;
 			$str_output = $str_output .'		{'.PHP_EOL;
-			$str_output = $str_output .'			url: "'.JURI::root().$str_mp3_file_path.'",'.PHP_EOL;
+			$str_output = $str_output .'			url: "'.$str_mp3_file_path.'",'.PHP_EOL;
 			$str_output = $str_output .'			autoPlay: false,'.PHP_EOL;
 			$str_output = $str_output .'		}'.PHP_EOL;
 			$str_output = $str_output .'	});'.PHP_EOL;
