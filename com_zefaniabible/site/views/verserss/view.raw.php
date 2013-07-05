@@ -65,7 +65,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		
 		// time zone offset.
 		$config =& JFactory::getConfig();
-		date_default_timezone_set($config->getValue('config.offset'));			
+		date_default_timezone_set($config->get('config.offset'));			
 		
 		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
