@@ -33,7 +33,11 @@ class ZefaniaAudioPlayer
 		$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
 		$str_xml_audio_full_path = substr_replace(JURI::root(),"",-1).$this->fnc_get_audio_path($str_Bible_Version);
 		$str_mp3_file_path = $this->fnc_parse_xml_file($str_xml_audio_full_path, $int_Bible_Book_ID,$int_Bible_Chapter,$str_xml_audio_path);
-		$str_player = $this->fnc_get_audio_player($id,$int_player_type,$int_player_width,$int_player_height, $str_mp3_file_path,$int_Bible_Book_ID, $int_Bible_Chapter);
+		$str_player = '';
+		if($str_mp3_file_path)
+		{
+			$str_player = $this->fnc_get_audio_player($id,$int_player_type,$int_player_width,$int_player_height, $str_mp3_file_path,$int_Bible_Book_ID, $int_Bible_Chapter);
+		}
 		return $str_player;
 	}
 	protected function fnc_parse_xml_file($str_xml_audio_full_path,$int_Bible_Book_ID,$int_Bible_Chapter,$str_xml_audio_path)

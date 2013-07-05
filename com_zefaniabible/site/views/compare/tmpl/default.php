@@ -361,15 +361,16 @@ class BibleCompare {
          		<?php if($cls_bibleBook->flg_show_page_top){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter,$this->str_Bible_Version2);} ?>
             </div>              
         </div>   
-		<?php if($cls_bibleBook->flg_show_audio_player){ ?> 
              <div class="zef_player">
+			<?php if(($cls_bibleBook->flg_show_audio_player)and($this->obj_player_one)){ ?>              
              	<div class="zef_player-1"> 
                 	<?php echo $this->obj_player_one; 
 							echo '<div style="clear:both;"></div>';
 				            echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&a='.$this->str_Bible_Version.'&view=player&tmpl=component&b='.$this->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
 					?>
                 </div>
-                <?php if($cls_bibleBook->flg_show_second_player){?>
+            <?php }?>                   
+                <?php if(($cls_bibleBook->flg_show_audio_player)and($cls_bibleBook->flg_show_second_player)and($this->obj_player_two)){?>
                 <div class="zef_player-2"> 
                		<?php echo $this->obj_player_two; 
 							echo '<div style="clear:both;"></div>';
@@ -378,7 +379,7 @@ class BibleCompare {
                 </div>
                 <?php }?>
             </div>
-            <?php }?>           
+
         <div style="clear:both;"></div>
         <div class="zef_bible_Chapter"><?php echo $cls_bibleBook->str_Chapter_Output; ?></div>     
         <div class="zef_footer">

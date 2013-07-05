@@ -313,7 +313,7 @@ class BibleStandard {
          		<?php if($cls_bibleBook->flg_show_page_top){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter);} ?>
             </div>        
         </div>
-		<?php if($cls_bibleBook->flg_show_audio_player){ ?>
+		<?php if(($cls_bibleBook->flg_show_audio_player)and($this->obj_player)){ ?>
              <div class="zef_player">
                 <?php echo $this->obj_player;
                 echo '<div style="clear:both;"></div>';
