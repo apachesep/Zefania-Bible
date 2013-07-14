@@ -66,7 +66,6 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		// time zone offset.
 		$config =& JFactory::getConfig();
 		date_default_timezone_set($config->get('config.offset'));			
-		
 		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
 		$str_today = new DateTime(date('Y-m-d'));
@@ -85,7 +84,6 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 			$int_verse_remainder = $int_max_verses;
 		}		
 		$arr_verse	=	$biblemodel->_buildQuery_get_verse_of_the_day($arr_verse_info,$int_verse_remainder,$arr_bible_info);
-		
 		
 		$this->assignRef('arr_verse',				$arr_verse);
 		$this->assignRef('int_verse_remainder',		$int_verse_remainder);
