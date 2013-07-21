@@ -16,11 +16,17 @@
 		<folder>language</folder>
 		<folder>css</folder> 
 	</files>
-	<updateservers>
-	</updateservers>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field name="flg_overlay" type="list" default="0" label="MOD_ZEFANIASUBSCRIBE_SHOW_OVERLAY" description="MOD_ZEFANIASUBSCRIBE_SHOW_OVERLAY_DESC">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>
+				<field name="flg_use_catcha" type="list" default="0" label="MOD_ZEFANIASUBSCRIBE_USE_CATCHA" description="MOD_ZEFANIASUBSCRIBE_USE_CATCHA_DESC">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>					
 				<field name="moduleclass_sfx" type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />				
@@ -33,7 +39,8 @@
 				<field
 					name="cachemode" type="hidden" default="static">
 					<option value="static"></option>	
-				</field>																		
+				</field>
+																				
 			</fieldset>
 		</fields>
 	</config>
