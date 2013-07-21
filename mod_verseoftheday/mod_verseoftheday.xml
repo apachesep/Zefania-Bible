@@ -16,8 +16,6 @@
 		<folder>language</folder>
 		<folder>css</folder> 
 	</files>
-	<updateservers>
-	</updateservers>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
