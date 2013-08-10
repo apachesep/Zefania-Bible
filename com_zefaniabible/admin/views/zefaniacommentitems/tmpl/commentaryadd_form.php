@@ -121,17 +121,36 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-            <?php 
-			$params = JComponentHelper::getParams( 'com_zefaniabible' );
-			$str_commentary_path = $params->get('xmlCommentaryPath');
-			?>
-            	<select name="file_location" <?php if(!$isNew){?>disabled="disabled"<?php }?>> 
-                	<option value=""><?php echo JText::_('ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY');?></option>
-                	<option value="<?php echo '/'.$str_commentary_path.'GillEn/GillEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'GillEn/GillEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_GILLEN')?></option>
-                    <option value="<?php echo '/'.$str_commentary_path.'KDEn/KDEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'KDEn/KDEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_KDEN')?></option>
-                    <option value="<?php echo '/'.$str_commentary_path.'MHCEn/MHCEn.xml'?>" <?php if($this->zefaniacommentitems->file_location == '/'.$str_commentary_path.'MHCEn/MHCEn.xml'){?>selected<?php }?>><?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_MHCEN')?></option>
-                </select>
-                <?php echo JText::_('ZEFANIABIBLE_FIELD_COMMENTARY_NOTE');?>
+				<?php 
+               	 	$params = JComponentHelper::getParams( 'com_zefaniabible' );
+              		$str_commentary_path = $params->get('xmlCommentaryPath');
+                ?>
+                    <div style="float:left">			
+                        <?php if($isNew){ ?>
+                            <input name="file_location" id="file_location" value="<?php echo $this->zefaniacommentitems->file_location; ?>" size="75" type="text">
+                        <?php }else{?>
+                            <input name="file_location" id="file_location" value="<?php echo $this->zefaniacommentitems->file_location; ?>" size="75"  disabled="disabled" type="text">
+                         <?php }?>
+                    </div>                        
+                <?php 
+    
+                if($isNew){ 
+                        $params	= JComponentHelper::getParams('com_zefaniabible');
+                ?>
+                    <tr>
+                        <td>            	
+                        </td>
+                        <td>
+                            <div id="infoUpload1" class="intend">
+                                <span id="btnUpload1"></span>
+                                <button id="btnCancel1" type="button" onclick="cancelQueue(upload1);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
+                                <span id="biblepathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
+                                        <?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/'), '/').'/'; ?>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                <?php }?> 
 			</td>
 		</tr>
 
