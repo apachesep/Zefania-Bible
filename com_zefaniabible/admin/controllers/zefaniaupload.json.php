@@ -84,6 +84,10 @@ class ZefaniabibleControllerZefaniaupload extends JControllerLegacy
 			} elseif ($type == 'audio'){
 				$path	= $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
 			}
+			elseif($type == 'commentary')
+			{
+				$path	= $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+			}
 			
 			$path	= trim($path, '/');
 			$date	= $jinput->get('date', '', 'string');
