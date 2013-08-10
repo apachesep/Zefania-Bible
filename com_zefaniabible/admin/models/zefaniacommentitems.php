@@ -171,33 +171,32 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 		$arr_xml_main_commentary 	= simplexml_load_file(substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url);
 		$int_bible_book_id = 1;
 		$x = 1;
-
-		foreach($arr_xml_main_commentary->book as $obj_commentary_file)
+		
+		foreach($arr_xml_main_commentary->BIBLEBOOK as $obj_commentary_book)
 		{
-			$int_bible_book_id = (int)$obj_commentary_file['id'];
-			$obj_commenary_book = simplexml_load_file($str_commentary_path.$obj_commentary_file);	
+			$int_bible_book_id = (int)$obj_commentary_book['bnumber'];
 			$int_bible_chapter = 1;
-			foreach($obj_commenary_book as $obj_commenary_chapter)
+			foreach($obj_commentary_book->CHAPTER as $obj_commenary_chapter)
 			{
-				$int_bible_chapter = (int)$obj_commenary_chapter['value'];
-				foreach($obj_commenary_chapter->verse as $obj_commenary_verse)
+				$int_bible_chapter = (int)$obj_commenary_chapter['cnumber'];
+				$int_bible_verse = 1;
+				$str_verse = '';
+				foreach($obj_commenary_chapter->VERS as $obj_commenary_verse)
 				{
-					$int_bible_verse = (int)$obj_commenary_verse['value1'];
-					$str_verse = '';
-					foreach ($obj_commenary_verse as $arr_verse)
-					{
-							$str_verse = $str_verse.$arr_verse->asXML();
-					}
+					$int_bible_verse = (int)$obj_commenary_verse['vnumber'];
+					$str_verse = $obj_commenary_verse->asXML();
+					$obj_commenary_verse->asXML();
 					$this->fnc_insert_commentary_verses(
 							$int_max_ids, 
 							$int_bible_book_id,
 							$int_bible_chapter,
 							$int_bible_verse,
 							$str_verse);
-						$x++;						
+						$x++;									
 				}
+				
 			}
-		}
+		}		
 		if($x == 1)
 		{
 			$this->fnc_insert_commentary_verses($int_max_ids,1,1,1,'Failed to load commentary');
