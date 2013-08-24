@@ -30,15 +30,30 @@ class zefSubscibe
 	{
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));	
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-				
+		$jlang = JFactory::getLanguage();
+		$jlang->load('mod_zefaniasubscribe', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_COMPONENT, null, true);
+
 		$flg_show_overlay = $params->get('flg_overlay', 0);
 		$flg_use_catcha = $params->get('flg_use_catcha', 0);
+		$flg_use_image = $params->get('flg_use_image', 0);
+		$int_overlay_width = $params->get('overlay_width', 640);
+		$int_overlay_height = $params->get('overlay_height', 480);
 		
 		if($flg_show_overlay)
 		{
-			echo '<div class="zef_email_button">';
-			echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:500,y:400}}" >';
-			echo JText::_('MOD_ZEFANIASUBSCRIBE_SUBSCRIBE').'</a></div>';
+			if(!$flg_use_image)
+			{
+				echo '<div class="zef_email_button">';
+				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_overlay_width.',y:'.$int_overlay_height.'}}" >';
+				echo JText::_('MOD_ZEFANIASUBSCRIBE_SUBSCRIBE').'</a></div>';
+			}
+			else
+			{
+				echo '<div class="zef_email_button">';
+				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_overlay_width.',y:'.$int_overlay_height.'}}" >';
+				echo '<img src="'.JRoute::_('/components/com_zefaniabible/images/e_mail.png').'">'.'</a></div>';				
+			}
 		}
 		else
 			{

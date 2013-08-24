@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>2.7.5</version>
+	<version>2.7.6</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module allows users to subscibe to the reading plan daily email and verse of the day email which is sent out daily.</description>
 	<files>
@@ -23,6 +23,13 @@
 						<option value="1">JYES</option>
 						<option value="0">JNO</option>
 				</field>
+				<field name="overlay_width" type="text" size="10" default="640"  label="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH_DESC" />
+				<field name="overlay_height" type="text" size="10" default="480" label="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT_DESC" />
+		
+				<field name="flg_use_image" type="list" default="0" label="MOD_ZEFANIASUBSCRIBE_USE_IMAGE" description="MOD_ZEFANIASUBSCRIBE_USE_IMAGE_DESC">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>					
 				<field name="flg_use_catcha" type="list" default="0" label="MOD_ZEFANIASUBSCRIBE_USE_CATCHA" description="MOD_ZEFANIASUBSCRIBE_USE_CATCHA_DESC">
 						<option value="1">JYES</option>
 						<option value="0">JNO</option>
