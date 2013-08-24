@@ -54,6 +54,11 @@ class ZefVerseOfTheDay
 		
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		
+		$jlang = JFactory::getLanguage();
+		$jlang->load('mod_verseoftheday', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('mod_verseoftheday', JPATH_COMPONENT, null, true);
+				
 		$this->str_start_date = new DateTime($params->get('start_date'));	
 		// time zone offset.
 		$config =& JFactory::getConfig();
