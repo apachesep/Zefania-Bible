@@ -50,6 +50,10 @@ class zefReadingPlan
 		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
 
+		$jlang = JFactory::getLanguage();
+		$jlang->load('mod_readingplan', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('mod_readingplan', JPATH_COMPONENT, null, true);
+		
 		// time zone offset.
 		$config =& JFactory::getConfig();
 		date_default_timezone_set($config->get('offset'));		
