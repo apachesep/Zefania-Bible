@@ -45,7 +45,6 @@ class BibleStandard {
 	public $flg_show_commentary;
 	private $str_commentary;
 	public $flg_show_references;
-	public $str_bible_name;
 	
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references)
 	{
@@ -80,7 +79,6 @@ class BibleStandard {
 			{
 				$this->obj_Bible_Dropdown = $this->obj_Bible_Dropdown.'<option value="'.$str_Bible->alias.'" selected>'.$str_Bible->bible_name.'</option>';
 				$str_alias = $str_Bible->alias;
-				$this->str_bible_name = $str_Bible->bible_name;
 			}
 			else
 			{
@@ -337,12 +335,6 @@ class BibleStandard {
 	<input type="hidden" name="view" value="<?php echo JRequest::getCmd('view');?>" />
     <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>"/>
 </form>
-<div itemscope itemtype="http://schema.org/Book">
-	<meta itemprop="name" content="<?php echo $cls_bibleBook->str_bible_name;?>">
-    <meta itemprop="image" content="<?php echo JURI::root()."components/com_zefaniabible/images/bible_100.jpg"; ?>">
-    <meta itemprop="url" content="<?php echo JFactory::getURI()->toString(); ?>">
-</div>
-
 <script language="javascript" type="text/javascript">
 function popitup(url) {
 	newwindow=window.open(url,'name','height=<?php echo ($cls_bibleBook->int_player_popup_height);?>,width=<?php echo ($cls_bibleBook->int_player_popup_width);?>','scrollbars=no','resizable=no');
