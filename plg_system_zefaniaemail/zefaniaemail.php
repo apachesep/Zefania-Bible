@@ -75,6 +75,10 @@ class plgSystemZefaniaEmail extends JPlugin
 			
 		$this->loadLanguage();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		$jlang = JFactory::getLanguage();
+		$jlang->load('zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('zefaniabible', JPATH_COMPONENT, null, true);
+				
 		$config =& JFactory::getConfig();
 		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->str_from_email 				= $config->get('mailfrom');
