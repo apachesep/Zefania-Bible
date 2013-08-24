@@ -49,7 +49,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		
+		$jlang = JFactory::getLanguage();
+		$jlang->load('plg_content_zefania', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('plg_content_zefania', JPATH_COMPONENT, null, true);
+				
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();		
 		if($docType != 'html')
@@ -76,7 +79,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		
 		if($flg_auto_replace)
 		{			
-			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
+			$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$str_Bible_books.")(\.)?(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?([,](?=\d))?(\d{1,3})?([:](?=\d))?(\d{1,3})?[-]?(\d{1,3})?(\{\/zefaniabible\})?/iu";
 			$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);	
 		}
 		else
@@ -151,7 +154,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$str_scripture = $arr_matches[0];
 		}
-		
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$arr_look_up[$z] = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
