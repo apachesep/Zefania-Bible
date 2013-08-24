@@ -84,6 +84,15 @@ class ClsVerseRSS
 		}
 		else
 		{
+			// Facebook Open Graph
+			$this->doc_page = JFactory::getDocument();	
+			$this->doc_page->setMetaData( 'og:title', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'));
+			$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
+			$this->doc_page->setMetaData( 'og:type', "article" );	
+			$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
+			$this->doc_page->setMetaData( 'og:description', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY') );
+			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );				
+			
 			echo '<div class="zef_bible_Header_Label">'.$str_title.'</div>';
 			echo '<div style="clear:both"></div>';
 			foreach ($arr_verse as $obj_verse)
