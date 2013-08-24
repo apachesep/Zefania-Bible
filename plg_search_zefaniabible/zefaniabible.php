@@ -90,7 +90,9 @@ class plgSearchZefaniaBible extends JPlugin
 			$flg_proceed = 1;
 		}
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-
+		$jlang = JFactory::getLanguage();
+		$jlang->load('zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('zefaniabible', JPATH_COMPONENT, null, true);
 		
 		if($flg_proceed)
 		{
