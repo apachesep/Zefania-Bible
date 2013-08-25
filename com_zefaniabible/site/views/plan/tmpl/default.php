@@ -50,7 +50,7 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
 				echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan_overview->str_bibleVersion.'" />';
 			} ?>
              <div style="clear:both"></div>
-        <div class="zef_reading_name"><?php echo $cls_bible_reading_plan_overview->str_plan_name;?></div>
+        <div class="zef_reading_name"><h1 class="zef_bible_Header_Label_h1"><?php echo $cls_bible_reading_plan_overview->str_plan_name;?></h1></div>
         <div class="zef_reading_desc"><?php echo JText::_($cls_bible_reading_plan_overview->str_plan_description); ?></div>
 		<div class="zef_top_pagination">        
 				<?php 

@@ -138,8 +138,8 @@ class BibleReadingPlan
 						{
 							echo '</div>';
 						}
-						echo '<div class="zef_bible_Header_Label_Plan"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</div>';
+						echo '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
 						echo '<div class="zef_bible_Chapter">';
 						$arr_single_commentary  = $arr_commentary[($y-1)];
 						if($this->flg_show_audio_player)
