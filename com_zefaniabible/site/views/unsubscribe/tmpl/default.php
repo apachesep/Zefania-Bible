@@ -38,6 +38,11 @@ $cls_unsubcribe = new BibleUnsubscribe($this->user);
 
 class BibleUnsubscribe
 {
+	/*
+		a = email string
+		b = reading flag
+		c = verse flag
+	*/
 	private $str_email;
 	private $flg_email_valid;
 	public $flg_use_catcha;
@@ -49,10 +54,15 @@ class BibleUnsubscribe
 	private $flg_no_sql_inection;
 	private $flg_catcha_correct;
 	public $str_catcha_color;
+	public $flg_reading_email;
+	public $flg_verse_email;
 	
 	public function __construct($user)
 	{
-		$this->str_email =	JRequest::getString('d');
+		$this->str_email 			=	JRequest::getString('a');
+		$this->flg_reading_email 	=	JRequest::getBool('b', 0);
+		$this->flg_verse_email 		=	JRequest::getBool('c', 0);
+		
 		$this->flg_email_valid = 0;
 		$this->flg_catcha_correct = 0;
 		$this->flg_no_sql_inection = 1;
@@ -111,8 +121,8 @@ class BibleUnsubscribe
 		if($int_user_id !='')
 		{
 			$arr_row->id = 	$int_user_id;
-			$arr_row->send_reading_plan_email 	= '0';
-			$arr_row->send_verse_of_day_email 	= '0';
+			$arr_row->send_reading_plan_email 	= $this->flg_reading_email;
+			$arr_row->send_verse_of_day_email 	= $this->flg_verse_email;
 			$db->updateObject("#__zefaniabible_zefaniauser", $arr_row, 'id');
 			
 			$app = JFactory::getApplication();
@@ -249,9 +259,32 @@ class BibleUnsubscribe
 	<div>
     	<div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_EMAIL_LABEL');?></div> 
         <div>
-            <input type="text" name="d" id="zef_subs_email" maxlength="50" size="40" value="<?php echo $cls_unsubcribe->getEmail();?>">            
+            <input type="text" name="a" id="zef_subs_email" maxlength="50" size="40" value="<?php echo $cls_unsubcribe->getEmail();?>">            
         </div>
 	</div>
+	<div style="clear:both"></div> 
+         <div>
+             <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_SEND_READING_EMAIL');?></div> 
+             <div class="zef_reading_email">
+                <select name="b" id="zef_subs_send_reading" class="inputbox">
+                    <option value="0" ><?php echo JText::_('JNO');?></option>
+                    <option value="1" <?php if($cls_unsubcribe->flg_reading_email){?>selected<?php }?> ><?php echo JText::_('JYES');?></option>            
+                </select>
+             </div>
+         </div>
+         <div style="clear:both"></div> 
+         
+         <div>
+             <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_SEND_VERSE_EMAIL');?></div> 
+             <div class="zef_reading_verse">
+                <select name="c" id="zef_subs_send_verse" class="inputbox">
+                    <option value="0" ><?php echo JText::_('JNO');?></option>
+                    <option value="1"  <?php if($cls_unsubcribe->flg_verse_email){?>selected<?php }?> ><?php echo JText::_('JYES');?></option>
+                </select>
+             </div>  
+         </div>
+         <div style="clear:both"></div> 
+    
          <div>
         <?php
 			if($cls_unsubcribe->flg_use_catcha)
