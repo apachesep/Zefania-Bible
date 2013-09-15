@@ -190,10 +190,14 @@ class BibleCompare {
 	}
 	private function fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias,$str_alias2)
 	{
-		$str_descr = trim(mb_substr($str_descr,0,146))." ...";
+		// add breadcrumbs
 		$app_site = JFactory::getApplication();
+		$pathway = $app_site->getPathway();
+		$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$int_Bible_Chapter." - ".$str_alias." - ".$str_alias2, JFactory::getURI()->toString());		
+		
+		$str_descr = trim(mb_substr($str_descr,0,146))." ...";
 		$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$int_Bible_Chapter.' - '.$str_alias.' - '.$str_alias2;
-		$this->doc_page->setMetaData( 'description', $str_descr);
+		$this->doc_page->setMetaData( 'description', strip_tags($str_descr));
 		$this->doc_page->setMetaData( 'keywords', $str_title.",".$str_alias.",".$str_alias2 );
 		$this->doc_page->setTitle($str_title);
 					
@@ -297,7 +301,7 @@ class BibleCompare {
 	<div id="zef_Bible_Main">
     	<div class="zef_legend">
         	<?php if($cls_bibleBook->flg_email_button){?>
-            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+            <div class="zef_email_button"><a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
             <?php if($cls_bibleBook->flg_use_bible_selection){?>            
