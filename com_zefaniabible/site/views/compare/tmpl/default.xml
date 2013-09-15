@@ -107,7 +107,8 @@
 						<option value='64' >ZEFANIABIBLE_BIBLE_BOOK_NAME_64</option>
 						<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 						<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
-				</field>					
+				</field>
+				<field name="int_front_start_chapter" type="text"  size="3" default="1" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND_DESC" />				
 		</fieldset>
 		<fieldset name="references"
 			label="COM_ZEFANIABIBLE_REFERENCE_LABEL"
