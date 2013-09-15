@@ -185,7 +185,17 @@ class BibleReadingPlan
 	}
 	private function getMetaData()
 	{
-		$app_site = JFactory::getApplication();		
+		//RSS RSS 2.0 Feed
+		$href = 'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_day_number; 
+		$attribs_rss = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
+		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_rss );		
+			
+		$app_site = JFactory::getApplication();
+		// add breadcrumbs
+		$pathway = $app_site->getPathway();
+		$pathway->addItem(($this->str_curr_read_plan." - ". mb_strtoupper($this->str_bibleVersion)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number), JFactory::getURI()->toString());		
+		
+				
 		$this->doc_page->setTitle($this->str_curr_read_plan." - ". mb_strtoupper($this->str_bibleVersion)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
 		$this->doc_page->setMetaData( 'keywords', $this->str_chapter_headings." ".$this->arr_book_info['str_nativeAlias'].", ".$this->str_curr_read_plan .", ".$this->str_bibleVersion.", ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number );
 		$this->doc_page->setMetaData( 'description', $this->str_first_verse);
@@ -291,7 +301,11 @@ class BibleReadingPlan
                 <?php } 
 					if($cls_bible_reading_plan->flg_reading_rss_button){
 				?>
-				<div class="zef_reading_rss"><a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" /></a></div>                
+					<div class="zef_reading_rss">
+                    	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" >
+                			<img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" />
+						</a>
+					</div>                
 				<?php }?>                
                 <div class="zef_reading_label"><?php echo JText::_('ZEFANIABIBLE_READING_PLAN');?></div>
                 <div class="zef_reading_plan">
