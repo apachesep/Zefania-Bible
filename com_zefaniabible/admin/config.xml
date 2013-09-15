@@ -89,6 +89,7 @@
 			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 		</field>
+<!--		<field name="int_backend_start_chapter" type="text"  size="3" default="" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND_DESC" />		-->
 		<field name="primary_book_frontend" type="list" default="1" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND_DESC">
 			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
 			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
@@ -157,6 +158,7 @@
 			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 		</field>
+		<field name="int_front_start_chapter" type="text"  size="3" default="1" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND_DESC" />
 		<field name="xmlBiblesPath" 
 			type="text" 
 			size="50" 
