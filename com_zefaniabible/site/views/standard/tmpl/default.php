@@ -46,6 +46,7 @@ class BibleStandard {
 	private $str_commentary;
 	public $flg_show_references;
 	public $str_bible_name;
+	public $flg_reading_rss_button;
 	
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references)
 	{
@@ -57,10 +58,12 @@ class BibleStandard {
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');	
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
 		$this->flg_show_references = $this->params->get('show_references', '0');
+		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
 		$int_commentary_width = $this->params->get('commentaryWidth','800');
 		$int_commentary_height = $this->params->get('commentaryHeight','500');
 		
-		$this->flg_show_credit 		= $this->params->get('show_credit','0');
+		//$this->flg_show_credit 		= $this->params->get('show_credit','0');
+		$this->flg_show_credit = 1;
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_audio_player = $this->params->get('show_audioPlayer','0');
 		$this->int_player_popup_height = $this->params->get('player_popup_height','300');
@@ -73,7 +76,7 @@ class BibleStandard {
 		$x = 1;
 		$str_descr = '';
 		$str_alias = '';	
-			
+								
 		foreach($arr_Bibles as $str_Bible)
 		{
 			if($str_Bible_Version == $str_Bible->alias)
@@ -147,15 +150,29 @@ class BibleStandard {
 			$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div style="clear:both"></div></div>';
 			$x++;
 		}
+		
 		$this->fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias);
 		
 	}
 	private function fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias)
 	{
-		$str_descr = trim(mb_substr($str_descr,0,146))." ...";
+		//RSS RSS 2.0 Feed
+		$href = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&a='.$str_alias.'&b='.$int_Bible_Book_ID.'&c='.$int_Bible_Chapter; 
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
+		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs );
+		//Atom Feed
+		$href = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&a='.$str_alias.'&b='.$int_Bible_Book_ID.'&c='.$int_Bible_Chapter.'&d=atom'; 
+		$attribs_atom = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0'); 
+		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_atom );		
+				
+		// add breadcrumbs
 		$app_site = JFactory::getApplication();
+		$pathway = $app_site->getPathway();
+		$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$int_Bible_Chapter." - ".$str_alias, JFactory::getURI()->toString());		
+		
+		$str_descr = trim(mb_substr($str_descr,0,146))." ..."; 
 		$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$int_Bible_Chapter.' - '.$str_alias;
-		$this->doc_page->setMetaData( 'description', $str_descr);
+		$this->doc_page->setMetaData( 'description', strip_tags($str_descr));
 		$this->doc_page->setMetaData( 'keywords', $str_title.",".$str_alias );
 		$this->doc_page->setTitle($str_title);
 					
@@ -258,8 +275,15 @@ class BibleStandard {
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
 	<div id="zef_Bible_Main">
     	<div class="zef_legend">
+        	<?php if($cls_bibleBook->flg_reading_rss_button){?>
+		        <div class="zef_reading_rss">
+                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=biblerss&format=raw&a=<?php echo $this->str_Bible_Version; ?>&b=<?php echo $this->int_Bible_Book_ID; ?>&c=<?php echo $this->int_Bible_Chapter;?>" target="_blank" rel="nofollow" >
+                    	<img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" />
+                    </a>
+				</div>                
+             <?php } ?>
         	<?php if($cls_bibleBook->flg_email_button){?>
-            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+            <div class="zef_email_button"><a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
             <?php if($cls_bibleBook->flg_use_bible_selection){?>
