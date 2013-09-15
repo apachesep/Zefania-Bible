@@ -29,7 +29,6 @@ defined('_JEXEC') or die('Restricted access');
 $isNew		= ($this->zefaniabibleitem->id < 1);
 $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_EDIT" );
 ?>
-
 <fieldset class="fieldsform">
 	<legend><?php echo $actionText;?></legend>
 
@@ -56,7 +55,7 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_ALIAS" ); ?> :
 				</label>
 			</td>
-			<td>
+			<td>  
 				<?php echo JDom::_('html.form.input.text', array(
 												'dataKey' => 'alias',
 												'dataObject' => $this->zefaniabibleitem,

@@ -102,7 +102,7 @@ function resetFilters()
                                         
                     <?php
 						$params = JComponentHelper::getParams( 'com_zefaniabible' );
-						$int_primary_backend_book = $params->get('primary_book_backend');						
+						$int_primary_backend_book = $params->get('primary_book_backend');				
 					?>
                         <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
 							<option value=""><?php echo JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" );?></option>	
@@ -128,7 +128,7 @@ function resetFilters()
 						}
 					?>
 					<select name="filter_chapter_id" id="filter_chapter_id" class="inputbox" onchange="this.form.submit()">
-                        <option value=""><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER');?></option>
+                        <option value="" ><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER');?></option>                      
                         <?php echo JHtml::_('select.options', $arr_bible_chapter, 'value', 'text', $this->state->get('filter.chapter_id'));?>
                     </select>
                     <?php
