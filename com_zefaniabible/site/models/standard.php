@@ -145,7 +145,8 @@ class ZefaniabibleModelStandard extends JModelItem
 		{
 			$this->setError($e);
 		}
-		return $data;		
+		return $data;
+
 	}		
 	function _buildQuery_Bibles()
 	{
