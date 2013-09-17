@@ -42,13 +42,11 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'title',
-												'dataObject' => $this->zefaniacommentitems,
-												'size' => "32"
-												));
-				?>
+	            <input id="title" class="inputbox " type="text" size="32" value="<?php echo $this->zefaniacommentitems->title; ?>" name="title" onblur="validateFields('title','<?php echo JText::_( "ZEFANIABIBLE_FIELD_TITLE" ); ?>')" />
 			</td>
+            <td>
+            	<div id="title_valid" ></div>
+            </td>              
 		</tr>
 		<tr>
 			<td align="right" class="key">
@@ -57,13 +55,11 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'alias',
-												'dataObject' => $this->zefaniacommentitems,
-												'size' => "32"
-												));
-				?>
+            	<input id="alias" class="inputbox " type="text" maxlength="5" size="32" value="<?php echo $this->zefaniacommentitems->alias ?>" name="alias" onblur="validateFields('alias','<?php echo JText::_( "ZEFANIABIBLE_FIELD_ALIAS" ); ?>')" />
 			</td>
+            <td>
+            	<div id="alias_valid" ></div>
+            </td>              
 		</tr>
 		<tr>
 			<td align="right" class="key">
@@ -72,13 +68,11 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'full_name',
-												'dataObject' => $this->zefaniacommentitems,
-												'size' => "32"
-												));
-				?>
+            	<input id="full_name" name="full_name" class="inputbox " value="<?php echo $this->zefaniacommentitems->full_name; ?>" size="32" type="text" onblur="validateFields('full_name','<?php echo JText::_( "ZEFANIABIBLE_FIELD_FULL_NAME" ); ?>')"> 
 			</td>
+            <td>
+            	<div id="full_name_valid" ></div>
+            </td>              
 		</tr>
 		<?php if ($this->access->get('core.edit.state')): ?>
 		<tr>
