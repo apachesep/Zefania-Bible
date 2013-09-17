@@ -40,14 +40,12 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_TITLE" ); ?> :
 				</label>
 			</td>
-			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'bible_name',
-												'dataObject' => $this->zefaniabibleitem,
-												'size' => "32"
-												));
-				?>
+			<td>          
+				<input id="bible_name" class="inputbox " type="text" size="32" value="<?php echo $this->zefaniabibleitem->bible_name; ?>" name="bible_name" onblur="validateFields('bible_name','<?php echo JText::_( "ZEFANIABIBLE_FIELD_TITLE" ); ?>')" />
 			</td>
+            <td>
+            	<div id="bible_name_valid"></div>
+            </td>
 		</tr>
 		<tr>
 			<td align="right" class="key">
@@ -55,14 +53,12 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_ALIAS" ); ?> :
 				</label>
 			</td>
-			<td>  
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'alias',
-												'dataObject' => $this->zefaniabibleitem,
-												'size' => "32"
-												));
-				?>
+			<td> 
+            	<input id="alias" class="inputbox " type="text" size="32" maxlength="5" value="<?php echo $this->zefaniabibleitem->alias; ?>" name="alias" onblur="validateFields('alias','<?php echo JText::_( "ZEFANIABIBLE_FIELD_ALIAS" ); ?>')"> 
 			</td>
+            <td>
+            	<div id="alias_valid" ></div>
+            </td>            
 		</tr>
 		<tr>
 			<td align="right" class="key">
@@ -71,13 +67,11 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.text', array(
-												'dataKey' => 'desc',
-												'dataObject' => $this->zefaniabibleitem,
-												'size' => "32"
-												));
-				?>
+            	<input id="desc" name="desc" class="inputbox " value="<?php echo $this->zefaniabibleitem->desc; ?>" size="32" type="text" onblur="validateFields('desc','<?php echo JText::_( "ZEFANIABIBLE_FIELD_FULL_NAME" ); ?>')"> 
 			</td>
+            <td>
+            	<div id="desc_valid" ></div>
+            </td>                 
 		</tr>
 		<?php if ($this->access->get('core.edit.state')): ?>
 		<tr>
