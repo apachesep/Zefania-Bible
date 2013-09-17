@@ -132,35 +132,96 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
-		$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
-
-		$uploader_script = '
-			window.onload = function() 
-			{
-					upload1 = new SWFUpload
-					(
-						{
-							upload_url: "'.$targetURL.'&type=bible",
-							flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
-							file_size_limit : "20MB",
+		if($isNew)
+		{
+			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
+			
+			$uploader_script = '
+				window.onload = function() 
+				{
+						upload1 = new SWFUpload
+						(
+							{
+								upload_url: "'.$targetURL.'&type=bible",
+								flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
+								file_size_limit : "20MB",
+								file_types : "*.xml",
+								file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC', 'true').'",
+								file_upload_limit : "1",
+								file_queue_limit : "1",
+								button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
+								button_placeholder_id : "btnUpload1",
+								button_width: 61,
+								button_height: 22,
+								button_window_mode: "transparent",
+								debug: false,
+								swfupload_loaded_handler: function() 
+								{
+									document.id("btnCancel1").removeClass("ss-hide");
+									document.id("biblepathinfo").removeClass("ss-hide");
+									if(document.id("upload-noflash")){
+										document.id("upload-noflash").destroy();
+										document.id("loading").destroy();
+									}
+								},
+								file_dialog_start_handler : fileDialogStart,
+								file_queued_handler : fileQueued,
+								file_queue_error_handler : fileQueueError,
+								file_dialog_complete_handler : fileDialogComplete,
+								upload_start_handler : uploadStart,
+								upload_progress_handler : uploadProgress,
+								upload_error_handler : uploadError,
+								upload_success_handler : function uploadSuccess(file, serverData) 
+								{
+									try 
+									{
+										var progress = new FileProgress(file, this.customSettings.progressTarget);
+										var data = JSON.decode(serverData);
+										if (data.status == "1") 
+										{
+											progress.setComplete();
+											progress.setStatus(data.error);
+											document.id("xml_file_url").value = data.path;
+										} else 
+										{
+											progress.setError();
+											progress.setStatus(data.error);
+										}
+										progress.toggleCancel(false);
+									} catch (ex) 
+									{
+										this.debug(ex);
+									}
+								},
+								upload_complete_handler : uploadComplete,
+								custom_settings : 
+								{
+									progressTarget : "infoUpload1",
+									cancelButtonId : "btnCancel1"
+								}
+							}
+						);
+						upload2 = new SWFUpload({
+							upload_url: "'.$targetURL.'&type=audio",
+							flash_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/swfupload.swf",
+							file_size_limit : "10MB",
 							file_types : "*.xml",
-							file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC', 'true').'",
-							file_upload_limit : "1",
-							file_queue_limit : "1",
-							button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
-							button_placeholder_id : "btnUpload1",
+							file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_AUDIO', 'true').'",
+							file_upload_limit : "0",
+							file_queue_limit : "0",
+							button_image_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/XPButtonUploadText_61x22.png",
+							button_placeholder_id : "btnUpload2",
 							button_width: 61,
 							button_height: 22,
 							button_window_mode: "transparent",
 							debug: false,
-							swfupload_loaded_handler: function() 
-							{
-								document.id("btnCancel1").removeClass("ss-hide");
-								document.id("biblepathinfo").removeClass("ss-hide");
+							swfupload_loaded_handler: function() {
+								document.id("btnCancel2").removeClass("ss-hide");
+								document.id("audiopathinfo").removeClass("ss-hide");
 								if(document.id("upload-noflash")){
 									document.id("upload-noflash").destroy();
 									document.id("loading").destroy();
@@ -173,93 +234,38 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 							upload_start_handler : uploadStart,
 							upload_progress_handler : uploadProgress,
 							upload_error_handler : uploadError,
-							upload_success_handler : function uploadSuccess(file, serverData) 
-							{
-								try 
-								{
+							upload_success_handler : function uploadSuccess(file, serverData) {
+								try {
 									var progress = new FileProgress(file, this.customSettings.progressTarget);
 									var data = JSON.decode(serverData);
-									if (data.status == "1") 
-									{
+									if (data.status == "1") {
 										progress.setComplete();
 										progress.setStatus(data.error);
-										document.id("xml_file_url").value = data.path;
-									} else 
-									{
+										document.id("xml_audio_url").value = data.path;
+									} else {
 										progress.setError();
 										progress.setStatus(data.error);
 									}
 									progress.toggleCancel(false);
-								} catch (ex) 
-								{
+								} catch (ex) {
 									this.debug(ex);
 								}
 							},
 							upload_complete_handler : uploadComplete,
-							custom_settings : 
-							{
-								progressTarget : "infoUpload1",
-								cancelButtonId : "btnCancel1"
+							custom_settings : {
+								progressTarget : "infoUpload2",
+								cancelButtonId : "btnCancel2"
 							}
-						}
-					);
-					upload2 = new SWFUpload({
-						upload_url: "'.$targetURL.'&type=audio",
-						flash_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/swfupload.swf",
-						file_size_limit : "10MB",
-						file_types : "*.xml",
-						file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_AUDIO', 'true').'",
-						file_upload_limit : "0",
-						file_queue_limit : "0",
-						button_image_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/XPButtonUploadText_61x22.png",
-						button_placeholder_id : "btnUpload2",
-						button_width: 61,
-						button_height: 22,
-						button_window_mode: "transparent",
-						debug: false,
-						swfupload_loaded_handler: function() {
-							document.id("btnCancel2").removeClass("ss-hide");
-							document.id("audiopathinfo").removeClass("ss-hide");
-							if(document.id("upload-noflash")){
-								document.id("upload-noflash").destroy();
-								document.id("loading").destroy();
-							}
-						},
-						file_dialog_start_handler : fileDialogStart,
-						file_queued_handler : fileQueued,
-						file_queue_error_handler : fileQueueError,
-						file_dialog_complete_handler : fileDialogComplete,
-						upload_start_handler : uploadStart,
-						upload_progress_handler : uploadProgress,
-						upload_error_handler : uploadError,
-						upload_success_handler : function uploadSuccess(file, serverData) {
-							try {
-								var progress = new FileProgress(file, this.customSettings.progressTarget);
-								var data = JSON.decode(serverData);
-								if (data.status == "1") {
-									progress.setComplete();
-									progress.setStatus(data.error);
-									document.id("xml_audio_url").value = data.path;
-								} else {
-									progress.setError();
-									progress.setStatus(data.error);
-								}
-								progress.toggleCancel(false);
-							} catch (ex) {
-								this.debug(ex);
-							}
-						},
-						upload_complete_handler : uploadComplete,
-						custom_settings : {
-							progressTarget : "infoUpload2",
-							cancelButtonId : "btnCancel2"
-						}
-					});
-		}';				
-		 
-		//add the javascript to the head of the html document
-		$document->addScriptDeclaration($uploader_script);
-
+						});
+			}';				
+			 
+			//add the javascript to the head of the html document
+			$document->addScriptDeclaration($uploader_script);
+		}
+		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
+		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
+		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
+		$document->addScriptDeclaration($str_lang);		
 
 		$user = JFactory::getUser();
 		$this->assignRef('user',		$user);

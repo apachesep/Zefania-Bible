@@ -135,80 +135,87 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
-		$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
-		$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
-
-		$uploader_script = '
-			window.onload = function() 
-			{
-					upload1 = new SWFUpload
-					(
-						{
-							upload_url: "'.$targetURL.'&type=commentary",
-							flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
-							file_size_limit : "70MB",
-							file_types : "*.xml",
-							file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_COMMENTARY', 'true').'",
-							file_upload_limit : "1",
-							file_queue_limit : "1",
-							button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
-							button_placeholder_id : "btnUpload1",
-							button_width: 61,
-							button_height: 22,
-							button_window_mode: "transparent",
-							debug: false,
-							swfupload_loaded_handler: function() 
+		if($isNew)
+		{
+			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
+	
+			$uploader_script = '
+				window.onload = function() 
+				{
+						upload1 = new SWFUpload
+						(
 							{
-								document.id("btnCancel1").removeClass("ss-hide");
-								document.id("biblepathinfo").removeClass("ss-hide");
-								if(document.id("upload-noflash")){
-									document.id("upload-noflash").destroy();
-									document.id("loading").destroy();
-								}
-							},
-							file_dialog_start_handler : fileDialogStart,
-							file_queued_handler : fileQueued,
-							file_queue_error_handler : fileQueueError,
-							file_dialog_complete_handler : fileDialogComplete,
-							upload_start_handler : uploadStart,
-							upload_progress_handler : uploadProgress,
-							upload_error_handler : uploadError,
-							upload_success_handler : function uploadSuccess(file, serverData) 
-							{
-								try 
+								upload_url: "'.$targetURL.'&type=commentary",
+								flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
+								file_size_limit : "70MB",
+								file_types : "*.xml",
+								file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_COMMENTARY', 'true').'",
+								file_upload_limit : "1",
+								file_queue_limit : "1",
+								button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
+								button_placeholder_id : "btnUpload1",
+								button_width: 61,
+								button_height: 22,
+								button_window_mode: "transparent",
+								debug: false,
+								swfupload_loaded_handler: function() 
 								{
-									var progress = new FileProgress(file, this.customSettings.progressTarget);
-									var data = JSON.decode(serverData);
-									if (data.status == "1") 
-									{
-										progress.setComplete();
-										progress.setStatus(data.error);
-										document.id("file_location").value = data.path;
-									} else 
-									{
-										progress.setError();
-										progress.setStatus(data.error);
+									document.id("btnCancel1").removeClass("ss-hide");
+									document.id("biblepathinfo").removeClass("ss-hide");
+									if(document.id("upload-noflash")){
+										document.id("upload-noflash").destroy();
+										document.id("loading").destroy();
 									}
-									progress.toggleCancel(false);
-								} catch (ex) 
+								},
+								file_dialog_start_handler : fileDialogStart,
+								file_queued_handler : fileQueued,
+								file_queue_error_handler : fileQueueError,
+								file_dialog_complete_handler : fileDialogComplete,
+								upload_start_handler : uploadStart,
+								upload_progress_handler : uploadProgress,
+								upload_error_handler : uploadError,
+								upload_success_handler : function uploadSuccess(file, serverData) 
 								{
-									this.debug(ex);
+									try 
+									{
+										var progress = new FileProgress(file, this.customSettings.progressTarget);
+										var data = JSON.decode(serverData);
+										if (data.status == "1") 
+										{
+											progress.setComplete();
+											progress.setStatus(data.error);
+											document.id("file_location").value = data.path;
+										} else 
+										{
+											progress.setError();
+											progress.setStatus(data.error);
+										}
+										progress.toggleCancel(false);
+									} catch (ex) 
+									{
+										this.debug(ex);
+									}
+								},
+								upload_complete_handler : uploadComplete,
+								custom_settings : 
+								{
+									progressTarget : "infoUpload1",
+									cancelButtonId : "btnCancel1"
 								}
-							},
-							upload_complete_handler : uploadComplete,
-							custom_settings : 
-							{
-								progressTarget : "infoUpload1",
-								cancelButtonId : "btnCancel1"
 							}
-						}
-					);
-		}';			
-		$document->addScriptDeclaration($uploader_script);
-
+						);
+			}';			
+			$document->addScriptDeclaration($uploader_script);			
+		}
+		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
+		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
+		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
+		$document->addScriptDeclaration($str_lang);
+					
 		$user = JFactory::getUser();
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
