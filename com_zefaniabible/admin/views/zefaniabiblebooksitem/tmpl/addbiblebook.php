@@ -42,7 +42,8 @@ $mdl_zef_bible_helper->headerDeclarations(); ?>
 
 
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function(pressbutton)
+/*	
+Joomla.submitbutton = function(pressbutton)
 	{
 		switch(pressbutton)
 		{
@@ -52,11 +53,11 @@ $mdl_zef_bible_helper->headerDeclarations(); ?>
 				break;
 		}
 
-		document.formvalidator.submitform(document.adminForm, pressbutton, function(pressbutton){
+		//document.formvalidator.submitform(document.adminForm, pressbutton, function(pressbutton){
 			return Joomla.submitform(pressbutton);
 		});
 	   	return false;
-	}
+	}/*
 </script>
 
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm" class='form-validate'>

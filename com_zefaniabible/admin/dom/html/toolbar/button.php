@@ -141,8 +141,8 @@ class JDomHtmlToolbarButton extends JDomHtmlToolbar
 			case 'save':
 			case 'apply':
 				if (!defined('JQUERY'))
-					$submitAction = "return document.formvalidator.submitform(document.adminForm, '" . $taskCtrl . "', function(pressbutton){return " . $jsSubmitForm . "(pressbutton);});";
-				$cmd = "javascript:" . $submitAction;
+					//$submitAction = "return document.formvalidator.submitform(document.adminForm, '" . $taskCtrl . "', function(pressbutton){return " . $jsSubmitForm . "(pressbutton);});";
+				//$cmd = "javascript:" . $submitAction;
 				break;
 
 
