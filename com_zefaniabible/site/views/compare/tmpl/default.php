@@ -53,7 +53,8 @@ class BibleCompare {
 		$this->doc_page = JFactory::getDocument();	
 		$this->flg_show_page_top 	= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 	= $this->params->get('show_pagination_bot', '1');	
-		$this->flg_show_credit 		= $this->params->get('show_credit','0');
+		//$this->flg_show_credit 		= $this->params->get('show_credit','0');
+		$this->flg_show_credit 		= 1;
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_email_button 	= $this->params->get('flg_email_button', '1');
 		$this->flg_show_audio_player = $this->params->get('show_audioPlayer', '0');
@@ -390,7 +391,7 @@ class BibleCompare {
             <div class="zef_bot_pagination">
             	<?php if($cls_bibleBook->flg_show_page_bot){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter, $this->str_Bible_Version2);} ?>        
             	<div style="clear:both;"></div>
-	            <?php if($cls_bibleBook->flg_show_credit){ echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' target='_blank'>Zefania Bible</a>"; } ?>
+	            <?php if($cls_bibleBook->flg_show_credit){ echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>"; } ?>
             </div>             
 			
         </div>

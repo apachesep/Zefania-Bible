@@ -87,6 +87,7 @@ class BibleReadingPlan
 		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
 								
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
+		$this->flg_show_credit = 1;
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 		= $this->params->get('show_pagination_bot', '1');
@@ -358,7 +359,7 @@ class BibleReadingPlan
                 <?php  
 				if($cls_bible_reading_plan->flg_show_credit)
 				{
-					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' target='_blank'>Zefania Bible</a>";
+					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>";
 				}
             	?>               
             </div> 
