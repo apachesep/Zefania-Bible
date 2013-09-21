@@ -49,7 +49,7 @@ class BibleRss {
 		
 		foreach($arr_Bible_Chapter as $obj_chapter)
 		{
-				$str_verse = $str_verse. '				'.$obj_chapter->verse_id.' '.strip_tags($obj_chapter->verse).''.PHP_EOL;
+				$str_verse = $str_verse. '				'.strip_tags($obj_chapter->verse).''.PHP_EOL;
 		}
 		if($str_feed_type == 'rss')
 		{	
