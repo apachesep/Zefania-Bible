@@ -29,6 +29,13 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
 ?>
 	<div id="zef_Bible_Main">
     	<div class="zef_legend">
+			<?php if($cls_bible_reading_plan_overview->flg_reading_rss_button){?>
+		        <div class="zef_reading_rss">
+                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=planrss&format=raw&a=<?php echo $cls_bible_reading_plan_overview->str_reading_plan;?>&b=<?php echo $cls_bible_reading_plan_overview->str_bibleVersion;?>&c=<?php echo $cls_bible_reading_plan_overview->int_start_item;?>&d=<?php echo $cls_bible_reading_plan_overview->int_number_of_items;?>&e=rss" target="_blank" rel="nofollow" >
+                    	<img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" />
+                    </a>
+				</div>                
+             <?php } ?>        
         	<?php if($cls_bible_reading_plan_overview->flg_email_button){?>
 			<div class="zef_email_button"><a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>        
             <?php } ?>
@@ -103,7 +110,7 @@ class BibleReadingPlanOverview
 	private $str_primary_bible;
 	public $str_bibleVersion;
 	private $str_primary_reading;
-	private $str_reading_plan;
+	public $str_reading_plan;
 	public $flg_show_credit;
 	public $flg_show_page_bot;
 	public $flg_show_page_top;
@@ -113,6 +120,9 @@ class BibleReadingPlanOverview
 	private $str_Bible_name;
 	public $flg_email_button;
 	public $flg_use_bible_selection;
+	public $flg_reading_rss_button;
+	public $int_start_item;
+	public $int_number_of_items;
 	
 	public function __construct($arr_bibles, $arr_reading, $arr_readingplans)
 	{
@@ -129,6 +139,7 @@ class BibleReadingPlanOverview
 		$this->flg_show_page_bot = $this->params->get('show_pagination_bot', '1');	
 		$this->flg_email_button 	= $this->params->get('flg_email_button', '1');	
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
+		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
 		
 		$this->createReadingDesc($arr_readingplans);
 		$this->createChapterOutput($arr_reading);
@@ -142,6 +153,17 @@ class BibleReadingPlanOverview
 		$pathway = $app_site->getPathway();
 		$pathway->addItem($this->str_plan_name, JFactory::getURI()->toString());		
 			
+
+		//RSS RSS 2.0 Feed
+		$this->int_start_item = JRequest::getVar('limitstart', 0, '', 'int');
+		$this->int_number_of_items = $app_site->getUserStateFromRequest('$option.limit', 'limit', $app_site->getCfg('feed_limit'), 'int');
+		$href = 'index.php?option=com_zefaniabible&view=planrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_start_item.'&d='.$this->int_number_of_items.'&e=rss'; 
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
+		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs );
+		//Atom Feed
+		$href = 'index.php?option=com_zefaniabible&view=planrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_start_item.'&d='.$this->int_number_of_items.'&e=atom'; 
+		$attribs_atom = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0'); 
+		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_atom );	
 				
 		$this->doc_page->setTitle($this->str_plan_name);
 		$this->doc_page->setMetaData( 'keywords', '');
