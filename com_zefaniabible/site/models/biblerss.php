@@ -37,7 +37,7 @@ require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_S
  */
 class ZefaniabibleModelBiblerss extends ZefaniabibleModelList
 {
-	var $_name_sing = 'verserssitem';
+	var $_name_sing = 'biblerssitem';
 	/**
 	 * Constructor
 	 *
