@@ -110,7 +110,7 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
 
             <td style="text-align:center">
-            	<?
+            	<?php
 						$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$row->book_name);
 						$str_title = $str_title . " " .$row->chapter_number;
 						if(($row->chapter_number)and($row->begin_verse)and(!$row->end_verse))
