@@ -79,6 +79,10 @@ class BibleStandard {
 								
 		foreach($arr_Bibles as $str_Bible)
 		{
+			if($str_Bible->alias == '')
+			{
+				JError::raiseWarning('',str_replace('%s','<b>'.$str_Bible->bible_name.'</b>',JText::_('ZEFANIABIBLE_ERROR_BLANK_ALIAS_BIBLE')));
+			}
 			if($str_Bible_Version == $str_Bible->alias)
 			{
 				$this->obj_Bible_Dropdown = $this->obj_Bible_Dropdown.'<option value="'.$str_Bible->alias.'" selected>'.$str_Bible->bible_name.'</option>';
