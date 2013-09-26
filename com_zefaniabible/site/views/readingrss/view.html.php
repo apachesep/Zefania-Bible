@@ -72,9 +72,12 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
 		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;	
+				
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_reading = 		$this->params->get('primaryReading', 'ttb');
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
+		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
 			
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	

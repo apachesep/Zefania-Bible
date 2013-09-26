@@ -86,8 +86,11 @@ class ZefaniabibleViewReading extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/reading.php');
 		$biblemodel = new ZefaniabibleModelReading;		
 		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;
+
 		$str_primary_reading = 		$params->get('primaryReading', 'ttb');
-		$str_primary_bible = 		$params->get('primaryBible', 'kjv');	
+		$str_primary_bible = 		$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$params->get('reading_start_date', '1-1-2012');
 			
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	

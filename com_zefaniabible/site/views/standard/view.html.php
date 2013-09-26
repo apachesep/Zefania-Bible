@@ -86,8 +86,12 @@ class ZefaniabibleViewStandard extends JViewLegacy
             throw new Exception(implode("\n", $errors));
         }
 
+		require_once(JPATH_COMPONENT_SITE.'/models/standard.php');
+		$biblemodel = new ZefaniabibleModelStandard;
 		
-		$str_primary_bible = $params->get('primaryBible', 'kjv');
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;
+		$str_primary_bible = $params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
 		$flg_show_references = $params->get('show_references', '0');
 		$flg_show_commentary = $params->get('show_commentary', '0');
@@ -98,8 +102,6 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$int_Bible_Book_ID = JRequest::getInt('b', $int_primary_book_front_end);
 		$int_Bible_Chapter = JRequest::getInt('c', $int_primary_chapter_front_end);	
 		
-		require_once(JPATH_COMPONENT_SITE.'/models/standard.php');
-		$biblemodel = new ZefaniabibleModelStandard;
 		$int_max_chapter = 	$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
 		// redirect to last chapter
 		if($int_Bible_Chapter > $int_max_chapter)
@@ -143,6 +145,10 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
 			foreach($arr_commentary_list as $obj_comm_list)
 			{
+				if($obj_comm_list->alias == "")
+				{
+					JError::raiseWarning('',str_replace('%s','<b>'.$obj_comm_list->title.'</b>',JText::_('ZEFANIABIBLE_ERROR_BLANK_ALIAS_COMMENTARY')));
+				}
 				if($str_commentary == $obj_comm_list->alias)
 				{
 					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>';

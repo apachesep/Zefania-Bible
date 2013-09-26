@@ -86,9 +86,15 @@ class ZefaniabibleViewCompare extends JViewLegacy
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
+		require_once(JPATH_COMPONENT_SITE.'/models/compare.php');
+		$biblemodel = new ZefaniabibleModelCompare;
 		
-		$str_primary_bible = $params->get('primaryBible', 'kjv');
-		$str_secondary_bible = $params->get('secondaryBible', 'kjv');
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;		
+		$str_first_record = $mdl_default->_buildQuery_first_record();
+		
+		$str_primary_bible = $params->get('primaryBible', $str_first_record);
+		$str_secondary_bible = $params->get('secondaryBible', $str_first_record);
 		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
 		$flg_show_second_player = $params->get('show_second_player','1');
 		$flg_show_references = $params->get('show_references', '0');
@@ -100,9 +106,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$str_Second_Bible_Version = JRequest::getCmd('b',$str_secondary_bible);	
 		$int_Bible_Book_ID = JRequest::getInt('c', $int_primary_book_front_end);	
 		$int_Bible_Chapter = JRequest::getInt('d', $int_primary_chapter_front_end);	
-	
-		require_once(JPATH_COMPONENT_SITE.'/models/compare.php');
-		$biblemodel = new ZefaniabibleModelCompare;
+
 		$int_max_chapter 	= 		$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
 		// redirect to last chapter
 		if($int_Bible_Chapter > $int_max_chapter)

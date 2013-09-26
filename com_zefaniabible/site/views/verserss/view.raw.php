@@ -63,10 +63,13 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/verserss.php');
 		$biblemodel = new ZefaniabibleModelVerserss;		
 		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;	
+				
 		// time zone offset.
 		$config =& JFactory::getConfig();
 		date_default_timezone_set($config->get('config.offset'));			
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
+		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
 		$str_today = new DateTime(date('Y-m-d'));
 		$int_day_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	

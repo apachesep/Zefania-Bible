@@ -73,10 +73,13 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
+		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;	
 
 		$mainframe = JFactory::getApplication();			
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
+		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$str_primary_plan = 		$this->params->get('primaryReading');
 		$str_plan_alias = 	JRequest::getCmd('a', $str_primary_plan);	
 		$str_Bible_Version = JRequest::getCmd('b', $str_primary_bible);	

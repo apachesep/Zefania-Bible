@@ -62,8 +62,11 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		require_once(JPATH_COMPONENT_SITE.'/models/biblerss.php');
 
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;		
+
 		$mdl_Bible_Model = new ZefaniabibleModelBiblerss;		
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
+		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$str_Bible_Version = JRequest::getCmd('a', $str_primary_bible);	
 		$int_book_id = JRequest::getInt('b', 1);
 		$int_chapter_id = JRequest::getInt('c', 1);

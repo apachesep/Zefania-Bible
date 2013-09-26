@@ -77,7 +77,10 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/verserss.php');
 		$biblemodel = new ZefaniabibleModelVerserss;		
 		
-		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default = new ZefaniabibleModelDefault;	
+		
+		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
 		$str_today = new DateTime(date('Y-m-d'));
 		$int_date_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
