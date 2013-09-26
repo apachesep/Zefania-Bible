@@ -151,7 +151,7 @@ class BibleReadingPlanOverview
 		// add breadcrumbs
 		$app_site = JFactory::getApplication();
 		$pathway = $app_site->getPathway();
-		$pathway->addItem($this->str_plan_name, JFactory::getURI()->toString());		
+		$pathway->addItem($this->str_plan_name.' - '.$this->str_bibleVersion, JFactory::getURI()->toString());		
 			
 
 		//RSS RSS 2.0 Feed
