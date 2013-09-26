@@ -92,7 +92,7 @@ class ZefaniabibleModelCompare extends ZefaniabibleModelList
 	 *
 	 * @access public
 	 * @return integer
-	 */
+	 */		 
 	function _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter)
 	{
 		try 

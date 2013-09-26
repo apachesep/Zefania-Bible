@@ -92,7 +92,7 @@ class ZefaniabibleModelPlan extends ZefaniabibleModelList
 	 *
 	 * @access public
 	 * @return integer
-	 */
+	 */	 
 	function _buildQuery_readingplan_overview($alias, $pagination)
 	{
 		try 
