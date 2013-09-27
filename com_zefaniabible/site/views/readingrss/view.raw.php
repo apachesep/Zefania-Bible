@@ -66,7 +66,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		$mdl_default = new ZefaniabibleModelDefault;	
 				
-		$str_primary_reading = 		$this->params->get('primaryReading', 'ttb');
+		$str_primary_reading = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
 		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
 			
