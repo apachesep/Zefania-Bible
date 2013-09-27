@@ -103,6 +103,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$int_Bible_Chapter = JRequest::getInt('c', $int_primary_chapter_front_end);	
 		
 		$int_max_chapter = 	$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
+		$str_collation = $mdl_default->_buildQuery_collation();
+		
 		// redirect to last chapter
 		if($int_Bible_Chapter > $int_max_chapter)
 		{
@@ -177,7 +179,9 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$this->assignRef('config',				$config);
 		$this->assignRef('arr_commentary',		$arr_commentary);
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);	
-		$this->assignRef('obj_references',		$obj_references);	
+		$this->assignRef('obj_references',		$obj_references);
+		$this->assignRef('str_collation',		$str_collation);	
+
 		parent::display($tpl);
 	}
 }
