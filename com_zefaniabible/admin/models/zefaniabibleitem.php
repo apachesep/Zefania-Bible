@@ -94,6 +94,32 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	 * @return	void
 	 * @since	1.6
 	 */
+	protected function fnc_get_collation()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->from('`#__zefaniabible_bible_text`');
+			$db->setQuery($query);
+			$data = $db->getCollation();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;					
+	}
+	protected function fnc_detect_collation($str_verse)
+	{
+		$str_table_collation = $this->fnc_get_collation();
+		$str_collation = mb_detect_encoding($str_verse);
+		if(trim(strtolower(str_replace('-','',$str_collation))) != trim(strtolower(substr($str_table_collation,0,4))))
+		{
+			JError::raiseWarning('',str_replace('%s','<b>'.$str_table_collation.'</b>',JText::_('ZEFANIABIBLE_ERROR_COLLATION')));
+		}
+		
+	}
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.
@@ -144,6 +170,10 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 				{
 					foreach($arr_bible_chapter->VERS as $arr_bible_verse)
 					{
+						if(($arr_bible_book['bnumber'] == 1) and($arr_bible_chapter['cnumber'] == 1)and ($arr_bible_verse['vnumber'] ==1))
+						{
+							$this->fnc_detect_collation(strip_tags($arr_bible_verse->asXML()));
+						}
 						$this->fnc_Update_Bible_Verses(
 							$int_max_ids, 
 							$arr_bible_book['bnumber'],
