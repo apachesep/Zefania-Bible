@@ -24,7 +24,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
+if(count( $this->items ) == 0)
+{
+	JError::raiseWarning('',JText::_('ZEFANIABIBLE_ERROR_BLANK_BIBLES'));
+}
 ?>
 
 
