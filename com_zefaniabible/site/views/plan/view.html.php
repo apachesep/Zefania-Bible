@@ -91,7 +91,7 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		// create pagination
 		jimport('joomla.html.pagination');
 
-		$str_primary_reading = $params->get('primaryReading', 'ttb');
+		$str_primary_reading = $params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);
 		$str_start_reading_date = $params->get('reading_start_date', '1-1-2012');
 		$str_primary_bible = $params->get('primaryBible', $mdl_default->_buildQuery_first_record());
