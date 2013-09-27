@@ -114,9 +114,12 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	{
 		$str_table_collation = $this->fnc_get_collation();
 		$str_collation = mb_detect_encoding($str_verse);
-		if(trim(strtolower(str_replace('-','',$str_collation))) != trim(strtolower(substr($str_table_collation,0,4))))
+		if($str_collation == 'UTF-8')
 		{
-			JError::raiseWarning('',str_replace('%s','<b>'.$str_table_collation.'</b>',JText::_('ZEFANIABIBLE_ERROR_COLLATION')));
+			if(trim(strtolower(str_replace('-','',$str_collation))) != trim(strtolower(substr($str_table_collation,0,4))))
+			{
+				JError::raiseWarning('',str_replace('%s','<b>'.$str_table_collation.'</b>',JText::_('ZEFANIABIBLE_ERROR_COLLATION')));
+			}
 		}
 		
 	}
