@@ -77,6 +77,22 @@ class ZefaniabibleModelDefault extends JModelItem
 	 * @access public
 	 * @return integer
 	 */
+	function _buildQuery_collation()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->from('`#__zefaniabible_bible_text`');
+			$db->setQuery($query);
+			$data = $db->getCollation();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	} 	 
 	function _buildQuery_first_record()
 	{
 		try 
