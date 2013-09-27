@@ -160,11 +160,29 @@ class ZefaniabibleModelZefaniaverseofday extends ZefaniabibleModelList
 		
 		return $query;
 	}
+	function _buildQuery_first_bible()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('alias');
+			$query->from('`#__zefaniabible_bible_names`');	
+			$query->where("publish = 1");
+			$query->order('id');		
+			$db->setQuery($query,0, 1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}
 	function _buildQuery_verse($arr_items)
 	{
-
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = $params->get('primaryBible', 'kjv');
+		$str_primary_bible = $params->get('primaryBible', $this->_buildQuery_first_bible());
 		$x = 0;
 		foreach($arr_items as $obj_item)
 		{
