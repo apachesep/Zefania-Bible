@@ -102,7 +102,7 @@ class ZefaniabibleControllerZefaniaupload extends JControllerLegacy
 				$append	.= '/'.$lang;
 			}
 			$folder	= JPATH_ROOT.'/'.$path.$append;
-
+			
 			// Set FTP credentials, if given
 			jimport('joomla.client.helper');
 			JClientHelper::setCredentialsFromRequest('ftp');
