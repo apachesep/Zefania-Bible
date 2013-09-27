@@ -127,8 +127,6 @@ if ($controllerName)
 
 $controllerName = 'ZefaniabibleController'.$controllerName;
 
-
-
 if($temp_view)
 {
 	// Create the controller
