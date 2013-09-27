@@ -130,7 +130,12 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 
 
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-
+		$str_primary_bible = $config->get('primaryBible');
+		if($str_primary_bible == '')
+		{
+			JError::raiseWarning('',JText::_('ZEFANIABIBLE_ERROR_BLANK_PARAMETERS'));
+		}	
+		
 		$user = JFactory::getUser();
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);

@@ -127,7 +127,14 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 		if ($access->get('core.delete') || $access->get('core.delete.own'))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
 		if ($access->get('core.admin'))
-			JToolBarHelper::preferences( 'com_zefaniabible' );
+		JToolBarHelper::preferences( 'com_zefaniabible' );
+		
+		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_primary_bible = $config->get('primaryBible');
+		if($str_primary_bible == '')
+		{
+			JError::raiseWarning('',JText::_('ZEFANIABIBLE_ERROR_BLANK_PARAMETERS'));
+		}
 		
 		$user = JFactory::getUser();
 		$this->assignRef('user',				$user);
