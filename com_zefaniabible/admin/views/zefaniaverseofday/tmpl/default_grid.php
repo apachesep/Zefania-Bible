@@ -24,7 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
 ?>
 
 
@@ -127,9 +126,7 @@ defined('_JEXEC') or die('Restricted access');
 				?>
                  
 			</td>
-            <td style="text-align:left">
-            	<?php echo $str_verse;?>
-            </td>            
+            <td style="text-align:left"><?php echo $str_verse;?></td>            
 			<?php if ($this->access->get('core.edit.state') || $this->access->get('core.view.own')): ?>
             <td>
 				<?php echo JDom::_('html.grid.publish', array(
