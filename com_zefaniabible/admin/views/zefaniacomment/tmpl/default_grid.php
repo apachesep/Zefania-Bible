@@ -73,7 +73,10 @@ defined('_JEXEC') or die('Restricted access');
 
 		$row = &$this->items[$i];
 
-
+		if($row->alias == '')
+		{
+			JError::raiseWarning('',str_replace('%s','<b>'.$row->bible_name.'</b>',JText::_('ZEFANIABIBLE_ERROR_BLANK_ALIAS_BIBLE')));
+		}
 
 		?>
 
