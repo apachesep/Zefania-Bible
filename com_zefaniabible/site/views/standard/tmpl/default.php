@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
 
 
-$cls_bibleBook = new BibleStandard($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->arr_commentary, $this->obj_references); 
+$cls_bibleBook = new BibleStandard($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->arr_commentary, $this->obj_references, $this->str_collation); 
 
 class BibleStandard {
 	public $obj_Bible_Dropdown;
@@ -48,7 +48,7 @@ class BibleStandard {
 	public $str_bible_name;
 	public $flg_reading_rss_button;
 	
-	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references)
+	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references, $str_collation)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->doc_page = JFactory::getDocument();	
@@ -111,7 +111,12 @@ class BibleStandard {
 			if($arr_verse->verse_id <= 2)
 			{
 				$str_descr = $str_descr." ".trim($arr_verse->verse);	
+				if((substr_count($arr_verse->verse, "?" ) > 7)and(substr($str_collation, 0,4) != "utf8"))
+				{
+					JError::raiseWarning('',str_replace('%s','<b>'.$str_collation.'</b>',JText::_('ZEFANIABIBLE_ERROR_COLLATION')));
+				}
 			}
+			
 			if ($x % 2)
 			{
 				$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="odd">';
