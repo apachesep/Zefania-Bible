@@ -52,6 +52,6 @@
 		</fields>
 	</config>
 	<updateservers>
-		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=4</server>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=4</server>
 	</updateservers>
 </extension>
