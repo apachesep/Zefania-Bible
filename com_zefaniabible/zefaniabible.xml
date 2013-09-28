@@ -75,5 +75,6 @@
 	</uninstall>
 	
 	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=1</server>
 	</updateservers>
 </extension>
