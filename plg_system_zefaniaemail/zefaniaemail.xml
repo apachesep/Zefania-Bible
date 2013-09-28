@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>2.7.6</version>
+	<version>2.7.8</version>
 	<description>PLG_ZEFANIABIBLE_EMAIL_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniaemail">zefaniaemail.php</filename>
@@ -27,5 +27,8 @@
 				<field name="reading_plan_image" type="imagelist" default="" label="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE" description="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE_DESC" directory="images" exclude="" stripext="" />				
 			</fieldset>
 		</fields>
-	</config>	
+	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=5</server>
+	</updateservers>	
 </extension>

@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>2.7.6</version>
+	<version>2.7.8</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module allows users to subscibe to the reading plan daily email and verse of the day email which is sent out daily.</description>
 	<files>
@@ -51,5 +51,7 @@
 			</fieldset>
 		</fields>
 	</config>
-
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=4</server>
+	</updateservers>
 </extension>

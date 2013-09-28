@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.7.6</version>
+	<version>2.7.8</version>
 	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
@@ -29,4 +29,7 @@
 			</fieldset>
 		</fields>
 	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=7</server>
+	</updateservers>		
 </extension>
