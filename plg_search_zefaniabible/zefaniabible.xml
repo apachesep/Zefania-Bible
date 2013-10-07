@@ -13,23 +13,27 @@
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
 		<folder>language</folder>
 		<filename>index.html</filename>
-	</files>
+	</files>		
 	<config>
 		<fields name="params">
 			<fieldset name="basic">	
-				<field name="flg_search_one_bible" type="radio"
-					default="0"
-					description="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE_DESC"
-					label="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE"
-				>
+				<field name="flg_search_one_bible" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field name="int_limit_query" type="list" default="100" label="PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
+					<option value='100' >100</option>
+					<option value='250' >250</option>
+					<option value='500' >500</option>
+					<option value='1000' >1000</option>
+					<option value='5000' >5000</option>					
+					<option value='0' >PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_ALL</option>
+				</field>
 				<field name="zb_search_mo_menuitem" type="menuitem" default="" label="PLG_ZEFANIABIBLE_SEARCH_PARAM_MO_MENUITEM" description="PLG_ZEFANIABIBLE_SEARCH_PARAM_MO_MENUITEM_DESC" state="1" />				
 			</fieldset>
-		</fields>
+		</fields>		
 	</config>
 	<updateservers>
 		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=7</server>
-	</updateservers>		
+	</updateservers>	
 </extension>

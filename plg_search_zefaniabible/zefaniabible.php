@@ -100,6 +100,7 @@ class plgSearchZefaniaBible extends JPlugin
 			$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 			$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
 			$str_menuItem = $this->params->get('zb_search_mo_menuitem', 0);
+			$int_limit_query = $this->params->get('int_limit_query', 100);
 			
 			$flg_search_one_bible = $this->params->get('flg_search_one_bible', '0');
 			$params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
@@ -145,7 +146,14 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->where("b.alias='".$str_primary_bible."'");
 				}
 				
-				$db->setQuery($query);
+				if($int_limit_query > 1)
+				{
+					$db->setQuery($query,0, $int_limit_query);
+				}
+				else
+				{
+					$db->setQuery($query);
+				}
 				$data = $db->loadObjectList();	
 			}
 			else
@@ -161,7 +169,14 @@ class plgSearchZefaniaBible extends JPlugin
 				{
 					$query->where("b.alias='".$str_primary_bible."'");
 				}
-				$db->setQuery($query);
+				if($int_limit_query > 1)
+				{
+					$db->setQuery($query,0, $int_limit_query);
+				}
+				else
+				{
+					$db->setQuery($query);
+				}
 				$data = $db->loadObjectList();					
 			}
 			$arr_result = $this->fnc_make_Search_Query($data,$str_menuItem);	
