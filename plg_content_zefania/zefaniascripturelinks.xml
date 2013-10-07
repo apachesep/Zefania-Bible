@@ -22,8 +22,8 @@
 		<filename>index.html</filename>
 		<folder>language</folder>
 		<folder>css</folder>
-	</files>
-	<config>	
+	</files>	
+	<config>		
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="content_Bible_alias" type="sql"
@@ -192,5 +192,5 @@
 	</config>
 	<updateservers>
 		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=6</server>
-	</updateservers>	
+	</updateservers>
 </extension>
