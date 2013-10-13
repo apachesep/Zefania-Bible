@@ -164,14 +164,23 @@ class BibleReadingPlanOverview
 		$href = 'index.php?option=com_zefaniabible&view=planrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_start_item.'&d='.$this->int_number_of_items.'&e=atom'; 
 		$attribs_atom = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0'); 
 		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_atom );	
-				
-		$this->doc_page->setTitle($this->str_plan_name);
-		$this->doc_page->setMetaData( 'keywords', '');
-		$this->doc_page->setMetaData( 'description', JText::_($this->str_plan_description));
+		
+		for($t = 0; $t < $this->int_number_of_items; $t++)
+		{
+			if($t < 10)
+			{
+				$str_keywords = $str_keywords.$this->str_plan_name.' - '.($this->int_start_item + $t+1).' '.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').',';
+			}
+		}
+		$str_desc = JText::_($this->str_plan_description) .' '. ($this->int_start_item+1).'-'.($this->int_start_item + $this->int_number_of_items).' '.JText::_('ZEFANIABIBLE_READING_PLAN_DAY');
+		
+		$this->doc_page->setTitle($this->str_plan_name.' | '. ($this->int_start_item+1).'-'.($this->int_start_item + $this->int_number_of_items).' '.JText::_('ZEFANIABIBLE_READING_PLAN_DAY'));
+		$this->doc_page->setMetaData( 'keywords', $str_keywords);
+		$this->doc_page->setMetaData( 'description', $str_desc);
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$this->doc_page->setMetaData( 'og:type', "article" );	
 		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
-		$this->doc_page->setMetaData( 'og:description', JText::_($this->str_plan_description) );
+		$this->doc_page->setMetaData( 'og:description', $str_desc );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );				
 	}
 	private function createReadingDesc($arr_readingplans)
