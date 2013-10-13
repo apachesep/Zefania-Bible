@@ -70,7 +70,8 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
 								<?php echo $this->pagination->getPagesLinks(); ?>
 				<?php	}
 				?>   
-		</div>           
+		</div>
+        <div style="clear:both"></div>
 	</div>
         <div class="zef_bible_Chapter"> 
         <?php echo $cls_bible_reading_plan_overview->str_page_output; ?>     
