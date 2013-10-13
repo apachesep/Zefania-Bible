@@ -106,7 +106,7 @@ class BibleReadingPlan
 				$this->str_curr_read_plan = $plan->name;
 			}
 		}
-		$this->getMetaData();
+		$this->getMetaData($arr_plan);
 		
 	}
 	public function fnc_output_chapter($arr_plan, $arr_commentary)
@@ -184,7 +184,7 @@ class BibleReadingPlan
 				}
 			}
 	}
-	private function getMetaData()
+	private function getMetaData($arr_plan)
 	{
 		//RSS RSS 2.0 Feed
 		$href = 'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_day_number; 
@@ -196,8 +196,23 @@ class BibleReadingPlan
 		$pathway = $app_site->getPathway();
 		$pathway->addItem(($this->str_curr_read_plan." - ". mb_strtoupper($this->str_bibleVersion)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number), JFactory::getURI()->toString());		
 		
-				
-		$this->doc_page->setTitle($this->str_curr_read_plan." - ". mb_strtoupper($this->str_bibleVersion)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
+		foreach ($arr_plan as $obj_plan)
+		{
+			foreach($obj_plan as $obj_chapter)
+			{
+				if($obj_chapter->verse_id == 1)
+				{
+					$this->str_first_verse = $this->str_first_verse. $obj_chapter->verse.' ';
+				}
+			}	
+		}
+		$int_len_first_verse = strlen($this->str_first_verse);
+		if($int_len_first_verse > 150)
+		{
+			$this->str_first_verse = mb_substr($this->str_first_verse,0,147).'...';
+		}
+		
+		$this->doc_page->setTitle($this->str_curr_read_plan." | ". mb_strtoupper($this->str_bibleVersion)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
 		$this->doc_page->setMetaData( 'keywords', $this->str_chapter_headings." ".$this->arr_book_info['str_nativeAlias'].", ".$this->str_curr_read_plan .", ".$this->str_bibleVersion.", ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number );
 		$this->doc_page->setMetaData( 'description', $this->str_first_verse);
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
@@ -346,7 +361,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-        <?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary); ?></div>
+	<article><?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary); ?></article>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
