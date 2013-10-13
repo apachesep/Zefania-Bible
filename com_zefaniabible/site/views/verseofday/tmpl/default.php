@@ -31,7 +31,7 @@ JHTML::stylesheet('zefaniabible.css', 'components/com_zefaniabible/css/');
 		</p>
 		<?php echo $this->pagination->getPagesLinks(); ?>
 </div>
-<form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm"><article>
 <?
 $cls_verses_of_day = new VersesOfTheDay($this->arr_verses);
 class VersesOfTheDay
@@ -95,8 +95,8 @@ class VersesOfTheDay
 	}
 }
 ?>
-
+    </article>
+</form>
     <div class="pagination">
     	<?php echo $this->pagination->getListFooter(); ?>
     </div>
-</form>
