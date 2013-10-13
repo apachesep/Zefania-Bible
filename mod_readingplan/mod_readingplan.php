@@ -45,8 +45,8 @@ class zefReadingPlan
 			b = bible
 			c = day
 		*/
-		$this->str_reading_plan = $params->get('reading_plan', 'ttb');
-		$this->str_Bible_alias = $params->get('bibleAlias', 'kjv');
+		$this->str_reading_plan = $params->get('reading_plan', $this->fnc_first_plan_record());
+		$this->str_Bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
 		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
 
@@ -133,6 +133,45 @@ class zefReadingPlan
 			$this->setError($e);
 		}		
 	}
+	protected function fnc_first_bible_record()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$query  = $db->getQuery(true);
+			$query->select('alias');
+			$query->from('`#__zefaniabible_bible_names`');	
+			$query->where("publish = 1");
+			$query->order('id');		
+			$db->setQuery($query,0, 1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}	
+	protected function fnc_first_plan_record()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$query  = $db->getQuery(true);
+			$query->select('alias');
+			$query->from('`#__zefaniabible_zefaniareading`');	
+			$query->where("publish = 1");
+			$query->order('id');		
+			$db->setQuery($query,0, 1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}		
+	
 }
 ?>
 

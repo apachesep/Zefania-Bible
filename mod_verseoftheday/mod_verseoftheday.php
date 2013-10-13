@@ -47,7 +47,7 @@ class ZefVerseOfTheDay
 			c = chapter
 			d = verse
 		*/		
-		$this->str_bible_alias = $params->get('bibleAlias');
+		$this->str_bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
 		$this->int_link_type = $params->get('link_type', 0);
 		$this->int_display_order = $params->get('display_order', 0);
 		$this->str_menuItem = $params->get('vd_mo_menuitem', 0);
@@ -206,6 +206,25 @@ class ZefVerseOfTheDay
 		}
 		return $arr_temp;
 	}
+	function fnc_first_bible_record()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$query  = $db->getQuery(true);
+			$query->select('alias');
+			$query->from('`#__zefaniabible_bible_names`');	
+			$query->where("publish = 1");
+			$query->order('id');		
+			$db->setQuery($query,0, 1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}	
 }
 ?>
 
