@@ -386,7 +386,7 @@ class BibleCompare {
             </div>
 
         <div style="clear:both;"></div>
-        <div class="zef_bible_Chapter"><?php echo $cls_bibleBook->str_Chapter_Output; ?></div>     
+        <div class="zef_bible_Chapter"><article><?php echo $cls_bibleBook->str_Chapter_Output; ?></article></div>     
         <div class="zef_footer">
             <div class="zef_bot_pagination">
             	<?php if($cls_bibleBook->flg_show_page_bot){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter, $this->str_Bible_Version2);} ?>        
