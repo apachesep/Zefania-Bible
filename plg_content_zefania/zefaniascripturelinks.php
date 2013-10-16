@@ -152,7 +152,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		// zefania bible regular flag
 		else if(preg_match('#{zefaniabible*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
-			print_r($arr_matches[2]);
 			if($arr_matches[2] != '')	
 			{
 				$str_Bible_alias = $arr_matches[2];
