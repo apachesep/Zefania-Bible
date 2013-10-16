@@ -43,7 +43,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			return;
 		}
 		$this->loadLanguage();
-		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
+		$docType = $document->getType();
+		$document->addStyleSheet('plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
 		JHTML::_('behavior.modal');
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
@@ -70,7 +71,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			'hideDelay'=>'5000'
 			);						
 		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
-								
+
 		$str_Bible_books = "";
 		for($z = 1; $z <= 66; $z ++)
 		{
@@ -108,7 +109,15 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$str_proper_name = '';
 		$arr_look_up_orig = '';
 		$flg_add_title = 0;
-		$str_Bible_alias = $this->params->get('content_Bible_alias', 'kjv');
+		
+		$str_Bible_alias = $this->params->get('content_Bible_alias' );
+		
+		// use this way to awoid extra sql queries
+		if($str_Bible_alias == '')
+		{
+			$str_Bible_alias = $this->fnc_get_first_bible_record();
+		}
+		
 		// text into page flag
 		if(preg_match('#{zefaniabible text(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
@@ -143,6 +152,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		// zefania bible regular flag
 		else if(preg_match('#{zefaniabible*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]))
 		{
+			print_r($arr_matches[2]);
+			if($arr_matches[2] != '')	
+			{
+				$str_Bible_alias = $arr_matches[2];
+			}
 			$str_match_fuction = "#{/zefaniabible}#";
 			$str_match_fuction_v2 = "#{zefaniabible*(.*?)}#";
 			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));
@@ -602,5 +616,25 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		
 		return $flg_return;
 	}
+	protected function fnc_get_first_bible_record()
+	{
+		try 
+		{
+			$db = JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('alias');
+			$query->from('`#__zefaniabible_bible_names`');	
+			$query->where("publish = 1");
+			$query->order('id');		
+			$db->setQuery($query,0, 1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}
+	
 }
 ?>
