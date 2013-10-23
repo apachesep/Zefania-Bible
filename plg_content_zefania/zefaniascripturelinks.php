@@ -44,7 +44,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		$this->loadLanguage();
 		$docType = $document->getType();
-		$document->addStyleSheet('plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
+		$document->addStyleSheet('/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
 		JHTML::_('behavior.modal');
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
@@ -136,6 +136,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$arr_matches[0] = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, '', $arr_matches[0] ));	
 			$str_scripture = $arr_matches[0];	
 			$arr_matches[1] = preg_replace( "#}#", '', $arr_matches[2] );
+			
 			$flg_insert_label = 1;
 		}
 		// mouseover tooltip flag
@@ -552,13 +553,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	}
 	protected function fnc_exclude_plugin()
 	{
-		
-		$params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_component_list = $this->params->get('str_exclude_component', '');
 		$str_menu_list = $this->params->get('str_exclude_menuitem', '');
 		$str_article_list = $this->params->get('str_exclude_article_id', '');
 		$str_URI_list = $this->params->get('str_exclude_URI', '');
-		
+
 		$flg_return = 0;
 		// exclude component code here 
 		if($str_component_list != '')
