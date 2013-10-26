@@ -370,6 +370,7 @@ class BibleStandard {
 	<input type="hidden" name="view" value="<?php echo JRequest::getCmd('view');?>" />
     <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>"/>
 </form>
+
 <div itemscope itemtype="http://schema.org/Book">
 	<meta itemprop="name" content="<?php echo $cls_bibleBook->str_bible_name;?>">
     <meta itemprop="image" content="<?php echo JURI::root()."components/com_zefaniabible/images/bible_100.jpg"; ?>">
