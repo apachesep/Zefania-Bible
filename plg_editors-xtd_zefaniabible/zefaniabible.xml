@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>2.7.7</version>
+	<version>2.7.9</version>
 	<description>PLG_EDITORS-XTD_ZEFANIABIBLE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
