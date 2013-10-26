@@ -68,19 +68,41 @@ class ZefaniabibleViewZefaniaModal extends JView
 	}
 	function display_default($tpl = null)
 	{
+	/*
+		a = Link Type
+		b = Alias
+		c = Bible Book
+		d = Begin Chap
+		e = Begin Verse
+		f = End Chap
+		g = End Verse
+	*/		
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 
 		$user 	= JFactory::getUser();
-
-		//$access = ZefaniabibleHelper::getACL();
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-		$state		= $this->get('State');
-
+		
+		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/models/zefaniamodal.php');
+		$mdl_bible_modal = new ZefaniabibleModelZefaniamodal;
+		$int_link_type = JRequest::getInt('a');
+		$str_bible_alias = JRequest::getCmd('b');
+		$int_bible_book_id = JRequest::getInt('c');
+		$int_begin_chap = JRequest::getInt('d');
+		$int_begin_verse = JRequest::getInt('e');
+		$int_end_chap = JRequest::getInt('f');
+		$int_end_verse = JRequest::getInt('g');
+				
+		$arr_bible_list = $mdl_bible_modal-> _buildQuery_Bibles();
+		if(($int_link_type == 2)or($int_link_type == 3))
+		{
+			$arr_bible_verse = $mdl_bible_modal-> _buildQuery_Verses($str_bible_alias,$int_bible_book_id,$int_begin_chap,$int_begin_verse,$int_end_chap,$int_end_verse);
+		}
+		
 		$document	= JFactory::getDocument();
+		$document->addStyleSheet('/administrator/components/com_zefaniabible/css/zefaniabible.css'); 
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_BIBLES") . $document->titleSuffix;
-
+		$this->assignRef('arr_bible_list',		$arr_bible_list);
+		$this->assignRef('arr_bible_verse',		$arr_bible_verse);
 		parent::display($tpl);
 	}
 }
