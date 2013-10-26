@@ -71,7 +71,6 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
 		
-	
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
@@ -161,7 +160,6 @@ class ZefaniabibleViewStandard extends JViewLegacy
 				}
 			}
 		}
-		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$user = JFactory::getUser();
@@ -181,7 +179,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);	
 		$this->assignRef('obj_references',		$obj_references);
 		$this->assignRef('str_collation',		$str_collation);	
-
+		$this->assignRef('arr_bible_book_names_en',		$arr_bible_book_names_en);	
 		parent::display($tpl);
 	}
 }
