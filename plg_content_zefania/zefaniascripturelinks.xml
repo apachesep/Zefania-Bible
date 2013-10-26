@@ -33,6 +33,14 @@
 					key_field="alias"
 					value_field = "bible_name"					
 				/>
+			<field name="flg_only_css"
+				type="list"
+				default="0"
+				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_ONLY_CSS"
+				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_ONLY_CSS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>				
 			<field name="flg_automatic_scripture_detection"
 				type="list"
 				default="0"
@@ -49,9 +57,7 @@
 					<option value="0">Zefania Bible</option>
 					<option value="1">BibleGateway</option>					
 			</field>
-			<field name="bible_gateway_version" type="list" default="51" 
-				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY"
-				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
+			<field name="bible_gateway_version" type="list" default="51" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
 			  <option value="69">	1550 Stephanus New Testament (NT)	</option>
 			  <option value="68">	1881 Westcott-Hort New Testament (NT)	</option>
 			  <option value="70">	1894 Scrivener New Testament (NT)	</option>
