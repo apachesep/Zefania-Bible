@@ -46,6 +46,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$docType = $document->getType();
 		$document->addStyleSheet('/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
 		JHTML::_('behavior.modal');
+		$flg_only_css  = $this->params->get('flg_only_css', '0');
+		if($flg_only_css)
+		{
+			return; 
+		}		
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 		
@@ -61,6 +66,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$str_match_fuction = "#{zefaniabible\s*(.*?)}#";
 			$str_match_fuction_v2 = "#{/zefaniabible}#";
 			$row->text = preg_replace( $str_match_fuction, '', preg_replace( $str_match_fuction_v2, ', ', $row->text ));			
+			return; 
+		}
+		$flg_only_css  = $this->params->get('flg_only_css', '0');
+		if($flg_only_css)
+		{
 			return; 
 		}
 		
