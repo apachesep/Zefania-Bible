@@ -25,6 +25,7 @@
 
 // No direct access
 defined('_JEXEC') or die;
+jimport('joomla.application.component.controller');
 
 class ZefaniabibleController extends JControllerLegacy
 {
@@ -70,6 +71,7 @@ class ZefaniabibleController extends JControllerLegacy
 			
 		}
 		// Joomla 3.0 Redirect
+		
 		if (($str_requested_url != $str_current_url)and($jversion->RELEASE == '3.0'))
 		{
 			//header('HTTP/1.1 301 Moved Permanently');
