@@ -56,7 +56,7 @@ class ZefaniabibleControllerZefaniamodal extends ZefaniabibleController
 		$this->registerTask( 'unpublish',  'unpublish' );
 		$this->registerTask( 'apply',  'apply' );
 	}
-	function display( )
+	function display($cachable = false, $urlparams = false) 
 	{
 		parent::display();
 
