@@ -49,6 +49,9 @@ class cls_button_scripture {
 		public $str_output_editor;
 		public $str_label;
 		public $flg_use_tags;
+		public $int_modal_width;
+		public $int_modal_height;
+		public $str_bible_gateway_version;
 		
 	public function __construct($arr_bible_verse)	
 	{
@@ -60,6 +63,10 @@ class cls_button_scripture {
 		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);		
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = $params->get('primaryBible');
+		$this->int_modal_width = $params->get('int_modal_width',800);
+		$this->int_modal_height = $params->get('int_modal_height', 500);
+		$this->str_bible_gateway_version = $params->get('bible_gateway_version', 9); 
+		
 		$this->int_link_type = JRequest::getInt('a');
 		$this->str_bible_alias = JRequest::getCmd('b',$str_primary_bible);
 		$this->int_bible_book_id = JRequest::getInt('c');
@@ -127,38 +134,34 @@ class cls_button_scripture {
 					}
 					break;
 				case 4:
-					$this->fnc_biblegateway_link($str_link);
+				case 5:
+					$this->fnc_biblegateway_link($str_link,$flg_add_title);
 					break;
 				default:
 					$this->fnc_default_link($str_link,$flg_add_title);
 			}
 		}
 	}
-	private function fnc_biblegateway_link($str_link)
+	private function fnc_biblegateway_link($str_link,$flg_add_title)
 	{
-		$int_modal_box_width = '640';
-		$int_modal_box_height = '480';	
-		$int_BibleGateway_id  = "NLT";
-		echo $int_BibleGateway_id;
 			// Bible gateway coding begins here
-			$str_link_url = 'http://classic.biblegateway.com/passage/index.php?search='.urlencode($str_link).';&version='.$int_BibleGateway_id.';&interface=print';			
-			$str_pre_link = '<a title="'. JText::_('COM_ZEFANIABIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link.'" target="blank" href="'.$str_link_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_modal_box_width.',y:'.$int_modal_box_height.'}}">';
-			if($str_scripture_name)
+			$str_link_url = 'http://classic.biblegateway.com/passage/index.php?search='.urlencode($str_link).';&version='.$this->str_bible_gateway_version.';&interface=print';			
+			$str_pre_link = '<a title="'. JText::_('COM_ZEFANIABIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link.'" target="blank" href="'.$str_link_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_width.',y:'.$this->int_modal_height.'}}">';
+			if($this->int_link_type == 5)
 			{
-				$str_link = $str_scripture_name;
+				$str_link = $this->str_label;
 			}
 			$str_output = $str_pre_link.$str_link .'</a>';
 			// Bible gateway coding ends here
 			$this->str_output_editor = $str_output;
-			$str_output = $str_output. '<hr><legend>'.JText::_('COM_ZEFANIABIBLE_MODAL_PREVIEW').'</legend><iframe src="'.$str_url_link.'" width="700" border="1"></iframe>';
+			$str_output = $str_output. '<hr><legend>'.JText::_('COM_ZEFANIABIBLE_MODAL_PREVIEW').'</legend><iframe src="'.$str_link_url.'" width="700" border="1"></iframe>';
 			$this->str_output_preview = $str_output;		
 	}
 	private function fnc_default_link($str_link,$flg_add_title)
 	{
-		$int_modal_box_width = '640';
-		$int_modal_box_height = '480';	
+		$str_output = '';
 		$str_url_link = JURI::root().'index.php?view=scripture&option=com_zefaniabible&tmpl=component&a='.$this->str_bible_alias.'&b='.$this->int_bible_book_id.'&c='.$this->int_begin_chap.'&d='.$this->int_begin_verse.'&e='.$this->int_end_chap.'&f='.$this->int_end_verse;
-		$str_output = $str_output.'<a title="'. JText::_('COM_ZEFANIABIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link.'" target="blank" href="'.JRoute::_($str_url_link).'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_modal_box_width.',y:'.$int_modal_box_height.'}}">';
+		$str_output = $str_output.'<a title="'. JText::_('COM_ZEFANIABIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link.'" target="blank" href="'.JRoute::_($str_url_link).'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_width.',y:'.$this->int_modal_height.'}}">';
 		if($this->int_link_type == 1)
 		{
 			$str_output = $str_output. $this->str_label;
@@ -375,17 +378,21 @@ class cls_button_scripture {
                 <option value="1"<?php if($cls_button_scripture->int_link_type == 1){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_LABEL'); ?></option>
                 <option value="2"<?php if($cls_button_scripture->int_link_type == 2){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_TEXT'); ?></option>
                 <option value="3"<?php if($cls_button_scripture->int_link_type == 3){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_TOOLTIP'); ?></option>
-                <!--<option value="4"<?php if($cls_button_scripture->int_link_type == 4){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_BIBLEGATEWAY'); ?></option>-->
+                <option value="4"<?php if($cls_button_scripture->int_link_type == 4){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_BIBLEGATEWAY'); ?></option>
+                <option value="5"<?php if($cls_button_scripture->int_link_type == 5){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_BIBLEGATEWAY')." ".JText::_('COM_ZEFANIABIBLE_LINK_TYPE_LABEL'); ?></option>
             </select>
+            <div class="zef_conent_clear"></div>
         </div>
         <div class="zef_scriputure_tags_div" id="zef_scriputure_tags_div">
         	<label id="zef_scriputure_tags_label"><?php echo JText::_('COM_ZEFANIABIBLE_SCRIPTURE_LINK_TAGS') ?></label>
         	<input type="checkbox" name="i" id="zef_scriputure_tags" <?php if($cls_button_scripture->flg_use_tags){?>checked<?php }?>/>
+            <div class="zef_conent_clear"></div>
         </div>
         <div style="clear:both"></div>
 		<div class="zef_label" id="zef_label">
         	<label><?php echo JText::_('COM_ZEFANIABIBLE_LABEL') ?></label>
 			<input name="h" id="zef_button_label" value="<?php echo $cls_button_scripture->str_label; ?>" title="<?php echo JText::_('COM_ZEFANIABIBLE_LABEL') ?>" type="text" maxlength="25" size="25" />
+            <div class="zef_conent_clear"></div>
 		</div>
         <div style="clear:both"></div>
         <div class="zef_alias" id="zef_alias">
@@ -406,6 +413,7 @@ class cls_button_scripture {
                     }
                 ?>
             </select>
+            <div class="zef_conent_clear"></div>
         </div>
         <div style="clear:both"></div>
         <div class="zef_scripture" id="zef_scripture">
@@ -445,6 +453,7 @@ class cls_button_scripture {
             </div>
             <div style="clear:both"></div>
         </div>
+        <div class="zef_conent_clear"></div>
         <div>
         	<input type="submit" />
             <button type="button" onclick="fnc_save();" <?php if($cls_button_scripture->str_output_editor == ''){?>disabled<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_SAVE_CLOSE');?></button> 
@@ -459,14 +468,14 @@ class cls_button_scripture {
 </fieldset>
 </form>
 <script language="javascript">
-if(document.getElementById("zef_button_link_type").value != 1)
+if((document.getElementById("zef_button_link_type").value != 1)&&(document.getElementById("zef_button_link_type").value != 5))
 {
 	document.getElementById('zef_label').style.visibility="hidden";
 	document.getElementById('zef_label').style.display="none";
 }
 function fnc_show_hide(id)
 {
-	if(document.getElementById("zef_button_link_type").value == 1)
+	if((document.getElementById("zef_button_link_type").value == 1)||(document.getElementById("zef_button_link_type").value == 5))
 	{
 		document.getElementById(id).style.visibility="visible";
 		document.getElementById(id).style.display="block";
