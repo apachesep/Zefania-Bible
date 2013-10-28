@@ -106,3 +106,11 @@ div.filter.datepicker input{	margin-right:-1px;}
 {
 	margin-top:5px;	
 }
+#zef_button_begin_chap, #zef_button_begin_verse, #zef_button_end_chap, #zef_button_end_verse
+{
+	max-width:25px;	
+}
+.zef_modal label
+{
+	display:inline !important;
+}
