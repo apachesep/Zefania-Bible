@@ -141,7 +141,7 @@ class BibleReadingPlanOverview
 		$this->flg_email_button 	= $this->params->get('flg_email_button', '1');	
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
 		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
-		
+		$str_keywords = '';
 		$this->createReadingDesc($arr_readingplans);
 		$this->createChapterOutput($arr_reading);
 		$this->getBibleName($arr_bibles);
