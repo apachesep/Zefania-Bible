@@ -209,7 +209,7 @@ class BibleReadingPlan
 		$int_len_first_verse = strlen($this->str_first_verse);
 		if($int_len_first_verse > 150)
 		{
-			$this->str_first_verse = mb_substr(strip_tags($this->str_first_verse,0,147)).'...';
+			$this->str_first_verse = mb_substr(strip_tags($this->str_first_verse),0, 147).'...';
 		}
 		
 		$this->doc_page->setTitle($this->str_curr_read_plan." | ". mb_strtoupper($this->str_bibleVersion)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
