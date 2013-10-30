@@ -69,14 +69,17 @@ class ZefaniabibleViewZefaniaModal extends JViewLegacy
 	function display_default($tpl = null)
 	{
 	/*
-		a = Link Type
-		b = Alias
-		c = Bible Book
-		d = Begin Chap
-		e = Begin Verse
-		f = End Chap
-		g = End Verse
-	*/		
+		a = Language 
+		b = Link Type
+		c = set tag flag
+		d = Label
+		e = Alias
+		f = Bible Book
+		g = Begin Chap
+		h = Begin Verse
+		i = End Chap
+		j = End Verse
+	*/
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
 
@@ -84,13 +87,13 @@ class ZefaniabibleViewZefaniaModal extends JViewLegacy
 		
 		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/models/zefaniamodal.php');
 		$mdl_bible_modal = new ZefaniabibleModelZefaniamodal;
-		$int_link_type = JRequest::getInt('a');
-		$str_bible_alias = JRequest::getCmd('b');
-		$int_bible_book_id = JRequest::getInt('c');
-		$int_begin_chap = JRequest::getInt('d');
-		$int_begin_verse = JRequest::getInt('e');
-		$int_end_chap = JRequest::getInt('f');
-		$int_end_verse = JRequest::getInt('g');
+		$int_link_type = JRequest::getInt('b');
+		$str_bible_alias = JRequest::getCmd('e');
+		$int_bible_book_id = JRequest::getInt('f');
+		$int_begin_chap = JRequest::getInt('g');
+		$int_begin_verse = JRequest::getInt('h');
+		$int_end_chap = JRequest::getInt('i');
+		$int_end_verse = JRequest::getInt('j');
 				
 		$arr_bible_list = $mdl_bible_modal-> _buildQuery_Bibles();
 		if(($int_link_type == 2)or($int_link_type == 3))
@@ -102,7 +105,7 @@ class ZefaniabibleViewZefaniaModal extends JViewLegacy
 		$document->addStyleSheet('/administrator/components/com_zefaniabible/css/zefaniabible.css'); 
 		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_BIBLES") . $document->titleSuffix;
 		$this->assignRef('arr_bible_list',		$arr_bible_list);
-		$this->assignRef('arr_bible_verse',		$arr_bible_verse);
+		$this->assignRef('arr_bible_verse',		$arr_bible_verse);		
 		parent::display($tpl);
 	}
 }
