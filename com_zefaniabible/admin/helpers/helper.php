@@ -42,7 +42,7 @@ class ZefaniabibleHelper
 		$parts = array();
 
 		//Contains followers
-		$authorizedInUrl = array('option', 'view', 'layout', 'Itemid', 'tmpl', 'lang', 'a','b','c','d','e','f','g','h','i');
+		$authorizedInUrl = array('option', 'view', 'layout', 'Itemid', 'tmpl', 'lang', 'a','b','c','d','e','f','g','h','i','j','k');
 
 		$request = JRequest::get();
 		foreach($request as $key => $value)
