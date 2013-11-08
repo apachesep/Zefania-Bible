@@ -30,13 +30,16 @@ $cls_button_scripture = new cls_button_scripture($this->arr_bible_verse);
 
 class cls_button_scripture {
 	/*
-		a = Link Type
-		b = Alias
-		c = Bible Book
-		d = Begin Chap
-		e = Begin Verse
-		f = End Chap
-		g = End Verse
+		a = Language 
+		b = Link Type
+		c = set tag flag
+		d = Label
+		e = Alias
+		f = Bible Book
+		g = Begin Chap
+		h = Begin Verse
+		i = End Chap
+		j = End Verse
 	*/
 		public $int_link_type;
 		public $str_bible_alias;
@@ -52,6 +55,7 @@ class cls_button_scripture {
 		public $int_modal_width;
 		public $int_modal_height;
 		public $str_bible_gateway_version;
+		public $str_lang;
 		
 	public function __construct($arr_bible_verse)	
 	{
@@ -67,15 +71,23 @@ class cls_button_scripture {
 		$this->int_modal_height = $params->get('int_modal_height', 500);
 		$this->str_bible_gateway_version = $params->get('bible_gateway_version', 9); 
 		
-		$this->int_link_type = JRequest::getInt('a');
-		$this->str_bible_alias = JRequest::getCmd('b',$str_primary_bible);
-		$this->int_bible_book_id = JRequest::getInt('c');
-		$this->int_begin_chap = JRequest::getInt('d');
-		$this->int_begin_verse = JRequest::getInt('e');
-		$this->int_end_chap = JRequest::getInt('f');
-		$this->int_end_verse = JRequest::getInt('g');
-		$this->str_label = JRequest::getCmd('h','');
-		$this->flg_use_tags = JRequest::getBool('i');
+		$this->str_lang = JRequest::getCmd('a', 'en-GB');
+		$this->int_link_type = JRequest::getInt('b');
+		$this->flg_use_tags = JRequest::getBool('c');
+		$this->str_label = JRequest::getCmd('d','');
+		$this->str_bible_alias = JRequest::getCmd('e',$str_primary_bible);
+		$this->int_bible_book_id = JRequest::getInt('f');
+		$this->int_begin_chap = JRequest::getInt('g');
+		$this->int_begin_verse = JRequest::getInt('h');
+		$this->int_end_chap = JRequest::getInt('i');
+		$this->int_end_verse = JRequest::getInt('j');
+
+		// Load languages and merge with fallbacks
+		$jlang = JFactory::getLanguage();
+		if($this->str_lang != "en-GB")
+		{
+			$jlang->load('com_zefaniabible', JPATH_COMPONENT, $this->str_lang, true);				
+		}
 		$flg_add_title = 0;
 		$str_link = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_bible_book_id)." ".$this->int_begin_chap; 
 		if(($this->int_begin_chap)and(!$this->int_end_chap)and($this->int_begin_verse)and(!$this->int_end_verse))
@@ -189,12 +201,12 @@ class cls_button_scripture {
 		$str_output = $this->str_output_editor. '<hr><legend>'.JText::_('COM_ZEFANIABIBLE_MODAL_PREVIEW').'</legend><iframe src="'.$str_url_link.'" width="700" border="1"></iframe>';
 		$this->str_output_preview = $str_output;
 	}
-	protected function fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title )
+	protected function fnc_create_text_link($arr_bible_verse, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title )
 	{
 		$verse = '';
 		$x = 1;
-		$int_verse_cnt = count($arr_verses);
-		foreach($arr_verses as $obj_verses)
+		$int_verse_cnt = count($arr_bible_verse);
+		foreach($arr_bible_verse as $obj_verses)
 		{	
 			// Genesis 1:1
 			if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
@@ -371,9 +383,27 @@ class cls_button_scripture {
 <fieldset class="adminform">
 	<legend>Pick Scipture</legend>							   
     <div class="zef_modal" id="zef_modal">
+    	<div id="zef_lang_list">
+        	<label id="zef_lang_list_label"><?php echo JText::_('COM_ZEFANIABIBLE_SELECT_LANG'); ?></label>
+            <select name="a" id="zef_button_lang_list" class="inputbox" >
+                <?php 
+					foreach(JLanguage::getKnownLanguages() as $arr_system_lang)
+					{
+						if($arr_system_lang['tag'] == $cls_button_scripture->str_lang)
+						{
+							echo '<option value="'.$arr_system_lang['tag'].'" selected>'.$arr_system_lang['name'].'</option>';
+						}
+						else
+						{
+							echo '<option value="'.$arr_system_lang['tag'].'">'.$arr_system_lang['name'].'</option>';
+						}
+					}
+                ?>            
+            </select>
+        </div>
         <div class="zef_modal_type" id="zef_modal_type">
             <label id="zef_link_type_label" title="<?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_DESC'); ?>"><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE'); ?></label>
-            <select name="a" id="zef_button_link_type" class="inputbox"  onchange="fnc_show_hide('zef_label');">
+            <select name="b" id="zef_button_link_type" class="inputbox"  onchange="fnc_show_hide('zef_label');">
                 <option value="0"<?php if($cls_button_scripture->int_link_type == 0){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_DEFAULT'); ?></option>
                 <option value="1"<?php if($cls_button_scripture->int_link_type == 1){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_LABEL'); ?></option>
                 <option value="2"<?php if($cls_button_scripture->int_link_type == 2){?>selected<?php }?>><?php echo JText::_('COM_ZEFANIABIBLE_LINK_TYPE_TEXT'); ?></option>
@@ -385,19 +415,19 @@ class cls_button_scripture {
         </div>
         <div class="zef_scriputure_tags_div" id="zef_scriputure_tags_div">
         	<label id="zef_scriputure_tags_label"><?php echo JText::_('COM_ZEFANIABIBLE_SCRIPTURE_LINK_TAGS') ?></label>
-        	<input type="checkbox" name="i" id="zef_scriputure_tags" <?php if($cls_button_scripture->flg_use_tags){?>checked<?php }?>/>
+        	<input type="checkbox" name="c" id="zef_scriputure_tags" <?php if($cls_button_scripture->flg_use_tags){?>checked<?php }?>/>
             <div class="zef_conent_clear"></div>
         </div>
         <div style="clear:both"></div>
 		<div class="zef_label" id="zef_label">
         	<label><?php echo JText::_('COM_ZEFANIABIBLE_LABEL') ?></label>
-			<input name="h" id="zef_button_label" value="<?php echo $cls_button_scripture->str_label; ?>" title="<?php echo JText::_('COM_ZEFANIABIBLE_LABEL') ?>" type="text" maxlength="25" size="25" />
+			<input name="d" id="zef_button_label" value="<?php echo $cls_button_scripture->str_label; ?>" title="<?php echo JText::_('COM_ZEFANIABIBLE_LABEL') ?>" type="text" maxlength="25" size="25" />
             <div class="zef_conent_clear"></div>
 		</div>
         <div style="clear:both"></div>
         <div class="zef_alias" id="zef_alias">
             <label class="zef_scripture_label"><?php echo JText::_('ZEFANIABIBLE_FIELD_ALIAS'); ?></label>
-            <select name="b" id="zef_button_bible_alias" class="inputbox">
+            <select name="e" id="zef_button_bible_alias" class="inputbox">
                 <option value="" ><?php echo JText::_('ZEFANIABIBLE_JSEARCH_SELECT_BIBLE_VERSION'); ?></option>
                 <?php 
                     foreach($this->arr_bible_list as $obj_bible_list)
@@ -419,7 +449,7 @@ class cls_button_scripture {
         <div class="zef_scripture" id="zef_scripture">
             <div>
                 <label><?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE');?></label>
-                <select name="c" id="zef_button_bible_book" class="inputbox" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME');?>">
+                <select name="f" id="zef_button_bible_book" class="inputbox" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME');?>">
                     <option value="0" ><?php echo JText::_('ZEFANIABIBLE_JSEARCH_SELECT_BOOK_ID'); ?></option>
                     <?php 
                         for($x = 1; $x <= 66; $x++)
@@ -437,19 +467,19 @@ class cls_button_scripture {
                 </select>
             </div>
             <div>
-                <input  name="d" id="zef_button_begin_chap" value="<?php if($cls_button_scripture->int_begin_chap != 0){ echo $cls_button_scripture->int_begin_chap;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BEGIN_CHAPTER') ?>" type="text" maxlength="3" size="5" />
+                <input  name="g" id="zef_button_begin_chap" value="<?php if($cls_button_scripture->int_begin_chap != 0){ echo $cls_button_scripture->int_begin_chap;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BEGIN_CHAPTER') ?>" type="text" maxlength="3" size="5" />
             </div>
             <div>:</div>
             <div>
-                <input  name="e" id="zef_button_begin_verse" value="<?php if($cls_button_scripture->int_begin_verse != 0){echo $cls_button_scripture->int_begin_verse;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BEGIN_VERSE') ?>" type="text" maxlength="3" size="5" />
+                <input  name="h" id="zef_button_begin_verse" value="<?php if($cls_button_scripture->int_begin_verse != 0){echo $cls_button_scripture->int_begin_verse;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BEGIN_VERSE') ?>" type="text" maxlength="3" size="5" />
             </div>
             <div>-</div>
             <div>
-                <input  name="f" id="zef_button_end_chap" value="<?php if($cls_button_scripture->int_end_chap != 0){echo $cls_button_scripture->int_end_chap;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_END_CHAPTER') ?>" type="text" maxlength="3" size="5" />
+                <input  name="i" id="zef_button_end_chap" value="<?php if($cls_button_scripture->int_end_chap != 0){echo $cls_button_scripture->int_end_chap;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_END_CHAPTER') ?>" type="text" maxlength="3" size="5" />
             </div>
             <div>:</div>
             <div>
-                <input  name="g" id="zef_button_end_verse" value="<?php if($cls_button_scripture->int_end_verse !=0){echo $cls_button_scripture->int_end_verse;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_END_VERSE') ?>" type="text" maxlength="3" size="5" />
+                <input  name="j" id="zef_button_end_verse" value="<?php if($cls_button_scripture->int_end_verse !=0){echo $cls_button_scripture->int_end_verse;}?>" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_END_VERSE') ?>" type="text" maxlength="3" size="5" />
             </div>
             <div style="clear:both"></div>
         </div>
