@@ -66,7 +66,7 @@ class BibleReadingPlan
 	public $flg_show_audio_player;
 	public $flg_use_bible_selection;
 	private $str_commentary;
-		
+	public $str_tmpl;
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary)
 	{
 		
@@ -79,7 +79,7 @@ class BibleReadingPlan
 		$this->str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
 		$this->flg_show_audio_player = 	$this->params->get('show_audioPlayer', '0');
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
-
+		$this->str_tmpl = JRequest::getCmd('tmpl');
 		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
 		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
 
@@ -87,7 +87,6 @@ class BibleReadingPlan
 		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
 								
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
-		$this->flg_show_credit = 1;
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 		= $this->params->get('show_pagination_bot', '1');
@@ -233,6 +232,10 @@ class BibleReadingPlan
 			{
 				$url[2] = $url[2]."&d=".$this->str_commentary;
 			}
+			if($this->str_tmpl == "component")
+			{
+				$url[2] = $url[2]. "&tmpl=component";
+			}
 			$url[2] = JRoute::_($url[2]);			
 			if($this->flg_show_pagination_type == 0)
 			{
@@ -256,6 +259,10 @@ class BibleReadingPlan
 		{
 			$url[3] = $url[3]."&d=".$this->str_commentary;
 		}
+		if($this->str_tmpl == "component")
+		{
+			$url[3] = $url[3]. "&tmpl=component";
+		}		
 		$url[3] = JRoute::_($url[3]);	
 			
 		if($this->flg_show_pagination_type == 0)
@@ -310,12 +317,12 @@ class BibleReadingPlan
 
 
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
-	<div id="zef_Bible_Main">
+	<div id="zef_Bible_Main<?php if($cls_bible_reading_plan->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
     	<div class="zef_legend">
-        		<?php if($cls_bible_reading_plan->flg_email_button){?>
+        		<?php if(($cls_bible_reading_plan->flg_email_button)and($cls_bible_reading_plan->str_tmpl != "component")){?>
         		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
                 <?php } 
-					if($cls_bible_reading_plan->flg_reading_rss_button){
+					if(($cls_bible_reading_plan->flg_reading_rss_button)and($cls_bible_reading_plan->str_tmpl != "component")){
 				?>
 					<div class="zef_reading_rss">
                     	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" >
