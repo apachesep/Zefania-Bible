@@ -88,7 +88,17 @@ function ZefaniabibleBuildRoute(&$query){
 	{
 		$segments[] = $query['h'];
 		unset( $query['h'] );				
-	}			
+	}
+	if(isset($query['i']))
+	{
+		$segments[] = $query['i'];
+		unset( $query['i'] );				
+	}
+	if(isset($query['j']))
+	{
+		$segments[] = $query['j'];
+		unset( $query['j'] );				
+	}
 
 	return $segments;
 }
@@ -147,6 +157,16 @@ function ZefaniabibleParseRoute($segments)
 	if (isset($segments[$nextPos]))
 	{	
 		$vars['h'] = $segments[$nextPos];
+		$nextPos++;
+	}		
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['i'] = $segments[$nextPos];
+		$nextPos++;
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['j'] = $segments[$nextPos];
 		$nextPos++;
 	}		
 	//Item layout : get the cid value
