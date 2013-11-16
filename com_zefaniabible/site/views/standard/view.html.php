@@ -96,7 +96,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$flg_show_commentary = $params->get('show_commentary', '0');
 		$int_primary_book_front_end = $params->get('primary_book_frontend');
 		$int_primary_chapter_front_end = $params->get('int_front_start_chapter',1);
-							  
+		$str_tmpl = JRequest::getCmd('tmpl');
 		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);	
 		$int_Bible_Book_ID = JRequest::getInt('b', $int_primary_book_front_end);
 		$int_Bible_Chapter = JRequest::getInt('c', $int_primary_chapter_front_end);	
@@ -111,6 +111,10 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			if($flg_show_commentary)
 			{
 				$str_redirect_url = $str_redirect_url."&d=".JRequest::getCmd('d');
+			}
+			if($str_tmpl == "component")
+			{
+				$str_redirect_url = $str_redirect_url ."&tmpl=component";
 			}
 			$str_redirect_url = JRoute::_($str_redirect_url);
 			header('HTTP/1.1 301 Moved Permanently');
