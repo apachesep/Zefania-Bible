@@ -200,3 +200,12 @@
 {
 	font-size:1em;	 
 }
+#zef_Bible_Main_verse_tmpl_comp
+{
+	font-size:22px;	
+}
+#zef_Bible_Main_tmpl_comp .zef_verse_number
+{
+	margin-right:10px !important;	
+	
+}
