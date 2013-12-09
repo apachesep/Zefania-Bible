@@ -97,7 +97,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 		
 		// time zone offset.
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		date_default_timezone_set($config->get('offset'));		
 		
 		$arr_start_date = new DateTime($str_start_reading_date);	
@@ -109,7 +109,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$arr_reading 		=	$biblemodel->_buildQuery_plan($str_reading_plan, $str_start_reading_date);
 		$arr_reading_plans 	= 	$biblemodel->_buildQuery_readingplan();
 		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
-		
+		$int_max_days		=  	$biblemodel->_buildQuery_max_days($str_reading_plan);
+
 		// commentary code
 		$flg_show_commentary = $params->get('show_commentary', '0');
 		$obj_commentary_dropdown = '';
@@ -155,6 +156,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$this->assignRef('config',				$config);
 		$this->assignRef('arr_commentary',		$arr_commentary);
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
+		$this->assignRef('int_orig_day',		$int_day_diff);
+		$this->assignRef('int_max_days',		$int_max_days);
 				
 		parent::display($tpl);
 	}
