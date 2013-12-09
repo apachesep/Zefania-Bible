@@ -194,7 +194,26 @@ class ZefaniabibleModelReading extends ZefaniabibleModelList
 			$this->setError($e);
 		}
 		return $data;
-	}	 
+	}
+	function _buildQuery_max_days($str_alias)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('Max(a.day_number)');
+			$query->from('`#__zefaniabible_zefaniareadingdetails` AS a');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS b ON a.plan = b.id');
+			$query->where("b.alias='".$str_alias."'");
+			$db->setQuery($query);
+			$data = $db->loadResult();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
 	function _buildQuery_Bibles()
 	{
 		try 
