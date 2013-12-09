@@ -390,7 +390,14 @@ class BibleCompare {
             <div class="zef_bot_pagination">
             	<?php if($cls_bibleBook->flg_show_page_bot){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter, $this->str_Bible_Version2);} ?>        
             	<div style="clear:both;"></div>
-	            <?php if($cls_bibleBook->flg_show_credit){ echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>"; } ?>
+	            <?php 
+				if($cls_bibleBook->flg_show_credit)
+				{
+					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
+					$mdl_credits = new ZefaniabibleCredits;
+					$obj_player_one = $mdl_credits->fnc_credits();
+				} ?>
+                    
             </div>             
 			
         </div>

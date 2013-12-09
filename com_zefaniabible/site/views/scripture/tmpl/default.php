@@ -52,7 +52,9 @@ class BibleReadingPlan
 		echo $str_scripture; 
 		if($this->flg_show_credit)
 		{
-			echo '<div style="text-align:center;margin-top:10px">'.JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' target='_blank'>Zefania Bible</a></div>";
+			require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();
 		}
     }
 

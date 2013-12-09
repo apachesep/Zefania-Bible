@@ -88,7 +88,9 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
                 <?php 
 				if($cls_bible_reading_plan_overview->flg_show_credit)
 				{
-					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>";
+					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
+					$mdl_credits = new ZefaniabibleCredits;
+					$obj_player_one = $mdl_credits->fnc_credits();
 				}
             	?>                
             </div>
