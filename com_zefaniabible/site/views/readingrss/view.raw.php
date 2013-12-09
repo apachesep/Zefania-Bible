@@ -74,7 +74,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 
 		// time zone offset.
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		date_default_timezone_set($config->get('offset'));	
 		
 		$arr_start_date = new DateTime($str_start_reading_date);	
