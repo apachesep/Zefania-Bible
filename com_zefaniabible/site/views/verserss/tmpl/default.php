@@ -74,7 +74,7 @@ class ClsVerseRSS
 			echo '		<title>'.$str_title.'</title>'.PHP_EOL;	 
 			echo '		<link>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;a='.$str_bible_Version.'&amp;b=0&amp;c='.$int_verse_remainder.'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
 			echo '		<guid>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;a='.$str_bible_Version.'&amp;b=0&amp;c='.$int_verse_remainder.'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
-			echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;		
+			echo '		<pubDate>'.date('D, d M Y 00:00:00 O').'</pubDate>'.PHP_EOL;		
 			echo '		<description>'.PHP_EOL;	
 			echo '			'.strip_tags($str_verse).PHP_EOL;	
 			echo '		</description>'.PHP_EOL;

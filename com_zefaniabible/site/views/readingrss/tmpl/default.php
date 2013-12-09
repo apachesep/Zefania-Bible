@@ -107,7 +107,7 @@ class BibleReadingPlan
 		echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 		echo '	<description>'.$mainframe->getCfg('MetaDesc').'</description>'.PHP_EOL;
 		echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
-		echo '	<lastBuildDate>'.date('D, d M Y H:i:s O').'</lastBuildDate>'.PHP_EOL;
+		echo '	<lastBuildDate>'.date('D, d M Y 00:00:00 O').'</lastBuildDate>'.PHP_EOL;
 		echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 		echo '	<managingEditor>'.$str_admin_email.'('.$str_admin_name.')'.'</managingEditor>'.PHP_EOL;
 		echo '	<copyright>(c) '.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
@@ -162,7 +162,7 @@ class BibleReadingPlan
 										  .'		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL
 										  .'		<guid>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL
 										  .'		<dc:creator></dc:creator>'.PHP_EOL
-										  .'		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL
+										  .'		<pubDate>'.date('D, d M Y 00:00:00 O').'</pubDate>'.PHP_EOL
 										  .'		<enclosure url="'.JURI::base().$str_audio_path.$str_mp3_file.'" length="27186997" type="audio/mpeg"></enclosure>'.PHP_EOL
 										  .'		<itunes:image href="'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'" />'.PHP_EOL
 										  .'		<itunes:author>'.$mainframe->getCfg('sitename').'</itunes:author>'.PHP_EOL
@@ -236,7 +236,7 @@ class BibleReadingPlan
 					echo '		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</title>".PHP_EOL;			
 					echo '		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL;	
 					echo '		<guid>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL;
-					echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;
+					echo '		<pubDate>'.date('D, d M Y 00:00:00 O').'</pubDate>'.PHP_EOL;
 					echo '		<description>'.PHP_EOL;
 					$y++;
 				}
@@ -296,7 +296,7 @@ class BibleReadingPlan
 		echo '		<title>'.$str_title."</title>".PHP_EOL;		
 		echo '		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
 		echo '		<guid>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
-		echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;		
+		echo '		<pubDate>'.date('D, d M Y 00:00:00 O').'</pubDate>'.PHP_EOL;		
 		echo '		<description>';	
 		echo '		'.$str_desc;
 		echo '		</description>'.PHP_EOL;
