@@ -24,7 +24,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary);
+$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days);
 
 class BibleReadingPlan
 {
@@ -67,7 +67,7 @@ class BibleReadingPlan
 	public $flg_use_bible_selection;
 	private $str_commentary;
 	public $str_tmpl;
-	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary)
+	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days)
 	{
 		
 		$this->arr_reading = $arr_reading;
@@ -221,40 +221,63 @@ class BibleReadingPlan
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}	
 	
-	public function paginationButtons($int_day_number)
+	public function paginationButtons($int_day_number,$int_max_days)
 	{
 		$urlPrepend = "document.location.href=('";
 		$urlPostpend = "')";		
-		if($this->arr_reading[0]->day_number > 1)
+
+		// fix days yesterday's day when less than 1
+		if($int_day_number <= 1)
 		{
-			$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number-1);
-			if($this->flg_show_commentary)
-			{
-				$url[2] = $url[2]."&d=".$this->str_commentary;
-			}
-			if($this->str_tmpl == "component")
-			{
-				$url[2] = $url[2]. "&tmpl=component";
-			}
-			$url[2] = JRoute::_($url[2]);			
-			if($this->flg_show_pagination_type == 0)
-			{
-				echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING').'" type="button" id="zef_Buttons" class="zef_last_day" name="lastday" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number-1).'" />';
-			}
-			else
-			{
-				echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING')."' id='zef_links' href='".$url[2]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($this->arr_reading[0]->day_number-1)."</a> ";
-			}
+			$str_yesterday = $int_max_days;
 		}
+		else
+		{
+			$str_yesterday = ($this->arr_reading[0]->day_number-1);
+		}
+		
+		// make yesterday's link/button
+		$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$str_yesterday;
+		if($this->flg_show_commentary)
+		{
+			$url[2] = $url[2]."&d=".$this->str_commentary;
+		}
+		if($this->str_tmpl == "component")
+		{
+			$url[2] = $url[2]. "&tmpl=component";
+		}
+		$url[2] = JRoute::_($url[2]);			
 		if($this->flg_show_pagination_type == 0)
 		{
-			echo '<input title="'.JText::_('').'" type="button" id="zef_Buttons" disabled="disabled" class="zef_toda" name="today" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number).'" />';		
+			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING').'" type="button" id="zef_Buttons" class="zef_last_day" name="lastday" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$str_yesterday.'" />';
+		}
+		else
+		{
+			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING')."' id='zef_links' href='".$url[2]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$str_yesterday."</a> ";
+		}
+		
+		// make today's text or disabled button
+		if($this->flg_show_pagination_type == 0)
+		{
+			echo '<input title="'.JText::_('').'" type="button" id="zef_Buttons" disabled="disabled" class="zef_today" name="today" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number).'" />';		
 		}
 		else
 		{
 			echo JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($this->arr_reading[0]->day_number);			
 		}
-		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".($this->arr_reading[0]->day_number+1);
+		
+		// fix tommorow when greater than max days in plan
+		if($this->arr_reading[0]->day_number >= $int_max_days)
+		{
+			$int_tommorow = 1;
+		}
+		else
+		{
+			$int_tommorow = ($this->arr_reading[0]->day_number+1);
+		}
+		
+		//make tomorow's link/button
+		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$int_tommorow;
 		if($this->flg_show_commentary)
 		{
 			$url[3] = $url[3]."&d=".$this->str_commentary;
@@ -264,14 +287,14 @@ class BibleReadingPlan
 			$url[3] = $url[3]. "&tmpl=component";
 		}		
 		$url[3] = JRoute::_($url[3]);	
-			
+		
 		if($this->flg_show_pagination_type == 0)
 		{
-			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING').'" type="button" id="zef_Buttons" class="zef_next_day" name="nextday" onclick="'.$urlPrepend.$url[3].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number+1).'" />';
+			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING').'" type="button" id="zef_Buttons" class="zef_next_day" name="nextday" onclick="'.$urlPrepend.$url[3].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$int_tommorow.'" />';
 		}
 		else
 		{
-			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING')."' id='zef_links' href='".$url[3]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($this->arr_reading[0]->day_number+1)."</a> ";
+			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING')."' id='zef_links' href='".$url[3]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$int_tommorow."</a> ";
 		}
 	}
 	public function createBibleDropDown($items)
@@ -311,7 +334,44 @@ class BibleReadingPlan
 			}
 		}
 		return $tmp;
-	}	
+	}
+	public function fnc_jump_button($int_day_number,$int_max_days,$int_orig_day)
+	{
+		$int_today = $int_orig_day % $int_max_days;
+		if($int_day_number > $int_max_days)
+		{
+			$int_day_number = $int_day_number % $int_max_days;
+		}
+		$str_plan_start_date = date('d-m-Y', strtotime("-".$int_today." day"));
+				
+		echo '<select name="jump" id="zef_day_jump" class="inputbox" onchange="javascript:location.href = this.value;">';
+		for($x = 1; $x <= $int_max_days; $x++)
+		{
+			$str_url = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$x;
+			if($this->str_tmpl == "component")
+			{
+				$str_url = $str_url. "&tmpl=component";
+			}
+			$str_url = JRoute::_($str_url);
+			echo '	<option value="'.$str_url.'"';			
+
+			if($x == $int_day_number)
+			{
+				echo 'selected';
+			}
+			echo  '>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$x;
+			if($x == $int_today)
+			{
+				echo " - " .JText::_('COM_ZEFANIABIBLE_TODAY');
+			}
+			else
+			{
+				echo " - " .date('d/m/Y', strtotime($str_plan_start_date. "+".$x." day"));
+			}
+			echo '</option>';
+		}
+		echo '</select>';
+	}
 }
 ?>
 
@@ -363,7 +423,9 @@ class BibleReadingPlan
                     <?php 
                         if($cls_bible_reading_plan->flg_show_page_top)
                         {
-                            $cls_bible_reading_plan->paginationButtons($this->int_day_number);
+                            $cls_bible_reading_plan->paginationButtons($this->int_day_number,$this->int_max_days);
+							if($cls_bible_reading_plan->str_tmpl == "component"){ echo "<br>";}
+							$cls_bible_reading_plan->fnc_jump_button($this->int_day_number,$this->int_max_days,$this->int_orig_day);
                         }
                     ?>              
           </div>
@@ -374,14 +436,18 @@ class BibleReadingPlan
                 <?php 
 					if($cls_bible_reading_plan->flg_show_page_bot)
 					{
-						$cls_bible_reading_plan->paginationButtons($this->int_day_number);
+						$cls_bible_reading_plan->paginationButtons($this->int_day_number,$this->int_max_days);
+						if($cls_bible_reading_plan->str_tmpl == "component"){ echo "<br>";}
+						$cls_bible_reading_plan->fnc_jump_button($this->int_day_number,$this->int_max_days,$this->int_orig_day);
 					}
 				?>   
                 <div style="clear:both"></div>
                 <?php  
 				if($cls_bible_reading_plan->flg_show_credit)
-				{
-					echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>";
+				{ 
+					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
+					$mdl_credits = new ZefaniabibleCredits;
+					$obj_player_one = $mdl_credits->fnc_credits();
 				}
             	?>               
             </div> 
