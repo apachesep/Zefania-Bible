@@ -157,12 +157,13 @@ if(count( $this->items ) == 0)
 	?>
 	</tbody>
 	</table>
-
-
-
-
 </div>
 
 <?php echo JDom::_('html.pagination', null, $this->pagination);?>
 
 
+	<?php 
+			require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>
