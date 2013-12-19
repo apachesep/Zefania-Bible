@@ -156,7 +156,6 @@
 							key_field="alias"
 							value_field = "full_name"
 						/>			
-						
 		</fieldset>			
 		<fieldset name="player" label="COM_ZEFANIABIBLE_PLAYER_LABEL" description="COM_ZEFANIABIBLE_PLAYER_DESC">
 			<field name="show_audioPlayer"
