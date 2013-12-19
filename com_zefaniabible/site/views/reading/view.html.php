@@ -73,7 +73,6 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$option	= JRequest::getCmd('option');
 		$user 	= JFactory::getUser();
 		$document	= JFactory::getDocument();
-		
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
@@ -92,13 +91,23 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$str_primary_reading = 		$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
 		$str_primary_bible = 		$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$params->get('reading_start_date', '1-1-2012');
-			
+	
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 		
 		// time zone offset.
 		$config = JFactory::getConfig();
 		date_default_timezone_set($config->get('offset'));		
+		if($user->id > 0)
+		{
+			$arr_user_data = $biblemodel->_buildQuery_getUserData($user->id);
+			foreach($arr_user_data as $obj_user_data)
+			{
+				$str_start_reading_date = $obj_user_data->reading_start_date;
+				$str_bibleVersion = $obj_user_data->bible_alias;
+				$str_reading_plan = $obj_user_data->plan_alias;
+			}
+		}	
 		
 		$arr_start_date = new DateTime($str_start_reading_date);	
 		$arr_today = new DateTime(date('Y-m-d'));
@@ -158,6 +167,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
 		$this->assignRef('int_orig_day',		$int_day_diff);
 		$this->assignRef('int_max_days',		$int_max_days);
+		$this->assignRef('str_reading_plan',	$str_reading_plan);
+		$this->assignRef('str_bible_version',	$str_bibleVersion);		
 				
 		parent::display($tpl);
 	}

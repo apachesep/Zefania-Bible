@@ -48,6 +48,8 @@ class BibleStandard {
 	public $str_bible_name;
 	public $flg_reading_rss_button;
 	public $str_tmpl;
+	public $str_commentary_width;
+	public $str_commentary_height;
 	
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references, $str_collation)
 	{
@@ -61,8 +63,8 @@ class BibleStandard {
 		$this->flg_show_references = $this->params->get('show_references', '0');
 		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
 		$this->str_tmpl = JRequest::getCmd('tmpl');
-		$int_commentary_width = $this->params->get('commentaryWidth','800');
-		$int_commentary_height = $this->params->get('commentaryHeight','500');
+		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
+		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
 		
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
@@ -136,7 +138,7 @@ class BibleStandard {
 					if($obj_references->verse_id == $arr_verse->verse_id)
 					{
 						$temp = 'a='.$str_Bible_Version.'&b='.$int_Bible_Book_ID.'&c='.$int_Bible_Chapter.'&d='.$arr_verse->verse_id;
-						$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_height.'}}">';
+						$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">';
 						$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';	
 						break;
 					}
@@ -153,7 +155,7 @@ class BibleStandard {
 					if($arr_verse->verse_id == $int_verse_commentary->verse_id)
 					{
 						$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&a=".$this->str_commentary."&b=".$int_Bible_Book_ID."&c=".$int_Bible_Chapter."&d=".$arr_verse->verse_id."&tmpl=component");
-						$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
+						$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
 					}
 				}
 			}			
@@ -309,7 +311,7 @@ class BibleStandard {
 				</div>
              <?php } ?>
         	<?php if(($cls_bibleBook->flg_email_button)and($cls_bibleBook->str_tmpl != "component")){?>
-            <div class="zef_email_button"><a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
             <?php if($cls_bibleBook->flg_use_bible_selection){?>
@@ -385,7 +387,7 @@ class BibleStandard {
             <div class="zef_bot_pagination">
             	<?php if($cls_bibleBook->flg_show_page_bot){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter);} ?>        
 				<div style="clear:both;"></div>
-				<?php if($cls_bibleBook->flg_show_credit)
+				<?php if(($cls_bibleBook->flg_show_credit)or(JRequest::getInt('Itemid') == 0 ))
 				{ 
 					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
 					$mdl_credits = new ZefaniabibleCredits;
@@ -412,3 +414,36 @@ function popitup(url) {
 	return false;
 }
 </script>
+<?php if(($cls_bibleBook->str_commentary_width <= 1)or($cls_bibleBook->str_commentary_height <= 1)){?>
+<script>
+		<?php if($cls_bibleBook->str_commentary_width <= 1){?>
+        	var ScreenX = (screen.width)? Math.round(getWidth()*<?php echo $cls_bibleBook->str_commentary_width;?>):800;
+		<?php }else{?>
+		 	var ScreenX = <?php echo $cls_bibleBook->str_commentary_width;?>;
+		<?php }?>
+		<?php if($cls_bibleBook->str_commentary_height <= 1){?>
+        	var ScreenY = (screen.height)? Math.round(getHeight()*<?php echo $cls_bibleBook->str_commentary_height;?>):600;
+		<?php }else{?>
+			var ScreenY = <?php echo $cls_bibleBook->str_commentary_height;?>;
+		<?php }?>  
+   var Alinks = $$('a.modal');
+   function ModalRelation() {
+      this.handler = "'iframe'";
+      this.x = 800;
+      this.y = 600;
+   }
+   ModalRelation.prototype.toString = function ModalRelationtoString() {
+      var ret = "{handler:"+this.handler+",size:{x:"+this.x+",y:"+this.y+"}}";
+      return ret;
+   }
+   ModalRelation.prototype.setSize = function ModalSize(x,y) {
+      this.x = x;
+      this.y = y;
+   }
+   var ModalRel = new ModalRelation();
+   ModalRel.setSize(ScreenX,ScreenY);
+   Alinks.each(function(obj,idx){
+      obj.setProperty("rel",ModalRel.toString());
+   });
+</script>
+<?php }?>  
