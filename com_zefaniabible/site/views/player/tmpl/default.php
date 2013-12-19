@@ -59,8 +59,15 @@ class BiblePlayer
 				foreach($obj_book as $obj_chapter)
 				{
 				//	$arr_mp3_files[$x] = JURI::root().$str_xml_audio_path.$obj_chapter;
-					$arr_fileinfo = pathinfo($str_xml_audio_url);							
-					$arr_mp3_files[$x] =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_url).$obj_chapter;					
+					$arr_fileinfo = pathinfo($str_xml_audio_url);						
+					if(preg_match('/((http:||https:)\/\/.*?)[\/||\n||\s]/s',$obj_chapter))
+					{
+						$arr_mp3_files[$x]= $obj_chapter;
+					}								
+					else
+					{
+						$arr_mp3_files[$x] =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_url).$obj_chapter;	
+					}					
 					$x++;
 				}
 			}
