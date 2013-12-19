@@ -58,8 +58,6 @@ class BibleReadingPlan
 	private $str_curr_read_plan;
 	public $str_first_verse;
 	private $arr_commentary_File;
-	private $int_commentary_height;
-	private $int_commentary_width;
 	private $str_view;
 	public $flg_email_button;
 	public $flg_reading_rss_button;
@@ -67,6 +65,9 @@ class BibleReadingPlan
 	public $flg_use_bible_selection;
 	private $str_commentary;
 	public $str_tmpl;
+	public $str_commentary_width;
+	public $str_commentary_height;
+		
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days)
 	{
 		
@@ -82,7 +83,9 @@ class BibleReadingPlan
 		$this->str_tmpl = JRequest::getCmd('tmpl');
 		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
 		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
-
+		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
+		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
+						
 		$str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
 								
@@ -165,15 +168,14 @@ class BibleReadingPlan
 					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
 					if($this->flg_show_commentary)
 					{
-						$int_commentary_width = $this->params->get('commentaryWidth','800');
-						$int_commentary_heigh = $this->params->get('commentaryHeight','500');
+
 						
 						foreach($arr_single_commentary as $int_verse_commentary)
 						{
 							if($plan->verse_id == $int_verse_commentary->verse_id)
 							{
 								$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&a=".$this->str_commentary."&b=".$plan->book_id."&c=".$plan->chapter_id."&d=".$plan->verse_id."&tmpl=component");
-								echo '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_commentary_width.',y:'.$int_commentary_heigh.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY')."</a></div>";
+								echo '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
 							}
 						}
 					}	
@@ -214,7 +216,7 @@ class BibleReadingPlan
 		$this->doc_page->setTitle($this->str_curr_read_plan." | ". mb_strtoupper($this->str_bibleVersion)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
 		$this->doc_page->setMetaData( 'keywords', $this->str_chapter_headings." ".$this->arr_book_info['str_nativeAlias'].", ".$this->str_curr_read_plan .", ".$this->str_bibleVersion.", ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number );
 		$this->doc_page->setMetaData( 'description', $this->str_first_verse);
-		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
+		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());	
 		$this->doc_page->setMetaData( 'og:type', "article" );	
 		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
 		$this->doc_page->setMetaData( 'og:description', $this->str_first_verse );
@@ -297,9 +299,9 @@ class BibleReadingPlan
 			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING')."' id='zef_links' href='".$url[3]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$int_tommorow."</a> ";
 		}
 	}
-	public function createBibleDropDown($items)
+	public function createBibleDropDown($items, $str_alias)
 	{		
-		$tempVersion = $this->str_bibleVersion;
+		$tempVersion = $str_alias;
 		$tmp = ""; 
 		foreach($items as $item)
 		{						
@@ -315,9 +317,9 @@ class BibleReadingPlan
 		return $tmp;
 	}
 
-	public function createReadingDropDown($readingplans)
+	public function createReadingDropDown($readingplans,$str_alias)
 	{		
-		$tempVersion = $this->str_reading_plan;
+		$tempVersion = $str_alias;
 		$tmp = ""; 
 		foreach($readingplans as $readingplan)
 		{
@@ -393,7 +395,7 @@ class BibleReadingPlan
                 <div class="zef_reading_label"><?php echo JText::_('ZEFANIABIBLE_READING_PLAN');?></div>
                 <div class="zef_reading_plan">
                     <select name="a" id="reading" class="inputbox" onchange="this.form.submit()">
-                        <?php echo $cls_bible_reading_plan->createReadingDropDown($this->arr_reading_plans);?>
+                        <?php echo $cls_bible_reading_plan->createReadingDropDown($this->arr_reading_plans, $this->str_reading_plan);?>
                     </select>
                 </div>
                 <div style="clear:both"></div>     
@@ -401,7 +403,7 @@ class BibleReadingPlan
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
                     <select name="b" id="bible" class="inputbox" onchange="this.form.submit()">
-                        <?php echo $cls_bible_reading_plan->createBibleDropDown($this->bibles);?>
+                        <?php echo $cls_bible_reading_plan->createBibleDropDown($this->bibles, $this->str_bible_version);?>
                     </select>
                 </div>
 				 <?php }else {
@@ -443,7 +445,7 @@ class BibleReadingPlan
 				?>   
                 <div style="clear:both"></div>
                 <?php  
-				if($cls_bible_reading_plan->flg_show_credit)
+				if(($cls_bible_reading_plan->flg_show_credit)or(JRequest::getInt('Itemid') == 0 ))
 				{ 
 					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
 					$mdl_credits = new ZefaniabibleCredits;
@@ -459,3 +461,36 @@ class BibleReadingPlan
     <input type="hidden" name="c" value="<?php echo ($this->int_day_number); ?>" />
     <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>"/>
 </form>
+<?php if(($cls_bible_reading_plan->str_commentary_width <= 1)or($cls_bible_reading_plan->str_commentary_height <= 1)){?>
+<script>
+		<?php if($cls_bible_reading_plan->str_commentary_width <= 1){?>
+        	var ScreenX = (screen.width)? Math.round(getWidth()*<?php echo $cls_bible_reading_plan->str_commentary_width;?>):800;
+		<?php }else{?>
+		 	var ScreenX = <?php echo $cls_bibleBook->str_commentary_width;?>;
+		<?php }?>
+		<?php if($cls_bible_reading_plan->str_commentary_height <= 1){?>
+        	var ScreenY = (screen.height)? Math.round(getHeight()*<?php echo $cls_bible_reading_plan->str_commentary_height;?>):600;
+		<?php }else{?>
+			var ScreenY = <?php echo $cls_bible_reading_plan->str_commentary_height;?>;
+		<?php }?>  
+   var Alinks = $$('a.modal');
+   function ModalRelation() {
+      this.handler = "'iframe'";
+      this.x = 800;
+      this.y = 600;
+   }
+   ModalRelation.prototype.toString = function ModalRelationtoString() {
+      var ret = "{handler:"+this.handler+",size:{x:"+this.x+",y:"+this.y+"}}";
+      return ret;
+   }
+   ModalRelation.prototype.setSize = function ModalSize(x,y) {
+      this.x = x;
+      this.y = y;
+   }
+   var ModalRel = new ModalRelation();
+   ModalRel.setSize(ScreenX,ScreenY);
+   Alinks.each(function(obj,idx){
+      obj.setProperty("rel",ModalRel.toString());
+   });
+</script>
+<?php }?>
