@@ -166,6 +166,6 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
             </td>
         </tr>
         <?php }?>
-
+		<a href="http://www.zefaniabible.com/documentation/documentation/5-bible-installation-instrutions.html" target="_blank"><?php echo JText::_('COM_ZEFANIABIBLE_BIBLE_HELP');?></a>
 	</table>
 </fieldset>

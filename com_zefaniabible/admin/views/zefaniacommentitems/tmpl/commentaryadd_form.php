@@ -32,6 +32,8 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 
 <fieldset class="fieldsform">
 	<legend><?php echo $actionText;?></legend>
+<a href="http://www.zefaniabible.com/documentation/documentation/36-making-commentaries.html" target="_blank"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_MAKE');?></a><br />
+<a href="http://www.zefaniabible.com/documentation/documentation/5-bible-installation-instrutions.html" target="_blank"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_HELP');?></a>
 
 	<table class="admintable">
 
@@ -147,7 +149,5 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
                 <?php }?> 
 			</td>
 		</tr>
-
-
 	</table>
 </fieldset>
