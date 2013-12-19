@@ -34,6 +34,7 @@ class ZefaniaAudioPlayer
 		$str_xml_audio_full_path = substr_replace(JURI::root(),"",-1).$this->fnc_get_audio_path($str_Bible_Version);
 		$str_mp3_file_path = $this->fnc_parse_xml_file($str_xml_audio_full_path, $int_Bible_Book_ID,$int_Bible_Chapter,$str_xml_audio_path);
 		$str_player = '';
+		
 		if($str_mp3_file_path)
 		{
 			$str_player = $this->fnc_get_audio_player($id,$int_player_type,$int_player_width,$int_player_height, $str_mp3_file_path,$int_Bible_Book_ID, $int_Bible_Chapter);
@@ -54,8 +55,16 @@ class ZefaniaAudioPlayer
 					{
 						if($arr_chapter['id'] == $int_Bible_Chapter)
 						{
-							$arr_fileinfo = pathinfo($str_xml_audio_full_path);							
-							$str_mp3_file_path =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_full_path).$arr_chapter;	
+							$arr_fileinfo = pathinfo($str_xml_audio_full_path);	
+							
+							if(preg_match('/((http:||https:)\/\/.*?)[\/||\n||\s]/s',$arr_chapter))
+							{
+								$str_mp3_file_path = $arr_chapter;
+							}								
+							else
+							{
+								$str_mp3_file_path =  str_replace($arr_fileinfo['basename'],'',$str_xml_audio_full_path).$arr_chapter;	
+							}
 						}
 					}
 					break;
