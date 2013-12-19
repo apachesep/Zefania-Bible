@@ -229,4 +229,24 @@ class ZefaniabibleModelReading extends ZefaniabibleModelList
 		}
 		return $data;		
 	}
+	function _buildQuery_getUserData($int_id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('user.reading_start_date,bible.alias as bible_alias,plan.alias as plan_alias');
+			$query->from('`#__zefaniabible_zefaniauser` AS user');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS plan ON user.plan = plan.id');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS bible ON user.bible_version = bible.id');			
+			$query->where("user.user_id='".$int_id."'");
+			$db->setQuery($query,0, 1);
+			$data = $db->loadObjectList();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
 }
