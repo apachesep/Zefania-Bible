@@ -213,7 +213,7 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 			$arr_row->book_id 		= (int)$int_bible_book_id;
 			$arr_row->chapter_id 	= (int)$int_bible_chapter;
 			$arr_row->verse_id 		= (int)$int_bible_verse;
-			$arr_row->verse 		= (string)$str_verse;
+			$arr_row->verse 		= (string)strip_tags(html_entity_decode(html_entity_decode($str_verse)),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>');
 			$db->insertObject("#__zefaniabible_comment_text", $arr_row, 'id');
 		}
 		catch (JException $e)
