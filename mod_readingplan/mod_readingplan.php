@@ -45,11 +45,23 @@ class zefReadingPlan
 			b = bible
 			c = day
 		*/
+		$user 	= JFactory::getUser();
 		$this->str_reading_plan = $params->get('reading_plan', $this->fnc_first_plan_record());
 		$this->str_Bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
 		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
-
+		
+		if($user->id > 0)
+		{
+			$arr_user_data = $this->fnc_Get_User_Data($user->id);
+			foreach($arr_user_data as $obj_user_data)
+			{
+				$this->str_reading_start_date = new DateTime($obj_user_data->reading_start_date);
+				$this->str_Bible_alias = $obj_user_data->bible_alias;
+				$this->str_reading_plan = $obj_user_data->plan_alias;
+			}
+		}
+		
 		$jlang = JFactory::getLanguage();
 		$jlang->load('mod_readingplan', JPATH_COMPONENT, 'en-GB', true);
 		$jlang->load('mod_readingplan', JPATH_COMPONENT, null, true);
@@ -170,7 +182,27 @@ class zefReadingPlan
 			$this->setError($e);
 		}
 		return $data;			
-	}		
+	}
+	protected function fnc_Get_User_Data($int_id)
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$query  = $db->getQuery(true);
+			$query->select('user.reading_start_date,bible.alias as bible_alias,plan.alias as plan_alias');
+			$query->from('`#__zefaniabible_zefaniauser` AS user');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS plan ON user.plan = plan.id');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS bible ON user.bible_version = bible.id');			
+			$query->where("user.user_id='".$int_id."'");
+			$db->setQuery($query,0, 1);
+			$data = $db->loadObjectList();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}
 	
 }
 ?>
