@@ -53,7 +53,6 @@ class ZefaniabibleCredits
 		echo "					<br>";
 		echo '					<a href="http://www.zefaniabible.com/forum2.html?utm_campaign=admin_forum&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="blank">Support Forums on ZefaniaBible</a>';
 		echo "					<br>";
-		echo '					<a href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=2zr1pro229xQhfnMC2hvWfu0VgxbpUoyyPk79HIs8g2mSg1sYBR94y5uBU0&dispatch=5885d80a13c0db1f8e263663d3faee8def8934b92a630e40b7fef61ab7e9fe63" target="blank">Donate</a>';
 		echo '				</td> ';       
 		echo '			</tr>';
 		echo '		</table>';
