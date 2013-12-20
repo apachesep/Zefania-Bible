@@ -67,7 +67,8 @@ class BibleReadingPlan
 	public $str_tmpl;
 	public $str_commentary_width;
 	public $str_commentary_height;
-		
+	public $flg_show_references;
+	
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days)
 	{
 		
@@ -80,12 +81,13 @@ class BibleReadingPlan
 		$this->str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
 		$this->flg_show_audio_player = 	$this->params->get('show_audioPlayer', '0');
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
+		$this->flg_show_references = $this->params->get('show_references', '0');
 		$this->str_tmpl = JRequest::getCmd('tmpl');
 		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
 		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
 		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
 		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
-						
+			
 		$str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
 								
@@ -111,7 +113,7 @@ class BibleReadingPlan
 		$this->getMetaData($arr_plan);
 		
 	}
-	public function fnc_output_chapter($arr_plan, $arr_commentary)
+	public function fnc_output_chapter($arr_plan, $arr_commentary, $arr_references)
 	{
 			$book = 0;
 			$chap = 0;
@@ -166,6 +168,19 @@ class BibleReadingPlan
 						echo '<div class="even">'; 
 					}
 					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
+					if($this->flg_show_references)
+					{
+						foreach($arr_references as $obj_references)
+						{
+							if(($plan->book_id == $obj_references->book_id)and($plan->chapter_id == $obj_references->chapter_id)and($plan->verse_id == $obj_references->verse_id))
+							{
+								$temp = 'a='.$this->str_primary_bible.'&b='.$plan->book_id.'&c='.$plan->chapter_id.'&d='.$plan->verse_id;
+								$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">';
+								echo '<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';									
+								break;
+							}
+						}							
+					}
 					if($this->flg_show_commentary)
 					{
 
@@ -432,7 +447,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-	<article><?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary); ?></article>
+	<article><?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary, $this->obj_references); ?></article>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
