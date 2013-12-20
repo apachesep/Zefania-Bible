@@ -69,7 +69,8 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$mdl_access = new ZefaniabibleHelper;
 		$access = $mdl_access->getACL();
 		$document	= JFactory::getDocument();
-
+		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
+		
 		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
 		$str_Bible_Version = JRequest::getCmd('a', 'kjv');
 		$str_Bible_book_id = JRequest::getInt('b', '1');

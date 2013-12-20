@@ -77,7 +77,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 			c = chapter
 			d = verse
 		*/	
-
+		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = $params->get('primaryBible', 'kjv');
 		$flg_show_commentary = $params->get('show_commentary', '0');
@@ -94,7 +94,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/references.php');
 		$mdl_references = new ZefaniabibleModelReferences;
 		$arr_references = $mdl_references->_buildQuery_References($str_bible_version, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse );
-
+		
 		$arr_orig_ref[1]='ge';
 		$arr_orig_ref[2]='ex';
 		$arr_orig_ref[3]='le';
@@ -161,7 +161,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$arr_orig_ref[64]='3jo';
 		$arr_orig_ref[65]='jude';
 		$arr_orig_ref[66]='re';	
-		echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>";
+		echo '<div class="zef_reference_image_div"><img class="zef_reference_image" src="/components/com_zefaniabible/images/references.jpg" width="640" height="90"></div>';
+		//echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>";
 		foreach($arr_references as $obj_References)
 		{
 			$arr_single_ref = preg_split('/;/',$obj_References->reference);
@@ -189,7 +190,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 				$str_end_chap = 0;
 				$str_end_verse = 0;
 				$str_verse = '';
-				
+				echo '<div class="zef_reference_modal">';
 				foreach($arr_bible_verses as $obj_bible_verses)
 				{			
 
@@ -212,6 +213,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 					$arr_verse = $mdl_references->fnc_make_verse($str_bible_version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse);
 					echo '<div class="zef_content_title">'.$str_bible_verse_full."</div>";
 					$x = 1;
+					echo '<div class="zef_reference">';
 					foreach ($arr_verse as $obj_verse)
 					{
 						if ($x % 2 )
@@ -230,7 +232,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 						echo '<div style="clear:both"></div>';
 						echo '</div>';
 						$x++;
-					}				
+					}		
+						
 					$str_url = "index.php?option=com_zefaniabible&a=".$str_bible_version."&view=standard&b=".
 							$int_book_id."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id,'UTF-8')))."&c=".($int_bible_chapter).
 							"-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
@@ -243,9 +246,12 @@ class ZefaniabibleViewReferences extends JViewLegacy
 						echo "<div class='zef_content_verse_link'><a title='".JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER')." ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id)." ".$int_bible_chapter."' id='zef_links' href='".JRoute::_($str_url)."' target='_parent'>".JText::_("ZEFANIABIBLE_BIBLE_REFERENCE_GOTO_CHAPTER")."</a></div>";
 					}
 					echo '<div style="clear:both"></div>';					
+				echo '</div>';					
 				}
+				echo '</div>';
 			}
-		}				
+		}	
+					
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$user = JFactory::getUser();
