@@ -120,8 +120,14 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
 		$int_max_days		=  	$biblemodel->_buildQuery_max_days($str_reading_plan);
 
-		// commentary code
+
 		$flg_show_commentary = $params->get('show_commentary', '0');
+		$flg_show_references = $params->get('show_references', '0');
+		if($flg_show_references)
+		{
+			$obj_references = $biblemodel->_buildQuery_References($arr_reading);
+		}
+		// commentary code
 		$obj_commentary_dropdown = '';
 		if($flg_show_commentary)
 		{
@@ -168,7 +174,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$this->assignRef('int_orig_day',		$int_day_diff);
 		$this->assignRef('int_max_days',		$int_max_days);
 		$this->assignRef('str_reading_plan',	$str_reading_plan);
-		$this->assignRef('str_bible_version',	$str_bibleVersion);		
+		$this->assignRef('str_bible_version',	$str_bibleVersion);
+		$this->assignRef('obj_references',		$obj_references);
 				
 		parent::display($tpl);
 	}
