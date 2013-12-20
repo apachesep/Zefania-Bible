@@ -248,5 +248,46 @@ class ZefaniabibleModelReading extends ZefaniabibleModelList
 			$this->setError($e);
 		}
 		return $data;		
-	}	
+	}
+	function _buildQuery_References($arr_reading)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$x = 0;
+			$query =  'SELECT book_id,chapter_id,verse_id FROM `#__zefaniabible_crossref` WHERE ';
+			foreach($arr_reading as $obj_reading)
+			{
+
+				$int_begin_chap = $obj_reading->begin_chapter;
+				$int_end_chap = $obj_reading->end_chapter;
+				$int_begin_verse = $obj_reading->begin_verse;
+				$int_end_verse = $obj_reading->end_verse;
+				$int_book_id = $obj_reading->book_id;
+				if($x > 0)
+				{
+					$query =  $query." OR ";
+				}
+				$query =  $query."( book_id = '".$int_book_id."'";
+				if($int_end_chap != 0)
+				{
+					$query =  $query." AND chapter_id >= '".$int_begin_chap."'";
+					$query =  $query." AND chapter_id <= '".$int_end_chap."')";
+				}
+				else
+				{
+					$query =  $query." AND chapter_id = '".$int_begin_chap."')";
+				}				
+				$x++;
+			}
+			$query =  $query.' ORDER BY book_id, chapter_id, verse_id';
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}
 }
