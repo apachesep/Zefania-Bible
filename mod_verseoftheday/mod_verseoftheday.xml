@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>2.7.10</version> 
+	<version>2.7.12</version> 
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module displays bible verse of the day text, by pulling it directly from xml files.</description>
 	<files>

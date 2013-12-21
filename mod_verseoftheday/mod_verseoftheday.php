@@ -70,15 +70,15 @@ class ZefVerseOfTheDay
 		$this->fnc_Get_Verse_Of_The_Day_Info();
 		if($this->int_display_order == 0)
 		{
-			$this->int_verse_remainder = $this->int_day_diff % $this->int_max_verses;
+			$this->int_verse_remainder = $this->int_day_diff % $this->int_max_verses -1;
 		}
 		else
 		{
 			$this->int_verse_remainder = mt_rand(1, $this->int_max_verses);
 		}
-		if($this->int_verse_remainder == 0)
+		if($this->int_verse_remainder <= 0)
 		{
-			$this->int_verse_remainder = $this->int_max_verses;
+			$this->int_verse_remainder = $this->int_max_verses -1;
 		}
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->biblePath = $this->params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
