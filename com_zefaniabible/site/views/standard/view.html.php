@@ -76,7 +76,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
-			$menu = JSite::getMenu();
+			$menu = JFactory::getApplication()->getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
