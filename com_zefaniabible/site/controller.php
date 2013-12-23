@@ -49,7 +49,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$view		= JFactory::getApplication()->input->getCmd('view', 's');
 		$option		=JFactory::getApplication()->input->getCmd('option', 's');
         JFactory::getApplication()->input->set('view', $view);
-
+		$str_tmpl = JRequest::getCmd('tmpl');
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 
 		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/helper.php');
@@ -57,8 +57,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$jversion = new JVersion();
 		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
-		$str_current_url = JURI::current().'/';
-
+		$str_current_url = urldecode('/'.str_replace(JURI::root(),'',JURI::current()));
 		// don't redirect for modal pages.
 		switch ($view) 
 		{
@@ -69,20 +68,35 @@ class ZefaniabibleController extends JControllerLegacy
 				return;
 				break;
 			
+		}	
+
+		switch ($jversion->RELEASE) 
+		{ 
+			case '3.0':
+			case '3.1':
+			case '3.2':
+				switch ($view) 
+				{
+					case 'standard':
+					case 'compare':
+					case 'reading':					
+						if (($str_requested_url != $str_current_url)and($str_tmpl != 'component')and(stripos($str_current_url, 'index.php') <= 0))
+						{
+							header('HTTP/1.1 301 Moved Permanently');
+							header('Location: '.$str_redirect_url);  
+						}
+						break;
+				}
+					break;
+			case '2.5':
+				if(!JRequest::getCmd('option',null, 'get'))
+				{
+					header('HTTP/1.1 301 Moved Permanently');
+					header('Location: '.$str_redirect_url); 	
+				}
+				break;
 		}
-		// Joomla 3.0 Redirect
-		
-		if (($str_requested_url != $str_current_url)and($jversion->RELEASE == '3.0'))
-		{
-			//header('HTTP/1.1 301 Moved Permanently');
-			//header('Location: '.$str_redirect_url);   			
-		}
-		// less than 2.5 Redirect
-		elseif((!JRequest::getCmd('option',null, 'get'))and($jversion->RELEASE == '2.5')) 
-		{
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.$str_redirect_url);   			
-		}		
+	
 		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING');
 		
 		parent::display($cachable, $urlparams);
