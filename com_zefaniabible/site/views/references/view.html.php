@@ -161,10 +161,10 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$arr_orig_ref[64]='3jo';
 		$arr_orig_ref[65]='jude';
 		$arr_orig_ref[66]='re';	
-		echo '<div class="zef_reference_image_div"><img class="zef_reference_image" src="/components/com_zefaniabible/images/references.jpg" width="640" height="90"></div>';
-		//echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>";
+		echo '<div class="zef_reference_image"></div>';
+		//echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>"; 
 		foreach($arr_references as $obj_References)
-		{
+		{ 
 			$arr_single_ref = preg_split('/;/',$obj_References->reference);
 			if($flg_reference_words)
 			{

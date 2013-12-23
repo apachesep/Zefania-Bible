@@ -85,11 +85,12 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
 		
+		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
 		require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
 		$mdl_commentary = new ZefaniabibleModelCommentary;				
 		$str_commentary_text =	$mdl_commentary-> _buildQuery_commentary_verse($str_commentary, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse);
 		$str_commentary_name = $mdl_commentary->_buildQuery_commentary_name($str_commentary);
-		
+		echo '<div class="zef_commentary_image"></div>';
 		echo '<div class="zef_commentary_title">'.$str_commentary_name."</div>";
 		echo '<div class="zef_commentary_book">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter.":".$int_Bible_Verse."</div>";
 		echo '<div class="zef_commentary_verse">'.$str_commentary_text."</div>";

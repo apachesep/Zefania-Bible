@@ -49,7 +49,7 @@ class BibleReadingPlan
 		$this->flg_show_credit = $this->params->get('show_credit','0');
 		$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title);
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
-		echo '<div class="zef_scripture_image_div"><img class="zef_scripture_image" src="/components/com_zefaniabible/images/scripture.jpg" width="640" height="90"></div>';
+		echo '<div class="zef_scripture_image"></div>';
 		echo '<div class="zef_scripture_modal">'.$str_scripture."</div>"; 
 		if($this->flg_show_credit)
 		{
