@@ -6,7 +6,7 @@
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
-	<version><![CDATA[2.7.12]]></version>
+	<version><![CDATA[2.8]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description>ZEFANIABIBLE_INSTALL_INTRO_TEXT</description>
 	<scriptfile>script.php</scriptfile>
@@ -66,6 +66,7 @@
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/verseofday.mysql.sql</file>
 		</sql>
 	</install>
 	<uninstall>
