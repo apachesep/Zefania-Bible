@@ -64,3 +64,9 @@ body
 {
 	background-image:url('/components/com_zefaniabible/images/commentaries.jpg');  
 }
+.zef_credits
+{ 
+	text-align:center !important;
+	margin-left:auto;  
+	margin-right:auto;	
+}

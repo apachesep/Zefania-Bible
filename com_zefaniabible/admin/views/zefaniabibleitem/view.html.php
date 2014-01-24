@@ -207,13 +207,13 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 						);
 						upload2 = new SWFUpload({
 							upload_url: "'.$targetURL.'&type=audio",
-							flash_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/swfupload.swf",
+							flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
 							file_size_limit : "10MB",
 							file_types : "*.xml",
 							file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_AUDIO', 'true').'",
 							file_upload_limit : "0",
 							file_queue_limit : "0",
-							button_image_url : "'.JURI::root().'media/com_sermonspeaker/swfupload/XPButtonUploadText_61x22.png",
+							button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
 							button_placeholder_id : "btnUpload2",
 							button_width: 61,
 							button_height: 22,

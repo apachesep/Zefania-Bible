@@ -91,14 +91,16 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$str_primary_reading = 		$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
 		$str_primary_bible = 		$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$params->get('reading_start_date', '1-1-2012');
-	
+		$flg_import_user_data = 	$params->get('flg_import_user_data', '0');
+		
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 		
 		// time zone offset.
 		$config = JFactory::getConfig();
+
 		date_default_timezone_set($config->get('offset'));		
-		if($user->id > 0)
+		if(($user->id > 0)and($flg_import_user_data))
 		{
 			$arr_user_data = $biblemodel->_buildQuery_getUserData($user->id);
 			foreach($arr_user_data as $obj_user_data)

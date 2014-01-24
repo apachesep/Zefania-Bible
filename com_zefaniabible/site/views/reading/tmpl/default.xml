@@ -47,7 +47,11 @@
 				description="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
-			</field>			
+			</field>
+			<field name="flg_import_user_data" type="list" default="0" label="COM_ZEFANIABIBLE_USER_DATA" description="COM_ZEFANIABIBLE_USER_DATA_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+			</field>						
 		</fieldset>
 		<fieldset name="references"
 			label="COM_ZEFANIABIBLE_REFERENCE_LABEL"
