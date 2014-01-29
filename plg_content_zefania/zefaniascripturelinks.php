@@ -26,6 +26,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 class plgContentZefaniaScriptureLinks extends JPlugin
 {
+	private $int_tooltip_width;
+	private $int_tooltip_height;
+	private $int_tooltip_duration;
+	private $str_tooltip_effect;
+	
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -56,10 +61,24 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	{ 		
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('plg_content_zefania', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('plg_content_zefania', JPATH_COMPONENT, null, true);
-				
-		$document	= JFactory::getDocument();
+		$jlang->load('plg_content_zefania', JPATH_BASE."/plugins/content/zefaniascripturelinks", 'en-GB', true);
+		$jlang->load('plg_content_zefania', JPATH_BASE."/plugins/content/zefaniascripturelinks", null, true);
+		$document = JFactory::getDocument();
+		// JQuery Dialog box
+		$document->addScript('//code.jquery.com/jquery-1.9.1.js');
+		$document->addScript('//code.jquery.com/ui/1.10.4/jquery-ui.js');	
+		$document->addStyleSheet('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
+		$this->int_tooltip_width  = $this->params->get('int_tooltip_width', '700');
+		$this->int_tooltip_height = $this->params->get('int_tooltip_height', '500');
+		$this->int_tooltip_duration = $this->params->get('int_tooltip_duration', '1000');
+		$this->str_tooltip_effect = $this->params->get('str_tooltip_effect', 'blind');
+		$flg_jquery_no_conflict = $this->params->get('flg_jquery_no_conflict', 0);
+		if($flg_jquery_no_conflict)
+		{
+			$document->addScriptDeclaration('
+				jQuery.noConflict();
+			');	
+		}
 		$docType = $document->getType();		
 		if($docType != 'html')
 		{
@@ -75,12 +94,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		
 		$flg_auto_replace = $this->params->get('flg_automatic_scripture_detection', '0');
-		$arr_toolTipArray = array('className'=>'zefania-tip', 
-			'fixed'=>true,
-			'showDelay'=>'500',
-			'hideDelay'=>'5000'
-			);						
-		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
 
 		$str_Bible_books = "";
 		for($z = 1; $z <= 66; $z ++)
@@ -260,8 +273,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		else if($flg_insert_tooltip)
 		{
-			$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );
-			$str_scripture = JHTML::tooltip($str_scripture,'', '', $arr_matches[0], '', false,'hasTip-zefania');	
+			$str_scripture_tmp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );
+			$str_scripture = $this->fnc_make_dialog_box($arr_matches[0],$str_scripture_tmp);			
 		}
 		else if($flg_insert_label)
 		{
@@ -643,6 +656,48 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		return $data;			
 	}
-	
+	protected function fnc_make_dialog_box($str_matches, $str_scripture_tmp)
+	{
+		$document = JFactory::getDocument();
+
+			$str_id = "-".rand(0,999999999).'-'.uniqid();
+			$document->addScriptDeclaration('
+				jQuery( document ).ready(function( $ )
+				{
+					$( "#dialog'.$str_id.'" ).dialog(
+					{
+						autoOpen: false,
+						show:
+						{
+							effect: "'.$this->str_tooltip_effect.'",
+							duration: '.$this->int_tooltip_duration.'
+						},
+						hide: 
+						{
+							effect: "'.$this->str_tooltip_effect.'",
+							duration: '.$this->int_tooltip_duration.'
+						},
+						width: '.$this->int_tooltip_width.',
+						maxHeight: '.$this->int_tooltip_height.',
+						draggable: false,
+						closeOnEscape: true,
+						modal: true
+					});
+					$( "#opener'.$str_id.'" ).mouseover(function() 
+					{
+						$( "#dialog'.$str_id.'" ).dialog( "open" );
+					});
+					$( "#dialog'.$str_id.'" ).mouseleave(function() 
+					{
+						$( "#dialog'.$str_id.'" ).dialog( "close" );
+					});					
+				});
+			');				
+			$str_scripture = '<a title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_matches.'" id="opener'.$str_id.'">'.$str_matches.'</a>';
+			$str_scripture = $str_scripture. '<div class="zef_scripture_tooltip" id="dialog'.$str_id.'" title="'.$str_matches.'">';
+			$str_scripture = $str_scripture. '<p>'.$str_scripture_tmp.'</p>';
+			$str_scripture = $str_scripture. '</div>';	
+		return 	$str_scripture;
+	}
 }
 ?>
