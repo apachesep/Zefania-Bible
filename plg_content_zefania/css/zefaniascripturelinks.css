@@ -81,3 +81,25 @@
 	clear:both;
 	height:1px;	
 }
+.ui-dialog .ui-dialog-titlebar-close
+{
+	background-position: -96px -128px ;
+    background-image: url("/plugins/content/zefaniascripturelinks/ui-icons_888888_256x240.png");
+    width: 16px;
+    height: 16px;	
+	overflow: hidden;
+}
+.ui-widget-header
+{
+	background-color:#999 !important;
+	background:#999 !important;
+}
+.ui-widget-content
+{
+	background-color:#FFF !important;
+	background:#FFF !important;
+}
+.ui-widget-overlay
+{
+	background:none !important;
+}
