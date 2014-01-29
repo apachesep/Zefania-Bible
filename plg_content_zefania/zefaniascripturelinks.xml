@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>2.7.10</version>
+	<version>2.7.12</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -41,19 +41,11 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>				
-			<field name="flg_automatic_scripture_detection"
-				type="list"
-				default="0"
-				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC"
-				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC_DESC">
+			<field name="flg_automatic_scripture_detection" type="list" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>				
-			<field name="flg_link_use"
-				type="list"
-				default="0"
-				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE"
-				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE_DESC">
+			<field name="flg_link_use" type="list" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE_DESC">
 					<option value="0">Zefania Bible</option>
 					<option value="1">BibleGateway</option>					
 			</field>
@@ -187,6 +179,33 @@
 				default = "500"
 				label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" 
 				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />							
+			</fieldset>
+			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">
+				<field name="flg_jquery_no_conflict" type="list" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>			
+				<field name="int_tooltip_width" type="text" size="50" default="700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH_DESC" />
+				<field name="int_tooltip_height" type="text" size="50" default="500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT_DESC" />				
+				<field name="int_tooltip_duration" type="text" size="50" default="1000" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION_DESC" />								
+				<field name="str_tooltip_effect" type="list" default="blind" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DESC">
+					<option value='blind'>Blind</option>
+					<option value='bounce'>Bounce</option>
+					<option value='clip '>Clip </option>
+					<option value='drop'>Drop</option>
+					<option value='easings'>Easings</option>
+					<option value='explode'>Explode</option>
+					<option value='fade'>Fade</option>
+					<option value='fold'>Fold</option>
+					<option value='highlight'>Highlight</option>
+					<option value='puff'>Puff</option>
+					<option value='pulsate'>Pulsate</option>
+					<option value='scale'>Scale</option>
+					<option value='shake'>Shake</option>
+					<option value='size'>Size</option>
+					<option value='slide'>Slide</option>
+					<option value='transfer'>Transfer</option>
+				</field>				
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="str_exclude_component" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT_DESC" rows="3" cols="25" />
