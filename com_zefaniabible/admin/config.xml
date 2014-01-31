@@ -150,6 +150,10 @@
 		<field type="spacer" name="myspacer2" hr="true" />	
 		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" />					
 		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+		<field name="flg_use_year_date" type="list" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
 
 		<field type="spacer" name="myspacer3" hr="true" />				
 		<field name="show_credit" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT" description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
