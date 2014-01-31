@@ -115,7 +115,7 @@ class ZefVerseOfTheDay
 			}
 			if($this->flg_use_year_date)
 			{
-				$this->int_day_diff = (date('z')+1);
+				$this->int_verse_remainder = (date('z')+1);
 				$int_days_in_year =  date("z", mktime(0,0,0,12,31,date("Y"))) + 1;
 				$int_missing_verses = 366 - $this->int_max_verses;
 				if(($this->int_max_verses < $int_days_in_year)and($this->int_day_diff >= ($this->int_max_verses-30)))
