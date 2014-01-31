@@ -30,7 +30,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	private $int_tooltip_height;
 	private $int_tooltip_duration;
 	private $str_tooltip_effect;
-	
+	private $flg_use_new_tooltip;
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -64,20 +64,32 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$jlang->load('plg_content_zefania', JPATH_BASE."/plugins/content/zefaniascripturelinks", 'en-GB', true);
 		$jlang->load('plg_content_zefania', JPATH_BASE."/plugins/content/zefaniascripturelinks", null, true);
 		$document = JFactory::getDocument();
-		// JQuery Dialog box
-		$document->addScript('//code.jquery.com/jquery-1.9.1.js');
-		$document->addScript('//code.jquery.com/ui/1.10.4/jquery-ui.js');	
-		$document->addStyleSheet('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
 		$this->int_tooltip_width  = $this->params->get('int_tooltip_width', '700');
 		$this->int_tooltip_height = $this->params->get('int_tooltip_height', '500');
 		$this->int_tooltip_duration = $this->params->get('int_tooltip_duration', '1000');
 		$this->str_tooltip_effect = $this->params->get('str_tooltip_effect', 'blind');
 		$flg_jquery_no_conflict = $this->params->get('flg_jquery_no_conflict', 0);
-		if($flg_jquery_no_conflict)
+		$this->flg_use_new_tooltip = $this->params->get('flg_use_new_tooltip', 0);
+		
+		if($this->flg_use_new_tooltip)
 		{
-			$document->addScriptDeclaration('
-				jQuery.noConflict();
-			');	
+			// JQuery Dialog box
+			$document->addScript('//code.jquery.com/jquery-1.9.1.js');
+			$document->addScript('//code.jquery.com/ui/1.10.4/jquery-ui.js');	
+			$document->addStyleSheet('//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');		
+			if($flg_jquery_no_conflict)
+			{
+				$document->addScript('/plugins/content/zefaniascripturelinks/helpers/noconflict.js');
+			}
+		}	
+		else
+		{
+			$arr_toolTipArray = array('className'=>'zefania-tip', 
+			'fixed'=>true,
+			'showDelay'=>'500',
+			'hideDelay'=>'5000'
+			);						
+			JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
 		}
 		$docType = $document->getType();		
 		if($docType != 'html')
@@ -273,8 +285,17 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		else if($flg_insert_tooltip)
 		{
-			$str_scripture_tmp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );
-			$str_scripture = $this->fnc_make_dialog_box($arr_matches[0],$str_scripture_tmp);			
+			if($this->flg_use_new_tooltip)
+			{
+				$str_scripture_tmp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );				
+				$str_scripture = $this->fnc_make_dialog_box($arr_matches[0],$str_scripture_tmp);		
+			}
+			else
+			{
+				$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title );
+				$str_scripture = JHTML::tooltip($str_scripture,'', '', $arr_matches[0], '', false,'hasTip-zefania');		
+			}
+			
 		}
 		else if($flg_insert_label)
 		{
@@ -681,7 +702,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 						maxHeight: '.$this->int_tooltip_height.',
 						draggable: false,
 						closeOnEscape: true,
-						modal: true
+						modal: true,
 					});
 					$( "#opener'.$str_id.'" ).mouseover(function() 
 					{
