@@ -68,9 +68,10 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 				
 		// time zone offset.
 		$config = JFactory::getConfig();
-		date_default_timezone_set($config->get('config.offset'));			
+		//date_default_timezone_set($config->get('config.offset'));			
 		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
+		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));	
+		$flg_use_year_date = 	$this->params->get('flg_use_year_date', '0');	
 		$str_today = new DateTime(date('Y-m-d'));
 		$int_day_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
 		$str_bibleVersion = JRequest::getCmd('a', $str_primary_bible);	
@@ -85,7 +86,11 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		if($int_verse_remainder == 0)
 		{
 			$int_verse_remainder = $int_max_verses;
-		}		
+		}
+		if($flg_use_year_date)
+		{
+			$int_verse_remainder = (date('z')+1);
+		}
 		$arr_verse	=	$biblemodel->_buildQuery_get_verse_of_the_day($arr_verse_info,$int_verse_remainder,$arr_bible_info);
 		
 		$this->assignRef('arr_verse',				$arr_verse);
