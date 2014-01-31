@@ -50,50 +50,84 @@ class ZefVerseOfTheDay
 		$this->int_link_type = $params->get('link_type', 0);
 		$this->int_display_order = $params->get('display_order', 0);
 		$this->str_menuItem = $params->get('vd_mo_menuitem', 0);
-		
+		$this->flg_import_user_data = 	$params->get('flg_import_user_data', '0');
+		$this->flg_use_year_date = 	$params->get('flg_use_year_date', '0');
+		$this->flg_use_biblegateway = 	$params->get('flg_use_biblegateway', '0');
+		$this->str_biblegateway_version = 	$params->get('str_biblegateway_version', 'KJV');
 		$user 	= JFactory::getUser();
-		if($user->id > 0)
+		
+		if($this->flg_use_biblegateway)
 		{
-			$arr_user_data = $this->fnc_Get_User_Data($user->id);
-			foreach($arr_user_data as $obj_user_data)
+			$str_verse_rss = simplexml_load_file('http://www.biblegateway.com/votd/get/?format=atom&version='.$this->str_biblegateway_version);
+			$str_pre_url = '<a href="'.$str_verse_rss->entry->link['href'].'" id="zef_links" title="'.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC').'" target="blank">';
+			$str_post_url = '</a>'; 
+			if($this->int_link_type == 1)
 			{
-				$this->str_bible_alias = $obj_user_data->bible_alias;
+				$str_output = $str_pre_url.stripslashes(strip_tags($str_verse_rss->entry->title)).$str_post_url;
 			}
-		}	
-		
-		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		
-		$jlang = JFactory::getLanguage();
-		$jlang->load('mod_verseoftheday', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('mod_verseoftheday', JPATH_COMPONENT, null, true);
-				
-		$this->str_start_date = new DateTime($params->get('start_date'));	
-
-		// time zone offset.
-		$config = JFactory::getConfig();
-		date_default_timezone_set($config->get('offset'));	
-
-		$this->str_today = new DateTime(date('d-m-Y'));
-		$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_start_date->format('U')) / (60*60*24));	
-		
-		$this->fnc_Get_Verse_Of_The_Day_Info();
-		if($this->int_display_order == 0)
-		{
-			$this->int_verse_remainder = $this->int_day_diff % ($this->int_max_verses);
+			else
+			{
+				$str_output = stripslashes(strip_tags($str_verse_rss->entry->title));
+			}
+			echo $str_output;
+			echo "<br>";
+			echo stripslashes(strip_tags($str_verse_rss->entry->content)); 
 		}
 		else
 		{
-			$this->int_verse_remainder = mt_rand(1, $this->int_max_verses);
+			if(($user->id > 0)and($this->flg_import_user_data))
+			{
+				$arr_user_data = $this->fnc_Get_User_Data($user->id);
+				foreach($arr_user_data as $obj_user_data)
+				{
+					$this->str_bible_alias = $obj_user_data->bible_alias;
+				}
+			}	
+			
+			$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+			JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+			
+			$jlang = JFactory::getLanguage();
+			$jlang->load('mod_verseoftheday', JPATH_BASE."/modules/mod_verseoftheday", 'en-GB', true);
+			$jlang->load('mod_verseoftheday', JPATH_BASE."/modules/mod_verseoftheday", null, true);
+					
+			$this->str_start_date = new DateTime($params->get('start_date'));	
+	
+			// time zone offset.
+			$config = JFactory::getConfig();
+			date_default_timezone_set($config->get('offset'));	
+	
+			$this->str_today = new DateTime(date('d-m-Y'));
+			$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_start_date->format('U')) / (60*60*24));	
+			
+			$this->fnc_Get_Verse_Of_The_Day_Info();
+			if($this->int_display_order == 0)
+			{
+				$this->int_verse_remainder = $this->int_day_diff % ($this->int_max_verses);
+			}
+			else
+			{
+				$this->int_verse_remainder = mt_rand(1, $this->int_max_verses);
+			}
+			if($this->int_verse_remainder == 0)
+			{
+				$this->int_verse_remainder = $this->int_max_verses;
+			}
+			if($this->flg_use_year_date)
+			{
+				$this->int_day_diff = (date('z')+1);
+				$int_days_in_year =  date("z", mktime(0,0,0,12,31,date("Y"))) + 1;
+				$int_missing_verses = 366 - $this->int_max_verses;
+				if(($this->int_max_verses < $int_days_in_year)and($this->int_day_diff >= ($this->int_max_verses-30)))
+				{
+					JError::raiseWarning('',JText::sprintf('MOD_ZEFANIABIBLE_NOT_ENOUGTH_VERSES',$int_days_in_year,$this->int_max_verses,$int_missing_verses));
+				}
+			}
+			$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
+			$this->arr_db_call_info = $this->fnc_Get_Bible_Book_Info();
+	
+			$this->fnc_Get_Bible_Book_XML_File();
 		}
-		if($this->int_verse_remainder == 0)
-		{
-			$this->int_verse_remainder = $this->int_max_verses;
-		}
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->arr_db_call_info = $this->fnc_Get_Bible_Book_Info();
-
-		$this->fnc_Get_Bible_Book_XML_File();	
 	}
 	protected function fnc_Get_User_Data($int_id)
 	{
