@@ -181,6 +181,10 @@
 				description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />							
 			</fieldset>
 			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">
+				<field name="flg_use_new_tooltip" type="list" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>			
 				<field name="flg_jquery_no_conflict" type="list" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT_DESC">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
