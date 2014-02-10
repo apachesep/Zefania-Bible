@@ -165,7 +165,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 				
 		// stop script for articles that are not loaded on page.
-		if($context = "com_content.featured")
+		if($context == "com_content.featured")
 		{
 			if($this->cnt_articles >= $this->int_featured_articles)
 			{
