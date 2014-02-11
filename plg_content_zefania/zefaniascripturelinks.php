@@ -94,7 +94,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			$arr_english_text = explode('|',mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$h,'UTF-8')));
 			$this->arr_Bible_books_english[$h] = $arr_english_text[0];
-		}	
+		}
 		$jlang->load('plg_content_zefaniascripturelinks', JPATH_BASE."/plugins/content/zefaniascripturelinks/", null, true);
 		$document->addStyleSheet('/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
 		
@@ -116,6 +116,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}else		{
 			$document->addScriptDeclaration('var window_height = '.$this->int_tooltip_height.';');				
 		}
+		$document->addScriptDeclaration('
+			if(screen.width < 500){window_width = screen.width*0.8;}
+			if(screen.height < 500){window_height = screen.height*0.8;}
+		');
 					
 		JHTML::_('behavior.modal');
 		
@@ -353,7 +357,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_scripture = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_title,$arr_multi_query,$flg_use_multi_query,$str_passages );
 				break;
 			case 2:
-				$str_scripture = $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias, $str_label);
+				$str_scripture = $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias, $str_label,$flg_use_multi_query,$str_passages);
 				break;
 			case 3:
 				if($this->flg_use_new_tooltip)
@@ -368,13 +372,13 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				}
 				break;
 			default:
-				$str_scripture = $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias,'' );
+				$str_scripture = $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias,'',$flg_use_multi_query,$str_passages );
 				break;				
 		}
 
 		return $str_scripture;
 	}
-	protected function fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap=0, $str_begin_verse=0, $str_end_verse=0, $str_alias, $str_scripture_name)
+	protected function fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap=0, $str_begin_verse=0, $str_end_verse=0, $str_alias, $str_scripture_name, $flg_use_multi_query,$str_passages)
 	{
 			// 0 = Zefania
 			// 1 = BibleGateway
@@ -384,18 +388,29 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$str_link_name = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id)."&nbsp;&nbsp;"; 
 		switch(true)
     	{
+			// Gen 1:1,3,5,7
+			case $flg_use_multi_query:
+				$str_temp = explode(":",$str_passages);
+				$str_link = $str_begin_chap.":".$str_temp[1];
+				$str_begin_verse = $str_temp[1];
+				break;
+			//Gen 1
 			case ($str_begin_chap)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse):
 				$str_link = $str_begin_chap;
-				break;			
+				break;		
+			//Gen 1:1	
 			case ($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse):
 				$str_link = $str_begin_chap.":".$str_begin_verse;
 				break;
+			//Gen 1:1-3
 			case ($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and($str_end_verse):
 				$str_link = $str_begin_chap.":".$str_begin_verse."-".$str_end_verse;
 				break;
+			// Gen 1-3
 			case ($str_begin_chap)and($str_end_chap)and(!$str_begin_verse)and(!$str_end_verse):
-				$str_link =$str_begin_chap."-".$str_end_chap;
+				$str_link = $str_begin_chap."-".$str_end_chap;
 				break;
+			// Gen 1:2-4:2
 			case ($str_begin_chap)and($str_end_chap)and($str_begin_verse)and($str_end_verse):
 				$str_link = $str_begin_chap.":".$str_begin_verse."-".$str_end_chap.":".$str_end_verse;
 				break;
@@ -409,7 +424,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		if($this->flg_link_use == 0)
 		{		
-			// modal bocx coding begins here
+			// modal box coding begins here
 			$temp = 'a='.$str_alias.'&b='.$str_Bible_book_id.'&c='.$str_begin_chap.'&d='.$str_begin_verse.'&e='.$str_end_chap.'&f='.$str_end_verse;
 			$str_pre_link = '<a title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_link_name.$str_link.'" target="blank" href="index.php?view=scripture&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_box_width.',y:'.$this->int_modal_box_height.'}}">';		
 			$verse = $str_pre_link.$str_link_label.'</a>';
