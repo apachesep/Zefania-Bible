@@ -75,7 +75,7 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$str_Bible_Version = JRequest::getCmd('a', 'kjv');
 		$str_Bible_book_id = JRequest::getInt('b', '1');
 		$str_begin_chap = JRequest::getInt('c', '1');
-		$str_begin_verse = JRequest::getInt('d', '1');
+		$str_begin_verse = preg_replace('/[^0-9\-\,]/','', preg_replace('/[\:]/','-',JRequest::getString('d', '1')));
 		$str_end_chap = JRequest::getInt('e', '0');
 		$str_end_verse = JRequest::getInt('f', '0');	
 		$flg_add_title = 0;	
