@@ -45,6 +45,7 @@ class BibleReadingPlan
 		$str_primary_reading = 		$params->get('primaryReading', 'ttb');		
 		$str_reading_plan = 	JRequest::getCmd('a', $str_primary_reading);		
 		$int_feed_type	= 	JRequest::getInt('d', 0);
+		$str_bible_name = '';
 		foreach ($arr_reading_plans as $plan)
 		{
 			if($str_reading_plan == $plan->alias)
