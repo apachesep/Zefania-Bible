@@ -97,6 +97,8 @@ class ZefaniabibleModelScripture extends ZefaniabibleModelList
 	{
 		try 
 		{
+			$params = JComponentHelper::getParams( 'com_zefaniabible' );
+			$int_limit_query = $params->get('int_limit_query', '500');
 			$db		= JFactory::getDbo();
 			$query	= "SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a".
 				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
@@ -138,8 +140,42 @@ class ZefaniabibleModelScripture extends ZefaniabibleModelList
    					}
 					$query  = $query. " ORDER BY chapter_id, verse_id";
 				}
-			
-			$db->setQuery($query);
+				// Multi Verse Query
+				if(strpos($str_begin_verse, ',') !== FALSE)
+				{
+					$arr_verse_ranges = explode(',',$str_begin_verse);
+					$arr_multi_query = "";
+					$d = 0;
+					foreach ($arr_verse_ranges as $arr_verse_range)
+					{
+						$arr_multi_query[$d] = explode("-", $arr_verse_range); 
+						$d++;
+					}
+					$query = ("SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a");
+					$query = $query.(' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+					$query = $query.(" WHERE a.book_id=".(int)$str_Bible_book_id." AND b.alias='".trim($str_alias)."' AND a.chapter_id=".(int)$str_begin_chap." AND (");
+					$y=1;				
+					foreach ($arr_multi_query as $obj_multi_query)
+					{
+						if($y > 1)
+						{
+							$query = $query.(' OR ');
+						}
+						$query = $query.('(');
+						if(count($obj_multi_query)>1)
+						{
+							$query = $query.(' a.verse_id>='.$obj_multi_query[0].' AND a.verse_id<='.$obj_multi_query[1]);
+						}
+						else
+						{
+							$query = $query.(' a.verse_id ='.$obj_multi_query[0]);
+						}
+						$query = $query.(')');
+						$y++;
+					}
+					$query = $query.(") ORDER BY a.book_id, a.chapter_id, a.verse_id"); 	
+				}
+			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}
 		catch (JException $e)
