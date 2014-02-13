@@ -4,6 +4,14 @@
 		<field type="spacer" name="myspacer" hr="true" />
 		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
 		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="int_limit_query" type="list" default="500" label="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
+			<option value='100' >100</option>
+			<option value='250' >250</option>
+			<option value='500' >500</option>
+			<option value='1000' >1000</option>
+			<option value='5000' >5000</option>					
+			<option value='0' >COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_ALL</option>
+		</field>		
 		<field name="primary_book_backend" type="list" default="" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND_DESC">
 			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
 			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
