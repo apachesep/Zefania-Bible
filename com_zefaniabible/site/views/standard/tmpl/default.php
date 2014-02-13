@@ -161,8 +161,11 @@ class BibleStandard {
 			}			
 			$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div style="clear:both"></div></div>';
 			$x++;
+		}			
+		if( $this->str_Chapter_Output == "")
+		{
+			JError::raiseWarning('',JText::_('ZEFANIABIBLE_ERROR_CHAPTER_NOT_FOUND'));
 		}
-		
 		$this->fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias);
 		
 	}
