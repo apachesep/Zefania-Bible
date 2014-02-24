@@ -164,6 +164,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 				}
 			}
 		}
+
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$user = JFactory::getUser();
