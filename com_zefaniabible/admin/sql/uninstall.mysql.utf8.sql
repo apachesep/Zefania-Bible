@@ -20,3 +20,7 @@ DROP TABLE IF EXISTS `#__zefaniabible_zefaniacomment`;
 DROP TABLE IF EXISTS `#__zefaniabible_comment_text`;
 
 DROP TABLE IF EXISTS `#__zefaniabible_crossref`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_dictionary_detail`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_dictionary_info`;
