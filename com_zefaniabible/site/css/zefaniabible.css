@@ -90,7 +90,7 @@
 	margin-left:3px;
 	width:2%;
 }
-.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book
+.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book, .zef_strong_dic_name 
 {
 	text-align:center;
 	line-height:40px;
@@ -212,4 +212,13 @@
 #zef_day_jump
 {
 	max-width:150px;
+}
+#zef_strong_link
+{
+	font-size:10px;
+	font-style:italic;
+}
+.zef_strong_id
+{
+	font-weight:bold;	
 }
