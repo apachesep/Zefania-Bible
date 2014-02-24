@@ -116,71 +116,35 @@
 			</field>		
 		</fieldset>		
 		<fieldset name="commentary" label="COM_ZEFANIABIBLE_COMMENTARY_LABEL" description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
-				<field name="xmlCommentaryPath" 
-					type="text" 
-					size="50" 
-					default="media/com_zefaniabible/commentary/" 
-					label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" 
-					description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />		
-				<field name="show_commentary"
-					type="list"
-					default="0"
-					label="COM_ZEFANIABIBLE_COMMENTARY"
-					description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
+				<field name="xmlCommentaryPath" type="text" size="50" default="media/com_zefaniabible/commentary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />		
+				<field name="show_commentary" type="list" default="0" label="COM_ZEFANIABIBLE_COMMENTARY" description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
 						<option value="0">JHIDE</option>
 						<option value="1">JSHOW</option>
 				</field>
-				<field name="commentaryWidth" 
-					type="text" 
-					size="50" 
-					default="800" 
-					label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH" 
-					description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH_DESC" />
-				<field name="commentaryHeight" 
-					type="text" 
-					size="50" 
-					default="500" 
-					label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" 
-					description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
-				<field name="primaryCommentary" type="sql"
-							label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" 
-							description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" 
-							query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title"
-							key_field="alias"
-							value_field = "full_name"
-						/>			
-						
+				<field name="commentaryWidth" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH_DESC" />
+				<field name="commentaryHeight" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
+				<field name="primaryCommentary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title" key_field="alias" value_field = "full_name" />									
+		</fieldset>	
+			
+		<fieldset name="dictionary" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+			<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
+			<field name="xmlDictionaryPath" type="text" size="50" default="media/com_zefaniabible/dictionary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE_DESC" />
+			<field name="str_dictionary_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH_DESC" />
+			<field name="str_dictionary_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT_DESC" />
 		</fieldset>		
+		
 		<fieldset name="player" label="COM_ZEFANIABIBLE_PLAYER_LABEL" description="COM_ZEFANIABIBLE_PLAYER_DESC">
-			<field name="show_audioPlayer"
-				type="list"
-				default="0"
-				label="COM_ZEFANIABIBLE_AUDIO_PLAYER"
-				description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
+			<field name="show_audioPlayer" type="list" default="0" label="COM_ZEFANIABIBLE_AUDIO_PLAYER" description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 			</field>
-			<field name="player_type" 
-				type="list" 
-				default="0" 
-				label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" 
-				description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
+			<field name="player_type" type="list" default="0" label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
 				<option value="0">JW Player</option>
 				<option value="2">FlowPlayer</option>
 				<option value="1">Wordpress Audio Player</option>
 			</field>
-			<field name="player_width" 
-				type="text" 
-				size="3" 
-				default="250" 
-				label="COM_ZEFANIABIBLE_PLAYER_WIDTH" 
-				description="COM_ZEFANIABIBLE_PLAYER_WIDTH_DESC" />
-			<field name="player_height" 
-				type="text" 
-				size="3" 
-				default="24" 
-				label="COM_ZEFANIABIBLE_PLAYER_HEIGHT" 
-				description="COM_ZEFANIABIBLE_PLAYER_HEIGHT_DESC" />
+			<field name="player_width" type="text" size="3" default="250" label="COM_ZEFANIABIBLE_PLAYER_WIDTH" description="COM_ZEFANIABIBLE_PLAYER_WIDTH_DESC" />
+			<field name="player_height" type="text" size="3" default="24" label="COM_ZEFANIABIBLE_PLAYER_HEIGHT" description="COM_ZEFANIABIBLE_PLAYER_HEIGHT_DESC" />
 			<field name="player_popup_height" 
 				type="text" 
 				size="3" 
