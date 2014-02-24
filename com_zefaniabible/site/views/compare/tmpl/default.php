@@ -48,6 +48,9 @@ class BibleCompare {
 	public $flg_show_references;
 	public $str_commentary_width;
 	public $str_commentary_height;	
+	private $str_dictionary_height;
+	private $str_dictionary_width;
+	private $str_primary_dictionary;
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter,$arr_commentary, $arr_references)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
@@ -61,7 +64,10 @@ class BibleCompare {
 		$this->flg_show_second_player = $this->params->get('show_second_player','1');
 		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
 		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
-		
+		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
+		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
+		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
+				
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
 		$this->flg_show_references = $this->params->get('show_references', '0');
@@ -114,8 +120,11 @@ class BibleCompare {
 			}
 		}
 
+		$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
 		foreach($arr_Chapter as $arr_verse)
 		{
+			$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);
+			
 			if($arr_verse->verse_id == 1)
 			{
 				$str_descr	= $str_descr.$arr_verse->verse;
@@ -125,6 +134,8 @@ class BibleCompare {
 		}
 		foreach($arr_Chapter2 as $arr_verse2)
 		{
+			$arr_verse2->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse2->verse);
+						
 			if($arr_verse2->verse_id == 1)
 			{
 				$str_descr	= $str_descr.$arr_verse2->verse;
@@ -187,6 +198,15 @@ class BibleCompare {
 			$this->str_Chapter_Output  = $this->str_Chapter_Output.'<div style="clear:both"></div></div>';			
 		}
 		$this->fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias,$str_alias2);
+	}
+	private function fnc_Make_Scripture(&$arr_matches)
+	{
+		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
+		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
+		$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
+		$str_verse = $str_verse. '</a> ';
+		
+		return $str_verse;
 	}
 	private function fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias,$str_alias2)
 	{
