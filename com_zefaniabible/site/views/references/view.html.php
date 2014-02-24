@@ -45,7 +45,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 	 * Define here the default list limit
 	 */
 	protected $_default_limit = null;
-
+	private $str_primary_dictionary;
+	
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -86,9 +87,11 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
-
+		$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
+		
 		$flg_reference_words = $params->get('flg_reference_words', '1');
 		$flg_reference_chapter_link = $params->get('flg_reference_chapter_link', '1');
+		$this->str_primary_dictionary  = $params->get('str_primary_dictionary','');
 		
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		require_once(JPATH_COMPONENT_SITE.'/models/references.php');
@@ -228,6 +231,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 						{
 							echo '<div class="zef_content_verse_id" >'.$obj_verse->verse_id.'</div>';
 						}
+
+						$obj_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $obj_verse->verse);						
 						echo '<div class="zef_content_verse">'.$obj_verse->verse."</div>";
 						echo '<div style="clear:both"></div>';
 						echo '</div>';
@@ -261,4 +266,13 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$this->assignRef('config',		$config);
 		parent::display($tpl);
 	}
+	private function fnc_Make_Scripture(&$arr_matches)
+	{
+		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
+		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" >';		
+		$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
+		$str_verse = $str_verse. '</a> ';
+		
+		return $str_verse;
+	}	
 }
