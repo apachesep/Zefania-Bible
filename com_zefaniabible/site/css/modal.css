@@ -43,7 +43,7 @@ body
 	float:left;	
 	width:98%;
 } 
-.zef_commentary_image, .zef_reference_image, .zef_scripture_image
+.zef_commentary_image, .zef_reference_image, .zef_scripture_image,.zef_strong_dic_image
 {
 	display:block;
 	margin-left:auto;  
@@ -63,6 +63,10 @@ body
 .zef_commentary_image
 {
 	background-image:url('/components/com_zefaniabible/images/commentaries.jpg');  
+}
+.zef_strong_dic_image
+{
+	background-image:url('/components/com_zefaniabible/images/dictionary.jpg');  
 }
 .zef_credits
 { 
