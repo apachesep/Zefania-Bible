@@ -68,7 +68,10 @@ class BibleReadingPlan
 	public $str_commentary_width;
 	public $str_commentary_height;
 	public $flg_show_references;
-	
+	private $str_dictionary_height;
+	private $str_dictionary_width;
+	private $str_primary_dictionary;
+		
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days)
 	{
 		
@@ -87,7 +90,9 @@ class BibleReadingPlan
 		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
 		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
 		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
-			
+		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
+		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
+		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
 		$str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
 								
@@ -167,6 +172,9 @@ class BibleReadingPlan
 					{
 						echo '<div class="even">'; 
 					}
+					$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
+					$plan->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $plan->verse);
+					
 					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
 					if($this->flg_show_references)
 					{
@@ -199,6 +207,15 @@ class BibleReadingPlan
 					$z++;
 				}
 			}
+	}
+	private function fnc_Make_Scripture(&$arr_matches)
+	{
+		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
+		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
+		$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
+		$str_verse = $str_verse. '</a> ';
+		
+		return $str_verse;
 	}
 	private function getMetaData($arr_plan)
 	{
