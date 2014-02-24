@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.7.10</version>
+	<version>2.8.0</version>
 	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
@@ -17,10 +17,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">	
-				<field name="flg_search_one_bible" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE" >
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 				<field name="int_limit_query" type="list" default="100" label="PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
 					<option value='100' >100</option>
 					<option value='250' >250</option>
@@ -30,6 +26,32 @@
 					<option value='0' >PLG_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_ALL</option>
 				</field>
 				<field name="zb_search_mo_menuitem" type="menuitem" default="" label="PLG_ZEFANIABIBLE_SEARCH_PARAM_MO_MENUITEM" description="PLG_ZEFANIABIBLE_SEARCH_PARAM_MO_MENUITEM_DESC" state="1" />				
+			</fieldset>
+			<fieldset name="bible" label="PLG_ZEFANIABIBLE_SEARCH_BIBLE_BIBLE">
+				<field name="flg_search_one_bible" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_BIBLE" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>			
+			</fieldset>
+			<fieldset name="commentary" label="PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMMENTARY">
+				<field name="flg_search_commentary" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMMENTARY_SEARCH_DESC" label="PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMMENTARY_SEARCH" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="flg_search_one_commentary" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>						
+			</fieldset>				
+			<fieldset name="dictionary" label="PLG_ZEFANIABIBLE_SEARCH_BIBLE_DICTIONARY">
+				<field name="flg_search_dictionary" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_BIBLE_DICTIONARY_SEARCH_DESC" label="PLG_ZEFANIABIBLE_SEARCH_BIBLE_DICTIONARY_SEARCH" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="flg_search_one_dictionary" type="radio" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY" >
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>								
 			</fieldset>
 		</fields>		
 	</config>
