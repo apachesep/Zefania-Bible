@@ -177,6 +177,7 @@
 				<option value="1">JSHOW</option>
 		</field>			
 	</fieldset>
+	
 	<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
 		<field name="show_references" type="list" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
 				<option value="0">JHIDE</option>
@@ -193,7 +194,7 @@
 	</fieldset>
 
 	<fieldset name="commentary" label="COM_ZEFANIABIBLE_COMMENTARY_LABEL" description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
-		<field name="xmlCommentaryPath" type="text" size="50" default="media/com_zefaniabible/commentary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />		
+		<field name="xmlCommentaryPath" type="text" size="50" default="media/com_zefaniabible/commentary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />
 		<field name="show_commentary" type="list" default="0" label="COM_ZEFANIABIBLE_COMMENTARY" description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -202,6 +203,14 @@
 		<field name="commentaryHeight" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
 		<field name="primaryCommentary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title" key_field="alias" value_field = "full_name" />							
 	</fieldset>
+	
+	<fieldset name="dictionary" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+		<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
+		<field name="xmlDictionaryPath" type="text" size="50" default="media/com_zefaniabible/dictionary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE_DESC" />
+		<field name="str_dictionary_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH_DESC" />
+		<field name="str_dictionary_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT_DESC" />
+	</fieldset>
+	
 	<fieldset name="editor" label="COM_ZEFANIABIBLE_EDITOR_BUTTON" description="COM_ZEFANIABIBLE_EDITOR_BUTTON_DESC">
 		<field name="int_modal_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_MODAL_WIDTH" description="COM_ZEFANIABIBLE_MODAL_WIDTH_DESC" />
 		<field name="int_modal_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_MODAL_HEIGHT" description="COM_ZEFANIABIBLE_MODAL_HEIGHT_DESC" />
