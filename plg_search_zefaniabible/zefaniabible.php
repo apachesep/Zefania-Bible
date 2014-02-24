@@ -44,10 +44,39 @@ class plgSearchZefaniaBible extends JPlugin
 	 * @param       array   $config  An array that holds the plugin configuration
 	 * @since       1.6
 	 */
+	private $str_Bible_books;
+	private $str_Bible_book_id;		
+	private $str_begin_chap;
+	private $str_begin_verse;
+	private $str_end_verse;
+	private $str_end_chap;	
+	private $flg_search_by_scripture;
+	private $flg_search_one_bible;
+	private $int_limit_query;
+	private $flg_search_commentary;
+	private $flg_search_dictionary;
+	private $cnt_area_searched;
+	private $flg_search_one_dictionary;
+	private $flg_search_one_commentary;
+	private $str_primary_commentary;
+	private $str_primary_dictionary;
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
+		$this->flg_search_commentary = $this->params->get('flg_search_commentary', 0);
+		$this->flg_search_dictionary = $this->params->get('flg_search_dictionary', 0);
+		$this->flg_search_one_dictionary = $this->params->get('flg_search_one_dictionary', 0);
+		$this->flg_search_one_commentary = $this->params->get('flg_search_one_commentary', 0);
+		
+		$comp_params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$this->str_primary_commentary = $comp_params->get('primaryCommentary');
+		$this->str_primary_dictionary = $comp_params->get('str_primary_dictionary');
+		
+		for($z = 1; $z <= 66; $z ++)
+		{
+			$this->str_Bible_books = $this->str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
+		}
 	}
 
 	/**
@@ -55,9 +84,18 @@ class plgSearchZefaniaBible extends JPlugin
 	 */
 	function onContentSearchAreas()
 	{
-		static $areas = array(
-		'Bible' => 'PLG_ZEFANIABIBLE_SEARCH_BIBLE_BIBLE'
-		);
+		$areas['Bible'] = 'PLG_ZEFANIABIBLE_SEARCH_BIBLE_BIBLE';
+		$this->cnt_area_searched = 1;
+		if($this->flg_search_commentary)
+		{
+			$areas['Commentary'] = 'PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMMENTARY';
+			$this->cnt_area_searched ++;
+		}
+		if($this->flg_search_dictionary)
+		{
+			$areas['Dictionary'] = 'PLG_ZEFANIABIBLE_SEARCH_BIBLE_DICTIONARY';
+			$this->cnt_area_searched ++;
+		}
 		return $areas;
 	}
 
@@ -75,147 +113,319 @@ class plgSearchZefaniaBible extends JPlugin
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$flg_proceed = 0;
-		if(($areas)and($text))
-		{
-			foreach($areas as $area)
-			{
-				if($area == "Bible")
-				{
-					$flg_proceed = 1;
-				}
-			}
-		}
-		elseif(($areas==null)and($text))
-		{
-			$flg_proceed = 1;
-		}
+		$arr_result = '';		
+		$flg_search_area = 0;
+		$arr_data = '';
+		$arr_result = array();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		$jlang = JFactory::getLanguage();
-		$jlang->load('zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('zefaniabible', JPATH_COMPONENT, null, true);
 		
-		if($flg_proceed)
+		$jlang = JFactory::getLanguage();
+		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", 'en-GB', true);
+		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", null, true);
+		
+		$this->params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
+		$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
+		$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
+		$str_menuItem = $this->params->get('zb_search_mo_menuitem', 0);
+		$this->int_limit_query= $this->params->get('int_limit_query', 100);
+		
+		$this->flg_search_one_bible = $this->params->get('flg_search_one_bible', '0');
+		$this->str_primary_bible = $this->params_zefania_comp->get('primaryBible', 'kjv');
+		if($text != "")
 		{
-			$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
-			$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-			$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
-			$str_menuItem = $this->params->get('zb_search_mo_menuitem', 0);
-			$int_limit_query = $this->params->get('int_limit_query', 100);
+			preg_replace_callback( "/^(".$this->str_Bible_books.")(\.)?(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?$/", array( &$this, 'fnc_Make_Scripture'),  $text);		
+			preg_replace_callback( "/(?=\S)([HG](\d{1,4}))/iu", array( &$this, 'fnc_Make_Strong_Scripture'),  $text);	// STRONG number
 			
-			$flg_search_one_bible = $this->params->get('flg_search_one_bible', '0');
-			$params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
-			$str_primary_bible = $params_zefania_comp->get('primaryBible', 'kjv');
-			
-			$flg_search_by_scripture = 0;
-			$arr_result[0]->href = "";
-			$arr_result[0]->title = "";
-			$arr_result[0]->text = "";
-			$arr_result[0]->section = "";
-			$arr_result[0]->created = "";
-			$arr_result[0]->browsernav = '2';	
-					
-			$arr_book_id = '';
-			$arr_chapter_id = '';
-			$arr_verse_id = '';
-			$arr_verse = '';
-			
-			for($z = 1; $z <= 66; $z ++)
+			if(count($areas) >= 1)
 			{
-				$arr_look_up[$z] = mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
-				if(preg_match('/(?=\S)(('.$arr_look_up[$z].')[\.]?\s?(\d{1,3}):(\d{1,3}))/siU', mb_strtolower($text,'UTF-8')))	
-				{
-					$arr_bible_Book_id = $z;
-					$arr_bible_Book_name = explode("|",$arr_look_up[$z]);
-					$arr_scripture =  explode(":",preg_replace('/^('.$arr_look_up[$z].')[\.]?\s?/', '', mb_strtolower($text,'UTF-8')));
-					$flg_search_by_scripture = 1;
-				} 
-			} 			
-			
-			if($flg_search_by_scripture == 0)
-			{
-				
-				$db		= JFactory::getDbo();
-				$query  = $db->getQuery(true);
-				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name, b.alias');
-				$query->from('`#__zefaniabible_bible_text` AS a');	
-				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-				$query->where("a.verse LIKE '%".$text."%'");
-				$query->order('b.bible_name, a.book_id, a.chapter_id, a.verse_id');		
-				if($flg_search_one_bible)
-				{
-					$query->where("b.alias='".$str_primary_bible."'");
+				$this->int_limit_query = ($this->int_limit_query / count($areas));
+				foreach ($areas as $area)
+				{					
+					switch (true)
+					{
+						case $area == 'Bible':
+						case $area == 'Commentary':
+						case $area == 'Dictionary':
+							if($this->flg_search_by_scripture == 0)
+							{			
+								$arr_data =  $this->fnc_make_bible_search_request($text,$area);
+							}
+							else
+							{
+								$arr_data = $this->fnc_make_bible_verse_request($text,$area);
+							}					
+							$arr_result = array_merge($arr_result, $this->fnc_make_Search_Query($arr_data,$str_menuItem,$area));						
+							break;
+						default:
+							break;
+					}
+	
 				}
-				
-				if($int_limit_query > 1)
-				{
-					$db->setQuery($query,0, $int_limit_query);
-				}
-				else
-				{
-					$db->setQuery($query);
-				}
-				$data = $db->loadObjectList();	
 			}
 			else
 			{
-				$db		= JFactory::getDbo();
-				$query  = $db->getQuery(true);
-				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name, b.alias');
-				$query->from('`#__zefaniabible_bible_text` AS a');	
-				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-				$query->where("a.book_id='".(int)$arr_bible_Book_id."' AND a.chapter_id='".(int)$arr_scripture[0]."' AND a.verse_id='".(int)$arr_scripture[1]."'");
-				$query->order('b.bible_name, a.book_id, a.chapter_id, a.verse_id');		
-				if($flg_search_one_bible)
+				$arr_areas = array("Bible", "Commentary", "Dictionary");
+				$this->int_limit_query = ($this->int_limit_query / $this->cnt_area_searched);			
+				for($x = 0; $x < 3; $x++)
 				{
-					$query->where("b.alias='".$str_primary_bible."'");
-				}
-				if($int_limit_query > 1)
-				{
-					$db->setQuery($query,0, $int_limit_query);
-				}
-				else
-				{
-					$db->setQuery($query);
-				}
-				$data = $db->loadObjectList();					
+					if($this->flg_search_by_scripture == 0)
+					{			
+						$arr_data =  $this->fnc_make_bible_search_request($text,$arr_areas[$x]);
+					}
+					else
+					{
+						$arr_data = $this->fnc_make_bible_verse_request($text,$arr_areas[$x]);
+					}	
+					$arr_result = array_merge($arr_result, $this->fnc_make_Search_Query($arr_data,$str_menuItem,$arr_areas[$x]));						
+				}				
 			}
-			$arr_result = $this->fnc_make_Search_Query($data,$str_menuItem);	
-			
-			if($arr_result[0]->title != "")
+			if(count(	$arr_result) > 0)
 			{
 				return $arr_result;				
 			}
 		}
 	}
-	private function fnc_make_Search_Query($data,$str_menuItem)
+
+	private function fnc_make_bible_search_request($str_text,$area)
 	{
-		$x = 0;
-		$y = 0;
-		
-		foreach($data as $datum)
+		try 
 		{
-			$arr_book_id[$x] = $datum->book_id;
-			$arr_chapter_id[$x] = $datum->chapter_id;
-			$arr_verse_id[$x] = $datum->verse_id;
-			$arr_verse[$x] = $datum->verse;
-			$arr_bible_name[$x] = $datum->bible_name;
-			$arr_bible_alias[$x] = $datum->alias;
-			$x++;
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			switch($area)
+			{
+				case 'Bible':
+					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name as bible_name, b.alias');
+					$query->from('`#__zefaniabible_bible_text` AS a');	
+					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');	
+					$query->where("a.verse LIKE '%".$str_text."%'");
+					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
+					if($this->flg_search_one_bible)
+					{
+						$query->where("b.alias='".$this->str_primary_bible."'");
+					}								
+					break;
+				case 'Commentary':
+					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.title as bible_name, b.alias');
+					$query->from('`#__zefaniabible_comment_text` AS a');	
+					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
+					$query->where("a.verse LIKE '%".$str_text."%'");
+					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
+					if($this->flg_search_one_commentary)
+					{
+						$query->where("b.alias='".$this->str_primary_commentary."'");
+					}					
+					break;
+				case 'Dictionary':
+					$query->select('a.dict_id, a.item, a.description, b.name, b.alias');
+					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
+					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
+					$query->where("a.description LIKE '%".$str_text."%'");	
+					if($this->flg_search_one_dictionary)
+					{
+						$query->where("b.alias='".$this->str_primary_dictionary."'");
+					}					
+					$query->order('a.dict_id');					
+					break;
+				default:
+					"";
+					break;
+			}
+			if($this->int_limit_query> 1)
+			{
+				$db->setQuery($query,0, $this->int_limit_query);
+			}
+			else
+			{
+				$db->setQuery($query);
+			}
+			$data = $db->loadObjectList();	
 		}
-		foreach($arr_book_id as $item)
+		catch (JException $e)
 		{
-			$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_book_id[$y]));
-			$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
-			$arr_result[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&a=".$arr_bible_alias[$y].
-				"&b=".$arr_book_id[$y]."-".str_replace(" ","-",$str_temp_title).
-				"&c=".$arr_chapter_id[$y].'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8'));
-			$arr_result[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_book_id[$y])." ".$arr_chapter_id[$y].":".$arr_verse_id[$y];
-			$arr_result[$y]->text = $arr_verse[$y];
-			$arr_result[$y]->section = $arr_bible_name[$y]." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');
-			$arr_result[$y]->created = $this->params_zefania_comp->get('reading_start_date', '1-1-2012');
-			$arr_result[$y]->browsernav = '2';	
-			$y++;	
+			$this->setError($e);
 		}		
-		return $arr_result;	
+		return $data;					
+	}
+	private function fnc_make_bible_verse_request($text,$area)
+	{
+		try 
+		{
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			switch ($area)
+			{
+				case 'Bible':
+					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name as bible_name, b.alias');
+					$query->from('`#__zefaniabible_bible_text` AS a');	
+					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+					$query->where("a.book_id=".$this->str_Bible_book_id);
+					$query->where("a.chapter_id=".$this->str_begin_chap);
+					if($this->str_end_verse)
+					{
+						$query->where("a.verse_id>=".$this->str_begin_verse);
+						$query->where("a.verse_id<=".$this->str_end_verse);
+					}
+					else
+					{
+						$query->where("a.verse_id=".$this->str_begin_verse);
+					}
+					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
+					if($this->flg_search_one_bible)
+					{
+						$query->where("b.alias='".$this->str_primary_bible."'");
+					}					
+					break;
+				case 'Commentary':
+					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.title as bible_name, b.alias');
+					$query->from('`#__zefaniabible_comment_text` AS a');	
+					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
+					$query->where("a.book_id=".$this->str_Bible_book_id);
+					$query->where("a.chapter_id=".$this->str_begin_chap);
+					if($this->str_end_verse)
+					{
+						$query->where("a.verse_id>=".$this->str_begin_verse);
+						$query->where("a.verse_id<=".$this->str_end_verse);
+					}
+					else
+					{
+						$query->where("a.verse_id=".$this->str_begin_verse);
+					}
+					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
+					if($this->flg_search_one_commentary)
+					{
+						$query->where("b.alias='".$this->str_primary_commentary."'");
+					}					
+					
+					break;
+				case 'Dictionary':
+					$query->select('a.dict_id, a.item,a.description, b.name, b.alias');
+					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
+					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
+					$query->where("a.item ='".$text."'");	
+					if($this->flg_search_one_dictionary)
+					{
+						$query->where("b.alias='".$this->str_primary_dictionary."'");
+					}
+					$query->order('a.dict_id');					
+					break;
+				default:
+					break;	
+			}
+
+			if($this->int_limit_query> 1)
+			{
+				$db->setQuery($query,0, $this->int_limit_query);
+			}
+			else
+			{
+				$db->setQuery($query);
+			}
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}		
+		return $data;
+	}
+	private function fnc_Make_Strong_Scripture(&$arr_matches)
+	{
+		 $this->flg_search_by_scripture = 1;
+	}
+	private function fnc_Make_Scripture(&$arr_matches)
+	{
+		$str_scripture = $arr_matches[0];
+		$this->str_Bible_book_id = 0;
+		$str_passages = '';
+		$this->str_begin_chap = '';
+		$this->str_begin_verse = '';
+		$this->str_end_verse = '';
+		$this->str_end_chap = '';
+		$str_proper_name = '';
+		$str_look_up;
+		$arr_look_up_orig = '';
+		$str_scripture_book_name = $arr_matches[1];
+							
+		for($z = 1; $z <= 66; $z ++)
+		{
+			$arr_multi_query = '';
+			$str_look_up = mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
+			$arr_look_up_orig = explode('|',JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_BOOK_NAME_'.$z));
+			if(preg_match('/^('.$str_look_up.')$/', mb_strtolower($str_scripture_book_name,'UTF-8')))
+			{
+				$str_proper_name = $arr_look_up_orig[0];
+				$this->str_Bible_book_id = $z;
+				$str_passages = trim(str_replace($str_scripture_book_name ,'',$str_scripture));
+				switch (true)
+				{										
+					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})$/',$str_passages):   				// Gen 1:1
+					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3})$/',$str_passages): 	// Gen 1:1-4
+					 	$arr_split_verses = preg_split('#[:-]+#',$str_passages); 					// split on colon and hyphen
+						if(count($arr_split_verses) == 3)
+						{
+							list($this->str_begin_chap,$this->str_begin_verse,$this->str_end_verse) = $arr_split_verses;
+						}
+						else
+						{
+							list($this->str_begin_chap,$this->str_begin_verse) = $arr_split_verses;
+							$this->str_end_verse = '0';
+						}
+						$this->str_end_chap = '0';
+						$this->flg_search_by_scripture = 1;
+						break;			
+	
+					default:
+						break;	
+				}
+				break;
+			}
+		}
+	}
+	private function fnc_make_Search_Query($data,$str_menuItem, $area)
+	{
+		foreach($data as $y => $datum)
+		{
+			switch($area)
+			{
+				case 'Bible':
+					$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id));
+					$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
+					// strip stong verses.
+					$datum->verse = preg_replace("/(?=\S)([HG](\d{1,4}))/iu",'',$datum->verse);				
+					$data[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id)." ".$datum->chapter_id.":".$datum->verse_id;				
+					$data[$y]->text = $datum->verse;				
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&a=".$datum->alias.
+						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
+						"&c=".$datum->chapter_id.'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8'));
+					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');
+					break;
+				case 'Commentary':
+					$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id));
+					$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
+					// strip stong verses.
+					$datum->verse = preg_replace("/(?=\S)([HG](\d{1,4}))/iu",'',$datum->verse);				
+				
+					$data[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id)." ".$datum->chapter_id.":".$datum->verse_id;				
+					$data[$y]->text = $datum->verse;								
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=commentary&Itemid=".$str_menuItem."&a=".$datum->alias.
+						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
+						"&c=".$datum->chapter_id.'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8').'&d='.$datum->verse_id);				
+					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');						
+					break;
+				case 'Dictionary':
+					$data[$y]->title = $datum->item;				
+					$data[$y]->text = $datum->description;								
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=strong&Itemid=".$str_menuItem."&a=".$datum->alias.
+						"&b=".$datum->item);		
+					$data[$y]->section = $datum->name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');					
+					break;
+				default:
+					break;
+			}
+			$data[$y]->created = $this->params_zefania_comp->get('reading_start_date', '1-1-2012');
+			$data[$y]->browsernav = '2';
+		}		
+		return $data;	
 	}
 }
