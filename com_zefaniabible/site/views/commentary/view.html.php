@@ -93,7 +93,8 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 		echo '<div class="zef_commentary_image"></div>';
 		echo '<div class="zef_commentary_title">'.$str_commentary_name."</div>";
 		echo '<div class="zef_commentary_book">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter.":".$int_Bible_Verse."</div>";
-		echo '<div class="zef_commentary_verse">'.$str_commentary_text."</div>";
+		echo' <div class="zef_commentary_verse">'.JHtml::_('content.prepare',$str_commentary_text)."</div>";
+		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$user = JFactory::getUser();
