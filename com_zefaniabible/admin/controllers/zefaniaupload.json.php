@@ -43,7 +43,7 @@ class ZefaniabibleControllerZefaniaupload extends JControllerLegacy
 
 		// Authorize User
 		$user		= JFactory::getUser();
-		if (!$user->authorise('core.create', 'com_sermonspeaker')) {
+		if (!$user->authorise('core.create', 'com_zefaniabible')) {
 			$response = array(
 				'status' => '0',
 				'error' => JText::_('JGLOBAL_AUTH_ACCESS_DENIED')
@@ -79,14 +79,23 @@ class ZefaniabibleControllerZefaniaupload extends JControllerLegacy
 		}
 
 			// Regular Upload
-			if ($type == 'bible'){
-				$path	= $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-			} elseif ($type == 'audio'){
-				$path	= $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
-			}
-			elseif($type == 'commentary')
+			switch ($type)
 			{
-				$path	= $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+				case 'bible':
+					$path	= $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');		
+					break;
+				case 'audio':
+					$path	= $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
+					break;
+				case 'commentary':
+					$path	= $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+					break;
+				case 'dictionary':
+					$path	= $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+					break;
+				default:
+					$path	= $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');						
+					break;
 			}
 			
 			$path	= trim($path, '/');
