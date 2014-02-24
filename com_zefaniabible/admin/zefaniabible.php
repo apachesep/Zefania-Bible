@@ -58,6 +58,7 @@ $layout = JRequest::getCmd( 'layout');
 $temp_view = $view;
 $mainMenu = true;
 
+
 switch ($view)
 {
 
@@ -100,7 +101,11 @@ switch ($view)
 			break;
 		case 'zefaniamodal' :
 			$controllerName = "zefaniamodal";
-			break;				
+			break;
+		case 'zefaniadictionary' :
+		case 'zefaniadictionaryitem' :
+			$controllerName = "zefaniadictionary";
+			break;							
 		default:
 			$view = 'zefaniabible';
 			$layout = 'default';
@@ -120,7 +125,7 @@ if ($mainMenu)
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_READING_PLAN_DETAILS"), 'index.php?option=com_zefaniabible&view=zefaniareadingdetails', ($view == 'zefaniareadingdetails'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_USERS"), 'index.php?option=com_zefaniabible&view=zefaniauser', ($view == 'zefaniauser'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_VERSE_OF_DAY"), 'index.php?option=com_zefaniabible&view=zefaniaverseofday', ($view == 'zefaniaverseofday'));
-
+		JSubMenuHelper::addEntry(JText::_("COM_ZEFANIABIBLE_DICTIONARY"), 'index.php?option=com_zefaniabible&view=zefaniadictionary', ($view == 'zefaniadictionary'));		
 }
 
 require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jcontroller.php');
