@@ -28,6 +28,7 @@
 		<folder>player</folder>
 		<folder>audio</folder>
 		<folder>swfupload</folder>
+		<folder>dictionary</folder>
 	</media>	
 
 	<administration>
@@ -40,6 +41,7 @@
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareadingdetails.png" link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniauser.png" link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniaverseofday.png" link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
+			<menu img="components/com_zefaniabible/images/icon-48-zefaniabible_zephdictionary.png" link="option=com_zefaniabible&amp;view=zefaniadictionary">COM_ZEFANIABIBLE_DICTIONARY</menu>			
 		</submenu>
 		<files folder="admin">
 			<folder>classes</folder>
