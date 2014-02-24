@@ -1,3 +1,27 @@
+CREATE TABLE IF NOT EXISTS `#__zefaniabible_dictionary_detail` (
+	`id` int(11) NOT NULL auto_increment,
+	`params` text NOT NULL default '',
+	`dict_id` int(11) NOT NULL,	
+	`item` VARCHAR(255) ,
+	`description` TEXT ,
+	
+	PRIMARY KEY  (`id`)
+	
+);
+
+CREATE TABLE IF NOT EXISTS `#__zefaniabible_dictionary_info` (
+	`id` int(11) NOT NULL auto_increment,
+	`params` text NOT NULL default '',
+	`name` VARCHAR(255) ,
+	`alias` VARCHAR(255) ,
+	`xml_file_url` text NOT NULL,
+	`ordering` INT(11) ,
+	`publish` TINYINT ,
+	
+	PRIMARY KEY  (`id`)
+	
+);
+
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 	`id` int(11) NOT NULL auto_increment,
 	`params` text NOT NULL default '',
