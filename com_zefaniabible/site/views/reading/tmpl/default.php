@@ -24,7 +24,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days);
+$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days, $this->arr_commentary_list, $this->arr_dictionary_list,$this->obj_references);
 
 class BibleReadingPlan
 {
@@ -32,6 +32,9 @@ class BibleReadingPlan
 			a = plan
 			b = bible
 			c = day
+			com = commentary
+			dict = Dictionary
+			strong = Show/Hide Strong Numgers flag			
 		*/
 	public $str_bibleVersion;
 	private $str_primary_bible;
@@ -70,9 +73,15 @@ class BibleReadingPlan
 	public $flg_show_references;
 	private $str_dictionary_height;
 	private $str_dictionary_width;
-	private $str_primary_dictionary;
-		
-	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days)
+	public $str_primary_dictionary;
+	public $flg_show_dictionary;
+	public $str_primary_commentary;
+	private $str_curr_dict;	
+	public $flg_strong_dict;
+	private $arr_commentary_list;
+	private $arr_dictionary_lis;
+	public $str_chapter_output;
+	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days, $arr_commentary_list, $arr_dictionary_list, $obj_references)
 	{
 		
 		$this->arr_reading = $arr_reading;
@@ -93,8 +102,10 @@ class BibleReadingPlan
 		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
 		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
 		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
-		$str_primary_commentary = $this->params->get('primaryCommentary');
-		$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
+		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
+		$this->str_primary_commentary = $this->params->get('primaryCommentary');
+		$this->str_curr_dict = JRequest::getCmd('dict');		
+		$this->str_commentary = JRequest::getCmd('com',$this->str_primary_commentary);
 								
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
@@ -103,7 +114,14 @@ class BibleReadingPlan
 		$this->flg_email_button 		= $this->params->get('flg_email_button', '1');	
 		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
-		 
+		$this->flg_strong_dict = 0;
+		$this->arr_commentary_list = $arr_commentary_list;
+		$this->arr_dictionary_list = $arr_dictionary_list;
+				
+		if(!$this->str_curr_dict)
+		{
+			$this->str_curr_dict = $this->str_primary_dictionary;
+		}		 
 		foreach($arr_reading as $obj_reading)
 		{
 			$this->int_day_number = $obj_reading->day_number;
@@ -116,7 +134,7 @@ class BibleReadingPlan
 			}
 		}
 		$this->getMetaData($arr_plan);
-		
+		$this->str_chapter_output = $this->fnc_output_chapter($arr_plan, $arr_commentary, $obj_references);
 	}
 	public function fnc_output_chapter($arr_plan, $arr_commentary, $arr_references)
 	{
@@ -124,7 +142,7 @@ class BibleReadingPlan
 			$chap = 0;
 			$x = 1;
 			$y = 1;		
-
+			$str_chapter = '';
 		if($this->flg_show_audio_player)
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');	
@@ -146,19 +164,19 @@ class BibleReadingPlan
 						$chap = $plan->chapter_id;
 						if($y > 1)
 						{
-							echo '</div>';
+							$str_chapter = $str_chapter. '</div>';
 						}
-						echo '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						echo mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
-						echo '<div class="zef_bible_Chapter">';
+						$str_chapter = $str_chapter. '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						$str_chapter = $str_chapter. mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
+						$str_chapter = $str_chapter. '<div class="zef_bible_Chapter">';
 						$arr_single_commentary  = $arr_commentary[($y-1)];
 						if($this->flg_show_audio_player)
 						{
 							$obj_player = $mdl_audio->fnc_audio_player($this->str_primary_bible,$plan->book_id,$plan->chapter_id, $y);
-							echo '<div class="zef_player-'.$y.'">';
-							echo $obj_player;
-        					echo "</div>";
-							echo '<div style="clear:both"></div>';
+							$str_chapter = $str_chapter. '<div class="zef_player-'.$y.'">';
+							$str_chapter = $str_chapter. $obj_player;
+        					$str_chapter = $str_chapter. "</div>";
+							$str_chapter = $str_chapter. '<div style="clear:both"></div>';
 						}
 						$x = 1;
 						$y++;			
@@ -166,16 +184,16 @@ class BibleReadingPlan
 
 					if ($x % 2)
 					{
-						echo '<div class="odd">';
+						$str_chapter = $str_chapter. '<div class="odd">';
 					}
 					else
 					{
-						echo '<div class="even">'; 
+						$str_chapter = $str_chapter. '<div class="even">'; 
 					}
 					$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
 					$plan->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $plan->verse);
 					
-					echo "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
+					$str_chapter = $str_chapter. "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
 					if($this->flg_show_references)
 					{
 						foreach($arr_references as $obj_references)
@@ -184,7 +202,7 @@ class BibleReadingPlan
 							{
 								$temp = 'a='.$this->str_primary_bible.'&b='.$plan->book_id.'&c='.$plan->chapter_id.'&d='.$plan->verse_id;
 								$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">';
-								echo '<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';									
+								$str_chapter = $str_chapter. '<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';									
 								break;
 							}
 						}							
@@ -198,23 +216,44 @@ class BibleReadingPlan
 							if($plan->verse_id == $int_verse_commentary->verse_id)
 							{
 								$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&a=".$this->str_commentary."&b=".$plan->book_id."&c=".$plan->chapter_id."&d=".$plan->verse_id."&tmpl=component");
-								echo '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
+								$str_chapter = $str_chapter. '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_commentary_width.',y:'.$this->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
 							}
 						}
 					}	
-					echo '<div style="clear:both"></div></div>';		
+					$str_chapter = $str_chapter. '<div style="clear:both"></div></div>';		
 					$x++;
 					$z++;
 				}
 			}
+		return $str_chapter;
 	}
+	public function fnc_dictionary_dropdown($arr_dictionary_list)
+	{
+		$obj_dropdown = '';
+		foreach($arr_dictionary_list as $obj_dictionary)
+		{
+			if(JRequest::getCmd('dict') == $obj_dictionary->alias)
+			{
+				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'" selected>'.$obj_dictionary->name.'</option>';
+			}
+			else
+			{
+				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'">'.$obj_dictionary->name.'</option>';
+			}
+		}
+		return $obj_dropdown;	
+	}	
 	private function fnc_Make_Scripture(&$arr_matches)
 	{
-		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
-		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
-		$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
-		$str_verse = $str_verse. '</a> ';
-		
+		$this->flg_strong_dict = 1;
+		$str_verse='';
+		if(JRequest::getCmd('strong') == 1)
+		{		
+			$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
+			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
+			$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
+			$str_verse = $str_verse. '</a> ';
+		}
 		return $str_verse;
 	}
 	private function getMetaData($arr_plan)
@@ -258,8 +297,24 @@ class BibleReadingPlan
 	public function paginationButtons($int_day_number,$int_max_days)
 	{
 		$urlPrepend = "document.location.href=('";
-		$urlPostpend = "')";		
-
+		$urlPostpend = "')";	
+		$str_other_url_var = '';	
+		if(($this->flg_show_commentary)and(count($this->arr_commentary_list) > 1))
+		{
+				$str_other_url_var = $str_other_url_var."&com=".$this->str_commentary;
+		}
+		if($this->str_tmpl == "component")
+		{
+			$str_other_url_var = $str_other_url_var. "&tmpl=component";
+		}
+		if(($this->flg_show_dictionary)and(count($this->arr_dictionary_list) > 1))
+		{
+			$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
+		}
+		if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
+		{
+			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
+		}		
 		// fix days yesterday's day when less than 1
 		if($int_day_number <= 1)
 		{
@@ -271,15 +326,8 @@ class BibleReadingPlan
 		}
 		
 		// make yesterday's link/button
-		$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$str_yesterday;
-		if($this->flg_show_commentary)
-		{
-			$url[2] = $url[2]."&d=".$this->str_commentary;
-		}
-		if($this->str_tmpl == "component")
-		{
-			$url[2] = $url[2]. "&tmpl=component";
-		}
+		$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$str_yesterday.$str_other_url_var;
+	
 		$url[2] = JRoute::_($url[2]);			
 		if($this->flg_show_pagination_type == 0)
 		{
@@ -311,15 +359,7 @@ class BibleReadingPlan
 		}
 		
 		//make tomorow's link/button
-		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$int_tommorow;
-		if($this->flg_show_commentary)
-		{
-			$url[3] = $url[3]."&d=".$this->str_commentary;
-		}
-		if($this->str_tmpl == "component")
-		{
-			$url[3] = $url[3]. "&tmpl=component";
-		}		
+		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$int_tommorow.$str_other_url_var;	
 		$url[3] = JRoute::_($url[3]);	
 		
 		if($this->flg_show_pagination_type == 0)
@@ -381,11 +421,23 @@ class BibleReadingPlan
 		echo '<select name="jump" id="zef_day_jump" class="inputbox" onchange="javascript:location.href = this.value;">';
 		for($x = 1; $x <= $int_max_days; $x++)
 		{
-			$str_url = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$x;
+			if(($this->flg_show_commentary)and(count($this->arr_commentary_list) > 1))
+			{
+					$str_other_url_var = $str_other_url_var."&com=".$this->str_commentary;
+			}
 			if($this->str_tmpl == "component")
 			{
-				$str_url = $str_url. "&tmpl=component";
+				$str_other_url_var = $str_other_url_var. "&tmpl=component";
 			}
+			if(($this->flg_show_dictionary)and(count($this->arr_dictionary_list) > 1))
+			{
+				$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
+			}
+			if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
+			{
+				$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
+			}				
+			$str_url = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$x.$str_other_url_var;
 			$str_url = JRoute::_($str_url);
 			echo '	<option value="'.$str_url.'"';			
 
@@ -431,7 +483,7 @@ class BibleReadingPlan
                     </select>
                 </div>
                 <div style="clear:both"></div>     
-                 <?php if($cls_bible_reading_plan->flg_use_bible_selection){?>                
+                 <?php if(($cls_bible_reading_plan->flg_use_bible_selection)and(count($this->bibles) > 1)){?>                
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
                     <select name="b" id="bible" class="inputbox" onchange="this.form.submit()">
@@ -441,17 +493,42 @@ class BibleReadingPlan
 				 <?php }else {
 					echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan->str_bibleVersion.'" />';
 				} ?>
-				<?php if($cls_bible_reading_plan->flg_show_commentary){ ?>
                 <div style="clear:both;"></div>
-                <div>
-                    <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
-                    <div class="zef_commentary">
-                        <select name="d" id="commentary" class="inputbox" onchange="this.form.submit()">
-                            <?php echo $this->obj_commentary_dropdown;?>
-                         </select>
+				<?php if($cls_bible_reading_plan->flg_show_commentary){ 
+						if(count($this->arr_commentary_list)> 1){
+				?>
+                    <div>
+                        <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
+                        <div class="zef_commentary">
+                            <select name="com" id="commentary" class="inputbox" onchange="this.form.submit()">
+                                <?php echo $this->obj_commentary_dropdown;?>
+                             </select>
+                        </div>
                     </div>
-                </div>
-                <?php } ?>                
+					<?php }else{?>
+                        	<!--<input type="hidden" name="com" value="<?php echo $cls_bible_reading_plan->str_primary_commentary;?>" />-->
+                <?php }} ?>
+				 <?php if($cls_bible_reading_plan->flg_show_dictionary){
+						if(count($this->arr_dictionary_list) > 1){?>
+                            <div id="zef_dictionary_div">
+                                <div class="zef_dictionary_label"><?php echo JText::_('COM_ZEFANIABIBLE_DICTIONARY_LABEL');?></div>
+                                <div class="zef_dictionary">
+                                    <select name="dict" id="dictionary" class="inputbox" onchange="this.form.submit()">
+                                        <?php echo $cls_bible_reading_plan->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
+                                     </select>
+                                </div>
+                            </div>
+					<?php }?>
+                    	<?php if($cls_bible_reading_plan->flg_strong_dict){?>
+							<div class="zef_dictionary_strong_box">
+                            	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
+								<div class="zef_dictionary_strong_input">
+	                                <input type='hidden' value='0' name='strong'>
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+								</div>
+							</div>
+	                    <?php } ?>
+                    <?php } ?>                
                  <div style="clear:both"></div>      
             <div class="zef_top_pagination">        
                     <?php 
@@ -464,7 +541,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-	<article><?php echo $cls_bible_reading_plan->fnc_output_chapter($this->plan, $this->arr_commentary, $this->obj_references); ?></article>
+	<article><?php echo $cls_bible_reading_plan->str_chapter_output ?></article>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
