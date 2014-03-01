@@ -57,24 +57,25 @@ class ZefaniabibleController extends JControllerLegacy
 		$jversion = new JVersion();
 		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
-		$str_current_url = urldecode('/'.str_replace(JURI::root(),'',JURI::current()));
+		$str_current_url = urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
 		// don't redirect for modal pages.
 		switch ($view) 
 		{
 			case 'commentary':
 			case 'scripture':
 			case 'references':
+			case 'strong':
 				parent::display($cachable, $urlparams);
 				return;
 				break;
 			
 		}	
-
 		switch ($jversion->RELEASE) 
 		{ 
 			case '3.0':
 			case '3.1':
 			case '3.2':
+			case '3.5':
 				switch ($view) 
 				{
 					case 'standard':
@@ -96,8 +97,9 @@ class ZefaniabibleController extends JControllerLegacy
 				}
 				break;
 		}
+	//echo 'request'.$str_requested_url.'<br>current'.$str_current_url.'<br>current'.$str_redirect_url;
 	
-		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING');
+		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING','com'=>'STRING');
 		
 		parent::display($cachable, $urlparams);
 		return;
