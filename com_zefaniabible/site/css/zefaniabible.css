@@ -126,7 +126,7 @@
 {
 	/*background-color:#A58F6F;*/
 }
-.zef_bible_label, .zef_chapter_label, .zef_book_label, .zef_reading_label, .zef_commentary_label
+.zef_bible_label, .zef_chapter_label, .zef_book_label, .zef_reading_label, .zef_commentary_label, .zef_dictionary_label
 {
 	font-size:20px;
 	float:left;	
@@ -221,4 +221,23 @@
 .zef_strong_id
 {
 	font-weight:bold;	
+}
+.zef_commentary_label, .zef_dictionary_label, .zef_dictionary_strong_label
+{
+	margin-left:5px;
+	margin-right:5px;
+}
+.zef_Chapter #chapter
+{
+	width:auto;
+	max-width:75px;	
+}
+.zef_book #book, .zef_bible #bible, .zef_commentary #commentary, .zef_dictionary #dictionary, .zef_reading_plan #reading, #zef_day_jump, zef_reading_plan #zef_subs_plans, #zef_subs_send_reading, #zef_subs_send_verse
+{
+	width:auto;
+	max-width:250px;	
+}
+#zef_dictionary_div, #zef_commentary_div, .zef_commentary, .zef_dictionary, .zef_dictionary_strong_box,.zef_dictionary_strong_label,.zef_dictionary_strong_input
+{
+	float:left;	
 }
