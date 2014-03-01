@@ -69,6 +69,11 @@ class plgSystemZefaniaEmail extends JPlugin
 	
 	public function  onAfterRender()
 	{
+		// don't run anythinig below for admin section
+		if((strrpos(JURI::base(),'administrator',0) > 0)or(strrpos(JURI::base(),'administrator',0) !=''))
+		{
+			return;
+		}
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();
 		if($docType != 'html') return; 
@@ -79,11 +84,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		$jlang->load('zefaniabible', JPATH_COMPONENT, 'en-GB', true);
 		$jlang->load('zefaniabible', JPATH_COMPONENT, null, true);
 				
-		$config =& JFactory::getConfig();
-		$this->params_zefania_comp = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$config = JFactory::getConfig();
+		$this->params_zefania_comp 			= JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->str_from_email 				= $config->get('mailfrom');
     	$this->str_from_email_name			= $config->get('fromname'); 
-		//echo 'from name is: '.$this->str_from_email;
 		$this->arr_verse_start_date 		= $this->params->get('verse_of_day_start_date', '2012-01-01');
 		$this->str_Bible_Path 				= $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$this->str_image_verse_of_day		= $this->params->get('verse_of_day_image');
@@ -98,12 +102,12 @@ class plgSystemZefaniaEmail extends JPlugin
 		$this->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
 		
 		// time zone offset.
-		date_default_timezone_set($config->get('offset'));		
-		
+		date_default_timezone_set($config->get('offset'));	
 		if($this->str_reading_send_date != date("Y-m-d"))
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING_PLAN_EMAIL', 2);
 			$this->arr_reading_subscribers = $this->fnc_get_subsribers_reading();
+
 			foreach($this->arr_reading_subscribers as $arr_subscriber)
 			{
 				$str_message = "";
