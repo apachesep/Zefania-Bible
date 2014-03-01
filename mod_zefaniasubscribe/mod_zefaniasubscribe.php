@@ -31,8 +31,8 @@ class zefSubscibe
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));	
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('mod_zefaniasubscribe', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('mod_zefaniasubscribe', JPATH_COMPONENT, null, true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", 'en-GB', true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", null, true);
 
 		$flg_show_overlay = $params->get('flg_overlay', 0);
 		$flg_use_catcha = $params->get('flg_use_catcha', 0);
