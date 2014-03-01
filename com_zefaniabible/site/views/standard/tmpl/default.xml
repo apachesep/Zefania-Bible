@@ -127,6 +127,10 @@
 		</fieldset>	
 			
 		<fieldset name="dictionary" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+			<field name="flg_show_dictionary" type="list" default="0" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>		
 			<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
 			<field name="xmlDictionaryPath" type="text" size="50" default="media/com_zefaniabible/dictionary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE_DESC" />
 			<field name="str_dictionary_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH_DESC" />
