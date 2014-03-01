@@ -50,8 +50,9 @@ class zefReadingPlan
 		$this->str_Bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
 		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
 		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
-		
-		if($user->id > 0)
+		$this->flg_import_user_data = 	$params->get('flg_import_user_data', '0');
+
+		if(($user->id > 0)and($this->flg_import_user_data))
 		{
 			$arr_user_data = $this->fnc_Get_User_Data($user->id);
 			foreach($arr_user_data as $obj_user_data)
@@ -63,9 +64,9 @@ class zefReadingPlan
 		}
 		
 		$jlang = JFactory::getLanguage();
-		$jlang->load('mod_readingplan', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('mod_readingplan', JPATH_COMPONENT, null, true);
-		
+		$jlang->load('mod_readingplan', JPATH_BASE."/modules/mod_readingplan", 'en-GB', true);
+		$jlang->load('mod_readingplan', JPATH_BASE."/modules/mod_readingplan", null, true);
+		 
 		// time zone offset.
 		$config =& JFactory::getConfig();
 		date_default_timezone_set($config->get('offset'));		
