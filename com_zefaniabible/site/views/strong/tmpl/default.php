@@ -32,7 +32,7 @@ class StrongBible
 	private $str_tmpl;
 	private $str_dictionary_height;
 	private $str_dictionary_width;
-		
+	private $str_curr_dict;
 	public function __construct($arr_passage,$str_dict_name)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
@@ -43,6 +43,11 @@ class StrongBible
 		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');			
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		$str_verse = "";	
+		$this->str_curr_dict = JRequest::getCmd('a');
+		if(!$this->str_curr_dict)
+		{
+			$this->str_curr_dict = $this->str_primary_dictionary;
+		}
 		foreach ($arr_passage as $obj_passage)
 		{
 			$str_verse = '<div class="zef_strong">';
@@ -74,7 +79,7 @@ class StrongBible
     }
 	private function fnc_Make_Scripture(&$arr_matches)
 	{
-		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
+		$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
 		if($this->str_tmpl == "component")
 		{
 			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" >';		
