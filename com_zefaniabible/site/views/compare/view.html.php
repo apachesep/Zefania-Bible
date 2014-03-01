@@ -70,7 +70,9 @@ class ZefaniabibleViewCompare extends JViewLegacy
 			b = bible2
 			c = book
 			d = chapter
-			e = commentary			
+			com = commentary
+			dict = Dictionary
+			strong = Show/Hide Strong Numgers flag		
 		*/		
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
@@ -86,6 +88,16 @@ class ZefaniabibleViewCompare extends JViewLegacy
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
+		
+		// make english strings
+		$jlang = JFactory::getLanguage();
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		for($i = 1; $i <=66; $i++)
+		{
+			$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
+		}
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+		
 		require_once(JPATH_COMPONENT_SITE.'/models/compare.php');
 		$biblemodel = new ZefaniabibleModelCompare;
 		
@@ -101,6 +113,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$flg_show_commentary = $params->get('show_commentary', '0');
 		$int_primary_book_front_end = $params->get('primary_book_frontend');
 		$int_primary_chapter_front_end = $params->get('int_front_start_chapter',1);
+		$flg_show_dictionary = $params->get('flg_show_dictionary', 0);
+		
 		
 		$str_Main_Bible_Version = JRequest::getCmd('a',$str_primary_bible);
 		$str_Second_Bible_Version = JRequest::getCmd('b',$str_secondary_bible);	
@@ -108,18 +122,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$int_Bible_Chapter = JRequest::getInt('d', $int_primary_chapter_front_end);	
 
 		$int_max_chapter 	= 		$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
-		// redirect to last chapter
-		if($int_Bible_Chapter > $int_max_chapter)
-		{
-			$str_redirect_url = "index.php?option=com_zefaniabible&view=".JRequest::getCmd('view')."&a=".$str_Main_Bible_Version."&b=".$str_Second_Bible_Version."&c=".$int_Bible_Book_ID.'-'.str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)))."&d=".$int_max_chapter.'-'.mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');
-			if($flg_show_commentary)
-			{
-				$str_redirect_url = $str_redirect_url."&e=".JRequest::getCmd('e');
-			}
-			$str_redirect_url = JRoute::_($str_redirect_url);
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.$str_redirect_url); 			
-		}			
+				
 		$arr_Bibles 		= 		$biblemodel-> _buildQuery_Bibles();
 		$arr_Chapter 		= 		$biblemodel-> _buildQuery_Chapter($str_Main_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter);
 		$arr_Chapter2		= 		$biblemodel-> _buildQuery_Chapter($str_Second_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter);
@@ -149,7 +152,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
 			$mdl_commentary = new ZefaniabibleModelCommentary;			
 			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getCmd('e', $str_primary_commentary);
+			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
 			$arr_commentary =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$int_Bible_Book_ID,$int_Bible_Chapter);
 			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
 			foreach($arr_commentary_list as $obj_comm_list)
@@ -164,6 +167,37 @@ class ZefaniabibleViewCompare extends JViewLegacy
 				}
 			}
 		}
+		if($flg_show_dictionary)
+		{
+			$str_primary_dictionary  = $params->get('str_primary_dictionary','');
+			$arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+		}
+		
+		// redirect to last chapter
+		if($int_Bible_Chapter > $int_max_chapter)
+		{
+			$str_redirect_url = "index.php?option=com_zefaniabible&view=".JRequest::getCmd('view')."&a=".$str_Main_Bible_Version."&b=".$str_Second_Bible_Version."&c=".$int_Bible_Book_ID.'-'.strtolower(str_replace(" ","-",$arr_english_book_names[$int_Bible_Book_ID]))."&d=".$int_max_chapter.'-chapter';
+			if(($flg_show_commentary)and(count($arr_commentary_list) > 1))
+			{
+				$str_redirect_url = $str_redirect_url."&com=".$str_primary_commentary;
+			}
+			if($str_tmpl == "component")
+			{
+				$str_redirect_url = $str_redirect_url ."&tmpl=component";
+			}
+			if(($flg_show_dictionary)and(count($arr_dictionary_list) > 1))
+			{
+				$str_redirect_url = $str_redirect_url . "&dict=".$str_primary_dictionary;
+			}
+			if(JRequest::getCmd('strong') == 1)
+			{
+				$str_redirect_url = $str_redirect_url ."&strong=".JRequest::getCmd('strong');
+			}				
+			$str_redirect_url = JRoute::_($str_redirect_url);
+			header('HTTP/1.1 301 Moved Permanently');
+			//header('Location: '.$str_redirect_url); 			
+		}	
+		
 		
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
@@ -185,6 +219,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$this->assignRef('arr_commentary',		$arr_commentary);
 		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
 		$this->assignRef('obj_references',		$obj_references);
+		$this->assignRef('arr_dictionary_list',		$arr_dictionary_list);
+		$this->assignRef('arr_commentary_list',		$arr_commentary_list);
 		parent::display($tpl);
 	}
 }
