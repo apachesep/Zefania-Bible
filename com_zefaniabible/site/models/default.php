@@ -130,5 +130,24 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;			
+	}
+	function _buildQuery_dictionary_list()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('name,alias');
+			$query->from('`#__zefaniabible_dictionary_info`');	
+			$query->where("publish = 1");
+			$query->order('name');		
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
 	}		
 }
