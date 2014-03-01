@@ -98,6 +98,15 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$mdl_references = new ZefaniabibleModelReferences;
 		$arr_references = $mdl_references->_buildQuery_References($str_bible_version, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse );
 		
+		// make english strings
+		$jlang = JFactory::getLanguage();
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		for($i = 1; $i <=66; $i++)
+		{
+			$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
+		}
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);		
+		
 		$arr_orig_ref[1]='ge';
 		$arr_orig_ref[2]='ex';
 		$arr_orig_ref[3]='le';
@@ -165,7 +174,6 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$arr_orig_ref[65]='jude';
 		$arr_orig_ref[66]='re';	
 		echo '<div class="zef_reference_image"></div>';
-		//echo '<div class="zef_reference_title">'.JText::_('ZEFANIABIBLE_CROSS_REFERENCE_TITLE')."</div>"; 
 		foreach($arr_references as $obj_References)
 		{ 
 			$arr_single_ref = preg_split('/;/',$obj_References->reference);
@@ -240,8 +248,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 					}		
 						
 					$str_url = "index.php?option=com_zefaniabible&a=".$str_bible_version."&view=standard&b=".
-							$int_book_id."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id,'UTF-8')))."&c=".($int_bible_chapter).
-							"-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
+							$int_book_id."-".strtolower(str_replace(" ","-",$arr_english_book_names[$int_book_id]))."&c=".($int_bible_chapter)."-chapter";	
 					if($flg_show_commentary)
 					{
 						$str_url = $str_url. "&d=".$str_primary_commentary;
