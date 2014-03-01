@@ -60,6 +60,8 @@ class plgSearchZefaniaBible extends JPlugin
 	private $flg_search_one_commentary;
 	private $str_primary_commentary;
 	private $str_primary_dictionary;
+	private $flg_strong;
+	private $arr_english_book_names;
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -72,7 +74,7 @@ class plgSearchZefaniaBible extends JPlugin
 		$comp_params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->str_primary_commentary = $comp_params->get('primaryCommentary');
 		$this->str_primary_dictionary = $comp_params->get('str_primary_dictionary');
-		
+		$this->flg_strong = 0;
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$this->str_Bible_books = $this->str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
@@ -117,11 +119,18 @@ class plgSearchZefaniaBible extends JPlugin
 		$flg_search_area = 0;
 		$arr_data = '';
 		$arr_result = array();
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+
 		
 		$jlang = JFactory::getLanguage();
-		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", 'en-GB', true);
+		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', 'en-GB', true);
+		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", 'en-GB', true);		
+		for($i = 1; $i <=66; $i++)
+		{
+			$this->arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
+		}
+		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", null, true);
+		
 		
 		$this->params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
 		$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
@@ -133,8 +142,8 @@ class plgSearchZefaniaBible extends JPlugin
 		$this->str_primary_bible = $this->params_zefania_comp->get('primaryBible', 'kjv');
 		if($text != "")
 		{
-			preg_replace_callback( "/^(".$this->str_Bible_books.")(\.)?(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?$/", array( &$this, 'fnc_Make_Scripture'),  $text);		
 			preg_replace_callback( "/(?=\S)([HG](\d{1,4}))/iu", array( &$this, 'fnc_Make_Strong_Scripture'),  $text);	// STRONG number
+			preg_replace_callback( "/^(".$this->str_Bible_books.")(\.)?(\s)(\d{1,3})([:,](?=\d))?(\d{1,3})?[-]?(\d{1,3})?$/", array( &$this, 'fnc_Make_Scripture'),  $text);		
 			
 			if(count($areas) >= 1)
 			{
@@ -171,12 +180,23 @@ class plgSearchZefaniaBible extends JPlugin
 					if($this->flg_search_by_scripture == 0)
 					{			
 						$arr_data =  $this->fnc_make_bible_search_request($text,$arr_areas[$x]);
+						$arr_result = array_merge($arr_result, $this->fnc_make_Search_Query($arr_data,$str_menuItem,$arr_areas[$x]));						
 					}
 					else
 					{
-						$arr_data = $this->fnc_make_bible_verse_request($text,$arr_areas[$x]);
+						switch(true)
+						{
+							case (($this->flg_strong != 1)and($arr_areas[$x] =="Bible")):
+							case (($this->flg_strong != 1)and($arr_areas[$x] =="Commentary")):
+							case (($this->flg_strong == 1)and($arr_areas[$x] =="Dictionary")):
+								$arr_data = $this->fnc_make_bible_verse_request($text,$arr_areas[$x]);
+								$arr_result = array_merge($arr_result, $this->fnc_make_Search_Query($arr_data,$str_menuItem,$arr_areas[$x]));						
+								break;
+							default:
+								break;
+						}
 					}	
-					$arr_result = array_merge($arr_result, $this->fnc_make_Search_Query($arr_data,$str_menuItem,$arr_areas[$x]));						
+
 				}				
 			}
 			if(count(	$arr_result) > 0)
@@ -331,6 +351,7 @@ class plgSearchZefaniaBible extends JPlugin
 	}
 	private function fnc_Make_Strong_Scripture(&$arr_matches)
 	{
+		 $this->flg_strong =1;
 		 $this->flg_search_by_scripture = 1;
 	}
 	private function fnc_Make_Scripture(&$arr_matches)
@@ -389,20 +410,18 @@ class plgSearchZefaniaBible extends JPlugin
 			switch($area)
 			{
 				case 'Bible':
-					$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id));
-					$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
+					$str_temp_title = strtolower(str_replace(" ","-",$this->arr_english_book_names[$datum->book_id]));
 					// strip stong verses.
 					$datum->verse = preg_replace("/(?=\S)([HG](\d{1,4}))/iu",'',$datum->verse);				
 					$data[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id)." ".$datum->chapter_id.":".$datum->verse_id;				
 					$data[$y]->text = $datum->verse;				
 					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&a=".$datum->alias.
 						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
-						"&c=".$datum->chapter_id.'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8'));
+						"&c=".$datum->chapter_id.'-chapter');
 					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');
 					break;
 				case 'Commentary':
-					$arr_temp_title = explode("|",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id));
-					$str_temp_title = mb_convert_case($arr_temp_title[0], MB_CASE_TITLE, "UTF-8");
+					$str_temp_title = strtolower(str_replace(" ","-",$this->arr_english_book_names[$datum->book_id]));
 					// strip stong verses.
 					$datum->verse = preg_replace("/(?=\S)([HG](\d{1,4}))/iu",'',$datum->verse);				
 				
@@ -410,10 +429,11 @@ class plgSearchZefaniaBible extends JPlugin
 					$data[$y]->text = $datum->verse;								
 					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=commentary&Itemid=".$str_menuItem."&a=".$datum->alias.
 						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
-						"&c=".$datum->chapter_id.'-'.mb_strtolower(JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_CHAPTER'),'UTF-8').'&d='.$datum->verse_id);				
+						"&c=".$datum->chapter_id.'-chapter'.'&d='.$datum->verse_id.'-verse');				
 					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');						
 					break;
 				case 'Dictionary':
+					$datum->description = preg_replace("/(?=\S)(&lt;tw\:\/\/\[self\]\?(.*?)&gt;)/iu",'',$datum->description); // remove <tw://[self]?.. code
 					$data[$y]->title = $datum->item;				
 					$data[$y]->text = $datum->description;								
 					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=strong&Itemid=".$str_menuItem."&a=".$datum->alias.
