@@ -106,6 +106,9 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
 		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
 
+		$bar = JToolBar::getInstance('toolbar');
+		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_DICTIONARIES').' 1', 'http://www.biblesupport.com/e-sword-downloads/category/7-dictionaries/');
+		
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
 
 		JRequest::setVar( 'hidemainmenu', true );
