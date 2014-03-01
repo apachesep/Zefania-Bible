@@ -99,6 +99,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 1', 'http://www.churchsw.org/p/bibles.html');
 		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 2', 'http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/');
+		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 3', 'http://www.biblesupport.com/e-sword-downloads/category/2-bibles/');
 		
 		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
 			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
