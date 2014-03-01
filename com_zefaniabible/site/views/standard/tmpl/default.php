@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
 
 
-$cls_bibleBook = new BibleStandard($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->arr_commentary, $this->obj_references, $this->str_collation); 
+$cls_bibleBook = new BibleStandard($this->arr_Chapter, $this->arr_Bibles, $this->str_Bible_Version, $this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->arr_commentary, $this->obj_references, $this->str_collation, $this->arr_commentary_list, $this->arr_dictionary_list); 
 
 class BibleStandard {
 	public $obj_Bible_Dropdown;
@@ -52,9 +52,26 @@ class BibleStandard {
 	public $str_commentary_height;
 	private $str_dictionary_height;
 	private $str_dictionary_width;
-	private $str_primary_dictionary;
-	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references, $str_collation)
+	public $str_primary_dictionary;
+	public $flg_show_dictionary;
+	public $str_primary_commentary;
+	private $str_curr_dict;
+	public $flg_strong_dict;
+	private $arr_commentary_list;
+	private $arr_dictionary_lis;
+	private $arr_english_book_names;
+	
+	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references, $str_collation, $arr_commentary_list, $arr_dictionary_list)
 	{
+		/*
+			Standard Bible
+			a = bible
+			b = book
+			c = chapter
+			com = commentary
+			dict = Dictionary
+			strong = Show/Hide Strong Numgers flag
+		*/			
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->doc_page = JFactory::getDocument();	
 		$this->flg_show_page_top 	= $this->params->get('show_pagination_top', '1');
@@ -70,7 +87,10 @@ class BibleStandard {
 		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
 		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
 		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
-
+		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
+		$this->str_primary_commentary = $this->params->get('primaryCommentary');
+		$this->str_curr_dict = JRequest::getCmd('dict');
+		
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_audio_player = $this->params->get('show_audioPlayer','0');
@@ -81,10 +101,28 @@ class BibleStandard {
 		$obj_Book_Dropdown = '';
 		$obj_Commentary_Dropdown = '';
 		$int_Bibles_loaded = 0;
+		$this->flg_strong_dict = 0;
 		$x = 1;
 		$str_descr = '';
 		$str_alias = '';	
-								
+		$this->arr_commentary_list = $arr_commentary_list;
+		$this->arr_dictionary_list = $arr_dictionary_list;
+		
+		// make english strings
+		$jlang = JFactory::getLanguage();
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		for($i = 1; $i <=66; $i++)
+		{
+			$this->arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
+		}
+		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+		
+		
+		if(!$this->str_curr_dict)
+		{
+			$this->str_curr_dict = $this->str_primary_dictionary;
+		}
+					
 		foreach($arr_Bibles as $str_Bible)
 		{
 			if($str_Bible->alias == '')
@@ -107,11 +145,11 @@ class BibleStandard {
 		{
 			if($int_Bible_Book_ID == $x)
 			{
-				$this->obj_Book_Dropdown = $this->obj_Book_Dropdown. '<option value="'.$x."-".mb_strtolower(str_replace(" ","-",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x)),'UTF-8').'" selected>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';						
+				$this->obj_Book_Dropdown = $this->obj_Book_Dropdown. '<option value="'.$x."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$x])).'" selected>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';						
 			}
 			else
 			{
-				$this->obj_Book_Dropdown = $this->obj_Book_Dropdown. '<option value="'.$x."-".mb_strtolower(str_replace(" ","-",JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x)),'UTF-8').'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';				
+				$this->obj_Book_Dropdown = $this->obj_Book_Dropdown. '<option value="'.$x."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$x])).'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';				
 			}
 		}
 		foreach ($arr_Chapter as $arr_verse)
@@ -156,7 +194,7 @@ class BibleStandard {
 			if($this->flg_show_commentary)
 			{
 				$str_primary_commentary = $this->params->get('primaryCommentary');
-				$this->str_commentary = JRequest::getCmd('d',$str_primary_commentary);
+				$this->str_commentary = JRequest::getCmd('com',$str_primary_commentary);
 
 				foreach($arr_commentary as $int_verse_commentary)
 				{
@@ -179,11 +217,15 @@ class BibleStandard {
 	}
 	private function fnc_Make_Scripture(&$arr_matches)
 	{
-		$temp = 'a='.$this->str_primary_dictionary.'&b='.trim(strip_tags($arr_matches[0]));
-		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
-		$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
-		$str_verse = $str_verse. '</a> ';
-		
+		$this->flg_strong_dict = 1;
+		$str_verse='';
+		if(JRequest::getCmd('strong') == 1)
+		{
+			$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
+			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
+			$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
+			$str_verse = $str_verse. '</a> ';
+		}
 		return $str_verse;
 	}
 	private function fnc_meta_data($int_Bible_Book_ID, $int_Bible_Chapter,$str_descr,$str_alias)
@@ -221,20 +263,31 @@ class BibleStandard {
 	{	
 		$urlPrepend = "document.location.href=('";
 		$urlPostpend = "')";
+		$str_other_url_var = '';
+		
+		if(($this->flg_show_commentary)and(count($this->arr_commentary_list) > 1))
+		{
+				$str_other_url_var = $str_other_url_var."&com=".$this->str_commentary;
+		}
+		if($this->str_tmpl == "component")
+		{
+			$str_other_url_var = $str_other_url_var. "&tmpl=component";
+		}
+
 	
+		if(($this->flg_show_dictionary)and(count($this->arr_dictionary_list) > 1))
+		{
+			$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
+		}
+		if(($this->flg_strong_dict)and(JRequest::getCmd('strong') == 1))
+		{
+			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
+		}
 		if($int_Bible_Book_ID > 1)
 		{
 			$url[3] = "index.php?option=com_zefaniabible&a=".$str_Bible_Version."&view=".JRequest::getCmd('view')."&b=".
-			($int_Bible_Book_ID-1)."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.
-			($int_Bible_Book_ID-1),'UTF-8')))."&c=1-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');
-			if($this->flg_show_commentary)
-			{
-				$url[3] = $url[3]."&d=".$this->str_commentary;
-			}
-			if($this->str_tmpl == "component")
-			{
-				$url[3] = $url[3]. "&tmpl=component";
-			}
+			($int_Bible_Book_ID-1)."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[($int_Bible_Book_ID-1)]))."&c=1-chapter".$str_other_url_var;
+
 			$url[3] = JRoute::_($url[3]);
 			if($this->flg_show_pagination_type == 0)
 			{
@@ -248,16 +301,9 @@ class BibleStandard {
 		if($int_Bible_Chapter > 1)
 		{
 			$url[1] = "index.php?option=com_zefaniabible&a=".$str_Bible_Version."&view=".JRequest::getCmd('view')."&b=".
-			$int_Bible_Book_ID."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID,'UTF-8')))."&c=".($int_Bible_Chapter-1).
-			"-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
-			if($this->flg_show_commentary)
-			{
-				$url[1] = $url[1]."&d=".$this->str_commentary;
-			}	
-			if($this->str_tmpl == "component")
-			{
-				$url[1] = $url[1]. "&tmpl=component";
-			}			
+			$int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$int_Bible_Book_ID]))."&c=".($int_Bible_Chapter-1).
+			"-chapter".$str_other_url_var;	
+	
 			$url[1] = JRoute::_($url[1]);
 			if($this->flg_show_pagination_type == 0)
 			{
@@ -271,16 +317,9 @@ class BibleStandard {
 		if($int_Bible_Chapter < $int_max_chapter)
 		{
 			$url[0] = "index.php?option=com_zefaniabible&a=".$str_Bible_Version."&view=".
-			JRequest::getCmd('view')."&b=".$int_Bible_Book_ID."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID),'UTF-8'))."&c=".
-			($int_Bible_Chapter+1)."-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');	
-			if($this->flg_show_commentary)
-			{
-				$url[0] = $url[0]."&d=".$this->str_commentary;
-			}
-			if($this->str_tmpl == "component")
-			{
-				$url[0] = $url[0]. "&tmpl=component";
-			}
+			JRequest::getCmd('view')."&b=".$int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$int_Bible_Book_ID]))."&c=".
+			($int_Bible_Chapter+1)."-chapter".$str_other_url_var;	
+
 			$url[0] = JRoute::_($url[0]);
 			
 			if($this->flg_show_pagination_type == 0)
@@ -295,16 +334,8 @@ class BibleStandard {
 		if($int_Bible_Book_ID < 66)
 		{
 			$url[2] = "index.php?option=com_zefaniabible&a=".$str_Bible_Version."&view=".JRequest::getCmd('view')."&b=".
-			($int_Bible_Book_ID+1)."-".str_replace(" ","-",mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.
-			($int_Bible_Book_ID+1),'UTF-8')))."&c=1-".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8');
-			if($this->flg_show_commentary)
-			{
-				$url[2] = $url[2]."&d=".$this->str_commentary;
-			}
-			if($this->str_tmpl == "component")
-			{
-				$url[2] = $url[2]. "&tmpl=component";
-			}			
+			($int_Bible_Book_ID+1)."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[($int_Bible_Book_ID+1)]))."&c=1-chapter".$str_other_url_var;
+		
 			$url[2] = JRoute::_($url[2]);
 			
 			if($this->flg_show_pagination_type == 0)
@@ -317,6 +348,22 @@ class BibleStandard {
 			} 
 		}
 	}	
+	public function fnc_dictionary_dropdown($arr_dictionary_list)
+	{
+		$obj_dropdown = '';
+		foreach($arr_dictionary_list as $obj_dictionary)
+		{
+			if(JRequest::getCmd('dict') == $obj_dictionary->alias)
+			{
+				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'" selected>'.$obj_dictionary->name.'</option>';
+			}
+			else
+			{
+				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'">'.$obj_dictionary->name.'</option>';
+			}
+		}
+		return $obj_dropdown;	
+	}
 }
 ?>
 
@@ -334,7 +381,7 @@ class BibleStandard {
             <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
-            <?php if($cls_bibleBook->flg_use_bible_selection){?>
+            <?php if(($cls_bibleBook->flg_use_bible_selection)and(count($this->arr_Bibles) > 1)){?>
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
                     <select name="a" id="bible" class="inputbox" onchange="this.form.submit()">
@@ -351,9 +398,7 @@ class BibleStandard {
             <div class="zef_book_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK');?></div>
             <div class="zef_book">
                 <select name="b" id="book" class="inputbox" onchange="this.form.submit()">
-					<?php 
-						echo $cls_bibleBook->obj_Book_Dropdown;
-					?>
+					<?php echo $cls_bibleBook->obj_Book_Dropdown; ?>
                 </select>
             </div>
             <?php if($cls_bibleBook->str_tmpl == "component"){?>
@@ -367,28 +412,55 @@ class BibleStandard {
 						{
 							if($x == $this->int_Bible_Chapter)
 							{
-								echo '<option value="'.$x.'-'.mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8').'" selected="selected">'.$x.'</option>';
+								echo '<option value="'.$x.'-chapter" selected="selected">'.$x.'</option>';
 							}
 							else
 							{
-								echo '<option value="'.$x.'-'.mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8').'">'.$x.'</option>';
+								echo '<option value="'.$x.'-chapter">'.$x.'</option>';
 							}
 						}
 					?>               
                 </select>
             </div>
-            <?php if($cls_bibleBook->flg_show_commentary){ ?>
             <div style="clear:both;"></div>
-            <div>
-                <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
-                <div class="zef_commentary">
-                    <select name="d" id="commentary" class="inputbox" onchange="this.form.submit()">
-                        <?php echo $this->obj_commentary_dropdown;?>
-                     </select>
-                </div>
-            </div>
-            <?php } ?>
+            <?php if($cls_bibleBook->flg_show_commentary){ 
+						if(count($this->arr_commentary_list)> 1){
+			?>
+                            <div id="zef_commentary_div">
+                                <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
+                                <div class="zef_commentary">
+                                    <select name="com" id="commentary" class="inputbox" onchange="this.form.submit()">
+                                        <?php echo $this->obj_commentary_dropdown;?>
+                                     </select>
+                                </div>
+                            </div>
+						<?php }else{?>
+                        	<!--<input type="hidden" name="com" value="<?php echo $cls_bibleBook->str_primary_commentary;?>" />-->
+            <?php }} ?>
+            
+            <?php if($cls_bibleBook->flg_show_dictionary){
+						if((count($this->arr_dictionary_list) > 1)and($cls_bibleBook->flg_strong_dict)){?>
+                            <div id="zef_dictionary_div">
+                                <div class="zef_dictionary_label"><?php echo JText::_('COM_ZEFANIABIBLE_DICTIONARY_LABEL');?></div>
+                                <div class="zef_dictionary">
+                                    <select name="dict" id="dictionary" class="inputbox" onchange="this.form.submit()">
+                                        <?php echo $cls_bibleBook->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
+                                     </select>
+                                </div>
+                            </div>   	
+					<?php }?>
+                    	<?php if($cls_bibleBook->flg_strong_dict){?>
+							<div class="zef_dictionary_strong_box">
+                            	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
+								<div class="zef_dictionary_strong_input">
+	                                <input type='hidden' value='0' name='strong'>
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+								</div>
+							</div>
+	                    <?php } ?>                         
+                    <?php } ?>
             <div style="clear:both;"></div>
+            
             <div class="zef_top_pagination">
          		<?php if($cls_bibleBook->flg_show_page_top){ $cls_bibleBook->fnc_Pagination_Buttons($this->str_Bible_Version,$this->int_Bible_Book_ID, $this->int_Bible_Chapter, $this->int_max_chapter);} ?>
             </div>        
