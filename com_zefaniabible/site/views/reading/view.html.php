@@ -67,7 +67,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 			a = plan
 			b = bible
 			c = day
-			d = commentary
+			com = commentary
+			dict = Dictionary
+			strong = Show/Hide Strong Numgers flag
 		*/		
 		$app = JFactory::getApplication();
 		$option	= JRequest::getCmd('option');
@@ -92,6 +94,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$str_primary_bible = 		$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$params->get('reading_start_date', '1-1-2012');
 		$flg_import_user_data = 	$params->get('flg_import_user_data', '0');
+		$flg_show_dictionary = $params->get('flg_show_dictionary', 0);
 		
 		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
@@ -136,7 +139,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
 			$mdl_commentary = new ZefaniabibleModelCommentary;			
 			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getCmd('d', $str_primary_commentary);
+			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
 			$x = 0;
 			foreach($arr_reading as $obj_reading)
 			{
@@ -159,7 +162,11 @@ class ZefaniabibleViewReading extends JViewLegacy
 					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>';
 				}
 			}
-		}	
+		}
+		if($flg_show_dictionary)
+		{
+			$arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+		}		
 		//Filters
 		$user = JFactory::getUser();
 		$this->assignRef('user',				$user);
@@ -178,7 +185,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$this->assignRef('str_reading_plan',	$str_reading_plan);
 		$this->assignRef('str_bible_version',	$str_bibleVersion);
 		$this->assignRef('obj_references',		$obj_references);
-				
+		$this->assignRef('arr_dictionary_list',		$arr_dictionary_list);
+		$this->assignRef('arr_commentary_list',		$arr_commentary_list);				
 		parent::display($tpl);
 	}
 }
