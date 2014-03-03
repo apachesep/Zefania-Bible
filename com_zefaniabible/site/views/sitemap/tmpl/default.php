@@ -35,11 +35,20 @@ class ZefaniaSitemap
 			$str_frequency = $params->get('freq', 'weekly');	
 			$str_menuItem = $params->get('rp_mo_menuitem', 0);
 			
+			// make english strings
+			$jlang = JFactory::getLanguage();
+			$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+			for($i = 1; $i <=66; $i++)
+			{
+				$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
+			}
+			$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+			
 			echo '<urlset>'.PHP_EOL;
 			foreach($arr_list as $obj_chapter_list)
 			{
 				echo '	<url>'.PHP_EOL;
-				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&a='.$obj_chapter_list->alias.'&b='.$obj_chapter_list->book_id.'-'.mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_chapter_list->book_id),'UTF-8').'&c='.$obj_chapter_list->chapter_id.'-'.mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8').'&Itemid='.$str_menuItem).'</loc>'.PHP_EOL;
+				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&a='.$obj_chapter_list->alias.'&b='.$obj_chapter_list->book_id.'-'.strtolower(str_replace(" ","-",$arr_english_book_names[$obj_chapter_list->book_id])).'&c='.$obj_chapter_list->chapter_id.'-chapter&Itemid='.$str_menuItem).'</loc>'.PHP_EOL;
 				echo '		<priority>'.$int_priority.'</priority>'.PHP_EOL;
 				echo '		<changefreq>'.$str_frequency.'</changefreq>'.PHP_EOL;
 				echo '		<lastmod>'.date("Y-m-d").'</lastmod>'.PHP_EOL;
