@@ -76,6 +76,7 @@ class ZefaniabibleViewStrong extends JViewLegacy
 		$str_stong_alias = JRequest::getCmd('a');
 		$str_strong_id = JRequest::getCmd('b', '1');	
 		
+		
 		require_once(JPATH_COMPONENT_SITE.'/models/strong.php');
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
 		$mdl_strong = new ZefaniabibleModelStrong;	
