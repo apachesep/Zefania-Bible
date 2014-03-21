@@ -57,7 +57,8 @@ class ZefaniabibleController extends JControllerLegacy
 		$jversion = new JVersion();
 		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
-		$str_current_url = urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
+		$str_current_url = JURI::root(true).urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
+		
 		// don't redirect for modal pages.
 		switch ($view) 
 		{
@@ -97,7 +98,8 @@ class ZefaniabibleController extends JControllerLegacy
 				}
 				break;
 		}
-	//echo 'request'.$str_requested_url.'<br>current'.$str_current_url.'<br>current'.$str_redirect_url;
+
+	//echo 'request: '.$str_requested_url.'<br>current: '.$str_current_url.'<br>current: '.$str_redirect_url;
 	
 		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING','com'=>'STRING');
 		
