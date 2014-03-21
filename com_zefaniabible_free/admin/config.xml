@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="bible" label="COM_ZEFANIABIBLE_BIBLE_LABEL" description="COM_ZEFANIABIBLE_BIBLE_LABEL_DESC" >
+		<field type="spacer" name="myspacer" hr="true" />
+		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="int_limit_query" type="list" default="500" label="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
+			<option value='100' >100</option>
+			<option value='250' >250</option>
+			<option value='500' >500</option>
+			<option value='1000' >1000</option>
+			<option value='5000' >5000</option>					
+			<option value='0' >COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_ALL</option>
+		</field>		
+		<field name="primary_book_backend" type="list" default="" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND_DESC">
+			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
+			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
+			<option value='3' >ZEFANIABIBLE_BIBLE_BOOK_NAME_3</option>
+			<option value='4' >ZEFANIABIBLE_BIBLE_BOOK_NAME_4</option>
+			<option value='5' >ZEFANIABIBLE_BIBLE_BOOK_NAME_5</option>
+			<option value='6' >ZEFANIABIBLE_BIBLE_BOOK_NAME_6</option>
+			<option value='7' >ZEFANIABIBLE_BIBLE_BOOK_NAME_7</option>
+			<option value='8' >ZEFANIABIBLE_BIBLE_BOOK_NAME_8</option>
+			<option value='9' >ZEFANIABIBLE_BIBLE_BOOK_NAME_9</option>
+			<option value='10' >ZEFANIABIBLE_BIBLE_BOOK_NAME_10</option>
+			<option value='11' >ZEFANIABIBLE_BIBLE_BOOK_NAME_11</option>
+			<option value='12' >ZEFANIABIBLE_BIBLE_BOOK_NAME_12</option>
+			<option value='13' >ZEFANIABIBLE_BIBLE_BOOK_NAME_13</option>
+			<option value='14' >ZEFANIABIBLE_BIBLE_BOOK_NAME_14</option>
+			<option value='15' >ZEFANIABIBLE_BIBLE_BOOK_NAME_15</option>
+			<option value='16' >ZEFANIABIBLE_BIBLE_BOOK_NAME_16</option>
+			<option value='17' >ZEFANIABIBLE_BIBLE_BOOK_NAME_17</option>
+			<option value='18' >ZEFANIABIBLE_BIBLE_BOOK_NAME_18</option>
+			<option value='19' >ZEFANIABIBLE_BIBLE_BOOK_NAME_19</option>
+			<option value='20' >ZEFANIABIBLE_BIBLE_BOOK_NAME_20</option>
+			<option value='21' >ZEFANIABIBLE_BIBLE_BOOK_NAME_21</option>
+			<option value='22' >ZEFANIABIBLE_BIBLE_BOOK_NAME_22</option>
+			<option value='23' >ZEFANIABIBLE_BIBLE_BOOK_NAME_23</option>
+			<option value='24' >ZEFANIABIBLE_BIBLE_BOOK_NAME_24</option>
+			<option value='25' >ZEFANIABIBLE_BIBLE_BOOK_NAME_25</option>
+			<option value='26' >ZEFANIABIBLE_BIBLE_BOOK_NAME_26</option>
+			<option value='27' >ZEFANIABIBLE_BIBLE_BOOK_NAME_27</option>
+			<option value='28' >ZEFANIABIBLE_BIBLE_BOOK_NAME_28</option>
+			<option value='29' >ZEFANIABIBLE_BIBLE_BOOK_NAME_29</option>
+			<option value='30' >ZEFANIABIBLE_BIBLE_BOOK_NAME_30</option>
+			<option value='31' >ZEFANIABIBLE_BIBLE_BOOK_NAME_31</option>
+			<option value='32' >ZEFANIABIBLE_BIBLE_BOOK_NAME_32</option>
+			<option value='33' >ZEFANIABIBLE_BIBLE_BOOK_NAME_33</option>
+			<option value='34' >ZEFANIABIBLE_BIBLE_BOOK_NAME_34</option>
+			<option value='35' >ZEFANIABIBLE_BIBLE_BOOK_NAME_35</option>
+			<option value='36' >ZEFANIABIBLE_BIBLE_BOOK_NAME_36</option>
+			<option value='37' >ZEFANIABIBLE_BIBLE_BOOK_NAME_37</option>
+			<option value='38' >ZEFANIABIBLE_BIBLE_BOOK_NAME_38</option>
+			<option value='39' >ZEFANIABIBLE_BIBLE_BOOK_NAME_39</option>
+			<option value='40' >ZEFANIABIBLE_BIBLE_BOOK_NAME_40</option>
+			<option value='41' >ZEFANIABIBLE_BIBLE_BOOK_NAME_41</option>
+			<option value='42' >ZEFANIABIBLE_BIBLE_BOOK_NAME_42</option>
+			<option value='43' >ZEFANIABIBLE_BIBLE_BOOK_NAME_43</option>
+			<option value='44' >ZEFANIABIBLE_BIBLE_BOOK_NAME_44</option>
+			<option value='45' >ZEFANIABIBLE_BIBLE_BOOK_NAME_45</option>
+			<option value='46' >ZEFANIABIBLE_BIBLE_BOOK_NAME_46</option>
+			<option value='47' >ZEFANIABIBLE_BIBLE_BOOK_NAME_47</option>
+			<option value='48' >ZEFANIABIBLE_BIBLE_BOOK_NAME_48</option>
+			<option value='49' >ZEFANIABIBLE_BIBLE_BOOK_NAME_49</option>
+			<option value='50' >ZEFANIABIBLE_BIBLE_BOOK_NAME_50</option>
+			<option value='51' >ZEFANIABIBLE_BIBLE_BOOK_NAME_51</option>
+			<option value='52' >ZEFANIABIBLE_BIBLE_BOOK_NAME_52</option>
+			<option value='53' >ZEFANIABIBLE_BIBLE_BOOK_NAME_53</option>
+			<option value='54' >ZEFANIABIBLE_BIBLE_BOOK_NAME_54</option>
+			<option value='55' >ZEFANIABIBLE_BIBLE_BOOK_NAME_55</option>
+			<option value='56' >ZEFANIABIBLE_BIBLE_BOOK_NAME_56</option>
+			<option value='57' >ZEFANIABIBLE_BIBLE_BOOK_NAME_57</option>
+			<option value='58' >ZEFANIABIBLE_BIBLE_BOOK_NAME_58</option>
+			<option value='59' >ZEFANIABIBLE_BIBLE_BOOK_NAME_59</option>
+			<option value='60' >ZEFANIABIBLE_BIBLE_BOOK_NAME_60</option>
+			<option value='61' >ZEFANIABIBLE_BIBLE_BOOK_NAME_61</option>
+			<option value='62' >ZEFANIABIBLE_BIBLE_BOOK_NAME_62</option>
+			<option value='63' >ZEFANIABIBLE_BIBLE_BOOK_NAME_63</option>
+			<option value='64' >ZEFANIABIBLE_BIBLE_BOOK_NAME_64</option>
+			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
+			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
+		</field>
+<!--		<field name="int_backend_start_chapter" type="text"  size="3" default="" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND_DESC" />		-->
+		<field name="primary_book_frontend" type="list" default="1" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND_DESC">
+			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
+			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
+			<option value='3' >ZEFANIABIBLE_BIBLE_BOOK_NAME_3</option>
+			<option value='4' >ZEFANIABIBLE_BIBLE_BOOK_NAME_4</option>
+			<option value='5' >ZEFANIABIBLE_BIBLE_BOOK_NAME_5</option>
+			<option value='6' >ZEFANIABIBLE_BIBLE_BOOK_NAME_6</option>
+			<option value='7' >ZEFANIABIBLE_BIBLE_BOOK_NAME_7</option>
+			<option value='8' >ZEFANIABIBLE_BIBLE_BOOK_NAME_8</option>
+			<option value='9' >ZEFANIABIBLE_BIBLE_BOOK_NAME_9</option>
+			<option value='10' >ZEFANIABIBLE_BIBLE_BOOK_NAME_10</option>
+			<option value='11' >ZEFANIABIBLE_BIBLE_BOOK_NAME_11</option>
+			<option value='12' >ZEFANIABIBLE_BIBLE_BOOK_NAME_12</option>
+			<option value='13' >ZEFANIABIBLE_BIBLE_BOOK_NAME_13</option>
+			<option value='14' >ZEFANIABIBLE_BIBLE_BOOK_NAME_14</option>
+			<option value='15' >ZEFANIABIBLE_BIBLE_BOOK_NAME_15</option>
+			<option value='16' >ZEFANIABIBLE_BIBLE_BOOK_NAME_16</option>
+			<option value='17' >ZEFANIABIBLE_BIBLE_BOOK_NAME_17</option>
+			<option value='18' >ZEFANIABIBLE_BIBLE_BOOK_NAME_18</option>
+			<option value='19' >ZEFANIABIBLE_BIBLE_BOOK_NAME_19</option>
+			<option value='20' >ZEFANIABIBLE_BIBLE_BOOK_NAME_20</option>
+			<option value='21' >ZEFANIABIBLE_BIBLE_BOOK_NAME_21</option>
+			<option value='22' >ZEFANIABIBLE_BIBLE_BOOK_NAME_22</option>
+			<option value='23' >ZEFANIABIBLE_BIBLE_BOOK_NAME_23</option>
+			<option value='24' >ZEFANIABIBLE_BIBLE_BOOK_NAME_24</option>
+			<option value='25' >ZEFANIABIBLE_BIBLE_BOOK_NAME_25</option>
+			<option value='26' >ZEFANIABIBLE_BIBLE_BOOK_NAME_26</option>
+			<option value='27' >ZEFANIABIBLE_BIBLE_BOOK_NAME_27</option>
+			<option value='28' >ZEFANIABIBLE_BIBLE_BOOK_NAME_28</option>
+			<option value='29' >ZEFANIABIBLE_BIBLE_BOOK_NAME_29</option>
+			<option value='30' >ZEFANIABIBLE_BIBLE_BOOK_NAME_30</option>
+			<option value='31' >ZEFANIABIBLE_BIBLE_BOOK_NAME_31</option>
+			<option value='32' >ZEFANIABIBLE_BIBLE_BOOK_NAME_32</option>
+			<option value='33' >ZEFANIABIBLE_BIBLE_BOOK_NAME_33</option>
+			<option value='34' >ZEFANIABIBLE_BIBLE_BOOK_NAME_34</option>
+			<option value='35' >ZEFANIABIBLE_BIBLE_BOOK_NAME_35</option>
+			<option value='36' >ZEFANIABIBLE_BIBLE_BOOK_NAME_36</option>
+			<option value='37' >ZEFANIABIBLE_BIBLE_BOOK_NAME_37</option>
+			<option value='38' >ZEFANIABIBLE_BIBLE_BOOK_NAME_38</option>
+			<option value='39' >ZEFANIABIBLE_BIBLE_BOOK_NAME_39</option>
+			<option value='40' >ZEFANIABIBLE_BIBLE_BOOK_NAME_40</option>
+			<option value='41' >ZEFANIABIBLE_BIBLE_BOOK_NAME_41</option>
+			<option value='42' >ZEFANIABIBLE_BIBLE_BOOK_NAME_42</option>
+			<option value='43' >ZEFANIABIBLE_BIBLE_BOOK_NAME_43</option>
+			<option value='44' >ZEFANIABIBLE_BIBLE_BOOK_NAME_44</option>
+			<option value='45' >ZEFANIABIBLE_BIBLE_BOOK_NAME_45</option>
+			<option value='46' >ZEFANIABIBLE_BIBLE_BOOK_NAME_46</option>
+			<option value='47' >ZEFANIABIBLE_BIBLE_BOOK_NAME_47</option>
+			<option value='48' >ZEFANIABIBLE_BIBLE_BOOK_NAME_48</option>
+			<option value='49' >ZEFANIABIBLE_BIBLE_BOOK_NAME_49</option>
+			<option value='50' >ZEFANIABIBLE_BIBLE_BOOK_NAME_50</option>
+			<option value='51' >ZEFANIABIBLE_BIBLE_BOOK_NAME_51</option>
+			<option value='52' >ZEFANIABIBLE_BIBLE_BOOK_NAME_52</option>
+			<option value='53' >ZEFANIABIBLE_BIBLE_BOOK_NAME_53</option>
+			<option value='54' >ZEFANIABIBLE_BIBLE_BOOK_NAME_54</option>
+			<option value='55' >ZEFANIABIBLE_BIBLE_BOOK_NAME_55</option>
+			<option value='56' >ZEFANIABIBLE_BIBLE_BOOK_NAME_56</option>
+			<option value='57' >ZEFANIABIBLE_BIBLE_BOOK_NAME_57</option>
+			<option value='58' >ZEFANIABIBLE_BIBLE_BOOK_NAME_58</option>
+			<option value='59' >ZEFANIABIBLE_BIBLE_BOOK_NAME_59</option>
+			<option value='60' >ZEFANIABIBLE_BIBLE_BOOK_NAME_60</option>
+			<option value='61' >ZEFANIABIBLE_BIBLE_BOOK_NAME_61</option>
+			<option value='62' >ZEFANIABIBLE_BIBLE_BOOK_NAME_62</option>
+			<option value='63' >ZEFANIABIBLE_BIBLE_BOOK_NAME_63</option>
+			<option value='64' >ZEFANIABIBLE_BIBLE_BOOK_NAME_64</option>
+			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
+			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
+		</field>
+		<field name="int_front_start_chapter" type="text"  size="3" default="1" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND_DESC" />
+		<field name="xmlBiblesPath" type="text" size="50" default="media/com_zefaniabible/bibles/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_DESC" />
+		<field name="flg_use_bible_selection" type="list" default="1" label="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION" description="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		<field type="spacer" name="myspacer2" hr="true" />	
+		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" />					
+		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+		<field name="flg_use_year_date" type="list" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+
+		<field type="spacer" name="myspacer3" hr="true" />				
+		<field name="show_credit" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT" description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="flg_email_button" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON" description="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON_DESC">
+				<option value="0">JHIDE</option>
+		</field>
+		<field name="flg_plan_rssfeed_button" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON" description="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON_DESC">
+				<option value="0">JHIDE</option> 
+		</field>			
+	</fieldset>
+	
+	<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
+		<field name="show_references" type="list" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
+				<option value="0">JHIDE</option>
+		</field>
+		<field name="flg_reference_words" type="list" default="1" label="COM_ZEFANIABIBLE_REFERENCE_WORD" description="COM_ZEFANIABIBLE_REFERENCE_WORD_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		<field name="flg_reference_chapter_link" type="list" default="1" label="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK" description="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>		
+	</fieldset>
+
+	<fieldset name="commentary" label="COM_ZEFANIABIBLE_COMMENTARY_LABEL" description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
+		<field name="xmlCommentaryPath" type="text" size="50" default="media/com_zefaniabible/commentary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />
+		<field name="show_commentary" type="list" default="0" label="COM_ZEFANIABIBLE_COMMENTARY" description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="commentaryWidth" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH_DESC" />
+		<field name="commentaryHeight" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
+		<field name="primaryCommentary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title" key_field="alias" value_field = "full_name" />							
+	</fieldset>
+	
+	<fieldset name="dictionary" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+		<field name="flg_show_dictionary" type="list" default="0" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+			<option value="0">JHIDE</option>
+		</field>	
+		<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
+		<field name="xmlDictionaryPath" type="text" size="50" default="media/com_zefaniabible/dictionary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE_DESC" />
+		<field name="str_dictionary_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH_DESC" />
+		<field name="str_dictionary_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT_DESC" />
+	</fieldset>
+	
+	<fieldset name="editor" label="COM_ZEFANIABIBLE_EDITOR_BUTTON" description="COM_ZEFANIABIBLE_EDITOR_BUTTON_DESC">
+		<field name="int_modal_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_MODAL_WIDTH" description="COM_ZEFANIABIBLE_MODAL_WIDTH_DESC" />
+		<field name="int_modal_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_MODAL_HEIGHT" description="COM_ZEFANIABIBLE_MODAL_HEIGHT_DESC" />
+		<field name="bible_gateway_version" type="list" default="51" label="COM_ZEFANIABIBLE_BIBLEGATEWAY" description="COM_ZEFANIABIBLE_BIBLEGATEWAY_DESC">
+		  <option value="69">	1550 Stephanus New Testament (NT)	</option>
+		  <option value="68">	1881 Westcott-Hort New Testament (NT)	</option>
+		  <option value="70">	1894 Scrivener New Testament (NT)	</option>
+		  <option value="19">	1934 Vietnamese Bible	</option>
+		  <option value="82">	1940 Bulgarian Bible	</option>
+		  <option value="48">	21st Century King James Version	</option>
+		  <option value="1">	Albanian Bible	</option>
+		  <option value="8">	American Standard Version	</option>
+		  <option value="45">	Amplified Bible	</option>
+		  <option value="94">	Amuzgo de Guerrero (NT) </option>
+		  <option value="43">	Ang Salita ng Diyos	(NT) </option>
+		  <option value="ERV-AR">	Arabic Bible Easy-to-Read Version	</option>
+		  <option value="28">	Arabic Life Application Bible	</option>
+		  <option value="B21"> Bible 21 </option>
+		  <option value="4">	Biblia Sacra Vulgata (with Apocrypha)	</option>
+		  <option value="21">	Bulgarian Bible	</option>
+		  <option value="ERV-BG">	Bulgarian New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="98">	Cakchiquel Occidental (NT)	</option>
+		  <option value="41">	Castilian (NT) </option>
+		  <option value="90">	Chinanteco de Comaltepec (NT)	</option>
+		  <option value="ERV-ZH">	Chinese New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="80">	Chinese Union Version (Simplified) 	</option>
+		  <option value="22">	Chinese Union Version (Traditional)	</option>
+		  <option value="CEB">	Common English Version (with Apocrypha)	</option>
+		  <option value="3">	Conferenza Episcopale Italiana (with Apocrypha)	</option>
+		  <option value="46">	Contemporary English Version </option>
+		  <option value="RMNN">	Cornilescu </option>
+		  <option value="62">	Croatian Bible (NT) </option>
+		  <option value="16">	Darby Translation	</option>
+		  <option value="5">	Det Norsk Bibelselskap 1930	</option>
+		  <option value="11">	Dette er Biblen pÃ¥ dansk	</option>
+		  <option value="58">	Dios Habla Hoy (with Apocrypha)	</option>
+		  <option value="63">	Douay-Rheims 1899 American Edition (with Apocrypha)	</option>
+		  <option value="ERV">	Easy-to-Read Version	</option>
+		  <option value="47">	English Standard Version	</option>
+		  <option value="ESVUK">	English Standard Version Anglicised	</option>
+		  <option value="GW"> God's Word Translation </option>
+		  <option value="GNT"> Good News Translation (with Apocrypha) </option>
+		  <option value="23">	Haitian Creole Version	</option>
+		  <option value="HWP">	Hawai‘i Pidgin (NT)	</option>
+		  <option value="30">	Het Boek	</option>
+		  <option value="71">	Hiligaynon Bible	</option>
+		  <option value="33">	Hoffnung für Alle (NT) </option>
+		  <option value="77">	Holman Christian Standard Bible	</option>
+		  <option value="17">	Hungarian KÃ¡roli	</option>
+		  <option value="ERV-HU">	Hungarian New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="18">	Icelandic Bible	</option>
+		  <option value="103"> Jacalteco, Oriental (NT) </option>
+		  <option value="PHILLIPS"> J.B. Phillips New Testament (NT) </option>
+		  <option value="25">	João Ferreira de Almeida Atualizada	</option>
+		  <option value="104"> Kekchi (NT) </option>
+		  <option value="9">	King James Version	</option>
+		  <option value="32">	La Bible du Semeur	</option>
+		  <option value="59">	La Biblia de las Américas	</option>
+		  <option value="55">	La Nuova Diodati	</option>
+		  <option value="34">	La Parola è Vita (NT)	</option>
+		  <option value="44">	Levande Bibeln	</option>
+		  <option value="LEB">	Lexham English Bible (NT)	</option>
+		  <option value="2">	Louis Segond	</option>
+		  <option value="10">	Luther Bibel 1545	</option>
+		  <option value="122">	Macedonian New Testament (NT)	</option>
+		  <option value="88">	Mam, Central (NT) </option>
+		  <option value="107">	Mam de Todos Santos Chuchumatán (NT) </option>
+		  <option value="24">	Maori Bible	</option>
+		  <option value="40">	Nádej pre kazdého	(NT) </option>
+		  <option value="109"> Náhuatl de Guerrero (NT) </option>
+		  <option value="NGU-DE">	Neue Genfer Übersetzung (NT)	</option>
+		  <option value="49">	New American Standard Bible	</option>
+		  <option value="NCV">	New Century Version	</option>
+		  <option value="76">	New International Reader's Version	</option>
+		  <option value="31">	New International Version	</option>
+		  <option value="64">	New International Version - UK	</option>
+		  <option value="NIV1984">	New International Version 1984	</option>
+		  <option value="50">	New King James Version	</option>
+		  <option value="74">	New Life Version	</option>
+		  <option value="51">	New Living Translation	</option>
+		  <option value="NEG1979">	Nouvelle Edition de Genève </option>
+		  <option value="NBLH">	Nueva Biblia Latinoamericana de Hoy	</option>
+		  <option value="NTV">	Nueva Traducción Viviente	</option>
+		  <option value="42">	Nueva Versión Internacional	</option>
+		  <option value="NR1994">	Nuova Riveduta 1994	</option>
+		  <option value="NR2006">	Nuova Riveduta 2006	</option>
+		  <option value="37">	O Livro	</option>
+		  <option value="PDT">	Palabra de Dios para Todos	</option>
+		  <option value="VFL">	Portuguese New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="111"> Quiché, Centro Occidental (NT) </option>
+		  <option value="56">	Reimer 2001 (NT) </option>
+		  <option value="RVC">	Reina Valera Contemporánea	</option>
+		  <option value="60">	Reina-Valera 1960	</option>
+		  <option value="61">	Reina-Valera 1995	</option>
+		  <option value="6">	Reina-Valera Antigua	</option>
+		  <option value="38">	Romanian (NT)	</option>
+		  <option value="ERV-RU">	Russian New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="13">	Russian Synodal Version	</option>
+		  <option value="SBLGNT">	SBL Greek New Testament (NT) </option>
+		  <option value="SCH1951">	Schlachter 1951	</option>
+		  <option value="SCH2000">	Schlachter 2000	</option>
+		  <option value="SG21">	Segond 21	</option>
+		  <option value="ERV-SR">	Serbian New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="29">	Slovo na cestu (NT)	</option>
+		  <option value="39">	Slovo Zhizny (NT)	</option>
+		  <option value="7">	Svenska 1917	</option>
+		  <option value="SFB">	Svenska Folkbibeln	</option>
+		  <option value="75">	Swahili New Testament	(NT) </option>
+		  <option value="ERV-TH">	Thai New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="65">	The Message	</option>
+		  <option value="81">	The Westminster Leningrad Codex (OT) </option>
+		  <option value="72">	Today's New International Version	</option>
+		  <option value="TLA">	Traducción en lenguaje actual (with Apocrypha)	</option>
+		  <option value="27">	Ukrainian Bible	</option>
+		  <option value="ERV-UK">	Ukrainian New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="113"> Uspanteco Bible (NT) </option>
+		  <option value="BPT">	Vietnamese New Testament: Easy-to-Read Version (NT)	</option>
+		  <option value="73">	Worldwide English (NT)	</option>
+		  <option value="WYC">	Wycliffe Bible	</option>
+		  <option value="15">	Young's Literal Translation	</option>
+		</field>	
+	</fieldset>	
+	<fieldset name="subscribtions" label="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL" description="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL_DESC">
+		<field name="flg_use_catcha" type="list" default="0" label="COM_ZEFANIABIBLE_CATCHA_USE" description="COM_ZEFANIABIBLE_CATCHA_USE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		<field name="flg_import_user_data" type="list" default="0" label="COM_ZEFANIABIBLE_USER_DATA" description="COM_ZEFANIABIBLE_USER_DATA_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>		
+		<field name="catcha_color" type="list" default="red" label="COM_ZEFANIABIBLE_CATCHA_COLOR" description="COM_ZEFANIABIBLE_CATCHA_COLOR_DESC">
+			<option value="red">COM_ZEFANIABIBLE_CATCHA_COLOR_RED</option>
+			<option value="white">COM_ZEFANIABIBLE_CATCHA_COLOR_WHITE</option>
+			<option value="blackglass">COM_ZEFANIABIBLE_CATCHA_COLOR_BLACKGRASS</option>
+			<option value="clean">COM_ZEFANIABIBLE_CATCHA_COLOR_CLEAN</option>
+		</field>	
+		<field name="catchaPublicKey" type="text" size="75" label="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY" description="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY_DESC" />
+		<field name="catchaPrivateKey" type="text" size="75" label="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY" description="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY_DESC" />
+	</fieldset>
+		
+	<fieldset name="pagination" label="COM_ZEFANIABIBLE_PAGINATION_LABEL" description="COM_ZEFANIABIBLE_PAGINATION_DESC">
+		<field name="show_pagination_top" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TOP" description="COM_ZEFANIABIBLE_PAGINATION_TOP_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="show_pagination_bot" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_BOT" description="COM_ZEFANIABIBLE_PAGINATION_BOT_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="show_pagination_type" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TYPE" description="COM_ZEFANIABIBLE_PAGINATION_TYPE_DESC">
+				<option value="0">COM_ZEFANIABIBLE_PAGINATION_BUTTONS</option>
+				<option value="1">COM_ZEFANIABIBLE_PAGINATION_LINKS</option>
+		</field>		
+	</fieldset>
+	
+	<fieldset name="player" label="COM_ZEFANIABIBLE_PLAYER_LABEL" description="COM_ZEFANIABIBLE_PLAYER_DESC">
+		<field name="show_audioPlayer" type="list" default="0" label="COM_ZEFANIABIBLE_AUDIO_PLAYER" description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>		
+		<field name="player_type" type="list" default="0" label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
+			<option value="0">JW Player</option>
+			<option value="2">FlowPlayer</option>
+			<option value="1">Wordpress Audio Player</option>
+		</field>
+		<field name="player_width" type="text" size="3" default="250" label="COM_ZEFANIABIBLE_PLAYER_WIDTH" description="COM_ZEFANIABIBLE_PLAYER_WIDTH_DESC" />
+		<field name="player_height" type="text" size="3" default="24" label="COM_ZEFANIABIBLE_PLAYER_HEIGHT" description="COM_ZEFANIABIBLE_PLAYER_HEIGHT_DESC" />
+		<field name="player_popup_height" type="text" size="3" default="300" label="COM_ZEFANIABIBLE_PLAYER_POPUP_HEIGHT" description="COM_ZEFANIABIBLE_PLAYER_POPUP_HEIGHT_DESC" />
+		<field name="player_popup_width" type="text" size="3" default="300" label="COM_ZEFANIABIBLE_PLAYER_POPUP_WIDTH" description="COM_ZEFANIABIBLE_PLAYER_POPUP_WIDTH_DESC" />
+		<field name="xmlAudioPath" type="text" size="50" default="media/com_zefaniabible/audio/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_AUDIO_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_AUDIO_DESC" />
+	</fieldset>	
+	<fieldset name="podcast" label="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST" description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST_DESC">		
+		<field name="adminEmail" type="text" size="25" label="COM_ZEFANIABIBLE_ADMIN_EMAIL" description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />
+		<field name="adminName" type="text" size="25" label="COM_ZEFANIABIBLE_ADMIN_NAME" description="COM_ZEFANIABIBLE_ADMIN_NAME_DESC" />
+	</fieldset>
+	<fieldset name="sitemap" label="COM_ZEFANIABIBLE_SITEMAP" description="COM_ZEFANIABIBLE_SITEMAP_DESC">
+		<field name="flg_only_primary_bible" type="list" default="0" label="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE" description="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="rp_mo_menuitem" type="menuitem" default="" label="COM_ZEFANIABIBLE_SITEMAP_PARAM_MO_MENUITEM" description="COM_ZEFANIABIBLE_SITEMAP_PARAM_MO_MENUITEM_DESC" state="1" />		
+		<field name="freq" type="list" label="COM_ZEFANIABIBLE_SITEMAP_FREQ" description="COM_ZEFANIABIBLE_SITEMAP_FREQ_DESC" useglobal="true" default="weekly">
+			<option value="always">always</option>
+			<option value="hourly">hourly</option>
+			<option value="daily">daily</option>
+			<option value="weekly">weekly</option>
+			<option value="monthly">monthly</option>
+			<option value="yearly">yearly</option>
+			<option value="never">never</option>
+		</field>
+		<field name="prio" type="list" label="CCOM_ZEFANIABIBLE_SITEMAP_PRIO" description="COM_ZEFANIABIBLE_SITEMAP_PRIO_DESC" useglobal="true" default="0.5">
+			<option value="0.0">0.0</option>
+			<option value="0.2">0.2</option>
+			<option value="0.3">0.3</option>
+			<option value="0.4">0.4</option>
+			<option value="0.5">0.5</option>
+			<option value="0.6">0.6</option>
+			<option value="0.7">0.7</option>
+			<option value="0.8">0.8</option>
+			<option value="0.9">0.9</option>
+			<option value="1.0">1.0</option>
+		</field>		
+	</fieldset>
+	<fieldset name="permissions" label="ZEFANIABIBLE_CONFIG_PERMISSIONS" description="ZEFANIABIBLE_CONFIG_DEFAULT_PERMISSIONS_USED_FOR_ALL_CONTENT_IN_THIS_COMPONENT" >
+		<field name="rules" type="rules" label="ZEFANIABIBLE_CONFIG_COMPONENT_PERMISSIONS" filter="rules" validate="rules" component="com_zefaniabible" section="component">
+		</field>
+	</fieldset>
+</config>

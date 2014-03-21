@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6" method="upgrade">
+	<name><![CDATA[Zefaniabible]]></name>
+	<author><![CDATA[Andrei Chernyshev]]></author>
+	<creationDate>2012-05-18</creationDate>
+	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
+	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
+	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
+	<version><![CDATA[2.8.0.1]]></version>
+	<license><![CDATA[GNU/GPL]]></license>
+	<description>ZEFANIABIBLE_INSTALL_INTRO_TEXT</description>
+	<scriptfile>script.php</scriptfile>
+	<files folder="site">
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>models</folder>
+		<folder>helpers</folder>	
+		<folder>language</folder>	
+		<folder>id3</folder>	
+		<folder>views</folder>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>zefaniabible.php</filename>
+		<filename>controller.php</filename>
+	</files>
+	<media folder="media" destination="com_zefaniabible">
+		<folder>bibles</folder>
+		<folder>player</folder>
+		<folder>audio</folder>
+		<folder>swfupload</folder>
+		<folder>dictionary</folder>
+	</media>	
+
+	<administration>
+		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
+		<submenu>		
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>		
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURES</menu>				
+		</submenu>
+		<files folder="admin">
+			<folder>classes</folder>
+			<folder>controllers</folder>
+			<folder>css</folder>
+			<folder>dom</folder>
+			<folder>helpers</folder>
+			<folder>images</folder>
+			<folder>js</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>language</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>zefaniabible.php</filename>
+			<filename>script.php</filename>
+			<filename>zefaniabible.css</filename>
+		</files>
+	</administration>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/verseofday.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=9</server>
+	</updateservers>
+</extension>
