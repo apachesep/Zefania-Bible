@@ -412,6 +412,7 @@ class BibleReadingPlan
 	public function fnc_jump_button($int_day_number,$int_max_days,$int_orig_day)
 	{
 		$int_today = $int_orig_day % $int_max_days;
+		$str_other_url_var = '';
 		if($int_day_number > $int_max_days)
 		{
 			$int_day_number = $int_day_number % $int_max_days;
