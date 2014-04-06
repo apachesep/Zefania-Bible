@@ -6,7 +6,7 @@
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
-	<version><![CDATA[2.8.0.2]]></version>
+	<version><![CDATA[2.8.0.1]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description>ZEFANIABIBLE_INSTALL_INTRO_TEXT</description>
 	<scriptfile>script.php</scriptfile>
@@ -34,14 +34,8 @@
 	<administration>
 		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
 		<submenu>		
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniacomment.png" link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURES</menu>			
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareading.png" link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareadingdetails.png" link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniauser.png" link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniaverseofday.png" link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zephdictionary.png" link="option=com_zefaniabible&amp;view=zefaniadictionary">COM_ZEFANIABIBLE_DICTIONARY</menu>			
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>		
+			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURES</menu>				
 		</submenu>
 		<files folder="admin">
 			<folder>classes</folder>
@@ -82,6 +76,6 @@
 		</schemas>
 	</update>
 	<updateservers>
-		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=1</server>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=9</server>
 	</updateservers>
 </extension>
