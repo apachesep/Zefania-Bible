@@ -42,7 +42,7 @@ class ZefaniabibleCredits
 		echo '				<td style="text-align: center; width: 49%;">';
 		echo ' 					<a href="http://www.zefaniabible.com/?utm_campaign=admin&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="_blank">ZefaniaBible</a>';
 		echo "					<br>"; 
-		echo '					Copyright: 2012-'.date("Y").' © <a href="http://www.missionarychurchofgrace.org/?utm_campaign=admin&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="_blank">Missionary Church of Grace</a> Web Development';
+		echo '					Copyright: 2012-'.date("Y").' © <a href="http://www.propoved.org/?utm_campaign=admin&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="_blank">Missionary Church of Grace</a> Web Development';
 		echo "					<br>";		
 		echo '					Version: '. $version;		
 		echo '				</td>';
