@@ -37,7 +37,8 @@ class zefReadingPlan
 	private $cnt_reading_elements;
 	private $str_Bible_alias;
 	public $str_menuItem;
-	
+	private $str_custom_code;
+	private $flg_custom_code;
 	public function __construct($params)
 	{
 		/*
@@ -49,7 +50,9 @@ class zefReadingPlan
 		$this->str_reading_plan = $params->get('reading_plan', $this->fnc_first_plan_record());
 		$this->str_Bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
 		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
-		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));		
+		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));
+		$this->flg_custom_code = $params->get('flg_use_custom_code',0);		
+		$this->str_custom_html = $params->get('str_custom_html');
 		$this->flg_import_user_data = 	$params->get('flg_import_user_data', '0');
 
 		if(($user->id > 0)and($this->flg_import_user_data))
@@ -86,32 +89,43 @@ class zefReadingPlan
 		$this->get_reading_plan();
 		$this->cnt_reading_elements = count($this->arr_reading_plan);
 		$x = 0;
+		$str_link = JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder);
+		$str_verse_output_link = '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.$str_link.'" target="_self">';
+
 		foreach ($this->arr_reading_plan as $arr_reading)
 		{
-			echo '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder).'" target="_self">';
 			if(($arr_reading->begin_verse == 0)and($arr_reading->end_verse == 0))
 			{
 				if($arr_reading->begin_chapter == $arr_reading->end_chapter)
 				{
-					echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter;					
+					$str_scripture = $str_scripture .  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter;					
 				}
 				else
 				{
-					echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter."-".$arr_reading->end_chapter;
+					$str_scripture = $str_scripture  .JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter."-".$arr_reading->end_chapter;
 				}
 			}
 			else
 			{
-				echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter.":".$arr_reading->begin_verse."-".$arr_reading->end_chapter.":".$arr_reading->end_verse;
+				$str_scripture = $str_scripture . JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter.":".$arr_reading->begin_verse."-".$arr_reading->end_chapter.":".$arr_reading->end_verse;
 			}
-			$x++;
 			if(($this->cnt_reading_elements > 1)and($x <  $this->cnt_reading_elements))
 			{
-				echo "<br>";
+				$str_scripture = $str_scripture . "<br>";
 			}
-			echo "</a>";
-			
+			$x++;
 		}
+		if($this->flg_custom_code == 0)
+		{				
+			$str_verse_output = $str_verse_output_link.$str_scripture ."</a>";
+		}
+		else
+		{
+			$str_verse_output = str_replace('{link}',$str_verse_output_link,$this->str_custom_html);
+			$str_verse_output = str_replace('{/link}','</a>',$str_verse_output);
+			$str_verse_output = str_replace('{scripture}',trim($str_scripture),$str_verse_output);
+		}					
+		echo $str_verse_output;		
 	}
 	protected function get_reading_plan()
 	{

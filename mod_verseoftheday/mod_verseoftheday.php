@@ -39,6 +39,7 @@ class ZefVerseOfTheDay
 	private $int_display_order;
 	public $str_menuItem;
 	private $arr_english_book_names;
+	private $str_custom_html;
 	
 	public function __construct($params)
 	{
@@ -56,23 +57,34 @@ class ZefVerseOfTheDay
 		$this->flg_use_year_date = 	$params->get('flg_use_year_date', '0');
 		$this->flg_use_biblegateway = 	$params->get('flg_use_biblegateway', '0');
 		$this->str_biblegateway_version = 	$params->get('str_biblegateway_version', 'KJV');
+		$this->str_custom_html = $params->get('str_custom_html');
+		
 		$user 	= JFactory::getUser();
 		if($this->flg_use_biblegateway)
 		{
 			$str_verse_rss = simplexml_load_file('http://www.biblegateway.com/votd/get/?format=atom&version='.$this->str_biblegateway_version);
 			$str_pre_url = '<a href="'.$str_verse_rss->entry->link['href'].'" id="zef_links" title="'.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC').'" target="blank">';
-			$str_post_url = '</a>'; 
+			$str_post_url = '</a>';
 			if($this->int_link_type == 1)
 			{
-				$str_output = $str_pre_url.stripslashes(strip_tags($str_verse_rss->entry->title)).$str_post_url;
+				$str_verse_output = $str_pre_url.stripslashes(strip_tags($str_verse_rss->entry->title)).$str_post_url;
+				$str_verse_output = $str_verse_output."<br>";
+				$str_verse_output = $str_verse_output. stripslashes(strip_tags($str_verse_rss->entry->content)); 				
 			}
+			else if($this->int_link_type == 3)
+			{
+				$str_verse_output = str_replace('{link}','<a href="'.$str_verse_rss->entry->link['href'].'" target="_blank" rel="nofollow" id="zef_links" title="'.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC').'">',$this->str_custom_html);
+				$str_verse_output = str_replace('{/link}',$str_post_url,$str_verse_output);
+				$str_verse_output = str_replace('{passage}',stripslashes(strip_tags(trim($str_verse_rss->entry->content))),$str_verse_output);
+				$str_verse_output = str_replace('{scripture}',stripslashes(strip_tags(trim($str_verse_rss->entry->title))),$str_verse_output);
+			}			
 			else
 			{
-				$str_output = stripslashes(strip_tags($str_verse_rss->entry->title));
+				$str_verse_output = stripslashes(strip_tags($str_verse_rss->entry->title));
+				$str_verse_output = $str_verse_output."<br>";
+				$str_verse_output = $str_verse_output. stripslashes(strip_tags($str_verse_rss->entry->content)); 				
 			}
-			echo $str_output;
-			echo "<br>";
-			echo stripslashes(strip_tags($str_verse_rss->entry->content)); 
+				echo $str_verse_output;
 		}
 		else
 		{
@@ -179,7 +191,7 @@ class ZefVerseOfTheDay
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
 			$str_verse_output = '';
-			
+			$str_blockquote_verse = '';
 			$str_url = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$this->str_menuItem."&a=".$this->str_bible_alias."&b=".$this->arr_verse_info['book_name'][$int_day]."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$this->arr_verse_info['book_name'][$int_day]]))."&c=".$this->arr_verse_info['chapter_number'][$int_day].'-chapter');
 			foreach($data as $datum)
 			{		
@@ -187,6 +199,7 @@ class ZefVerseOfTheDay
 				{
 					$str_temp = '<div class="zef_verse_of_day_header">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$int_day])." ".$this->arr_verse_info['chapter_number'][$int_day].":"
 					.$this->arr_verse_info['begin_verse'][$int_day]."</div>";
+					$str_scripture = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$int_day])." ".$this->arr_verse_info['chapter_number'][$int_day].":".$this->arr_verse_info['begin_verse'][$int_day];
 					if($this->int_link_type == 1)
 					{
 						$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>" 
@@ -197,6 +210,7 @@ class ZefVerseOfTheDay
 						$str_verse_output = $str_verse_output. $str_temp;
 					}
 					$str_verse_output = $str_verse_output. '<div class="zef_verse_of_day_verse">'.$datum->verse.'</div>';		
+					$str_blockquote_verse = $str_blockquote_verse ." ". $datum->verse;
 				}
 				else
 				{
@@ -206,6 +220,7 @@ class ZefVerseOfTheDay
 						$str_temp = '<div class="zef_verse_of_day_header">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$int_day]).
 									" ".$this->arr_verse_info['chapter_number'][$int_day].":".$this->arr_verse_info['begin_verse'][$int_day].
 									"-".$this->arr_verse_info['end_verse'][$int_day]."</div>";
+						$str_scripture = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$int_day])." ".$this->arr_verse_info['chapter_number'][$int_day].":".$this->arr_verse_info['begin_verse'][$int_day]."-".$this->arr_verse_info['end_verse'][$int_day];
 					}
 					if($this->int_link_type == 1)
 					{
@@ -217,15 +232,27 @@ class ZefVerseOfTheDay
 					{
 						$str_verse_output = $str_verse_output. $str_temp;	
 					}
-					$str_verse_output = $str_verse_output. $datum->verse." ";					
+					$str_verse_output = $str_verse_output. $datum->verse." ";		
+					$str_blockquote_verse = $str_blockquote_verse ." ". $datum->verse;
 				}
 			}
-			if($this->int_link_type == 2)
+
+			if($this->int_link_type == 3)
 			{
-				$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
-				.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK')."</a>";
-			}			
-			$str_verse_output = $str_verse_output. '<div style="clear:both"></div>';
+				$str_verse_output = str_replace('{link}','<a href="'.$str_url.'" target="_self" rel="nofollow" id="zef_links" title="'.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC').'">',$this->str_custom_html);
+				$str_verse_output = str_replace('{/link}','</a>',$str_verse_output);
+				$str_verse_output = str_replace('{passage}',$str_blockquote_verse,$str_verse_output);
+				$str_verse_output = str_replace('{scripture}',trim($str_scripture),$str_verse_output);
+			}
+			else
+			{
+				if($this->int_link_type == 2)
+				{
+					$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
+					.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK')."</a>";
+				}				
+				$str_verse_output = $str_verse_output. '<div style="clear:both"></div>';
+			}
 			echo $str_verse_output ;
 		}
 		catch (JException $e)
