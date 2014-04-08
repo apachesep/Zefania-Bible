@@ -92,9 +92,8 @@ class plgSystemZefaniaEmail extends JPlugin
 		$this->str_Bible_Path 				= $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$this->str_image_verse_of_day		= $this->params->get('verse_of_day_image');
 		$this->str_image_reading_plan 		= $this->params->get('reading_plan_image');
-		$this->str_verse_of_day_image 		= JRoute::_(JUri::base().'images/'.$this->str_image_verse_of_day);
-		$this->str_reading_plan_image 		= JRoute::_(JUri::base().'images/'.$this->str_image_reading_plan);
-				  
+		$this->str_verse_of_day_image 		= JRoute::_(JUri::base().$this->str_image_verse_of_day);
+		$this->str_reading_plan_image 		= JRoute::_(JUri::base().$this->str_image_reading_plan);
 		$this->str_reading_send_date		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_READING_PLAN_EMAIL');
 		$this->str_verse_send_date 			= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL');
 		
