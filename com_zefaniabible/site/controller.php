@@ -76,6 +76,7 @@ class ZefaniabibleController extends JControllerLegacy
 			case '3.0':
 			case '3.1':
 			case '3.2':
+			case '3.3':			
 			case '3.5':
 				switch ($view) 
 				{
