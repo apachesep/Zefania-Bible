@@ -60,6 +60,7 @@ class BibleStandard {
 	private $arr_commentary_list;
 	private $arr_dictionary_lis;
 	private $arr_english_book_names;
+	public $str_default_image;
 	
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $int_Bible_Chapter, $arr_commentary, $arr_references, $str_collation, $arr_commentary_list, $arr_dictionary_list)
 	{
@@ -90,7 +91,8 @@ class BibleStandard {
 		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
 		$this->str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_curr_dict = JRequest::getCmd('dict');
-		
+		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+ 
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_audio_player = $this->params->get('show_audioPlayer','0');
@@ -254,7 +256,7 @@ class BibleStandard {
 		$this->doc_page->setMetaData( 'og:title', $str_title);
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$this->doc_page->setMetaData( 'og:type', "article" );	
-		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
+		$this->doc_page->setMetaData( 'og:image', JURI::root().$this->str_default_image );	
 		$this->doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}
@@ -373,12 +375,12 @@ class BibleStandard {
         	<?php if(($cls_bibleBook->flg_reading_rss_button)and($cls_bibleBook->str_tmpl != "component")){?>
 		        <div class="zef_reading_rss">
                 	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=biblerss&format=raw&a=<?php echo $this->str_Bible_Version; ?>&b=<?php echo $this->int_Bible_Book_ID; ?>&c=<?php echo $this->int_Bible_Chapter;?>" target="_blank" rel="nofollow" >
-                    	<img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" />
+                    	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" />
                     </a>
 				</div>
              <?php } ?>
         	<?php if(($cls_bibleBook->flg_email_button)and($cls_bibleBook->str_tmpl != "component")){?>
-            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
             <?php if(($cls_bibleBook->flg_use_bible_selection)and(count($this->arr_Bibles) > 1)){?>
@@ -495,7 +497,7 @@ class BibleStandard {
 
 <div itemscope itemtype="http://schema.org/Book">
 	<meta itemprop="name" content="<?php echo $cls_bibleBook->str_bible_name;?>">
-    <meta itemprop="image" content="<?php echo JURI::root()."components/com_zefaniabible/images/bible_100.jpg"; ?>">
+    <meta itemprop="image" content="<?php echo JURI::root().$cls_bibleBook->str_default_image; ?>">
     <meta itemprop="url" content="<?php echo JFactory::getURI()->toString(); ?>">
 </div>
 

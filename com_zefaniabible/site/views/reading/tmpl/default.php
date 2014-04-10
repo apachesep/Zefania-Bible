@@ -81,6 +81,8 @@ class BibleReadingPlan
 	private $arr_commentary_list;
 	private $arr_dictionary_lis;
 	public $str_chapter_output;
+	public $str_default_image;
+	
 	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days, $arr_commentary_list, $arr_dictionary_list, $obj_references)
 	{
 		
@@ -106,7 +108,8 @@ class BibleReadingPlan
 		$this->str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_curr_dict = JRequest::getCmd('dict');		
 		$this->str_commentary = JRequest::getCmd('com',$this->str_primary_commentary);
-								
+		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
@@ -289,7 +292,7 @@ class BibleReadingPlan
 		$this->doc_page->setMetaData( 'description', $this->str_first_verse);
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());	
 		$this->doc_page->setMetaData( 'og:type', "article" );	
-		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
+		$this->doc_page->setMetaData( 'og:image', JURI::root().$this->str_default_image );	
 		$this->doc_page->setMetaData( 'og:description', $this->str_first_verse );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}	
@@ -467,13 +470,13 @@ class BibleReadingPlan
 	<div id="zef_Bible_Main<?php if($cls_bible_reading_plan->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
     	<div class="zef_legend">
         		<?php if(($cls_bible_reading_plan->flg_email_button)and($cls_bible_reading_plan->str_tmpl != "component")){?>
-        		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+        		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
                 <?php } 
 					if(($cls_bible_reading_plan->flg_reading_rss_button)and($cls_bible_reading_plan->str_tmpl != "component")){
 				?>
 					<div class="zef_reading_rss">
                     	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" >
-                			<img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/feeds.png"; ?>" />
+                			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" />
 						</a>
 					</div>                
 				<?php }?>                

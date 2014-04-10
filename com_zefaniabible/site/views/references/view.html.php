@@ -88,11 +88,12 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
 		$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
-		
+
 		$flg_reference_words = $params->get('flg_reference_words', '1');
 		$flg_reference_chapter_link = $params->get('flg_reference_chapter_link', '1');
 		$this->str_primary_dictionary  = $params->get('str_primary_dictionary','');
-		
+		$str_ref_default_image =  $params->get('str_ref_default_image', 'media/com_zefaniabible/images/references.jpg');
+				
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		require_once(JPATH_COMPONENT_SITE.'/models/references.php');
 		$mdl_references = new ZefaniabibleModelReferences;
@@ -173,7 +174,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$arr_orig_ref[64]='3jo';
 		$arr_orig_ref[65]='jude';
 		$arr_orig_ref[66]='re';	
-		echo '<div class="zef_reference_image"></div>';
+		echo '<div class="zef_reference_image"><img src="'.$str_ref_default_image.'"></div>';
 		foreach($arr_references as $obj_References)
 		{ 
 			$arr_single_ref = preg_split('/;/',$obj_References->reference);

@@ -33,6 +33,8 @@ class StrongBible
 	private $str_dictionary_height;
 	private $str_dictionary_width;
 	private $str_curr_dict;
+	private $str_dict_default_image;
+	
 	public function __construct($arr_passage,$str_dict_name)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
@@ -40,7 +42,9 @@ class StrongBible
 		$this->flg_show_credit = $this->params->get('show_credit','0');	
 		$this->str_tmpl 		= 		JRequest::getCmd('tmpl');
 		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
-		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');			
+		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
+		$this->str_dict_default_image =	$this->params->get('str_dict_default_image','media/com_zefaniabible/images/dictionary.jpg');
+		
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		$str_verse = "";	
 		$this->str_curr_dict = JRequest::getCmd('a');
@@ -51,7 +55,7 @@ class StrongBible
 		foreach ($arr_passage as $obj_passage)
 		{
 			$str_verse = '<div class="zef_strong">';
-			$str_verse = $str_verse.'<div class="zef_strong_dic_image"></div>';
+			$str_verse = $str_verse.'<div class="zef_strong_dic_image"><img src="'.$this->str_dict_default_image.'"></div>';
 			$str_verse = $str_verse.'<div style="clear:both;"></div>';
 			$str_verse = $str_verse.'<div class="zef_strong_dic_name">'.$str_dict_name.'</div>';
 			$str_verse = $str_verse.'<div style="clear:both;"></div>';			
@@ -61,9 +65,7 @@ class StrongBible
 			$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
 			$obj_passage->description = preg_replace("/(?=\S)(&lt;tw\:\/\/\[self\]\?(.*?)&gt;)/iu",'',$obj_passage->description); // remove <tw://[self]?.. code
 			$obj_passage->description = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $obj_passage->description);
-			
-			//$obj_passage->description = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Strong'),  $obj_passage->description);
-			
+					
 			$str_verse = $str_verse.'<div class="zef_strong_desc">'.JHtml::_('content.prepare',$obj_passage->description)."</div><br>";
 			$str_verse = $str_verse.'</div>';
 		}
