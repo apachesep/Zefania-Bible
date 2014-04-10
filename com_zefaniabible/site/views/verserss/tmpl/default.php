@@ -36,6 +36,9 @@ class ClsVerseRSS
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
 		$flg_redirect_request = JRequest::getCmd('b', 1);
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_default_image = $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');		
+		
 		$str_verse = '';
 		$x = 1;
 
@@ -60,7 +63,7 @@ class ClsVerseRSS
 			echo '<channel>'.PHP_EOL;
 			echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 			echo '	<image>'.PHP_EOL;
-			echo '	  <url>'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'</url>'.PHP_EOL;
+			echo '	  <url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
 			echo '	  <title>'.JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY').'</title>'.PHP_EOL;
 			echo '	  <link>'.JRoute::_(JURI::base()).'index.php?ord='.date("mdy").'</link>'.PHP_EOL;
 			echo '	</image>'.PHP_EOL;		
@@ -89,7 +92,7 @@ class ClsVerseRSS
 			$this->doc_page->setMetaData( 'og:title', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'));
 			$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 			$this->doc_page->setMetaData( 'og:type', "article" );	
-			$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
+			$this->doc_page->setMetaData( 'og:image', JURI::root().$str_default_image );	
 			$this->doc_page->setMetaData( 'og:description', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY') );
 			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );				
 			echo '<div id="zef_Bible_Main_verse_tmpl_comp">';
