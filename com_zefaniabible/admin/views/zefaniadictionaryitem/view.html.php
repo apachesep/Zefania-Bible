@@ -110,6 +110,11 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_DICTIONARIES').' 1', 'http://www.biblesupport.com/e-sword-downloads/category/7-dictionaries/');
 		
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_file_path = '/'.$config->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+		
+		jimport( 'joomla.filesystem.folder' );
+		$arr_file_list = JFolder::files('..'.$str_file_path,'.xml');
+
 
 		JRequest::setVar( 'hidemainmenu', true );
 
@@ -133,6 +138,14 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
+		
+		$toggle = 'function toggleElement(current, disable) {
+				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
+				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
+				document.getElementById(disable + "_text").disabled = true;
+				document.getElementById(current + "_text").disabled = false;
+		}';
+				
 		if($isNew)
 		{
 			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
@@ -186,7 +199,7 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 										{
 											progress.setComplete();
 											progress.setStatus(data.error);
-											document.id("xml_file_url").value = data.path;
+											document.id("xml_file_url_text").value = data.path;
 										} else 
 										{
 											progress.setError();
@@ -211,6 +224,7 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 			//add the javascript to the head of the html document
 			$document->addScriptDeclaration($uploader_script);
 		}
+		$document->addScriptDeclaration($toggle);		
 		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
 		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
 		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
@@ -223,7 +237,8 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 		$this->assignRef('zefaniadictionaryitem',		$zefaniadictionaryitem);
 		$this->assignRef('config',		$config);
 		$this->assignRef('isNew',		$isNew);
-
+		$this->assignRef('arr_file_list', $arr_file_list);
+		
 		parent::display($tpl);
 	}
 }
