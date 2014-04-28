@@ -67,7 +67,6 @@ class TableZefaniadictionaryitem extends JTable
 	var $name = null;
 	var $xml_file_url = null;
 
-
 	/**
 	* Constructor
 	*
@@ -127,11 +126,6 @@ class TableZefaniadictionaryitem extends JTable
 			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_ORDERING")) );
 			$valid = false;
 		}
-
-
-
-
-
 		//Alias
 		if (!trim($this->alias))
 			$this->alias = JFilterOutput::stringURLSafe($this->title);
@@ -147,10 +141,6 @@ class TableZefaniadictionaryitem extends JTable
 			$lastOrderObj = $db->loadObject();
 			$this->ordering = (int)$lastOrderObj->ordering + 1;
 		}
-
-
-
-
 
 		return $valid;
 	}
