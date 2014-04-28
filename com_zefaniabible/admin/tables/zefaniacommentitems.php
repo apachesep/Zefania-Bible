@@ -141,11 +141,6 @@ class TableZefaniacommentitems extends JTable
 			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_ORDERING")) );
 			$valid = false;
 		}
-
-
-
-
-
 		//New row : Ordering : place to the end
 		if ($this->id == 0)
 		{
@@ -161,11 +156,6 @@ class TableZefaniacommentitems extends JTable
 		//Alias
 		if (!trim($this->alias))
 			$this->alias = JFilterOutput::stringURLSafe($this->title);
-
-
-
-
-
 		return $valid;
 	}
 }
