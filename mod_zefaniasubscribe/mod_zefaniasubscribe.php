@@ -52,7 +52,7 @@ class zefSubscibe
 			{
 				echo '<div class="zef_email_button">';
 				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_overlay_width.',y:'.$int_overlay_height.'}}" >';
-				echo '<img src="'.JRoute::_('/components/com_zefaniabible/images/e_mail.png').'">'.'</a></div>';				
+				echo '<img src="'.JRoute::_('/media/com_zefaniabible/images/e_mail.png').'">'.'</a></div>';				
 			}
 		}
 		else
