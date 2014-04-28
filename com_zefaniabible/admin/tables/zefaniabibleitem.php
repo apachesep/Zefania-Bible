@@ -85,7 +85,6 @@ class TableZefaniabibleitem extends JTable
 	var $xml_file_url = null;
 	var $xml_audio_url = null;
 
-
 	/**
 	* Constructor
 	*
@@ -143,16 +142,10 @@ class TableZefaniabibleitem extends JTable
 		$this->xml_audio_url = $filter->clean($this->xml_audio_url, 'STRING');
 		$this->publish = $filter->clean($this->publish, 'BOOL');
 		$this->ordering = $filter->clean($this->ordering, 'INT');
-
 		if (!empty($this->ordering) && !preg_match("/^(\d|-)?(\d|,)*\.?\d*$/", $this->ordering)){
 			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_ORDERING")) );
 			$valid = false;
 		}
-
-
-
-
-
 		//Alias
 		if (!trim($this->alias))
 			$this->alias = JFilterOutput::stringURLSafe($this->title);
@@ -168,11 +161,6 @@ class TableZefaniabibleitem extends JTable
 			$lastOrderObj = $db->loadObject();
 			$this->ordering = (int)$lastOrderObj->ordering + 1;
 		}
-
-
-
-
-
 		return $valid;
 	}
 }
