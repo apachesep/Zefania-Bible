@@ -28,6 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $isNew		= ($this->zefaniadictionaryitem->id < 1);
 $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_EDIT" );
+$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 ?>
 <fieldset class="fieldsform">
 	<legend><?php echo $actionText;?></legend>
@@ -96,24 +97,38 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 
 		<?php endif; ?>
 		<tr>
-			<td align="right" class="key">
+			<td align="right" class="key" valign="top">
 				<label for="file_location">
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" ); ?> : 
 				</label>
 			</td>
-			<td>
+			<td valign="top">
             	<div style="float:left">
 					<?php if($isNew){ ?>
-                    	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniadictionaryitem->xml_file_url; ?>" size="75" type="text">
+						<?php 
+                            $str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+                            $str_file_list = '';
+                            foreach($this->arr_file_list as $obj_file_list)
+                            {
+                                $str_file_list = $str_file_list .'<option value="'.$obj_file_list.'">'.$obj_file_list.'</option>';
+                            }
+                        ?>                    
+						<div class="input-prepend input-append">
+                            <div id="xml_file_url_icon" class="btn add-on icon-checkmark" onclick="toggleElement('xml_file_url','xml_file_folder');"> </div>
+                                <input name="xml_file_url" id="xml_file_url_text" class="bible_input" value="<?php echo $this->zefaniadictionaryitem->xml_file_url; ?>" type="text">
+                            </div>
+                            <br />
+                            <div class="input-prepend input-append">
+                            <div id="xml_file_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('xml_file_folder','xml_file_url');"> </div>
+                                <select name="xml_file_folder" id="xml_file_folder_text" class="bible_input" disabled="disabled"><?php echo $str_file_list; ?></select>
+                            </div>
+                        </div>               
                     <?php }else{?>
                     	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniadictionaryitem->xml_file_url; ?>" size="75"  disabled="disabled" type="text">
                      <?php }?>
                 </div>                                
 			</td>
         <?php if($isNew){ ?>
-        <?php 
-			$params	= JComponentHelper::getParams('com_zefaniabible');
-		?>
         <tr>
         	<td>            	
             </td>

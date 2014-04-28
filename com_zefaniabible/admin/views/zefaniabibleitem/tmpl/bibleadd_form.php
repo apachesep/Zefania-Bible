@@ -28,6 +28,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $isNew		= ($this->zefaniabibleitem->id < 1);
 $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_EDIT" );
+$params	= JComponentHelper::getParams( 'com_zefaniabible' );
+
 ?>
 <fieldset class="fieldsform">
 	<legend><?php echo $actionText;?></legend>
@@ -109,47 +111,69 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 
 		<?php endif; ?>
 		<tr>
-			<td align="right" class="key">
+			<td align="right" class="key" valign="top">
 				<label for="file_location">
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" ); ?> : 
 				</label>
 			</td>
-			<td>
-            	<div style="float:left">
-					<?php if($isNew){ ?>
-                    	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="75" type="text">
-                    <?php }else{?>
-                    	<input name="xml_file_url" id="xml_file_url" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" size="75"  disabled="disabled" type="text">
-                     <?php }?>
-                </div>                                
+            <td valign="top">
+		<?php if($isNew){?>
+        	<?php 
+				$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
+				$str_file_list = '';
+				$str_audio_file_list = '';
+				foreach($this->arr_file_list as $obj_file_list)
+				{
+					$str_file_list = $str_file_list .'<option value="'.$obj_file_list.'">'.$obj_file_list.'</option>';
+				}
+				foreach($this->arr_audio_file_list as $obj_audio_file_list)
+				{
+					$str_audio_file_list = $str_audio_file_list .'<option value="'.$obj_audio_file_list.'">'.$obj_audio_file_list.'</option>';
+				}
+			?>
+					<div class="input-prepend input-append">
+						<div id="xml_file_url_icon" class="btn add-on icon-checkmark" onclick="toggleElement('xml_file_url','xml_file_folder');"> </div>
+							<input name="xml_file_url" id="xml_file_url_text" class="bible_input" value="<?php echo $this->zefaniabibleitem->xml_file_url;?>" type="text">
+						</div>
+						<br />
+						<div class="input-prepend input-append">
+						<div id="xml_file_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('xml_file_folder','xml_file_url');"> </div>
+							<select name="xml_file_folder" id="xml_file_folder_text" class="bible_input" disabled="disabled"><?php echo $str_file_list; ?></select>
+						</div>
+					</div>
+                    <div id="infoUpload1" class="intend">
+                        <span id="btnUpload1"></span>
+                        <button id="btnCancel1" type="button" onclick="cancelQueue(upload1);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
+                        <span id="biblepathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
+                                <?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($str_bibles_path, '/').'/'; ?>
+                        </span>
+                    </div>
+                <?php }else{?>
+					<input name="xml_file_url" id="xml_file_url_text" class="bible_input" value="<?php echo $this->zefaniabibleitem->xml_file_url; ?>" disabled="disabled" type="text">
+                <?php } ?>        
 			</td>
-        <?php if($isNew){ ?>
-        <?php 
-			$params	= JComponentHelper::getParams('com_zefaniabible');
-		?>
-        <tr>
-        	<td>            	
-            </td>
-        	<td>
-				<div id="infoUpload1" class="intend">
-					<span id="btnUpload1"></span>
-					<button id="btnCancel1" type="button" onclick="cancelQueue(upload1);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
-					<span id="biblepathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
-							<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/'), '/').'/'; ?>
-                    </span>
-				</div>
-            </td>
-        </tr>
-        <?php }?>
-		</tr>
+         </tr>
 		<tr>
-			<td align="right" class="key">
+			<td align="right" class="key" valign="top">
 				<label for="xml_audio_file_location">
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION" ); ?> :
 				</label>
 			</td>
 			<td>
-            	<input name="xml_audio_url" id="xml_audio_url" value="<?php echo $this->zefaniabibleitem->xml_audio_url; ?>" size="75" type="text">
+            <?php if($isNew){?>
+				<div class="input-prepend input-append">
+					<div id="xml_audio_url_icon" class="btn add-on icon-checkmark" onclick="toggleElement('xml_audio_url','xml_audio_folder');"> </div>
+						<input name="xml_audio_url" id="xml_audio_url_text" class="bible_input" value="<?php echo $this->zefaniabibleitem->xml_audio_url; ?>" type="text">
+					</div>
+					<br />
+					<div class="input-prepend input-append">
+					<div id="xml_audio_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('xml_audio_folder','xml_audio_url');"> </div>
+						<select name="xml_audio_folder" id="xml_audio_folder_text" class="bible_input" disabled="disabled"><?php echo $str_audio_file_list; ?></select>
+					</div>
+				</div>
+			<?php }else{?>
+   						<input name="xml_audio_url" id="xml_audio_url_text" class="bible_input" value="<?php echo $this->zefaniabibleitem->xml_audio_url; ?>" type="text">
+            <?php }?>
 			</td>
 		</tr>
         <?php if($isNew){ ?>
