@@ -272,7 +272,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 	 */
 	function save($data)
 	{
-
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 		$str_folder_file = JRequest::getCmd('xml_file_folder','');
 		$arr_dict_file_info = pathinfo($str_folder_file);
@@ -281,7 +281,6 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 			$str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
 			 $row->xml_file_url = '/'.$str_dict_path.$str_folder_file;
 		}		
-		JError::raiseWarning('',"folder file is:".$str_folder_file);		
 		
 		//Convert data from a stdClass
 		if (is_object($data)){
