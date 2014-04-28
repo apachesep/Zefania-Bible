@@ -148,7 +148,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 						$this->fnc_Update_Bible_Verses(
 							$int_max_ids,
 							$arr_dictionary_item['id'],
-							strip_tags($obj_description->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th><gr>')
+							strip_tags($obj_description->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
 							);
 							$x++;
 					}
@@ -176,7 +176,6 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 			$arr_row->dict_id		= (int)$int_dict_id;
 			$arr_row->item 		= (string)$str_item;
 			$arr_row->description 	= (string)$str_desc;
-
 			$db->insertObject("#__zefaniabible_dictionary_detail", $arr_row, 'id');
 
 		}
@@ -275,6 +274,14 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 	{
 
 		$row = $this->getTable();
+		$str_folder_file = JRequest::getCmd('xml_file_folder','');
+		$arr_dict_file_info = pathinfo($str_folder_file);
+		if(($row->xml_file_url == "")and($arr_dict_file_info['extension'] == 'xml'))
+		{
+			$str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+			 $row->xml_file_url = '/'.$str_dict_path.$str_folder_file;
+		}		
+		JError::raiseWarning('',"folder file is:".$str_folder_file);		
 		
 		//Convert data from a stdClass
 		if (is_object($data)){
@@ -367,7 +374,6 @@ class ZefaniabibleModelZefaniadictionaryitem extends ZefaniabibleModelItem
 				return false;
 			}
 		}
-		JError::raiseWarning(1000, $query);
 
 		return true;
 	}
