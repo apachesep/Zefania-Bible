@@ -111,21 +111,35 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 
 		<?php endif; ?>
 		<tr>
-			<td align="right" class="key">
+			<td align="right" class="key" valign="top">
 				<label for="file_location">
 					<?php echo JText::_( "ZEFANIABIBLE_FIELD_FILE_LOCATION" ); ?> :
 				</label>
 			</td>
-			<td>
+			<td valign="top">
 				<?php 
                	 	$params = JComponentHelper::getParams( 'com_zefaniabible' );
-              		$str_commentary_path = $params->get('xmlCommentaryPath');
+              		$str_commentary_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+					$str_file_list = '';
+					foreach($this->arr_file_list as $obj_file_list)
+					{
+						$str_file_list = $str_file_list .'<option value="'.$obj_file_list.'">'.$obj_file_list.'</option>';
+					}
                 ?>
                     <div style="float:left">			
                         <?php if($isNew){ ?>
-                            <input name="file_location" id="file_location" value="<?php echo $this->zefaniacommentitems->file_location; ?>" size="75" type="text">
+                            <div class="input-prepend input-append">
+                                <div id="file_location_icon" class="btn add-on icon-checkmark" onclick="toggleElement('file_location','file_location_folder');"> </div>
+                                    <input name="file_location" id="file_location_text" class="bible_input" value="<?php echo $this->zefaniacommentitems->file_location; ?>" type="text">
+                                </div>
+                                <br />
+                                <div class="input-prepend input-append">
+                                <div id="file_location_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('file_location_folder','file_location');"> </div>
+                                    <select name="file_location_folder" id="file_location_folder_text" class="bible_input" disabled="disabled"><?php echo $str_file_list; ?></select>
+                                </div>
+                            </div>
                         <?php }else{?>
-                            <input name="file_location" id="file_location" value="<?php echo $this->zefaniacommentitems->file_location; ?>" size="75"  disabled="disabled" type="text">
+                            <input name="file_location" id="file_location_text" value="<?php echo $this->zefaniacommentitems->file_location; ?>" size="75"  disabled="disabled" type="text">
                          <?php }?>
                     </div>                        
                 <?php 

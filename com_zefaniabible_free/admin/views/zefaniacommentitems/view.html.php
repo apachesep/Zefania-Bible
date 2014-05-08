@@ -109,10 +109,11 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
 		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
 
-
-
-
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_comment_file_path = '/'.$config->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+		
+		jimport( 'joomla.filesystem.folder' );
+		$arr_file_list = JFolder::files('..'.$str_comment_file_path,'.xml');
 
 		JRequest::setVar( 'hidemainmenu', true );
 
@@ -136,6 +137,13 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
+		$toggle = 'function toggleElement(current, disable) {
+				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
+				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
+				document.getElementById(disable + "_text").disabled = true;
+				document.getElementById(current + "_text").disabled = false;
+		}';
+		
 		if($isNew)
 		{
 			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
@@ -212,6 +220,7 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 			}';			
 			$document->addScriptDeclaration($uploader_script);			
 		}
+		$document->addScriptDeclaration($toggle);		
 		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
 		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
 		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
@@ -224,7 +233,8 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		$this->assignRef('zefaniacommentitems',		$zefaniacommentitems);
 		$this->assignRef('config',		$config);
 		$this->assignRef('isNew',		$isNew);
-
+		$this->assignRef('arr_file_list',	$arr_file_list);		
+		
 		parent::display($tpl);
 	}
 
