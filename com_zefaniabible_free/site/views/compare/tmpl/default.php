@@ -58,7 +58,8 @@ class BibleCompare {
 	private $arr_commentary_list;
 	private $arr_dictionary_lis;
 	public $arr_english_book_names;
-	
+	public $str_default_image;
+		
 	public function __construct($arr_Chapter, $arr_Bibles, $str_Bible_Version, $int_Bible_Book_ID, $str_Bible_Version2, $arr_Chapter2, $int_Bible_Chapter,$arr_commentary, $arr_references, $arr_commentary_list, $arr_dictionary_list)
 	{
 		/*
@@ -89,6 +90,7 @@ class BibleCompare {
 		$this->str_primary_commentary = $this->params->get('primaryCommentary');
 		$this->str_tmpl = JRequest::getCmd('tmpl');
 		$this->str_curr_dict = JRequest::getCmd('dict');
+		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
@@ -268,7 +270,7 @@ class BibleCompare {
 		$this->doc_page->setMetaData( 'og:title', $str_title);
 		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$this->doc_page->setMetaData( 'og:type', "article" );	
-		$this->doc_page->setMetaData( 'og:image', JURI::root()."components/com_zefaniabible/images/bible_100.jpg" );	
+		$this->doc_page->setMetaData( 'og:image', JURI::root().$this->str_default_image );	
 		$this->doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
 	}
@@ -382,7 +384,7 @@ class BibleCompare {
 	<div id="zef_Bible_Main">
     	<div class="zef_legend">
         	<?php if($cls_bibleBook->flg_email_button){?>
-            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."components/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+            <div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
             <?php } ?>
             <div class="zef_bible_Header_Label"><h1 class="zef_bible_Header_Label_h1"><?php echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$this->int_Bible_Chapter; ?></h1></div>
             <?php if(($cls_bibleBook->flg_use_bible_selection)and(count($this->arr_Bibles) > 1)){?>            
