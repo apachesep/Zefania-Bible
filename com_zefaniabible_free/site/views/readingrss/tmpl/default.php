@@ -46,6 +46,7 @@ class BibleReadingPlan
 		$str_reading_plan = 	JRequest::getCmd('a', $str_primary_reading);		
 		$int_feed_type	= 	JRequest::getInt('d', 0);
 		$str_bible_name = '';
+		$str_bible_audio_file = '';
 		foreach ($arr_reading_plans as $plan)
 		{
 			if($str_reading_plan == $plan->alias)
@@ -82,6 +83,7 @@ class BibleReadingPlan
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 	
 		$str_audio_path = 		$params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
+		$str_default_image = 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$str_admin_email = 		$params->get('adminEmail');
 		$str_admin_name = 		$params->get('adminName');
 		$book = 0;
@@ -123,9 +125,9 @@ class BibleReadingPlan
 		echo '		<itunes:name>'.$str_admin_name.'</itunes:name>'.PHP_EOL;
 		echo '		<itunes:email>'.$str_admin_email.'</itunes:email>'.PHP_EOL;
 		echo '	</itunes:owner>'.PHP_EOL;
-		echo '	<itunes:image href="'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'" />'.PHP_EOL;
+		echo '	<itunes:image href="'.JURI::root().$str_default_image.'" />'.PHP_EOL;
 		echo '	<image>'.PHP_EOL;
-		echo '		<url>'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'</url>'.PHP_EOL;
+		echo '		<url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
 		echo '		<title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $str_curr_read_plan.  " - ". $str_bible_name.'</title>'.PHP_EOL;
 		echo '		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;
 		echo '		<description>'.$mainframe->getCfg('MetaDesc').'</description>'.PHP_EOL;
@@ -165,7 +167,7 @@ class BibleReadingPlan
 										  .'		<dc:creator></dc:creator>'.PHP_EOL
 										  .'		<pubDate>'.date('D, d M Y 00:00:00').'</pubDate>'.PHP_EOL
 										  .'		<enclosure url="'.JURI::base().$str_audio_path.$str_mp3_file.'" length="27186997" type="audio/mpeg"></enclosure>'.PHP_EOL
-										  .'		<itunes:image href="'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'" />'.PHP_EOL
+										  .'		<itunes:image href="'.JURI::root().$str_default_image.'" />'.PHP_EOL
 										  .'		<itunes:author>'.$mainframe->getCfg('sitename').'</itunes:author>'.PHP_EOL
 										  .'		<itunes:duration></itunes:duration>'.PHP_EOL
 										  .'		<itunes:explicit>no</itunes:explicit>'.PHP_EOL
@@ -203,12 +205,14 @@ class BibleReadingPlan
 		$y = 1;
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_default_image = 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 		echo '<channel>'.PHP_EOL;
 		echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 		echo '	<image>'.PHP_EOL;
-		echo '	  <url>'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'</url>'.PHP_EOL;
+		echo '	  <url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
 		echo '	  <title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $str_curr_read_plan." - ". $str_bible_name. '</title>'.PHP_EOL;
 		echo '	  <link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;
 		echo '	</image>'.PHP_EOL;		
@@ -259,12 +263,15 @@ class BibleReadingPlan
 		$int_len = 0;
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_default_image = 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		
 		echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 		echo '	<channel>'.PHP_EOL;
 		echo '		<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 		echo '		<image>'.PHP_EOL;
-		echo '	  		<url>'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'</url>'.PHP_EOL;
+		echo '	  		<url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
 		echo '	  		<title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $str_curr_read_plan." - ". $str_bible_name. '</title>'.PHP_EOL;
 		echo '	  		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;a=".$str_reading_plan."&amp;b=".$str_bible_Version."&amp;c=".$int_day_number).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;
 		echo '		</image>'.PHP_EOL;		
