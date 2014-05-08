@@ -76,7 +76,6 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 			$data->file_location = null;
 			$data->ordering = null;
 			$data->publish = null;
-
 			$this->_data = $data;
 
 			return (boolean) $this->_data;
@@ -263,11 +262,18 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 	 */
 	function save($data)
 	{
-
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 
 
-
+		$str_folder_file = JRequest::getCmd('file_location_folder');
+		$arr_file_info = pathinfo($str_folder_file);
+		
+		if(($row->file_location == "")and($arr_file_info['extension'] == 'xml'))
+		{
+			$str_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/audio/');
+			$row->file_location = '/'.$str_path.$str_folder_file;				
+		}
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
