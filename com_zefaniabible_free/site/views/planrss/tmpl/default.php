@@ -40,6 +40,7 @@ class PlanRss
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$mainframe = JFactory::getApplication();
 		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
+		$str_default_image = 		$this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$str_primary_plan = 		$this->params->get('primaryReading');
 		$str_plan_alias = 	JRequest::getCmd('a', $str_primary_plan);	
 		$str_Bible_Version = JRequest::getCmd('b', $str_primary_bible);	
@@ -66,7 +67,7 @@ class PlanRss
 			echo '<channel>'.PHP_EOL;
 			echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 			echo '	<image>'.PHP_EOL;
-			echo '	  <url>'.JURI::root().'components/com_zefaniabible/images/bible_100.jpg'.'</url>'.PHP_EOL;
+			echo '	  <url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
 			echo '	  <title>'.$str_Bible_Name.'</title>'.PHP_EOL;
 			echo '	  <link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;
 			echo '	</image>'.PHP_EOL;		

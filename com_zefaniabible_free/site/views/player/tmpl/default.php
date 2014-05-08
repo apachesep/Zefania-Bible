@@ -77,6 +77,8 @@ class BiblePlayer
 	protected function fnc_get_player($arr_mp3_files,$int_player_type, $int_Bible_Book_ID, $int_player_popup_height, $int_player_popup_width)
 	{
 		$doc_page = JFactory::getDocument();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_default_image = 		$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		switch ($int_player_type)
 		{
 		case 0:
@@ -94,7 +96,7 @@ class BiblePlayer
 				{
 					echo "{'file': '".$playlist."',".PHP_EOL;
 					echo "'title': '".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$x."',".PHP_EOL;
-					echo " 'image': '".JURI::root()."components/com_zefaniabible/images/bible_100.jpg'},".PHP_EOL;
+					echo " 'image': '".JURI::root().$str_default_image."'},".PHP_EOL;
 					$x++;
 				}	
 
