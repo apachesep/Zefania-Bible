@@ -72,12 +72,6 @@ defined('_JEXEC') or die('Restricted access');
 	for ($i=0, $n=count( $this->items ); $i < $n; $i++):
 
 		$row = &$this->items[$i];
-
-		if($row->alias == '')
-		{
-			JError::raiseWarning('',str_replace('%s','<b>'.$row->bible_name.'</b>',JText::_('ZEFANIABIBLE_ERROR_BLANK_ALIAS_BIBLE')));
-		}
-
 		?>
 
 		<tr class="<?php echo "row$k"; ?>">
