@@ -50,8 +50,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 				$this->$fct($tpl);
 				break;
 		}
-
-	}
+	}	
 	function display_bibleadd($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -110,6 +109,13 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
 
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+		
+		$str_bibles_path = '/'.$config->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
+		$str_audio_file_path = '/'.$config->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
+		
+		jimport( 'joomla.filesystem.folder' );
+		$arr_file_list = JFolder::files('..'.$str_bibles_path,'.xml');
+		$arr_audio_file_list = JFolder::files('..'.$str_audio_file_path,'.xml');
 
 		JRequest::setVar( 'hidemainmenu', true );
 
@@ -129,10 +135,16 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		{
 			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_POST_SIZE'));		
 		}
-
 		$session =  JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
+		$toggle = 'function toggleElement(current, disable) {
+				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
+				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
+				document.getElementById(disable + "_text").disabled = true;
+				document.getElementById(current + "_text").disabled = false;
+		}';
+				
 		if($isNew)
 		{
 			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
@@ -152,8 +164,8 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 								file_size_limit : "20MB",
 								file_types : "*.xml",
 								file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC', 'true').'",
-								file_upload_limit : "1",
-								file_queue_limit : "1",
+								file_upload_limit : "5",
+								file_queue_limit : "5",
 								button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
 								button_placeholder_id : "btnUpload1",
 								button_width: 61,
@@ -186,7 +198,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 										{
 											progress.setComplete();
 											progress.setStatus(data.error);
-											document.id("xml_file_url").value = data.path;
+											document.id("xml_file_url_text").value = data.path;
 										} else 
 										{
 											progress.setError();
@@ -242,7 +254,7 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 									if (data.status == "1") {
 										progress.setComplete();
 										progress.setStatus(data.error);
-										document.id("xml_audio_url").value = data.path;
+										document.id("xml_audio_url_text").value = data.path;
 									} else {
 										progress.setError();
 										progress.setStatus(data.error);
@@ -262,7 +274,9 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 			 
 			//add the javascript to the head of the html document
 			$document->addScriptDeclaration($uploader_script);
+
 		}
+		$document->addScriptDeclaration($toggle);
 		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
 		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
 		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
@@ -275,11 +289,8 @@ class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 		$this->assignRef('zefaniabibleitem',		$zefaniabibleitem);
 		$this->assignRef('config',		$config);
 		$this->assignRef('isNew',		$isNew);
-
+		$this->assignRef('arr_file_list', $arr_file_list);
+		$this->assignRef('arr_audio_file_list', $arr_audio_file_list);
 		parent::display($tpl);
 	}
-
-
-
-
 }

@@ -42,8 +42,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	var $_name_plur = 'zefaniabible';
 	var $params;
 
-
-
 	/**
 	 * Constructor
 	 *
@@ -52,7 +50,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	{
 		parent::__construct();
 		$this->_modes = array_merge($this->_modes, array(''));
-
 	}
 
 	/**
@@ -77,7 +74,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			$data->xml_audio_url = null;
 			$data->publish = null;
 			$data->ordering = null;			
-
 			$this->_data = $data;
 
 			return (boolean) $this->_data;
@@ -182,7 +178,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 							$arr_bible_book['bnumber'],
 							$arr_bible_chapter['cnumber'],
 							$arr_bible_verse['vnumber'],
-							strip_tags($arr_bible_verse->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th><gr>')
+							strip_tags($arr_bible_verse->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
 							);
 							$x++;
 					}
@@ -216,7 +212,6 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 			$arr_row->verse_id 		= (int)$int_verse_id;
 			$arr_row->verse 		= (string)$str_verse;
 			$db->insertObject("#__zefaniabible_bible_text", $arr_row, 'id');
-
 		}
 		catch (JException $e)
 		{
@@ -312,9 +307,25 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 	 */
 	function save($data)
 	{
-
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
+
+		$str_folder_file = JRequest::getCmd('xml_file_folder','');
+		$str_audio_folder = JRequest::getCmd('xml_audio_folder','');
+		$arr_bible_file_info = pathinfo($str_folder_file);
+		$arr_audio_file_info = pathinfo($str_audio_folder);		
 		
+		if(($row->xml_audio_url == "")and($arr_audio_file_info['extension'] == 'xml'))
+		{
+			$str_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/commentary/');
+			$row->xml_audio_url = '/'.$str_audio_path.$str_audio_folder;				
+		}
+		if(($row->xml_file_url == "")and($arr_bible_file_info['extension'] == 'xml'))
+		{
+			$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
+			 $row->xml_file_url = '/'.$str_bibles_path.$str_folder_file;
+		}
+					
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -367,8 +378,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 
 		if(!$id)
 		{	
-	        
-			$int_max_ids = $this->fnc_Find_Last_Row_Names();
+			$int_max_ids = $this->fnc_Find_Last_Row_Names();		
 			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->xml_file_url, $int_max_ids);
 			$app = JFactory::getApplication();
 			if($int_rows_inserted > 1)
@@ -523,12 +533,5 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 
 		if ($acl->get('core.delete'))
 			$item->params->set('access-delete', true);
-
-
-
 	}
-
-
-
-
 }
