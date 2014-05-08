@@ -74,13 +74,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
 		$str_bible_alias = JRequest::getCmd('a', $str_primary_bible);	
 		
-		$menuitemid = JRequest::getInt( 'Itemid' );
-		if ($menuitemid)
-		{
-			$menu = JSite::getMenu();
-			$menuparams = $menu->getParams( $menuitemid );
-			$params->merge( $menuparams );
-		}		
+		$menuitemid = $params->get('rp_mo_menuitem');		
 		
 		('HTTP/1.1 301 Moved Permanently');
 		if($flg_only_primary_bible)  

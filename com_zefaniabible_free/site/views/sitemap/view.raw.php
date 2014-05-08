@@ -63,13 +63,8 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/sitemap.php');
 		$mdl_bible_model_sitemap = new ZefaniabibleModelSitemap;		
 	
-		$menuitemid = JRequest::getInt( 'Itemid' );
-		if ($menuitemid)
-		{
-			$menu = JSite::getMenu();
-			$menuparams = $menu->getParams( $menuitemid );
-			$params->merge( $menuparams );
-		}	
+		$menuitemid = $params->get('rp_mo_menuitem');
+		
 		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
 		if($flg_only_primary_bible)
 		{
@@ -81,15 +76,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 			$str_alias = '';
 			$arr_chapter_list = $mdl_bible_model_sitemap -> _buildQuery_ChapterList($str_alias);
 
-		}
-		
-		$menuitemid = JRequest::getInt( 'Itemid' );
-		if ($menuitemid)
-		{
-			$menu = JSite::getMenu();
-			$menuparams = $menu->getParams( $menuitemid );
-			$params->merge( $menuparams );
-		}			
+		}		
 		
 		//Filters
 		$user = JFactory::getUser();
