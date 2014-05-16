@@ -120,7 +120,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$str_Second_Bible_Version = JRequest::getCmd('b',$str_secondary_bible);	
 		$int_Bible_Book_ID = JRequest::getInt('c', $int_primary_book_front_end);	
 		$int_Bible_Chapter = JRequest::getInt('d', $int_primary_chapter_front_end);	
-
+		$str_tmpl = JRequest::getCmd('tmpl');
+		
 		$int_max_chapter 	= 		$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
 				
 		$arr_Bibles 		= 		$biblemodel-> _buildQuery_Bibles();
