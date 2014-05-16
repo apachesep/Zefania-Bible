@@ -32,12 +32,12 @@ $cls_bible_reading_plan_overview = new BibleReadingPlanOverview($this->bibles, $
 			<?php if($cls_bible_reading_plan_overview->flg_reading_rss_button){?>
 		        <div class="zef_reading_rss">
                 	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=planrss&format=raw&a=<?php echo $cls_bible_reading_plan_overview->str_reading_plan;?>&b=<?php echo $cls_bible_reading_plan_overview->str_bibleVersion;?>&c=<?php echo $cls_bible_reading_plan_overview->int_start_item;?>&d=<?php echo $cls_bible_reading_plan_overview->int_number_of_items;?>&e=rss" target="_blank" rel="nofollow" >
-                    	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" />
+                    	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
                     </a>
 				</div>                
              <?php } ?>        
         	<?php if($cls_bible_reading_plan_overview->flg_email_button){?>
-			<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>        
+			<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" /></a></div>        
             <?php } ?>
     		<div class="zef_reading_label"><?php echo JText::_('ZEFANIABIBLE_READING_PLAN');?></div>
             <div class="zef_reading_plan">

@@ -470,13 +470,13 @@ class BibleReadingPlan
 	<div id="zef_Bible_Main<?php if($cls_bible_reading_plan->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
     	<div class="zef_legend">
         		<?php if(($cls_bible_reading_plan->flg_email_button)and($cls_bible_reading_plan->str_tmpl != "component")){?>
-        		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" /></a></div>
+        		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" /></a></div>
                 <?php } 
 					if(($cls_bible_reading_plan->flg_reading_rss_button)and($cls_bible_reading_plan->str_tmpl != "component")){
 				?>
 					<div class="zef_reading_rss">
                     	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" >
-                			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" />
+                			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
 						</a>
 					</div>                
 				<?php }?>                
