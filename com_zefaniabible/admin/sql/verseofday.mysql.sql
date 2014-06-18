@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniaverseofday` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__zefaniabible_zefaniaverseofday` (`id`, `params`, `book_name`, `chapter_number`, `begin_verse`, `end_verse`, `publish`, `ordering`) VALUES
 (1, '', 47, 5, 17, 0, 1, 1),

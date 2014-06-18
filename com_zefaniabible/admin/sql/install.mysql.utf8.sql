@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_dictionary_detail` (
 	
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_dictionary_info` (
 	`id` int(11) NOT NULL auto_increment,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_dictionary_info` (
 	
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 	`id` int(11) NOT NULL auto_increment,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_bible_text` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `params` text NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_bible_text` (
   `verse_id` int(11) DEFAULT NULL,
   `verse` longtext NOT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_bible_names` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_bible_names` (
   `publish` tinyint(4) DEFAULT NULL,
   `ordering` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
 	`id` int(11) NOT NULL auto_increment,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniauser` (
 	`id` int(11) NOT NULL auto_increment,
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniauser` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniacomment` (
 	`id` int(11) NOT NULL auto_increment,
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniacomment` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_comment_text` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_comment_text` (
   `verse_id` int(11) DEFAULT NULL,
   `verse` longtext NOT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniabiblebooknames` (
 	`id` int(11) NOT NULL auto_increment,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniabiblebooknames` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniapublish` (
 	`id` int(11) NOT NULL auto_increment,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniapublish` (
 
 	PRIMARY KEY  (`id`)
 	
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 INSERT INTO `#__zefaniabible_zefaniapublish` (`id`, `params`, `title`, `last_send_date`) VALUES
 (1,'','COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL', '2012-01-01'),
 (2,'','COM_ZEFANIABIBLE_READING_PLAN_EMAIL', '2012-01-01'),
