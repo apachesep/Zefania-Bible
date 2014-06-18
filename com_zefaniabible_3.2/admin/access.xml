@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<access component="com_zefaniabible">
+
+	<section name="component">
+
+		<action name="core.admin"
+				title="JACTION_ADMIN"
+				description="JACTION_' .ADMIN. '_COMPONENT_DESC"/>
+
+		<action name="core.manage"
+				title="JACTION_MANAGE"
+				description="JACTION_' .MANAGE. '_COMPONENT_DESC"/>
+
+		<action name="core.create"
+				title="JACTION_CREATE"
+				description="JACTION_' .CREATE. '_COMPONENT_DESC"/>
+
+		<action name="core.delete"
+				title="JACTION_DELETE"
+				description="JACTION_' .DELETE. '_COMPONENT_DESC"/>
+
+		<action name="core.edit"
+				title="JACTION_EDIT"
+				description="JACTION_' .EDIT. '_COMPONENT_DESC"/>
+
+		<action name="core.edit.state"
+				title="JACTION_EDITSTATE"
+				description="JACTION_' .EDITSTATE. '_COMPONENT_DESC"/>
+
+		<action name="core.view.own"
+				title="ZEFANIABIBLE_JACTION_VIEW_OWN"
+				description="ZEFANIABIBLE_JACTION_ALLOW_USERS_IN_THE_GROUP_TO_VIEW_ANY_CONTENT_THEY_SUBMITTED_EVEN_IF_NOT_PUBLISHED_IN_THIS_EXTENSION"/>
+
+		<action name="core.edit.own"
+				title="ZEFANIABIBLE_JACTION_EDIT_OWN"
+				description="ZEFANIABIBLE_JACTION_ALLOW_USERS_IN_THE_GROUP_TO_EDIT_ANY_CONTENT_THEY_SUBMITTED_IN_THIS_EXTENSION"/>
+
+		<action name="core.delete.own"
+				title="ZEFANIABIBLE_JACTION_DELETE_OWN"
+				description="ZEFANIABIBLE_JACTION_ALLOW_USERS_IN_THE_GROUP_TO_DELETE_ANY_CONTENT_THEY_SUBMITTED_IN_THIS_EXTENSION"/>
+	</section>
+</access>

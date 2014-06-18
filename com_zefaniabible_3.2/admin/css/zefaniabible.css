@@ -1,0 +1,183 @@
+/**                               ______________________________________________
+*                          o O   |                                              |
+*                 (((((  o      <    Generated with Cook Self Service  V2.6.4   |
+*                ( o o )         |______________________________________________|
+* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
+* @version		3.2
+* @package		ZefaniaBible
+* @subpackage	
+* @copyright	Missionary Church of Grace
+* @author		Andrei Chernyshev - www.propoved.org - andrei.chernyshev1@gmail.com
+* @license		GNU/GPL
+*
+*             .oooO  Oooo.
+*             (   )  (   )
+* -------------\ (----) /----------------------------------------------------------- +
+*               \_)  (_/
+*/
+
+/**
+* JForms
+**/
+.fieldsform, .fieldsfly {
+	background-color:#fff;
+}
+.fly-horizontal .control-group {
+	clear:both;
+	margin-bottom:10px;
+}
+.fly-horizontal .control-group:before, .fly-horizontal .control-group:after {
+	content:"";
+	display:table;
+	line-height:0;
+}
+.fly-horizontal .control-label {
+	float:left;
+	text-align:right;
+	width:140px;
+}
+.fly-horizontal .controls {
+	margin-left:160px;
+}
+.btn-group input, .inputfix {
+	float:none;
+	margin:0;
+}
+.form-horizontal .control-group:after {
+	clear:both;
+}
+.form-horizontal .control-group {
+	margin-bottom:20px;
+}
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .input-append .add-on, .input-prepend .add-on, .input-append a.btn, .input-prepend a.btn {
+	height:18px;
+}
+.input-tiny {
+	width:30px;
+}
+.fieldsform select {
+	font-size:1.1em;
+}
+fieldset .btn-group label {
+	clear:none;
+}
+
+/**
+* Formvalidator
+**/
+.field-validator .message {
+	margin-left:100px;
+	padding:20px;
+	padding-left:70px;
+	width:250px;
+	border:1px solid #ccc;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	background-position:10px center;
+	background-repeat:no-repeat;
+	font-style:italic;
+}
+.field-validator .msg-info {
+	color:#006600;
+	background-image:url(../images/icon-48-sys-information.png);
+}
+.field-validator .msg-incorrect {
+	color:#FF0000;
+	background-image:url(../images/icon-48-sys-incorrect.png);
+}
+.field-validator .msg-required {
+	color:#FF6600;
+	background-image:url(../images/icon-48-sys-warning.png);
+}
+.validator-icon {
+	width:16px;
+	height:16px;
+	background-position:center;
+	background-repeat:no-repeat;
+}
+.validatoricon_incorrect {
+	background-image:url(../images/icon-16-sys-incorrect.png);
+}
+.validatoricon_valid {
+	background-image:url(../images/icon-16-sys-valid.png);
+}
+
+/**
+* Filters
+**/
+.filter_buttons {
+	float:right;
+}
+fieldset.filters label.filter {
+	display:block;
+	background-color:#F6F6F6;
+	font-weight:bold;
+	font-style:italic;
+	color:#333;
+	border-left:solid 2px #444;
+	padding-left:5px;
+	margin:2px;
+}
+fieldset.filters {
+	background-color:#F6F6F6;
+	padding:5px;
+	margin:5px;
+}
+
+/**
+* Grid
+**/
+tr .row1 {
+	background-color:#F9F9F9;
+}
+table tr.pickable-row:hover {
+	background-color:#2A62BC;
+	color:#FFF;
+}
+th.grid-group {
+	text-align:left;
+	font-weight:bold;
+}
+th.grid-group-1 {
+	background-color:#BBB;
+}
+th.grid-group-1 span {
+	padding-left:10px;
+	font-size:18px;
+}
+
+/**
+* Ajax
+**/
+div.ajaxchain-filter div.separator {
+	padding:0;
+	margin:0;
+	padding-left:10px;
+	background-image:url(../images/breadcrumb_separator.png);
+	background-position:left;
+	background-repeat:no-repeat;
+}
+.ajax-required select {
+	border-left:3px red solid;
+}
+
+/**
+* Colors
+**/
+.color-primary {
+	color:#006dcc;
+}
+.color-warning {
+	color:#faa732;
+}
+.color-danger {
+	color:#da4f49;
+}
+.color-info {
+	color:#49afcd;
+}
+.color-success {
+	color:#51a351;
+}
+
