@@ -43,35 +43,9 @@ class com_zefaniabibleInstallerScript
 	public function install(JAdapterInstance $adapter)
 	{
 		$adapter->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
-
-
 	}
 
-	/**
-	* Method to install the embedded third extensions.
-	*
-	* @access	private
-	* @param	JAdapterInstance	$adapter	Installer Component Adapter.
-	* @return	void
-	*
-	* @since	Cook 2.6
-	*/
-	private function installExtensions(JAdapterInstance $adapter)
-	{
-		$dir = $adapter->getParent()->getPath('source') .DS. 'extensions';
 
-		$installResults = array();
-
-		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($dir);
-
-		foreach($folders as $folder)
-		{
-			$source = $dir .DS. $folder;
-		    $installer = new JInstaller;
-		    $installResults[] = $installer->install($source);
-		}
-	}
 
 	/**
 	* Called after any type of action.
@@ -88,31 +62,22 @@ class com_zefaniabibleInstallerScript
 		switch($type)
 		{
 			case 'install':
-				$txtAction = JText::_('Installing');
+				//$txtAction = JText::_('Installing');
 		
-				//Install all extensions contained in 'extensions' directory
-				$this->installExtensions($adapter);
 				break;
 		
 			case 'update':
-				$txtAction = JText::_('Updating');
-
-				//Install all extensions contained in 'extensions' directory
-				$this->installExtensions($adapter);
+				//$txtAction = JText::_('Updating');
 				break;
 	
 			case 'uninstall':
-				$txtAction = JText::_('Uninstalling');
-		
-				//Install all extensions contained in 'extensions' directory
-				$this->uninstallExtensions($adapter);
+				//$txtAction = JText::_('Uninstalling');
 				break;
 	
 		}
-
 		$app = JFactory::getApplication();
-		$txtComponent = JText::_('ZefaniaBible');
-		$app->enqueueMessage(JText::sprintf('%s %s was successfull.', $txtAction, $txtComponent));
+//		$txtComponent = JText::_('ZefaniaBible');
+//		$app->enqueueMessage(JText::sprintf('%s %s was successfull.', $txtAction, $txtComponent));
 	}
 
 	/**
