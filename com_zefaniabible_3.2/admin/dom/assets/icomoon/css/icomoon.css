@@ -1,0 +1,492 @@
+@font-face {
+	font-family: 'IcoMoon';
+	src: url('../fonts/IcoMoon.eot');
+	src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/IcoMoon.svg#IcoMoon') format('svg'),
+		url('../fonts/IcoMoon.woff') format('woff'),
+		url('../fonts/IcoMoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[data-icon]:before {
+	font-family: 'IcoMoon';
+	content: attr(data-icon);
+	speak: none;
+}
+
+.icomoon[class^="icon-"],
+.icomoon[class*=" icon-"] {
+	display: inline-block !important;
+	width: 14px !important;
+	height: 14px !important;
+	*margin-right: .3em !important;
+	line-height: 14px !important;
+	background-image: none !important;
+	background-position: 0 0 !important;
+}
+.icomoon[class^="icon-"]:before,
+.icomoon[class*=" icon-"]:before {
+	font-family: 'IcoMoon' !important;
+	font-style: normal !important;
+	speak: none !important;
+}
+
+.icomoon.icon-home:before {
+	content: "\21";
+}
+.icomoon.icon-user:before {
+	content: "\22";
+}
+.icomoon.icon-checkedout:before,
+.icomoon.icon-lock:before,
+.icomoon.icon-locked:before {
+	content: "\23";
+}
+.icomoon.icon-comment:before,
+.icomoon.icon-comments:before {
+	content: "\24";
+}
+.icomoon.icon-comments-2:before {
+	content: "\25";
+}
+.icomoon.icon-share-alt:before,
+.icomoon.icon-out:before {
+	content: "\26";
+}
+.icomoon.icon-share:before,
+.icomoon.icon-redo:before {
+	content: "\27";
+}
+.icomoon.icon-undo:before {
+	content: "\28";
+}
+.icomoon.icon-file-add:before {
+	content: "\29";
+}
+.icomoon.icon-new:before,
+.icomoon.icon-plus:before {
+	content: "\2a";
+}
+.icomoon.icon-apply:before,
+.icomoon.icon-edit:before,
+.icomoon.icon-pencil:before {
+	content: "\2b";
+}
+.icomoon.icon-pencil-2:before {
+	content: "\2c";
+}
+.icomoon.icon-folder-open:before,
+.icomoon.icon-folder:before {
+	content: "\2d";
+}
+.icomoon.icon-folder-close:before,
+.icomoon.icon-folder-2:before {
+	content: "\2e";
+}
+.icomoon.icon-picture:before {
+	content: "\2f";
+}
+.icomoon.icon-pictures:before {
+	content: "\30";
+}
+.icomoon.icon-list:before,
+.icomoon.icon-list-view:before {
+	content: "\31";
+}
+.icomoon.icon-power-cord:before {
+	content: "\32";
+}
+.icomoon.icon-cube:before {
+	content: "\33";
+}
+.icomoon.icon-puzzle:before {
+	content: "\34";
+}
+.icomoon.icon-flag:before {
+	content: "\35";
+}
+.icomoon.icon-tools:before {
+	content: "\36";
+}
+.icomoon.icon-cogs:before {
+	content: "\37";
+}
+.icomoon.icon-options:before,
+.icomoon.icon-cog:before {
+	content: "\38";
+}
+.icomoon.icon-equalizer:before {
+	content: "\39";
+}
+.icomoon.icon-wrench:before {
+	content: "\3a";
+}
+.icomoon.icon-brush:before {
+	content: "\3b";
+}
+.icomoon.icon-eye-open:before,
+.icomoon.icon-eye:before {
+	content: "\3c";
+}
+.icomoon.icon-checkbox-unchecked:before {
+	content: "\3d";
+}
+.icomoon.icon-checkin:before,
+.icomoon.icon-checkbox:before {
+	content: "\3e";
+}
+.icomoon.icon-checkbox-partial:before {
+	content: "\3f";
+}
+.icomoon.icon-asterisk:before,
+.icomoon.icon-star-empty:before {
+	content: "\40";
+}
+.icomoon.icon-star-2:before {
+	content: "\41";
+}
+.icomoon.icon-featured:before,
+.icomoon.icon-star:before {
+	content: "\42";
+}
+.icomoon.icon-calendar:before {
+	content: "\43";
+}
+.icomoon.icon-calendar-2:before {
+	content: "\44";
+}
+.icomoon.icon-question-sign:before,
+.icomoon.icon-help:before {
+	content: "\45";
+}
+.icomoon.icon-support:before {
+	content: "\46";
+}
+.icomoon.icon-pending:before,
+.icomoon.icon-warning:before {
+	content: "\48";
+}
+.icomoon.icon-publish:before,
+.icomoon.icon-save:before,
+.icomoon.icon-ok:before,
+.icomoon.icon-checkmark:before {
+	content: "\47";
+}
+.icomoon.icon-unpublish:before,
+.icomoon.icon-cancel:before {
+	content: "\4a";
+}
+.icomoon.icon-eye-close:before,
+.icomoon.icon-minus:before {
+	content: "\4b";
+}
+.icomoon.icon-purge:before,
+.icomoon.icon-trash:before {
+	content: "\4c";
+}
+.icomoon.icon-envelope:before,
+.icomoon.icon-mail:before {
+	content: "\4d";
+}
+.icomoon.icon-mail-2:before {
+	content: "\4e";
+}
+.icomoon.icon-unarchive:before,
+.icomoon.icon-drawer:before {
+	content: "\4f";
+}
+.icomoon.icon-archive:before,
+.icomoon.icon-drawer-2:before {
+	content: "\50";
+}
+.icomoon.icon-box-add:before {
+	content: "\51";
+}
+.icomoon.icon-box-remove:before {
+	content: "\52";
+}
+.icomoon.icon-search:before {
+	content: "\53";
+}
+.icomoon.icon-filter:before {
+	content: "\54";
+}
+.icomoon.icon-camera:before {
+	content: "\55";
+}
+.icomoon.icon-play:before {
+	content: "\56";
+}
+.icomoon.icon-music:before {
+	content: "\57";
+}
+.icomoon.icon-grid-view:before {
+	content: "\58";
+}
+.icomoon.icon-grid-view-2:before {
+	content: "\59";
+}
+.icomoon.icon-menu:before {
+	content: "\5a";
+}
+.icomoon.icon-thumbs-up:before {
+	content: "\5b";
+}
+.icomoon.icon-thumbs-down:before {
+	content: "\5c";
+}
+.icomoon.icon-delete:before,
+.icomoon.icon-remove:before,
+.icomoon.icon-cancel-2:before {
+	content: "\49";
+}
+.icomoon.icon-save-new:before,
+.icomoon.icon-plus-2:before {
+	content: "\5d";
+}
+.icomoon.icon-ban-circle:before,
+.icomoon.icon-minus-sign:before,
+.icomoon.icon-minus-2:before {
+	content: "\5e";
+}
+.icomoon.icon-key:before {
+	content: "\5f";
+}
+.icomoon.icon-quote:before {
+	content: "\60";
+}
+.icomoon.icon-quote-2:before {
+	content: "\61";
+}
+.icomoon.icon-database:before {
+	content: "\62";
+}
+.icomoon.icon-location:before {
+	content: "\63";
+}
+.icomoon.icon-zoom-in:before {
+	content: "\64";
+}
+.icomoon.icon-zoom-out:before {
+	content: "\65";
+}
+.icomoon.icon-expand:before {
+	content: "\66";
+}
+.icomoon.icon-contract:before {
+	content: "\67";
+}
+.icomoon.icon-expand-2:before {
+	content: "\68";
+}
+.icomoon.icon-contract-2:before {
+	content: "\69";
+}
+.icomoon.icon-health:before {
+	content: "\6a";
+}
+.icomoon.icon-wand:before {
+	content: "\6b";
+}
+.icomoon.icon-unblock:before,
+.icomoon.icon-refresh:before {
+	content: "\6c";
+}
+.icomoon.icon-vcard:before {
+	content: "\6d";
+}
+.icomoon.icon-clock:before {
+	content: "\6e";
+}
+.icomoon.icon-compass:before {
+	content: "\6f";
+}
+.icomoon.icon-address:before {
+	content: "\70";
+}
+.icomoon.icon-feed:before {
+	content: "\71";
+}
+.icomoon.icon-flag-2:before {
+	content: "\72";
+}
+.icomoon.icon-pin:before {
+	content: "\73";
+}
+.icomoon.icon-lamp:before {
+	content: "\74";
+}
+.icomoon.icon-chart:before {
+	content: "\75";
+}
+.icomoon.icon-bars:before {
+	content: "\76";
+}
+.icomoon.icon-pie:before {
+	content: "\77";
+}
+.icomoon.icon-dashboard:before {
+	content: "\78";
+}
+.icomoon.icon-lightning:before {
+	content: "\79";
+}
+.icomoon.icon-move:before {
+	content: "\7a";
+}
+.icomoon.icon-next:before {
+	content: "\7b";
+}
+.icomoon.icon-previous:before {
+	content: "\7c";
+}
+.icomoon.icon-first:before {
+	content: "\7d";
+}
+.icomoon.icon-last:before {
+	content: "\e000";
+}
+.icomoon.icon-loop:before {
+	content: "\e001";
+}
+.icomoon.icon-shuffle:before {
+	content: "\e002";
+}
+.icomoon.icon-arrow-first:before {
+	content: "\e003";
+}
+.icomoon.icon-arrow-last:before {
+	content: "\e004";
+}
+.icomoon.icon-chevron-up:before,
+.icomoon.icon-uparrow:before,
+.icomoon.icon-arrow-up:before {
+	content: "\e005";
+}
+.icomoon.icon-chevron-right:before,
+.icomoon.icon-arrow-right:before {
+	content: "\e006";
+}
+.icomoon.icon-chevron-down:before,
+.icomoon.icon-downarrow:before,
+.icomoon.icon-arrow-down:before {
+	content: "\e007";
+}
+.icomoon.icon-chevron-left:before,
+.icomoon.icon-arrow-left:before {
+	content: "\e008";
+}
+.icomoon.icon-arrow-up-2:before {
+	content: "\e009";
+}
+.icomoon.icon-arrow-right-2:before {
+	content: "\e00a";
+}
+.icomoon.icon-download:before,
+.icomoon.icon-arrow-down-2:before {
+	content: "\e00b";
+}
+.icomoon.icon-arrow-left-2:before {
+	content: "\e00c";
+}
+.icomoon.icon-play-2:before {
+	content: "\e00d";
+}
+.icomoon.icon-menu-2:before {
+	content: "\e00e";
+}
+.icomoon.icon-arrow-up-3:before {
+	content: "\e00f";
+}
+.icomoon.icon-arrow-right-3:before {
+	content: "\e010";
+}
+.icomoon.icon-arrow-down-3:before {
+	content: "\e011";
+}
+.icomoon.icon-arrow-left-3:before {
+	content: "\e012";
+}
+.icomoon.icon-print:before,
+.icomoon.icon-printer:before {
+	content: "\e013";
+}
+.icomoon.icon-color-palette:before {
+	content: "\e014";
+}
+.icomoon.icon-camera-2:before {
+	content: "\e015";
+}
+.icomoon.icon-file:before {
+	content: "\e016";
+}
+.icomoon.icon-file-remove:before {
+	content: "\e017";
+}
+.icomoon.icon-save-copy:before,
+.icomoon.icon-copy:before {
+	content: "\e018";
+}
+.icomoon.icon-cart:before {
+	content: "\e019";
+}
+.icomoon.icon-basket:before {
+	content: "\e01a";
+}
+.icomoon.icon-broadcast:before {
+	content: "\e01b";
+}
+.icomoon.icon-screen:before {
+	content: "\e01c";
+}
+.icomoon.icon-tablet:before {
+	content: "\e01d";
+}
+.icomoon.icon-mobile:before {
+	content: "\e01e";
+}
+.icomoon.icon-users:before {
+	content: "\e01f";
+}
+.icomoon.icon-briefcase:before {
+	content: "\e020";
+}
+.icomoon.icon-download:before {
+	content: "\e021";
+}
+.icomoon.icon-upload:before {
+	content: "\e022";
+}
+.icomoon.icon-bookmark:before {
+	content: "\e023";
+}
+.icomoon.icon-out-2:before {
+	content: "\e024";
+}
+
+/* White color when icon is inside an active btn */
+.btn.active .icomoon[class^="icon-"]:before,
+.btn.active .icomoon[class*=" icon-"]:before,
+.label .icomoon[class^="icon-"]:before,
+.label .icomoon[class*=" icon-"]:before,
+.badge .icomoon[class^="icon-"]:before,
+.badge .icomoon[class*=" icon-"]:before{
+	color: rgba(255, 255, 255, 0.95) !important;
+}
+
+
+/* fix for toolbar and status bar icons */
+#status [class^="icon-"],
+#status [class*=" icon-"] {
+	background-image: none;
+	background-position: 0 0;
+}
+
+/*
+#toolbar [class^="icon-"],
+#toolbar [class*=" icon-"] {
+	background-image: none;
+	background-position: 0 0;
+}
+*/

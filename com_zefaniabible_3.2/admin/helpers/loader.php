@@ -8,7 +8,7 @@
 * @package		ZefaniaBible
 * @subpackage	
 * @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.propoved.org - andrei.chernyshev1@gmail.com
+* @author		Andrei Chernyshev - www.zefaniabible.com - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
 *
 *             .oooO  Oooo.
@@ -59,13 +59,14 @@ ZefaniabibleClassLoader::register('JSubMenuHelper', JPATH_ADMINISTRATOR .DS. "in
 
 // Handle cross compatibilities
 require_once(dirname(__FILE__) .DS. 'mvc.php');
+// Register JDom
+CkJLoader::register('JDom', JPATH_ADMIN_ZEFANIABIBLE .DS.'dom' .DS.'dom.php', true);
 
 //Instance JDom
 if (!isset($app->dom))
 {
-	jimport('jdom.dom');
 	if (!class_exists('JDom'))
-		JError::raiseError(null, 'JDom plugin is required');
+		JError::raiseError(null, 'JDom is required');
 
 	JDom::getInstance();	
 }

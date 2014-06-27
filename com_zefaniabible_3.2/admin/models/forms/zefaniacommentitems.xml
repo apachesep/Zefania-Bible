@@ -39,7 +39,7 @@
 				alias="file_location"
 				label="ZEFANIABIBLE_FIELD_FILE_LOCATION"
 				filter="STRING"
-				ruleInstance="file_1479"
+				ruleInstance="file_7739"
 				indirect="true"
 				root="[DIR_ZEFANIACOMMENT_FILE_LOCATION]"
 				type="ckfile"

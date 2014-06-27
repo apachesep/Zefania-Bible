@@ -8,7 +8,7 @@
 * @package		ZefaniaBible
 * @subpackage	Cpanel
 * @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.propoved.org - andrei.chernyshev1@gmail.com
+* @author		Andrei Chernyshev - www.zefaniabible.com - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
 *
 *             .oooO  Oooo.
@@ -64,3 +64,10 @@ JDom::_('html.toolbar');
 				)));
 	?>
 </form>
+<?php /* TODO : REMOVE ME */
+	echo JDom::_('dev.todo', array(
+		'align' => 'left',
+		'file' => __FILE__
+	));
+
+?>

@@ -23,7 +23,7 @@
 				alias="xml_file_url"
 				label="ZEFANIABIBLE_FIELD_XML_FILE"
 				filter="STRING"
-				ruleInstance="file_7883"
+				ruleInstance="file_8164"
 				indirect="true"
 				root="[DIR_ZEFANIABIBLEDICTIONARYINFO_XML_FILE_URL]"
 				type="ckfile"
