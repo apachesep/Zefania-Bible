@@ -114,3 +114,31 @@ div.filter.datepicker input{	margin-right:-1px;}
 {
 	display:inline !important;
 }
+.cpanel .button a
+{
+	width:100px;
+	height:86.5px;
+	padding-top:13.5px;
+	padding-bottom:0px;
+	cursor:pointer;	
+}
+.ico-48-zefaniabible,
+.ico-48-zefaniabible_biblenames,
+.ico-48-zefaniabible_zefaniacomment,
+.ico-48-zefaniabible_zefaniareading,
+.ico-48-zefaniabible_zefaniareadingdetails,
+.ico-48-zefaniabible_zefaniauser,
+.ico-48-zefaniabible_zefaniaverseofday,
+.ico-48-zefaniabible_zefaniabibledictionaryinfo,
+.ico-48-zefaniabible_cpanel
+{
+	margin:auto;
+	width:48px;
+	height:48px;
+	background-repeat:no-repeat;
+	background-position:center;
+	display:inline-block;
+	alignment-adjust:central;
+	text-align:center;
+}
+ 
