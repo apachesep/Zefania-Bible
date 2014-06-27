@@ -1,0 +1,171 @@
+.glyphicon[class^="icon-"]:before,
+.glyphicon[class*=" icon-"]:before{
+	content: none;
+	font-family: inherit;
+}
+
+.glyphicon[class^="icon-"],
+.glyphicon[class*=" icon-"] {
+	background-image: url("../img/glyphicon.png") !important;	
+	display: inline-block !important;
+	width: 14px !important;
+	height: 14px !important;
+	line-height: 14px !important;
+	vertical-align: text-top !important;
+	background-repeat: no-repeat !important;
+	content: none !important;
+	font-family: inherit !important;
+}
+
+/* White icons */
+.glyphicon.icon-white,
+.btn.active .glyphicon[class^="icon-"],
+.btn.active .glyphicon[class*=" icon-"],
+.label .glyphicon[class^="icon-"],
+.label .glyphicon[class*=" icon-"],
+.badge .glyphicon[class^="icon-"],
+.badge .glyphicon[class*=" icon-"]{
+  background-image: url("../img/glyphicon-white.png") !important;
+}
+
+/* Icons map */
+.glyphicon.icon-glass{background-position:0 0;}
+.glyphicon.icon-music{background-position:-24px 0;}
+.glyphicon.icon-search{background-position:-48px 0;}
+.glyphicon.icon-envelope{background-position:-72px 0;}
+.glyphicon.icon-heart{background-position:-96px 0;}
+.glyphicon.icon-star{background-position:-120px 0;}
+.glyphicon.icon-star-empty{background-position:-144px 0;}
+.glyphicon.icon-user{background-position:-168px 0;}
+.glyphicon.icon-film{background-position:-192px 0;}
+.glyphicon.icon-th-large{background-position:-216px 0;}
+.glyphicon.icon-th{background-position:-240px 0;}
+.glyphicon.icon-th-list{background-position:-264px 0;}
+.glyphicon.icon-ok{background-position:-288px 0;}
+.glyphicon.icon-remove{background-position:-312px 0;}
+.glyphicon.icon-zoom-in{background-position:-336px 0;}
+.glyphicon.icon-zoom-out{background-position:-360px 0;}
+.glyphicon.icon-off{background-position:-384px 0;}
+.glyphicon.icon-signal{background-position:-408px 0;}
+.glyphicon.icon-cog{background-position:-432px 0;}
+.glyphicon.icon-trash{background-position:-456px 0;}
+.glyphicon.icon-home{background-position:0 -24px;}
+.glyphicon.icon-file{background-position:-24px -24px;}
+.glyphicon.icon-time{background-position:-48px -24px;}
+.glyphicon.icon-road{background-position:-72px -24px;}
+.glyphicon.icon-download-alt{background-position:-96px -24px;}
+.glyphicon.icon-download{background-position:-120px -24px;}
+.glyphicon.icon-upload{background-position:-144px -24px;}
+.glyphicon.icon-inbox{background-position:-168px -24px;}
+.glyphicon.icon-play-circle{background-position:-192px -24px;}
+.glyphicon.icon-repeat{background-position:-216px -24px;}
+.glyphicon.icon-refresh{background-position:-240px -24px;}
+.glyphicon.icon-list-alt{background-position:-264px -24px;}
+.glyphicon.icon-lock{background-position:-287px -24px;}
+.glyphicon.icon-flag{background-position:-312px -24px;}
+.glyphicon.icon-headphones{background-position:-336px -24px;}
+.glyphicon.icon-volume-off{background-position:-360px -24px;}
+.glyphicon.icon-volume-down{background-position:-384px -24px;}
+.glyphicon.icon-volume-up{background-position:-408px -24px;}
+.glyphicon.icon-qrcode{background-position:-432px -24px;}
+.glyphicon.icon-barcode{background-position:-456px -24px;}
+.glyphicon.icon-tag{background-position:0 -48px;}
+.glyphicon.icon-tags{background-position:-25px -48px;}
+.glyphicon.icon-book{background-position:-48px -48px;}
+.glyphicon.icon-bookmark{background-position:-72px -48px;}
+.glyphicon.icon-print{background-position:-96px -48px;}
+.glyphicon.icon-camera{background-position:-120px -48px;}
+.glyphicon.icon-font{background-position:-144px -48px;}
+.glyphicon.icon-bold{background-position:-167px -48px;}
+.glyphicon.icon-italic{background-position:-192px -48px;}
+.glyphicon.icon-text-height{background-position:-216px -48px;}
+.glyphicon.icon-text-width{background-position:-240px -48px;}
+.glyphicon.icon-align-left{background-position:-264px -48px;}
+.glyphicon.icon-align-center{background-position:-288px -48px;}
+.glyphicon.icon-align-right{background-position:-312px -48px;}
+.glyphicon.icon-align-justify{background-position:-336px -48px;}
+.glyphicon.icon-list{background-position:-360px -48px;}
+.glyphicon.icon-indent-left{background-position:-384px -48px;}
+.glyphicon.icon-indent-right{background-position:-408px -48px;}
+.glyphicon.icon-facetime-video{background-position:-432px -48px;}
+.glyphicon.icon-picture{background-position:-456px -48px;}
+.glyphicon.icon-pencil{background-position:0 -72px;}
+.glyphicon.icon-map-marker{background-position:-24px -72px;}
+.glyphicon.icon-adjust{background-position:-48px -72px;}
+.glyphicon.icon-tint{background-position:-72px -72px;}
+.glyphicon.icon-edit{background-position:-96px -72px;}
+.glyphicon.icon-share{background-position:-120px -72px;}
+.glyphicon.icon-check{background-position:-144px -72px;}
+.glyphicon.icon-move{background-position:-168px -72px;}
+.glyphicon.icon-step-backward{background-position:-192px -72px;}
+.glyphicon.icon-fast-backward{background-position:-216px -72px;}
+.glyphicon.icon-backward{background-position:-240px -72px;}
+.glyphicon.icon-play{background-position:-264px -72px;}
+.glyphicon.icon-pause{background-position:-288px -72px;}
+.glyphicon.icon-stop{background-position:-312px -72px;}
+.glyphicon.icon-forward{background-position:-336px -72px;}
+.glyphicon.icon-fast-forward{background-position:-360px -72px;}
+.glyphicon.icon-step-forward{background-position:-384px -72px;}
+.glyphicon.icon-eject{background-position:-408px -72px;}
+.glyphicon.icon-chevron-left{background-position:-432px -72px;}
+.glyphicon.icon-chevron-right{background-position:-456px -72px;}
+.glyphicon.icon-plus-sign{background-position:0 -96px;}
+.glyphicon.icon-minus-sign{background-position:-24px -96px;}
+.glyphicon.icon-remove-sign{background-position:-48px -96px;}
+.glyphicon.icon-ok-sign{background-position:-72px -96px;}
+.glyphicon.icon-question-sign{background-position:-96px -96px;}
+.glyphicon.icon-info-sign{background-position:-120px -96px;}
+.glyphicon.icon-screenshot{background-position:-144px -96px;}
+.glyphicon.icon-remove-circle{background-position:-168px -96px;}
+.glyphicon.icon-ok-circle{background-position:-192px -96px;}
+.glyphicon.icon-ban-circle{background-position:-216px -96px;}
+.glyphicon.icon-arrow-left{background-position:-240px -96px;}
+.glyphicon.icon-arrow-right{background-position:-264px -96px;}
+.glyphicon.icon-arrow-up{background-position:-289px -96px;}
+.glyphicon.icon-arrow-down{background-position:-312px -96px;}
+.glyphicon.icon-share-alt{background-position:-336px -96px;}
+.glyphicon.icon-resize-full{background-position:-360px -96px;}
+.glyphicon.icon-resize-small{background-position:-384px -96px;}
+.glyphicon.icon-plus{background-position:-408px -96px;}
+.glyphicon.icon-minus{background-position:-433px -96px;}
+.glyphicon.icon-asterisk{background-position:-456px -96px;}
+.glyphicon.icon-exclamation-sign{background-position:0 -120px;}
+.glyphicon.icon-gift{background-position:-24px -120px;}
+.glyphicon.icon-leaf{background-position:-48px -120px;}
+.glyphicon.icon-fire{background-position:-72px -120px;}
+.glyphicon.icon-eye-open{background-position:-96px -120px;}
+.glyphicon.icon-eye-close{background-position:-120px -120px;}
+.glyphicon.icon-warning-sign{background-position:-144px -120px;}
+.glyphicon.icon-plane{background-position:-168px -120px;}
+.glyphicon.icon-calendar{background-position:-192px -120px;}
+.glyphicon.icon-random{background-position:-216px -120px;width:16px;}
+.glyphicon.icon-comment{background-position:-240px -120px;}
+.glyphicon.icon-magnet{background-position:-264px -120px;}
+.glyphicon.icon-chevron-up{background-position:-288px -120px;}
+.glyphicon.icon-chevron-down{background-position:-313px -119px;}
+.glyphicon.icon-retweet{background-position:-336px -120px;}
+.glyphicon.icon-shopping-cart{background-position:-360px -120px;}
+.glyphicon.icon-folder-close{background-position:-384px -120px;}
+.glyphicon.icon-folder-open{background-position:-408px -120px;width:16px;}
+.glyphicon.icon-resize-vertical{background-position:-432px -119px;}
+.glyphicon.icon-resize-horizontal{background-position:-456px -118px;}
+.glyphicon.icon-hdd{background-position:0 -144px;}
+.glyphicon.icon-bullhorn{background-position:-24px -144px;}
+.glyphicon.icon-bell{background-position:-48px -144px;}
+.glyphicon.icon-certificate{background-position:-72px -144px;}
+.glyphicon.icon-thumbs-up{background-position:-96px -144px;}
+.glyphicon.icon-thumbs-down{background-position:-120px -144px;}
+.glyphicon.icon-hand-right{background-position:-144px -144px;}
+.glyphicon.icon-hand-left{background-position:-168px -144px;}
+.glyphicon.icon-hand-up{background-position:-192px -144px;}
+.glyphicon.icon-hand-down{background-position:-216px -144px;}
+.glyphicon.icon-circle-arrow-right{background-position:-240px -144px;}
+.glyphicon.icon-circle-arrow-left{background-position:-264px -144px;}
+.glyphicon.icon-circle-arrow-up{background-position:-288px -144px;}
+.glyphicon.icon-circle-arrow-down{background-position:-312px -144px;}
+.glyphicon.icon-globe{background-position:-336px -144px;}
+.glyphicon.icon-wrench{background-position:-360px -144px;}
+.glyphicon.icon-tasks{background-position:-384px -144px;}
+.glyphicon.icon-filter{background-position:-408px -144px;}
+.glyphicon.icon-briefcase{background-position:-432px -144px;}
+.glyphicon.icon-fullscreen{background-position:-456px -144px;}

@@ -1,0 +1,76 @@
+.cktoolbar
+{
+	font-size:1em;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#333;
+}
+
+.cktoolbar li
+{
+	display:inline-block;
+}
+
+.cktoolbar a.task
+{
+	font-size:1em;
+	text-decoration: none;
+}
+
+.cktoolbar .task
+{
+	margin:0.5em;
+	padding: 0;
+	-moz-border-radius: 1em; /* Chrome */
+	-webkit-border-radius:1em; /* Safari */
+	border-radius: 1em;
+	border:solid 1px #eee;
+	height:2em;
+	background-color:#fff;
+	display: inline-block;
+	text-decoration: none;
+}
+
+.cktoolbar .task:hover
+{
+	background-color:#eee;
+}
+
+.cktoolbar span.text
+{
+	
+	margin-right:1em;
+	margin-left:0.2em;
+	line-height:1.9em;
+	
+}
+
+.cktoolbar span.icon-16
+{
+	width:20px;
+	height:20px;
+	float:left;
+	margin:1px;
+	background-position:center;
+	background-repeat:no-repeat;
+}
+
+.cktoolbar .task:hover span.icon-16
+{
+	background-color:#fff;
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
+}
+
+.jgrid span
+{
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+
+.jgrid span.text
+{
+    display: none;
+}
+

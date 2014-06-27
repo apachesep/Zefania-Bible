@@ -1,0 +1,20 @@
+/* Desactivate .icon-*  */
+[class^="icon-"],
+[class*=" icon-"] {
+	display: inherit;
+	width: inherit;
+	height: inherit;
+	*margin-right: inherit;
+	line-height: inherit;
+}
+
+
+/* Use a different name ._icon-*  */
+[class^="_icon-"],
+[class*=" _icon-"] {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	*margin-right: .3em;
+	line-height: 14px;
+}

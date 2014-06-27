@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<form>
+
+	<fieldset name="addreading.form" addfieldpath="/administrator/components/com_zefaniabible/models/fields">
+
+		<field name="name"
+				alias="name"
+				label="ZEFANIABIBLE_FIELD_NAME"
+				filter="STRING"
+				type="cktext"/>
+
+		<field name="alias"
+				alias="alias"
+				label="ZEFANIABIBLE_FIELD_ALIAS"
+				filter="STRING"
+				type="cktext"/>
+
+		<field name="description"
+				alias="description"
+				label="ZEFANIABIBLE_FIELD_DESCRIPTION"
+				filter="RAW"
+				type="ckeditor"/>
+
+		<field name="ordering"
+				alias="ordering"
+				label="ZEFANIABIBLE_FIELD_ORDERING"
+				filter="INT"
+				class="validate[custom[numeric]]"
+				validate="numeric"
+				access="core.edit.state"
+				type="ckordering"
+				labelKey="name"/>
+
+		<field name="published"
+				alias="published"
+				label="ZEFANIABIBLE_FIELD_PUBLISH"
+				filter="INT"
+				class="validate[custom[numeric]]"
+				validate="numeric"
+				access="core.edit.state"
+				type="ckstate"/>
+	</fieldset>
+
+	<fieldset name="default.filters" addfieldpath="/administrator/components/com_zefaniabible/models/fields">
+
+		<field name="search_search"
+				type="cksearch"
+				placeholder="ZEFANIABIBLE_FILTER_NULL_SEARCH"
+				label="ZEFANIABIBLE_JSEARCH_SEARCH"
+				class="element-search search-query"
+				ui="chosen"/>
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="ZEFANIABIBLE_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="sortTable"
+				type="cksort"
+				responsive="hidden-phone"
+				nullLabel="JGLOBAL_SORT_BY"
+				class="span-2 element-filter"
+				label="Sort by"
+				ui="chosen"/>
+
+		<field name="directionTable"
+				type="ckdirection"
+				responsive="hidden-phone"
+				nullLabel="JFIELD_ORDERING_DESC"
+				class="span-2 element-filter"
+				label="Direction"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="span-2 element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+
+	<fieldset name="modal.filters" addfieldpath="/administrator/components/com_zefaniabible/models/fields">
+
+		<field name="search_search_1"
+				type="cksearch"
+				placeholder="ZEFANIABIBLE_FILTER_NULL_SEARCH"
+				label="ZEFANIABIBLE_JSEARCH_SEARCH"
+				class="element-search search-query"
+				ui="chosen"/>
+
+		<field name="filter_published"
+				type="ckstate"
+				access="core.edit.state"
+				submit="true"
+				nullLabel="ZEFANIABIBLE_FILTER_NULL_SELECT_STATE"
+				display="combo"
+				label="State"
+				class="element-filter span-2"
+				ui="chosen"/>
+
+		<field name="limit"
+				type="cklimit"
+				submit="true"
+				class="span-2 element-filter"
+				label="Limit"
+				ui="chosen"/>
+	</fieldset>
+</form>
