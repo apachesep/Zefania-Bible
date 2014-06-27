@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 * @package	Zefaniabible
 * @subpackage	Cpanel
 */
-class ZefaniabibleViewCpanel extends ZefaniabibleClassView
+class ZefaniabibleViewCpanel extends JViewLegacy
 {
 	/**
 	* Execute and display a template script.
@@ -40,18 +40,26 @@ class ZefaniabibleViewCpanel extends ZefaniabibleClassView
 	*
 	* @since	11.1
 	*/
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+		$config = JFactory::getConfig();
+
+		$option	= JRequest::getCmd('option');
+		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
-		if (!in_array($layout, array('default')))
-			JError::raiseError(0, $layout . ' : ' . JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'));
 
-		$fct = "display" . ucfirst($layout);
+		switch($layout)
+		{
+			case 'default':
 
-		$this->addForkTemplatePath();
-		$this->$fct($tpl);			
-		$this->_parentDisplay($tpl);
+				$fct = "display_" . $layout;
+				$this->$fct($tpl);
+				break;
+		}
+
 	}
+
 
 	/**
 	* Execute and display a template : ZefaniaBible
@@ -63,18 +71,23 @@ class ZefaniabibleViewCpanel extends ZefaniabibleClassView
 	*
 	* @since	11.1
 	*/
-	protected function displayDefault($tpl = null)
+	function display_default($tpl = null)
 	{
+		$app = JFactory::getApplication();
+		$option	= JRequest::getCmd('option');
+
+		$user 	= JFactory::getUser();
+
+		$mdl_access =  new ZefaniabibleHelper;
+		$access = $mdl_access->getACL();
+		$state		= $this->get('State');
+
 		$document	= JFactory::getDocument();
-		$this->title = JText::_("ZEFANIABIBLE_LAYOUT_ZEFANIABIBLE");
-		$document->title = $document->titlePrefix . $this->title . $document->titleSuffix;
+		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_BIBLES") . $document->titleSuffix;
 
-		$this->menu = ZefaniabibleHelper::addSubmenu('cpanel', 'default', 'cpanel');
-		//Toolbar initialization
-
-		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_ZEFANIABIBLE'), 'zefaniabible_cpanel');
-
+		$bar = JToolBar::getInstance('toolbar');		
+		if ($access->get('core.admin'))
+			JToolBarHelper::preferences( 'com_zefaniabible' );		
+		parent::display($tpl);
 	}
-
-
 }
