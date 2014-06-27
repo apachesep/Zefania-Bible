@@ -3,7 +3,7 @@
 <extension type="component" version="1.6" method="upgrade">
 	<name><![CDATA[zefaniabible]]></name>
 	<author><![CDATA[Andrei Chernyshev]]></author>
-	<creationDate><![CDATA[27 Jun 2014]]></creationDate>
+	<creationDate>2012-05-18</creationDate>
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
@@ -46,6 +46,7 @@
 			<folder>images</folder>
 			<folder>js</folder>
 			<folder>legacy</folder>
+			<folder>language</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
@@ -57,12 +58,7 @@
 			<filename>zefaniabible.php</filename>
 		</files>
 
-		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_zefaniabible.ini</language>
-			<language tag="en-GB">language/en-GB.com_zefaniabible.sys.ini</language>
-		</languages>
 		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
-
 		<submenu>
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_biblenames.png" link="option=com_zefaniabible&amp;view=biblenames">ZEFANIABIBLE_MENU_BIBLES</menu>
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_biblenames.png" link="option=com_zefaniabible&amp;view=biblenames&amp;layout=scripture">ZEFANIABIBLE_MENU_SCRIPTURE</menu>
@@ -77,16 +73,21 @@
 	<scriptfile>script.php</scriptfile>
 
 	<install>
-
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/verseofday.mysql.sql</file>
+			<file driver="mysql" charset="utf8">sql/readingplan.sql</file>
 		</sql>
 	</install>
-
+	
 	<uninstall>
-
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=9</server>
+	</updateservers>
+	
 </extension>
