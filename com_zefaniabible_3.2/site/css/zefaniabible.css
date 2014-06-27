@@ -1,176 +1,243 @@
 /**                               ______________________________________________
 *                          o O   |                                              |
-*                 (((((  o      <    Generated with Cook Self Service  V2.6.4   |
+*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
 *                ( o o )         |______________________________________________|
 * --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		3.2
+* @version		1.6
 * @package		ZefaniaBible
 * @subpackage	
 * @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.zefaniabible.com - andrei.chernyshev1@gmail.com
+* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
 *
-*             .oooO  Oooo.
+* /!\  Joomla! is free software.
+* This version may have been modified pursuant to the GNU General Public License,
+* and as distributed it includes or is derivative of works licensed under the
+* GNU General Public License or other free or open source software licenses.
+*
+*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
 *             (   )  (   )
 * -------------\ (----) /----------------------------------------------------------- +
 *               \_)  (_/
 */
-
-/**
-* JForms
-**/
-.fieldsform, .fieldsfly {
-	background-color:#fff;
+.zef_email_img
+{
+	width:24px;
+	height:24px;
+	border:none;	
 }
-.fly-horizontal .control-group {
-	clear:both;
-	margin-bottom:10px;
-}
-.fly-horizontal .control-group:before, .fly-horizontal .control-group:after {
-	content:"";
-	display:table;
-	line-height:0;
-}
-.fly-horizontal .control-label {
-	float:left;
-	text-align:right;
-	width:140px;
-}
-.fly-horizontal .controls {
-	margin-left:160px;
-}
-.btn-group input, .inputfix {
-	float:none;
-	margin:0;
-}
-.form-horizontal .control-group:after {
-	clear:both;
-}
-.form-horizontal .control-group {
-	margin-bottom:20px;
-}
-input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .input-append .add-on, .input-prepend .add-on, .input-append a.btn, .input-prepend a.btn {
-	height:18px;
-}
-.input-tiny {
-	width:30px;
-}
-.fieldsform select {
-	font-size:1.1em;
-}
-fieldset .btn-group label {
-	clear:none;
-}
-
-/**
-* Formvalidator
-**/
-.field-validator .message {
-	margin-left:100px;
-	padding:20px;
-	padding-left:70px;
-	width:250px;
-	border:1px solid #ccc;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	background-position:10px center;
-	background-repeat:no-repeat;
-	font-style:italic;
-}
-.field-validator .msg-info {
-	color:#006600;
-	background-image:url(../images/icon-48-sys-information.png);
-}
-.field-validator .msg-incorrect {
-	color:#FF0000;
-	background-image:url(../images/icon-48-sys-incorrect.png);
-}
-.field-validator .msg-required {
-	color:#FF6600;
-	background-image:url(../images/icon-48-sys-warning.png);
-}
-.validator-icon {
-	width:16px;
-	height:16px;
-	background-position:center;
-	background-repeat:no-repeat;
-}
-.validatoricon_incorrect {
-	background-image:url(../images/icon-16-sys-incorrect.png);
-}
-.validatoricon_valid {
-	background-image:url(../images/icon-16-sys-valid.png);
-}
-
-/**
-* Filters
-**/
-.filter_buttons {
+.zef_email_button, .zef_reading_rss
+{
 	float:right;
+	margin-top:3px;
+	margin-right:3px;	
 }
-fieldset.filters label.filter {
-	display:block;
-	background-color:#F6F6F6;
-	font-weight:bold;
-	font-style:italic;
-	color:#333;
-	border-left:solid 2px #444;
+.zef_bible_Chapter
+{
+	border-top:none;
+	border-bottom:none;
+	/*border: 1px solid #705132;*/
+}
+.zef_bot_pagination
+{
+	/*border: 1px solid #705132;*/
+	border-top:none;
+	/*background-color:#A69172;*/
+}
+.zef_top_pagination
+{
+	/*background-color:#A69172;*/
+}
+.zef_overview_plan
+{
+	width:98%;	
+}
+.zef_day_number, .zef_reading
+{
+	float:left;	
+	margin-right: 5px;
+}
+.zef_legend, .zef_bible_Header_Label_Plan
+{
+	/*background-color:#A69172;
+	border: 1px solid #705132;*/
+	border-bottom:none;
+	
+}
+.zef_book
+{
+	margin-left:3px;
+	margin-right:3px;
+	float:left;
+}
+.zef_Chapter
+{
+	float:left;	
+	margin-left:3px;
+	margin-right:3px;
+}
+
+.zef_verse
+{
+	float:left;
+	max-width:90%;
+	width:auto;
+}
+.zef_verse_number
+{
+	float:left;
+	margin-right:3px;	
+	margin-left:3px;
+	width:2%;
+}
+.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book, .zef_strong_dic_name 
+{
+	text-align:center;
+	line-height:40px;
+	font-size:xx-large;	
+	font-weight:bolder;
+}
+
+.zef_bible_Header_Label_Plan
+{
+	border-top:none;
+}
+.zef_footer
+{
+	border-top:none;
+	min-height:30px;
+	text-align:center;
+}
+.zef_bot_pagination, .zef_top_pagination
+{
+	min-height:30px;
+	text-align:center;	
+}
+.zef_verse_number
+{
+	font-size:10px;
+}
+.odd, .even, .zef_book_caption
+{
 	padding-left:5px;
-	margin:2px;
+	padding-right:5px;	
 }
-fieldset.filters {
-	background-color:#F6F6F6;
-	padding:5px;
-	margin:5px;
+.odd:hover, .even:hover, .zef_book_caption:hover
+{
+	/*background-color:#A58F6F;*/
 }
-
-/**
-* Grid
-**/
-tr .row1 {
-	background-color:#F9F9F9;
+.zef_bible_label, .zef_chapter_label, .zef_book_label, .zef_reading_label, .zef_commentary_label, .zef_dictionary_label
+{
+	font-size:20px;
+	float:left;	
 }
-table tr.pickable-row:hover {
-	background-color:#2A62BC;
-	color:#FFF;
+.zef_bible_label
+{
+	margin-left:10px;
 }
-th.grid-group {
-	text-align:left;
+.zef_bible
+{
+	float:left;	
+} 
+.zef_book_caption
+{
+	max-width:95%;	
+	float:left;
+}
+#zef_links
+{
+	margin-left:5px; 	
+}
+.zef_compare_bibles
+{
+	width:46%;
+	float:left;
+}
+.zef_player
+{
+	width:100%;	
+}
+.zef_player-1, .zef_player-2
+{
+	width:46%;
+	float:left;
+}
+.zef_commentary_heading
+{
 	font-weight:bold;
+	font-size:24px;
 }
-
-/**
-* Ajax
-**/
-div.ajaxchain-filter div.separator {
-	padding:0;
-	margin:0;
-	padding-left:10px;
-	background-image:url(../images/breadcrumb_separator.png);
-	background-position:left;
-	background-repeat:no-repeat;
+.zef_commentary_hash, .zef_reference_hash
+{
+	float:right;	
 }
-.ajax-required select {
-	border-left:3px red solid;
+.zef_verse_header
+{
+	font-weight:bold;
+	font-size:16px;	
 }
-
-/**
-* Colors
-**/
-.color-primary {
-	color:#006dcc;
+.zef_error_message
+{
+	font-weight:bold;
+	font-size:16px;	
 }
-.color-warning {
-	color:#faa732;
+.zef_reference, .zef_content_verse_link
+{
+	float:right;	
 }
-.color-danger {
-	color:#da4f49;
+.zef_reference_word
+{
+	font-size:16px;
+	font-weight:bold;	
 }
-.color-info {
-	color:#49afcd;
+.zef_commentary_title, .zef_reference_title 
+{
+	font-size:24px;
+	font-weight:bold;
+	text-align:center;
 }
-.color-success {
-	color:#51a351;
+.zef_bible_Header_Label_h1
+{
+	font-size:1em;	 
 }
-
+#zef_Bible_Main_verse_tmpl_comp
+{
+	font-size:22px;	
+}
+#zef_Bible_Main_tmpl_comp .zef_verse_number
+{
+	margin-right:10px !important;	
+	
+}
+#zef_day_jump
+{
+	max-width:150px;
+}
+#zef_strong_link
+{
+	font-size:10px;
+	font-style:italic;
+}
+.zef_strong_id
+{
+	font-weight:bold;	
+}
+.zef_commentary_label, .zef_dictionary_label, .zef_dictionary_strong_label
+{
+	margin-left:5px;
+	margin-right:5px;
+}
+.zef_Chapter #chapter
+{
+	width:auto;
+	max-width:75px;	
+}
+.zef_book #book, .zef_bible #bible, .zef_commentary #commentary, .zef_dictionary #dictionary, .zef_reading_plan #reading, #zef_day_jump, zef_reading_plan #zef_subs_plans, #zef_subs_send_reading, #zef_subs_send_verse
+{
+	width:auto;
+	max-width:250px;	
+}
+#zef_dictionary_div, #zef_commentary_div, .zef_commentary, .zef_dictionary, .zef_dictionary_strong_box,.zef_dictionary_strong_label,.zef_dictionary_strong_input
+{
+	float:left;	
+}

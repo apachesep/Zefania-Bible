@@ -12,22 +12,28 @@
 	<description><![CDATA[ZefaniaBible uses Zefania XML bibles to display word of God.]]></description>
 
 	<files folder="site">
-		<folder>_fork</folder>
-		<folder>controllers</folder>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>models</folder>
+		<folder>helpers</folder>	
+		<folder>language</folder>	
+		<folder>id3</folder>	
 		<folder>views</folder>
-		<filename>controller.php</filename>
 		<filename>index.html</filename>
 		<filename>router.php</filename>
 		<filename>zefaniabible.php</filename>
+		<filename>controller.php</filename>
 	</files>
-
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_zefaniabible.ini</language>
-	</languages>
-
+	
+	<media folder="media" destination="com_zefaniabible">
+		<folder>bibles</folder>
+		<folder>player</folder>
+		<folder>audio</folder>
+		<folder>images</folder>
+		<folder>swfupload</folder>
+		<folder>dictionary</folder>
+	</media>	
+	
 	<administration>
 
 		<files folder="admin">

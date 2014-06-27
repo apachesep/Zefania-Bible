@@ -1,162 +1,100 @@
 /**                               ______________________________________________
 *                          o O   |                                              |
-*                 (((((  o      <    Generated with Cook Self Service  V2.6.4   |
+*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
 *                ( o o )         |______________________________________________|
 * --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		3.2
+* @version		1.6
 * @package		ZefaniaBible
-* @subpackage	
+* @subpackage	Users
 * @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.zefaniabible.com - andrei.chernyshev1@gmail.com
+* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
 *
-*             .oooO  Oooo.
+* /!\  Joomla! is free software.
+* This version may have been modified pursuant to the GNU General Public License,
+* and as distributed it includes or is derivative of works licensed under the
+* GNU General Public License or other free or open source software licenses.
+*
+*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
 *             (   )  (   )
 * -------------\ (----) /----------------------------------------------------------- +
 *               \_)  (_/
 */
 
-/**
-* Component icons 48px (Cpanel)
-**/
-.ico-48-zefaniabible, .icon-48-zefaniabible {
-	background-image:url('../images/icon-48-zefaniabible.png');
-}
-.ico-48-zefaniabible_biblenames, .icon-48-zefaniabible_biblenames {
-	background-image:url('../images/icon-48-zefaniabible_biblenames.png');
-}
-.ico-48-zefaniabible_zefaniacomment, .icon-48-zefaniabible_zefaniacomment {
-	background-image:url('../images/icon-48-zefaniabible_zefaniacomment.png');
-}
-.ico-48-zefaniabible_zefaniareading, .icon-48-zefaniabible_zefaniareading {
-	background-image:url('../images/icon-48-zefaniabible_zefaniareading.png');
-}
-.ico-48-zefaniabible_zefaniareadingdetails, .icon-48-zefaniabible_zefaniareadingdetails {
-	background-image:url('../images/icon-48-zefaniabible_zefaniareadingdetails.png');
-}
-.ico-48-zefaniabible_zefaniauser, .icon-48-zefaniabible_zefaniauser {
-	background-image:url('../images/icon-48-zefaniabible_zefaniauser.png');
-}
-.ico-48-zefaniabible_zefaniaverseofday, .icon-48-zefaniabible_zefaniaverseofday {
-	background-image:url('../images/icon-48-zefaniabible_zefaniaverseofday.png');
-}
-.ico-48-zefaniabible_zefaniabibledictionaryinfo, .icon-48-zefaniabible_zefaniabibledictionaryinfo {
-	background-image:url('../images/icon-48-zefaniabible_zefaniabibledictionaryinfo.png');
-}
-.ico-48-zefaniabible_cpanel, .icon-48-zefaniabible_cpanel {
-	background-image:url('../images/icon-48-zefaniabible_cpanel.png');
+#toolbar
+{
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#333;
 }
 
-/**
-* Component icons 16px (Sub Menu)
-**/
-.ico-16-zefaniabible, .icon-16-zefaniabible {
-	background-image:url('../images/icon-16-zefaniabible.png');
-}
-.ico-16-zefaniabible_biblenames, .icon-16-zefaniabible_biblenames {
-	background-image:url('../images/icon-16-zefaniabible_biblenames.png');
-}
-.ico-16-zefaniabible_zefaniacomment, .icon-16-zefaniabible_zefaniacomment {
-	background-image:url('../images/icon-16-zefaniabible_zefaniacomment.png');
-}
-.ico-16-zefaniabible_zefaniareading, .icon-16-zefaniabible_zefaniareading {
-	background-image:url('../images/icon-16-zefaniabible_zefaniareading.png');
-}
-.ico-16-zefaniabible_zefaniareadingdetails, .icon-16-zefaniabible_zefaniareadingdetails {
-	background-image:url('../images/icon-16-zefaniabible_zefaniareadingdetails.png');
-}
-.ico-16-zefaniabible_zefaniauser, .icon-16-zefaniabible_zefaniauser {
-	background-image:url('../images/icon-16-zefaniabible_zefaniauser.png');
-}
-.ico-16-zefaniabible_zefaniaverseofday, .icon-16-zefaniabible_zefaniaverseofday {
-	background-image:url('../images/icon-16-zefaniabible_zefaniaverseofday.png');
-}
-.ico-16-zefaniabible_zefaniabibledictionaryinfo, .icon-16-zefaniabible_zefaniabibledictionaryinfo {
-	background-image:url('../images/icon-16-zefaniabible_zefaniabibledictionaryinfo.png');
-}
-.ico-16-zefaniabible_cpanel, .icon-16-zefaniabible_cpanel {
-	background-image:url('../images/icon-16-zefaniabible_cpanel.png');
+
+div.toolbar
+{
+
+	margin:5px;
+	padding: 0;
+
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
+	border:solid 1px #eee;
+	height:22px;
 }
 
-/**
-* Icons 16px
-**/
-span.ico-16-task-new, span.icon-16-task-new, span.new {
-	background-image:url('../images/icon-16-task-new.png');
-}
-span.ico-16-task-edit, span.icon-16-task-edit, span.edit {
-	background-image:url('../images/icon-16-task-edit.png');
-}
-span.ico-16-task-delete, span.icon-16-task-delete, span.delete {
-	background-image:url('../images/icon-16-task-delete.png');
-}
-span.ico-16-task-config, span.icon-16-task-config, span.config {
-	background-image:url('../images/icon-16-task-config.png');
-}
-span.ico-16-task-publish, span.icon-16-task-publish, span.publish {
-	background-image:url('../images/icon-16-task-publish.png');
-}
-span.ico-16-task-unpublish, span.icon-16-task-unpublish, span.unpublish {
-	background-image:url('../images/icon-16-task-unpublish.png');
-}
-span.ico-16-task-save, span.icon-16-task-save, span.save {
-	background-image:url('../images/icon-16-task-save.png');
-}
-span.ico-16-task-apply, span.icon-16-task-apply, span.apply {
-	background-image:url('../images/icon-16-task-apply.png');
-}
-span.ico-16-task-cancel, span.icon-16-task-cancel, span.cancel {
-	background-image:url('../images/icon-16-task-cancel.png');
-}
-span.ico-16-task-toggle, span.icon-16-task-toggle, span.toggle {
-	background-image:url('../images/icon-16-task-toggle.png');
+
+div.toolbar span.text
+{
+	margin-right:10px;
+	margin-left:2px;
+
 }
 
-/**
-* Icons colors
-**/
-.icon-edit:before {
-	color:#2f96b4;
-}
-.icon-featured:before, .icon-star:before, .icon-star-empty:before, .icon-default:before {
-	color:#f89406;
-}
-.icon-pending:before {
-	color:#f89406;
-}
-.icon-publish:before, .icon-save:before, .icon-ok:before {
-	color:#51a351;
-}
-.icon-unpublish:before, .btn-toolbar .icon-cancel:before {
-	color:#bd362f;
-}
-.icon-not-ok:before, .icon-eye-close:before {
-	color:#bd362f;
-}
-.icon-save-new:before {
-	color:#51a351;
-}
-.icon-ban-circle:before, .icon-minus-sign:before {
-	color:#bd362f;
-}
-.icon-save-copy:before, .btn-toolbar .icon-copy:before {
-	color:#51a351;
+
+div.toolbar:hover
+{
+	background-color:#eee;
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
 }
 
-/**
-* System
-**/
-span.spinner {
-	background-image:url('../images/icon-16-spinner.gif');
-}
-[class^="icon-32"], [class*=" icon-32"] {
-	background-position:0px 0px; !important;
+
+
+#toolbar div.toolbar div.icon-16
+{
+	width:20px;
+	height:20px;
+	float:left;
+	margin:1px;
+	background-position:center;
+	background-repeat:no-repeat;
 }
 
-/**
-* Fixes
-**/
-.jgrid span {
-	padding:0px;
+div.toolbar:hover div.icon-16
+{
+	background-color:#fff;
+	-moz-border-radius: 15px; /* Chrome */
+	-webkit-border-radius:15px; /* Safari */
+	border-radius: 15px;
 }
+
+
+/* PAGINATION */
+
+.list-footer-pagination{ margin-top:6px;	text-align:center;}
+.list-footer-pagination ul, .list-footer-pagination ul li{	display:inline-block;}
+.list-footer-pagination ul{	margin:0;}
+.list-footer-pagination ul li{	margin:3px;}
+.list-footer-pagination div.limit{	float:left;}
+.list-footer-pagination div.counter{	float:right;}
+
+/* PAGINATION END */
+
+
+
+
+
+.icon-16-task-delete 		{ background-image: url('../images/icon-16-task-delete.png'); }
+
 
