@@ -61,6 +61,7 @@
 			<filename>config.xml</filename>
 			<filename>index.html</filename>
 			<filename>zefaniabible.php</filename>
+			<filename>zefaniabible.css</filename>
 		</files>
 	</administration>
 	<install>

@@ -58,7 +58,6 @@ $layout = JRequest::getCmd( 'layout');
 $temp_view = $view;
 $mainMenu = true;
 
-
 switch ($view)
 {
 
@@ -110,18 +109,18 @@ switch ($view)
 			$controllerName = "cpanel";		
 			break;
 		default:
-			$view = 'zefaniabible';
+			$view = 'cpanel';
 			$layout = 'default';
 			JRequest::setVar( 'view', $view);
 			JRequest::setVar( 'layout', $layout);
-			$controllerName = "zefaniabible";
+			$controllerName = "cpanel";
 			break;
 }
 
 
 if ($mainMenu)
 {
-		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_BIBLES"), 'index.php?option=com_zefaniabible&view=cpanel', ($view == 'cpanel'));
+		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_CPANEL"), 'index.php?option=com_zefaniabible&view=cpanel', ($view == 'cpanel'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_BIBLES"), 'index.php?option=com_zefaniabible&view=zefaniabible', ($view == 'zefaniabible'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_COMMENTARIES"), 'index.php?option=com_zefaniabible&view=zefaniacomment', ($view == 'zefaniacomment'));
 		JSubMenuHelper::addEntry(JText::_("ZEFANIABIBLE_VIEW_SCRIPTURE"), 'index.php?option=com_zefaniabible&view=zefaniascripture', ($view == 'zefaniascripture'));		
