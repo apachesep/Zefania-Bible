@@ -1,6 +1,3 @@
-DROP TABLE IF EXISTS `#__zefaniabible_biblenames`;
-
-DROP TABLE IF EXISTS `#__zefaniabible_zefaniacomment`;
 
 DROP TABLE IF EXISTS `#__zefaniabible_zefaniareading`;
 
@@ -10,5 +7,20 @@ DROP TABLE IF EXISTS `#__zefaniabible_zefaniauser`;
 
 DROP TABLE IF EXISTS `#__zefaniabible_zefaniaverseofday`;
 
-DROP TABLE IF EXISTS `#__zefaniabible_zefaniabibledictionaryinfo`;
+DROP TABLE IF EXISTS `#__zefaniabible_zefaniabiblebooknames`;
 
+DROP TABLE IF EXISTS `#__zefaniabible_zefaniapublish`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_bible_names`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_bible_text`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_zefaniacomment`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_comment_text`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_crossref`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_dictionary_detail`;
+
+DROP TABLE IF EXISTS `#__zefaniabible_dictionary_info`;
