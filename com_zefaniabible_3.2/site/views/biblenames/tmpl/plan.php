@@ -8,7 +8,7 @@
 * @package		ZefaniaBible
 * @subpackage	Biblenames
 * @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.zefaniabible.com - andrei.chernyshev1@gmail.com
+* @author		Andrei Chernyshev - www.propoved.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
 *
 *             .oooO  Oooo.
@@ -24,12 +24,6 @@ defined('_JEXEC') or die('Restricted access');
 ZefaniabibleHelper::headerDeclarations();
 //Load the formvalidator scripts requirements.
 JDom::_('html.toolbar');
-?>
-<?php /* TODO : REMOVE ME */
-	echo JDom::_('dev.todo', array(
-		'message' => '<strong>TODO</strong> : Edit this template and remove me.'
-	));
-
 ?>
 <h2><?php echo $this->title;?></h2>
 <form action="<?php echo(JRoute::_("index.php")); ?>" method="post" name="adminForm" id="adminForm">
@@ -79,10 +73,3 @@ JDom::_('html.toolbar');
 				)));
 	?>
 </form>
-<?php /* TODO : REMOVE ME */
-	echo JDom::_('dev.todo', array(
-		'align' => 'left',
-		'file' => __FILE__
-	));
-
-?>

@@ -3,10 +3,10 @@
 <extension type="component" version="1.6" method="upgrade">
 	<name><![CDATA[zefaniabible]]></name>
 	<author><![CDATA[Andrei Chernyshev]]></author>
-	<creationDate><![CDATA[27 Jun 2014]]></creationDate>
+	<creationDate><![CDATA[18 Jun 2014]]></creationDate>
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
-	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
+	<authorUrl><![CDATA[www.propoved.org]]></authorUrl>
 	<version><![CDATA[3.2]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description><![CDATA[ZefaniaBible uses Zefania XML bibles to display word of God.]]></description>
@@ -35,7 +35,6 @@
 			<folder>classes</folder>
 			<folder>controllers</folder>
 			<folder>css</folder>
-			<folder>dom</folder>
 			<folder>helpers</folder>
 			<folder>images</folder>
 			<folder>js</folder>
