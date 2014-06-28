@@ -13,8 +13,8 @@
 	</fieldset>
 	<fieldset name="bible" label="COM_ZEFANIABIBLE_BIBLE_LABEL" description="COM_ZEFANIABIBLE_BIBLE_LABEL_DESC" >
 		<field type="spacer" name="myspacer" hr="true" />
-		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
-		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
 		<field name="int_limit_query" type="list" default="500" label="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
 			<option value='100' >100</option>
 			<option value='250' >250</option>
@@ -171,7 +171,7 @@
 		<field type="spacer" name="myspacer2" hr="true" />	
 		
 		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" />					
-		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />
 		<field name="flg_use_year_date" type="list" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -216,7 +216,7 @@
 		</field>
 		<field name="commentaryWidth" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_WIDTH_DESC" />
 		<field name="commentaryHeight" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_COMMENTARY_HEIGHT_DESC" />
-		<field name="primaryCommentary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE publish=1 ORDER BY title" key_field="alias" value_field = "full_name" />							
+		<field name="primaryCommentary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY" description="COM_ZEFANIABIBLE_PRIMARY_COMMENTARY_DESC" query="SELECT full_name, alias, id FROM #__zefaniabible_zefaniacomment WHERE published=1 ORDER BY title" key_field="alias" value_field = "full_name" />							
 		<field name="str_com_default_image" type="media" label="COM_ZEFANIABIBLE_COM_DEFAULT_IMAGE" description="COM_ZEFANIABIBLE_COM_DEFAULT_IMAGE_DESC" />
 	</fieldset>
 	
@@ -225,7 +225,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>	
-		<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
+		<field name="str_primary_dictionary" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY" description="COM_ZEFANIABIBLE_PRIMARY_DICTIONARY_DESC" query="SELECT name, alias FROM #__zefaniabible_dictionary_info WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />		
 		<field name="xmlDictionaryPath" type="text" size="50" default="media/com_zefaniabible/dictionary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_DICTIONARY_XML_FILE_DESC" />
 		<field name="str_dictionary_width" type="text" size="50" default="800" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_WIDTH_DESC" />
 		<field name="str_dictionary_height" type="text" size="50" default="500" label="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT" description="COM_ZEFANIABIBLE_FIELD_DICTIONARY_HEIGHT_DESC" />
