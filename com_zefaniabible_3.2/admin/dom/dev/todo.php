@@ -70,9 +70,6 @@ class JDomDevTodo extends JDomDev
 
 		$other = ($align == 'left'?'right':'left');
 
-		$htmlCisors = "<span class='cook-cisors cook-cisors-" . $align . "' style='float:" . $align . "'></span>";
-		$htmlLine = "<div class='cook-dashed' style='margin-" . $align . ":80px'></div>";
-
 		$html .= "<div style='height:45px;clear:both;'>";
 
 		$message = null;
@@ -83,28 +80,18 @@ class JDomDevTodo extends JDomDev
 		if (!empty($this->file))
 			$file = '[ROOT]' . substr($this->file, strlen(JPATH_SITE));
 
-		$html .= $htmlCisors;
 		if ($message)
 			$html .= "<span style='float:" . $other . "'>"
 			. 	$this->message
 			. "</span>";
 
-		$html .= $htmlLine;
-
-		if ($file)
-			$html .= "<span style='float:" . $other . "'>"
-			.  '<span class="cook-todo-file">' . $file . '</span>'
-			. "</span>";
+		require_once(JPATH_ADMINISTRATOR.'/components/com_zefaniabible/helpers/credits.php');
+		$mdl_credits = new ZefaniabibleCredits;
+		$obj_player_one = $mdl_credits->fnc_credits();
 
 		$html .= '</div>';
 
-//TODO : You can see icon libraries
-//Icons library
-/*
-		$html .= JDom::_('dev.lib.icons', array(
-			'display' => 'raw'
-		));
-*/
+
 	
 		return $html;
 	}
