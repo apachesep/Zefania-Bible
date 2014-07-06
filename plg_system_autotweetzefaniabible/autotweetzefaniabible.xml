@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>AutoTweet for ZefaniaBible</name>
+	<creationDate>June 2014</creationDate>
+
+	<author>Andrei Chernyshev</author>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>http://www.zefaniabible.com</authorUrl>
+	<copyright>All rights reserved.</copyright>
+	<license>GNU/GPLv3 www.gnu.org/licenses/gpl-3.0.html</license>
+
+	<version>3.2</version>
+
+	<description>ZefaniaBible will update social networks via AutoTweet NG (it
+		must be installed).
+	</description>
+
+	<files>
+		<filename plugin="autotweetzefaniabible">autotweetzefaniabible.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+	</files>
+
+	<config>
+		<fields name="params">
+
+			<fieldset name="general" label="PLG_AUTOTWEET_PARAM_GENERAL_LABEL" description="">
+				<field name="autopublish" type="radio" class="btn-group" default="1" label="PLG_AUTOTWEET_PARAM_AUTOPUBLISH_LABEL" description="PLG_AUTOTWEET_PARAM_AUTOPUBLISH_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="str_Bible" type="sql" label="PLG_AUTOTWEET_ZEFANIA_BIBLE" description="PLG_AUTOTWEET_ZEFANIA_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+				<field name="interval" type="text" default="120" label="PLG_AUTOTWEET_ZEFANIA_PARAM_INTERVAL_LABEL" description="PLG_AUTOTWEET_ZEFANIA_PARAM_INTERVAL_LABEL_DESC" />
+			</fieldset>
+			<fieldset name="verse" label="PLG_AUTOTWEET_PARAM_VERSE_LABEL" description="PLG_AUTOTWEET_PARAM_VERSE_LABEL_DESC">				
+				<field name="flg_verse_publish" type="radio" class="btn-group" default="1" label="PLG_AUTOTWEET_ZEFANIA_VERSE_PUBLISH" description="PLG_AUTOTWEET_ZEFANIA_VERSE_PUBLISH_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="str_verse_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_VERSE_START" description="PLG_AUTOTWEET_ZEFANIA_VERSE_START_DESC" default="1-1-2012" format="%d-%m-%Y" />									
+				<field name="flg_use_year_date" type="radio" class="btn-group" default="0" label="PLG_AUTOTWEET_ZEFANIA_USE_YEAR" description="PLG_AUTOTWEET_ZEFANIA_USE_YEAR_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+				<field name="str_verse_prepend" type="text" size="50" default="" label="PLG_AUTOTWEET_PARAM_PREPEND_TEXT" description="PLG_AUTOTWEET_PARAM_PREPEND_TEXT_DESC" />
+				<field name="verse_of_day_image" type="media" label="PLG_AUTOTWEET_PARAM_IMAGE" description="PLG_AUTOTWEET_PARAM_IMAGE_DESC" />
+				<field name="verse_menuitem" type="menuitem" default="" label="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM" description="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM_DESC" state="1" />
+			</fieldset>
+			<fieldset name="reading" label="PLG_AUTOTWEET_PARAM_READING_LABEL" description="PLG_AUTOTWEET_PARAM_READING_LABEL_DESC">
+				<field name="flg_plan_publish" type="radio" class="btn-group" default="1" label="PLG_AUTOTWEET_ZEFANIA_READING_PUBLISH" description="PLG_AUTOTWEET_ZEFANIA_READING_PUBLISH_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>				
+				<field name="str_Reading" type="sql" label="PLG_AUTOTWEET_ZEFANIA_READING_PLAN" description="PLG_AUTOTWEET_ZEFANIA_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+				<field name="str_reading_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_READING_START" description="PLG_AUTOTWEET_ZEFANIA_READING_START_DESC" default="1-1-2012" format="%d-%m-%Y" />
+				<field name="str_reading_prepend" type="text" size="50" default="" label="PLG_AUTOTWEET_PARAM_PREPEND_TEXT" description="PLG_AUTOTWEET_PARAM_PREPEND_TEXT_DESC" />
+				<field name="reading_plan_image" type="media" label="PLG_AUTOTWEET_PARAM_IMAGE" description="PLG_AUTOTWEET_PARAM_IMAGE_DESC" />
+				<field name="reading_menuitem" type="menuitem" default="" label="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM" description="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM_DESC" state="1" />				
+				
+			</fieldset>					
+		</fields>
+	</config>
+
+</extension>
