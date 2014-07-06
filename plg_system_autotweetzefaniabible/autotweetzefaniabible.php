@@ -238,7 +238,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 						// Already done when msg is inserted in queue
 						'image_url' => '',
 
-						'fulltext' => $text,
+						'fulltext' => $full_text,
 						'catids' => '',
 						'cat_names' => '',
 						'author' => 'zefaniaBible',
