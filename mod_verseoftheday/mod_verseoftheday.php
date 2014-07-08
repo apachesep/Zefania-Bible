@@ -114,9 +114,9 @@ class ZefVerseOfTheDay
 	
 			// time zone offset.
 			$config = JFactory::getConfig();
-			date_default_timezone_set($config->get('offset'));	
-	
-			$this->str_today = new DateTime(date('d-m-Y'));
+			$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+			$this->str_today = $JDate->format('Y-m-d', true);
+			$this->str_today = new DateTime($this->str_today);
 			$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_start_date->format('U')) / (60*60*24));	
 			
 			$this->fnc_Get_Verse_Of_The_Day_Info();

@@ -71,10 +71,10 @@ class zefReadingPlan
 		$jlang->load('mod_readingplan', JPATH_BASE."/modules/mod_readingplan", null, true);
 		 
 		// time zone offset.
-		$config =& JFactory::getConfig();
-		date_default_timezone_set($config->get('offset'));		
-		
-		$this->str_today = new DateTime(date('Y-m-d'));
+		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$this->str_today = $JDate->format('Y-m-d', true);
+		$this->str_today = new DateTime($this->str_today);
 		$this->int_day_diff = round(abs($this->str_today->format('U') - $this->str_reading_start_date->format('U')) / (60*60*24));	
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 
@@ -91,7 +91,7 @@ class zefReadingPlan
 		$x = 0;
 		$str_link = JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder);
 		$str_verse_output_link = '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.$str_link.'" target="_self">';
-
+		$str_scripture = '';
 		foreach ($this->arr_reading_plan as $arr_reading)
 		{
 			if(($arr_reading->begin_verse == 0)and($arr_reading->end_verse == 0))
