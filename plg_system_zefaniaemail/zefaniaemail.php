@@ -66,6 +66,7 @@ class plgSystemZefaniaEmail extends JPlugin
 	private $str_reading_plan_image;
 	private $str_image_verse_of_day;
 	private $str_image_reading_plan;
+	private $str_today;
 	
 	public function  onAfterRender()
 	{
@@ -101,8 +102,12 @@ class plgSystemZefaniaEmail extends JPlugin
 		$this->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
 		
 		// time zone offset.
-		date_default_timezone_set($config->get('offset'));	
-		if($this->str_reading_send_date != date("Y-m-d"))
+		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$this->str_today = $JDate->format('Y-m-d', true);
+		$this->str_today = new DateTime($this->str_today);
+		
+		if($this->str_reading_send_date != $this->str_today)
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING_PLAN_EMAIL', 2);
 			$this->arr_reading_subscribers = $this->fnc_get_subsribers_reading();
@@ -113,7 +118,6 @@ class plgSystemZefaniaEmail extends JPlugin
 				$arr_book_info = "";
 				$this->arr_plan_info  = '';
 				$this->str_reading_start_date =  new DateTime($arr_subscriber->reading_start_date);
-				$this->str_today = new DateTime(date('Y-m-d'));
 				$this->int_reading_day_diff = round(abs($this->str_today->format('U') - $this->str_reading_start_date->format('U')) / (60*60*24));
 				$this->int_reading_plan_id =  $arr_subscriber->plan;
 				
@@ -147,12 +151,11 @@ class plgSystemZefaniaEmail extends JPlugin
 				}
 			}
 		}
-		else if($this->str_verse_send_date != date("Y-m-d"))
+		else if($this->str_verse_send_date != $this->str_today)
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL', 1);
 			$this->arr_verse_subscribers = $this->fnc_get_subsribers_verse();
-			$this->str_verse_start_date = new DateTime($this->arr_verse_start_date);		
-			$this->str_today = new DateTime(date('Y-m-d'));
+			$this->str_verse_start_date = new DateTime($this->arr_verse_start_date);
 			
 			if (version_compare(PHP_VERSION, '5.3.0') >= 0) 
 			{
@@ -275,7 +278,7 @@ class plgSystemZefaniaEmail extends JPlugin
 			$db = JFactory::getDBO();
 			$arr_row->id = 	$int_id;
 			$arr_row->title = 	$str_title;
-			$arr_row->last_send_date 	= date('Y-m-d');
+			$arr_row->last_send_date 	= $this->str_today;
 			$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
 		}
 		catch (JException $e)
