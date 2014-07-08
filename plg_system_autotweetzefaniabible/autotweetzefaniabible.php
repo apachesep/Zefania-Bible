@@ -472,14 +472,14 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			if($last_date == '')
 			{
 				$arr_row->title = 	$str_title;
-				$arr_row->last_send_date 	= date('Y-m-d');						
+				$arr_row->last_send_date 	= $this->str_today;						
 				$db->insertObject("#__zefaniabible_zefaniapublish", $arr_row, $int_id);
 			}
 			else
 			{
 				$arr_row->id = 	$int_id;
 				$arr_row->title = 	$str_title;
-				$arr_row->last_send_date 	= date('Y-m-d');				
+				$arr_row->last_send_date 	= $this->str_today;				
 				$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
 			}
 		}
