@@ -37,7 +37,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="str_verse_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_VERSE_START" description="PLG_AUTOTWEET_ZEFANIA_VERSE_START_DESC" default="1-1-2012" format="%d-%m-%Y" />									
+				<field name="str_verse_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_VERSE_START" description="PLG_AUTOTWEET_ZEFANIA_VERSE_START_DESC" default="1-1-2012" format="%d-%m-%Y" filter="server_utc" />
 				<field name="flg_use_year_date" type="radio" class="btn-group" default="0" label="PLG_AUTOTWEET_ZEFANIA_USE_YEAR" description="PLG_AUTOTWEET_ZEFANIA_USE_YEAR_DESC">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
@@ -52,7 +52,7 @@
 					<option value="0">JNO</option>
 				</field>				
 				<field name="str_Reading" type="sql" label="PLG_AUTOTWEET_ZEFANIA_READING_PLAN" description="PLG_AUTOTWEET_ZEFANIA_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
-				<field name="str_reading_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_READING_START" description="PLG_AUTOTWEET_ZEFANIA_READING_START_DESC" default="1-1-2012" format="%d-%m-%Y" />
+				<field name="str_reading_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_READING_START" description="PLG_AUTOTWEET_ZEFANIA_READING_START_DESC" default="1-1-2012" format="%d-%m-%Y" filter="server_utc" />
 				<field name="str_reading_prepend" type="text" size="50" default="" label="PLG_AUTOTWEET_PARAM_PREPEND_TEXT" description="PLG_AUTOTWEET_PARAM_PREPEND_TEXT_DESC" />
 				<field name="reading_plan_image" type="media" label="PLG_AUTOTWEET_PARAM_IMAGE" description="PLG_AUTOTWEET_PARAM_IMAGE_DESC" />
 				<field name="reading_menuitem" type="menuitem" default="" label="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM" description="PLG_AUTOTWEET_ZEFANIA_MO_MENUITEM_DESC" state="1" />				
