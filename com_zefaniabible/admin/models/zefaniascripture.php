@@ -88,7 +88,7 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 		return parent::getStoreId($id);
 	}
 
-
+
 
 	/**
 	 * Method to auto-populate the model state.
@@ -234,7 +234,7 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 			. ' FROM `#__zefaniabible_bible_text` AS a '
 				.	' LEFT JOIN `#__zefaniabible_bible_names` AS _bible_version_ ON _bible_version_.id = a.bible_id'
 			. $this->_buildQueryJoin() . ' '
-
+
 			. $this->_buildQueryWhere()
 
 

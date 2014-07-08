@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Zefaniabible Zefaniareading Controller
  *
  * @package		Joomla
- * @subpackage	Zefaniabible
+ * @subpackage	Zefaniabible
  *
  */
 class ZefaniabibleControllerZefaniareading extends ZefaniabibleController
@@ -143,7 +143,7 @@ class ZefaniabibleControllerZefaniareading extends ZefaniabibleController
 			default:
 				JRequest::setVar( 'view'  , 'zefaniareadingitem');
 				JRequest::setVar( 'layout', 'addreading' );
-				break;
+				break;
 
 		}
 

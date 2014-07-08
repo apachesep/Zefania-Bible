@@ -94,7 +94,7 @@ class ZefaniabibleModelZefaniabible extends ZefaniabibleModelList
 
 		return parent::getStoreId($id);
 	}
-
+
 
 
 	/**

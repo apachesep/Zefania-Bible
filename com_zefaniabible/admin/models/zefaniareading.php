@@ -91,7 +91,7 @@ class ZefaniabibleModelZefaniareading extends ZefaniabibleModelList
 	 * @return	string		A store id.
 	 * @since	1.6
 	 */
-	protected function getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 

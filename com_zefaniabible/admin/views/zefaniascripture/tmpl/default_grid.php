@@ -72,7 +72,7 @@ if(count( $this->items ) == 0)
 
 
 		?>
-
+
 		<tr class="<?php echo "row$k"; ?>">
 
 			<td class='row_id'>

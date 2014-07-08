@@ -291,7 +291,7 @@ class ZefaniabibleModelZefaniabiblebooksitem extends ZefaniabibleModelItem
 
 
 		}
-
+
 		return true;
 	}
 	/**

@@ -352,7 +352,7 @@ class JDom extends JObject
 
 				case 'back';
 					$path = JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. $extension;
-					break;
+					break;
 
 
 				default:
