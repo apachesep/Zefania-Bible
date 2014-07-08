@@ -113,7 +113,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=verserss&format=raw&a='.$str_bibleVersion);	
 		}
 		$this->assignRef('arr_verse',				$arr_verse);
-		$this->assignRef('int_verse_remainder',		$int_verse_remainder);
+		$this->assignRef('int_verse_remainder',		$int_verse_remainder);
 		$this->assignRef('arr_verse_info',			$arr_verse_info);
 		$this->assignRef('str_bible_Version',		$str_bibleVersion);		
 		parent::display($tpl);
