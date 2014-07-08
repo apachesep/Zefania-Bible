@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Zefaniabible Zefaniacomment Controller
  *
  * @package		Joomla
- * @subpackage	Zefaniabible
+ * @subpackage	Zefaniabible
  *
  */
 class ZefaniabibleControllerZefaniacomment extends ZefaniabibleController

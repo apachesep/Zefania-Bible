@@ -157,7 +157,7 @@ class TableZefaniareadingdetailsitem extends JTable
 		}
 
 		if (!empty($this->begin_verse) && !preg_match("/^(\d|-)?(\d|,)*\.?\d*$/", $this->begin_verse)){
-			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_BEGIN_VERSE")) );
+			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_BEGIN_VERSE")) );
 			$valid = false;
 		}
 

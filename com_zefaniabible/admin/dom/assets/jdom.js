@@ -131,7 +131,7 @@ var JDomRequest = new Class(
 		});
 
 
-	},
+	},
 
 	initMooTools2: function()
 	{
@@ -216,7 +216,7 @@ var JDomRequest = new Class(
 
 	onTimeout:function()
 	{
-
+
 	},
 
 	onFailure:function(xhr)
