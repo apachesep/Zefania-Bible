@@ -155,7 +155,7 @@ class zefSubscibe
 		} 
 		$str_message = $str_message . "<br>"; 
 		$str_message = $str_message . JText::_('ZEFANIABIBLE_BIBLE_SEND_VERSE_EMAIL').": ";
-		if($flg_send_verse) 
+		if($flg_send_verse) 
 		{ 
 			$str_message = $str_message . JText::_('JYES'); 
 		} 
