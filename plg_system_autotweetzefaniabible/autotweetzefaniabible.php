@@ -104,6 +104,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		$document	= JFactory::getDocument();
 		$docType = $document->getType();
 		if($docType != 'html') return; 
+		
 			
 		$this->loadLanguage();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
@@ -144,10 +145,12 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		$this->str_social_verse		= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_VERSE');	
 		$this->str_social_reading	= $this->fnc_get_last_publish_date('COM_ZEFANIABIBLE_READING');	
 		
-		$this->str_today = new DateTime(date('Y-m-d'));	
-		$string_today = date('Y-m-d');
-		$str_year = date('-m-Y');
-		if(($this->flg_verse_publish)and($this->str_social_verse != date("Y-m-d")))
+		// time zone offset.
+		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$this->str_today = $JDate->format('Y-m-d', true);
+				
+		if(($this->flg_verse_publish)and($this->str_social_verse != $this->str_today))
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_VERSE', 4, $this->str_social_verse);				
 			$this->str_verse_start_date = new DateTime($this->arr_verse_start_date);		
@@ -172,9 +175,9 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$item->verse_text 	= $this->str_verse_body;
 			$item->type				= 'verse';			
 			$native_object = json_encode($item);
-			$this->postStatusMessage('verse-'.$this->id.$str_year, $string_today, $this->str_verse_title, self::TYPE_VERSEOFDAY, $this->str_verse_link, $this->str_verse_of_day_image, $native_object);				
+			$this->postStatusMessage('verse-'.$this->id.$this->str_today, $this->str_today, $this->str_verse_title, self::TYPE_VERSEOFDAY, $this->str_verse_link, $this->str_verse_of_day_image, $native_object);				
 		}
-		if(($this->flg_plan_publish)and($this->str_social_reading != date("Y-m-d")))
+		if(($this->flg_plan_publish)and($this->str_social_reading != $this->str_today))
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING', 5,$this->str_social_reading);				
 			$this->str_reading_start_date = new DateTime($this->arr_reading_start_date);
@@ -195,7 +198,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$item->type				= 'reading';
 			$native_object = json_encode($item);
 
-			$this->postStatusMessage('biblereading-'.$this->id.$str_year, $string_today, $this->str_reading_title, self::TYPE_BIBLEREADING, $this->str_reading_link, $this->str_reading_plan_image, $native_object);
+			$this->postStatusMessage('biblereading-'.$this->id.$this->str_today, $this->str_today, $this->str_reading_title, self::TYPE_BIBLEREADING, $this->str_reading_link, $this->str_reading_plan_image, $native_object);
 		}		
 	}
 	/**
@@ -329,7 +332,6 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$query->where("a.day_number = ".$this->int_reading_remainder);
 				
 			$db->setQuery($query);
-			echo '';
 			$data = $db->loadObjectList();	
 		}
 		catch (JException $e)
