@@ -151,7 +151,7 @@
 		</field>
 		<field name="int_front_start_chapter" type="text"  size="3" default="1" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND_DESC" />
 		<field name="xmlBiblesPath" type="text" size="50" default="media/com_zefaniabible/bibles/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_XML_FILE_DESC" />
-		<field name="flg_use_bible_selection" type="list" default="1" label="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION" description="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION_DESC">
+		<field name="flg_use_bible_selection" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION" description="COM_ZEFANIABIBLE_USE_BIBLE_SELECTION_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
@@ -159,38 +159,38 @@
 		<field name="str_scripture_default_image" type="media" label="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE" description="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE_DESC" />
 		<field type="spacer" name="myspacer2" hr="true" />	
 		
-		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" />					
+		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y"  filter="server_utc" />					
 		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
-		<field name="flg_use_year_date" type="list" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
+		<field name="flg_use_year_date" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
 
 		<field type="spacer" name="myspacer3" hr="true" />				
-		<field name="show_credit" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT" description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
+		<field name="show_credit" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT" description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		<field name="flg_email_button" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON" description="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON_DESC">
+		<field name="flg_email_button" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON" description="COM_ZEFANIABIBLE_FIELD_EMAIL_BUTTON_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		<field name="flg_plan_rssfeed_button" type="list" default="1" label="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON" description="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON_DESC">
+		<field name="flg_plan_rssfeed_button" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON" description="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON_DESC">
 				<option value="0">JHIDE</option> 
 				<option value="1">JSHOW</option>
 		</field>			
 	</fieldset>
 	
 	<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
-		<field name="show_references" type="list" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
+		<field name="show_references" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		<field name="flg_reference_words" type="list" default="1" label="COM_ZEFANIABIBLE_REFERENCE_WORD" description="COM_ZEFANIABIBLE_REFERENCE_WORD_DESC">
+		<field name="flg_reference_words" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_REFERENCE_WORD" description="COM_ZEFANIABIBLE_REFERENCE_WORD_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		<field name="flg_reference_chapter_link" type="list" default="1" label="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK" description="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK_DESC">
+		<field name="flg_reference_chapter_link" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK" description="COM_ZEFANIABIBLE_REFERENCE_CHAPTER_LINK_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
@@ -199,7 +199,7 @@
 
 	<fieldset name="commentary" label="COM_ZEFANIABIBLE_COMMENTARY_LABEL" description="COM_ZEFANIABIBLE_COMMENTARY_LABEL_DESC">	
 		<field name="xmlCommentaryPath" type="text" size="50" default="media/com_zefaniabible/commentary/" label="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE" description="COM_ZEFANIABIBLE_FIELD_PATH_TO_COMMENTARY_XML_FILE_DESC" />
-		<field name="show_commentary" type="list" default="0" label="COM_ZEFANIABIBLE_COMMENTARY" description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
+		<field name="show_commentary" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_COMMENTARY" description="COM_ZEFANIABIBLE_COMMENTARY_DESC">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -210,7 +210,7 @@
 	</fieldset>
 	
 	<fieldset name="dictionary" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
-		<field name="flg_show_dictionary" type="list" default="0" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
+		<field name="flg_show_dictionary" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_DICTIONARY" description="COM_ZEFANIABIBLE_DICTIONARY_DESC">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>	
@@ -344,15 +344,15 @@
 		</field>	
 	</fieldset>	
 	<fieldset name="subscribtions" label="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL" description="COM_ZEFANIABIBLE_SUBSCRIPTIONS_LABEL_DESC">
-		<field name="flg_use_catcha" type="list" default="0" label="COM_ZEFANIABIBLE_CATCHA_USE" description="COM_ZEFANIABIBLE_CATCHA_USE_DESC">
+		<field name="flg_use_catcha" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_CATCHA_USE" description="COM_ZEFANIABIBLE_CATCHA_USE_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		<field name="flg_import_user_data" type="list" default="0" label="COM_ZEFANIABIBLE_USER_DATA" description="COM_ZEFANIABIBLE_USER_DATA_DESC">
+		<field name="flg_import_user_data" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_USER_DATA" description="COM_ZEFANIABIBLE_USER_DATA_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>		
-		<field name="catcha_color" type="list" default="red" label="COM_ZEFANIABIBLE_CATCHA_COLOR" description="COM_ZEFANIABIBLE_CATCHA_COLOR_DESC">
+		<field name="catcha_color" type="radio" class="btn-group" default="red" label="COM_ZEFANIABIBLE_CATCHA_COLOR" description="COM_ZEFANIABIBLE_CATCHA_COLOR_DESC">
 			<option value="red">COM_ZEFANIABIBLE_CATCHA_COLOR_RED</option>
 			<option value="white">COM_ZEFANIABIBLE_CATCHA_COLOR_WHITE</option>
 			<option value="blackglass">COM_ZEFANIABIBLE_CATCHA_COLOR_BLACKGRASS</option>
@@ -363,26 +363,26 @@
 	</fieldset>
 		
 	<fieldset name="pagination" label="COM_ZEFANIABIBLE_PAGINATION_LABEL" description="COM_ZEFANIABIBLE_PAGINATION_DESC">
-		<field name="show_pagination_top" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TOP" description="COM_ZEFANIABIBLE_PAGINATION_TOP_DESC">
+		<field name="show_pagination_top" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TOP" description="COM_ZEFANIABIBLE_PAGINATION_TOP_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		<field name="show_pagination_bot" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_BOT" description="COM_ZEFANIABIBLE_PAGINATION_BOT_DESC">
+		<field name="show_pagination_bot" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_PAGINATION_BOT" description="COM_ZEFANIABIBLE_PAGINATION_BOT_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		<field name="show_pagination_type" type="list" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TYPE" description="COM_ZEFANIABIBLE_PAGINATION_TYPE_DESC">
+		<field name="show_pagination_type" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_PAGINATION_TYPE" description="COM_ZEFANIABIBLE_PAGINATION_TYPE_DESC">
 				<option value="0">COM_ZEFANIABIBLE_PAGINATION_BUTTONS</option>
 				<option value="1">COM_ZEFANIABIBLE_PAGINATION_LINKS</option>
 		</field>		
 	</fieldset>
 	
 	<fieldset name="player" label="COM_ZEFANIABIBLE_PLAYER_LABEL" description="COM_ZEFANIABIBLE_PLAYER_DESC">
-		<field name="show_audioPlayer" type="list" default="0" label="COM_ZEFANIABIBLE_AUDIO_PLAYER" description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
+		<field name="show_audioPlayer" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_AUDIO_PLAYER" description="COM_ZEFANIABIBLE_AUDIO_PLAYER_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>		
-		<field name="player_type" type="list" default="0" label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
+		<field name="player_type" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_LABEL" description="COM_ZEFANIABIBLE_FIELD_ALT_PLAYER_DESC">
 			<option value="0">JW Player</option>
 			<option value="2">FlowPlayer</option>
 			<option value="1">Wordpress Audio Player</option>
@@ -398,7 +398,7 @@
 		<field name="adminName" type="text" size="25" label="COM_ZEFANIABIBLE_ADMIN_NAME" description="COM_ZEFANIABIBLE_ADMIN_NAME_DESC" />
 	</fieldset>
 	<fieldset name="sitemap" label="COM_ZEFANIABIBLE_SITEMAP" description="COM_ZEFANIABIBLE_SITEMAP_DESC">
-		<field name="flg_only_primary_bible" type="list" default="0" label="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE" description="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE_DESC">
+		<field name="flg_only_primary_bible" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE" description="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE_DESC">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
