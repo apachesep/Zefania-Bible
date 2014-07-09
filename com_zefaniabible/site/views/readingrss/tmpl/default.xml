@@ -5,25 +5,9 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request">
-			<field name="b" type="sql"
-				label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" 
-				description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" 
-				query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name"
-				key_field="alias"
-				value_field = "bible_name"
-			/>
-			<field name="a" type="sql"
-				label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" 
-				description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" 
-				query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name"
-				key_field="alias"
-				value_field = "name"
-			/>
-			<field name="d"
-				type="list"
-				default="0"
-				label="COM_ZEFANIABIBLE_RSS_FEED_TYPE"
-				description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_DESC">
+			<field name="b" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+			<field name="a" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+			<field name="d" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_RSS_FEED_TYPE" description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_DESC">
 					<option value="0">COM_ZEFANIABIBLE_RSS_FEED_TYPE_SEPERATE</option>
 					<option value="1">COM_ZEFANIABIBLE_RSS_FEED_TYPE_SINGLE</option>
 					<option value="2">COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST</option>
@@ -32,17 +16,8 @@
 	</fields>
 	<fields name="params">
 		<fieldset name="podcast" label="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST" description="COM_ZEFANIABIBLE_RSS_FEED_TYPE_PODCAST_DESC">		
-			<field name="adminEmail" 
-			type="text" 
-			size="25"
-			label="COM_ZEFANIABIBLE_ADMIN_EMAIL" 
-			description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />
-			
-			<field name="adminName" 
-			type="text" 
-			size="25"
-			label="COM_ZEFANIABIBLE_ADMIN_NAME" 
-			description="COM_ZEFANIABIBLE_ADMIN_NAME_DESC" />
+			<field name="adminEmail" type="text" size="25" label="COM_ZEFANIABIBLE_ADMIN_EMAIL" description="COM_ZEFANIABIBLE_ADMIN_EMAIL_DESC" />
+			<field name="adminName" type="text" size="25" label="COM_ZEFANIABIBLE_ADMIN_NAME" description="COM_ZEFANIABIBLE_ADMIN_NAME_DESC" />
 		</fieldset>
 	</fields>
 </metadata>
