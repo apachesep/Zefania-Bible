@@ -84,7 +84,7 @@ class ZefaniabibleViewStrong extends JViewLegacy
 		$str_dict_name = $mdl_strong->_buildQuery_dict_name($str_stong_alias);
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
+		$user = JFactory::getUser();
 		$this->assignRef('user',					$user);
 		$this->assignRef('access',					$access);
 		$this->assignRef('arr_passage',				$arr_passage);	

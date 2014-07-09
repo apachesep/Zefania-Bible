@@ -75,7 +75,7 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$str_Bible_Version = JRequest::getCmd('b', $str_primary_bible);	
 		$int_start_item = JRequest::getInt('c', JRequest::getVar('limitstart', 0, '', 'int'));
 		$int_number_of_items = JRequest::getInt('d', $mainframe->getCfg('feed_limit'));
-		
+		
 		$mdl_Plan_Model = new ZefaniabibleModelPlanrss;	
 
 		$str_Bible_Name = $mdl_Plan_Model->_buildQuery_Bible_Name($str_Bible_Version);

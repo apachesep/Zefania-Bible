@@ -100,9 +100,11 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 		
 		// time zone offset.
-		$config = JFactory::getConfig();
-
-		date_default_timezone_set($config->get('offset'));		
+ 		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$str_today = $JDate->format('Y-m-d', true);
+		$arr_today = new DateTime($str_today);	
+				
 		if(($user->id > 0)and($flg_import_user_data))
 		{
 			$arr_user_data = $biblemodel->_buildQuery_getUserData($user->id);
@@ -115,10 +117,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 		}	
 		
 		$arr_start_date = new DateTime($str_start_reading_date);	
-		$arr_today = new DateTime(date('Y-m-d'));
+
 		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
 		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
-		
 		$arr_bibles 		=	$biblemodel->_buildQuery_Bibles();
 		$arr_reading 		=	$biblemodel->_buildQuery_plan($str_reading_plan, $str_start_reading_date);
 		$arr_reading_plans 	= 	$biblemodel->_buildQuery_readingplan();
