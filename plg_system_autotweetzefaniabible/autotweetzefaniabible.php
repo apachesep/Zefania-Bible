@@ -174,6 +174,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$item->verse_link 	= $this->str_verse_link;
 			$item->verse_image 	= $this->str_verse_of_day_image;
 			$item->verse_text 	= $this->str_verse_body;
+			$item->verse_prepend = $this->str_verse_prepend;
 			$item->type				= 'verse';			
 			$native_object = json_encode($item);
 			$this->postStatusMessage('verse-'.$this->id.$str_today, $str_today, $this->str_verse_title, self::TYPE_VERSEOFDAY, $this->str_verse_link, $this->str_verse_of_day_image, $native_object);				
@@ -196,6 +197,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$item->reading_link 	= $this->str_reading_link;
 			$item->reading_image 	= $this->str_reading_plan_image;
 			$item->reading_text 	= $this->str_reading_body;
+			$item->reading_prepend 	= $this->str_reading_prepend;
 			$item->type				= 'reading';
 			$native_object = json_encode($item);
 
@@ -219,7 +221,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$title 	= $item->verse_title;
 			$link 	= $item->verse_link;
 			$image 	= $item->verse_image;
-			$text 	= $this->str_verse_prepend.' '. $item->verse_title;
+			$text 	= trim(mb_substr($item->verse_prepend.' '. $item->verse_title.' '.$item->verse_text,0,140));
 			$full_text = trim(mb_substr($item->verse_text,0,140));
 		}
 		else
@@ -227,10 +229,9 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$title 	= $item->reading_title;
 			$link 	= $item->reading_link;
 			$image 	= $item->reading_image;
-			$text 	= $this->str_reading_prepend.' '.$item->reading_title;
+			$text 	= trim(mb_substr($item->reading_prepend.' '.$item->reading_title.' '.$item->reading_text,0,140));
 			$full_text = trim(mb_substr($item->reading_text,0,140));
 		}
-		$hashtags .= $this->getHashtags($title, 1);
 		$data = array(
 						'title' => $title,
 						'text' => $text,
@@ -245,11 +246,11 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 						'fulltext' => $full_text,
 						'catids' => '',
 						'cat_names' => '',
-						'author' => 'zefaniaBible',
+						'author' => '',
 						'language' => '',
 						'access' => '',
 						'is_valid' => true
-		);
+		);			
 		return $data;
 	}
 	private function fnc_make_reading_plan()
