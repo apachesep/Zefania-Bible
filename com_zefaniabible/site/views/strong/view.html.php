@@ -73,8 +73,8 @@ class ZefaniabibleViewStrong extends JViewLegacy
 			a = Dictionary alias
 			b = Strong ID
 		*/
-		$str_stong_alias = JRequest::getCmd('a');
-		$str_strong_id = JRequest::getCmd('b', '1');	
+		$str_stong_alias = JRequest::getWord('a');
+		$str_strong_id = JRequest::getWord('b', '1');	
 		
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/strong.php');
@@ -84,7 +84,7 @@ class ZefaniabibleViewStrong extends JViewLegacy
 		$str_dict_name = $mdl_strong->_buildQuery_dict_name($str_stong_alias);
 		//Filters
 		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
+		$user = JFactory::getUser();
 		$this->assignRef('user',					$user);
 		$this->assignRef('access',					$access);
 		$this->assignRef('arr_passage',				$arr_passage);	

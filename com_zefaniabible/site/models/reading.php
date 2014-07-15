@@ -234,7 +234,7 @@ class ZefaniabibleModelReading extends ZefaniabibleModelList
 		try 
 		{
 			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
+			$query  = $db->getQuery(true);
 			$query->select('user.reading_start_date,bible.alias as bible_alias,plan.alias as plan_alias');
 			$query->from('`#__zefaniabible_zefaniauser` AS user');	
 			$query->innerJoin('`#__zefaniabible_zefaniareading` AS plan ON user.plan = plan.id');
