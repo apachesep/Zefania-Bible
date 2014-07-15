@@ -1535,7 +1535,7 @@ class getid3_quicktime extends getid3_handler
 			$QuicktimeVideoCodecLookup['qdrw'] = 'QuickDraw';
 			$QuicktimeVideoCodecLookup['raw '] = 'RAW';
 			$QuicktimeVideoCodecLookup['ripl'] = 'WaterRipple';
-			$QuicktimeVideoCodecLookup['rpza'] = 'Video';
+			$QuicktimeVideoCodecLookup['rpza'] = 'Video';
 			$QuicktimeVideoCodecLookup['smc '] = 'Graphics';
 			$QuicktimeVideoCodecLookup['SVQ1'] = 'Sorenson Video 1';
 			$QuicktimeVideoCodecLookup['SVQ1'] = 'Sorenson Video 3';

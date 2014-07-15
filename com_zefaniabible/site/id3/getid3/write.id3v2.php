@@ -1902,7 +1902,7 @@ class getid3_write_id3v2
 			$ID3v2ShortFrameNameLookup[2]['comment']                                          = 'COM';
 			$ID3v2ShortFrameNameLookup[2]['album']                                            = 'TAL';
 			$ID3v2ShortFrameNameLookup[2]['beats_per_minute']                                 = 'TBP';
-			$ID3v2ShortFrameNameLookup[2]['composer']                                         = 'TCM';
+			$ID3v2ShortFrameNameLookup[2]['composer']                                         = 'TCM';
 			$ID3v2ShortFrameNameLookup[2]['genre']                                            = 'TCO';
 			$ID3v2ShortFrameNameLookup[2]['itunescompilation']                                = 'TCP';
 			$ID3v2ShortFrameNameLookup[2]['copyright']                                        = 'TCR';

@@ -66,7 +66,7 @@ class getid3_id3v2 extends getid3_handler
 
 			unset($info['id3v2']);
 			return false;
-
+
 		}
 
 		if ($id3v2_majorversion > 4) { // this script probably won't correctly parse ID3v2.5.x and above (if it ever exists)

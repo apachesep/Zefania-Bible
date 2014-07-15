@@ -609,7 +609,7 @@ class getid3_lib
 			$getid3_temp = new getID3();
 			$tempdir = $getid3_temp->tempdir;
 			unset($getid3_temp);
-		}
+		}
 		// try to create a temporary file in the system temp directory - invalid dirname should force to system temp dir
 		if (($data_filename = tempnam($tempdir, 'gI3')) === false) {
 			// can't find anywhere to create a temp file, just fail
