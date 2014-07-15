@@ -96,8 +96,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$flg_import_user_data = 	$params->get('flg_import_user_data', '0');
 		$flg_show_dictionary = $params->get('flg_show_dictionary', 0);
 		
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
+		$str_reading_plan = JRequest::getWord('a', $str_primary_reading);	
+		$str_bibleVersion = JRequest::getWord('b', $str_primary_bible);
 		
 		// time zone offset.
  		$config = JFactory::getConfig();
@@ -140,7 +140,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
 			$mdl_commentary = new ZefaniabibleModelCommentary;			
 			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
+			$str_commentary = JRequest::getWord('com', $str_primary_commentary);
 			$x = 0;
 			foreach($arr_reading as $obj_reading)
 			{

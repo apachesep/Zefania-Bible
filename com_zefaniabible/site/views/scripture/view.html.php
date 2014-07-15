@@ -72,7 +72,7 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
-		$str_Bible_Version = JRequest::getCmd('a', 'kjv');
+		$str_Bible_Version = JRequest::getWord('a', 'kjv');
 		$str_Bible_book_id = JRequest::getInt('b', '1');
 		$str_begin_chap = JRequest::getInt('c', '1');
 		$str_begin_verse = preg_replace('/[^0-9\-\,]/','', preg_replace('/[\:]/','-',JRequest::getString('d', '1')));

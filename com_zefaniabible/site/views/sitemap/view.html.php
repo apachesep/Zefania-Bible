@@ -72,7 +72,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = $params->get('primaryBible', 'kjv');
 		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
-		$str_bible_alias = JRequest::getCmd('a', $str_primary_bible);	
+		$str_bible_alias = JRequest::getWord('a', $str_primary_bible);	
 		
 		$menuitemid = $params->get('rp_mo_menuitem');		
 		

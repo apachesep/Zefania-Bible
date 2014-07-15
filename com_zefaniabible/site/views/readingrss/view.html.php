@@ -80,8 +80,8 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
 			
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);	
+		$str_reading_plan = JRequest::getWord('a', $str_primary_reading);	
+		$str_bibleVersion = JRequest::getWord('b', $str_primary_bible);	
 		
 		// time zone offset.
  		$config = JFactory::getConfig();
@@ -93,7 +93,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
 		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
 		
-		$int_feed_type = JRequest::getCmd('d', 0);	
+		$int_feed_type = JRequest::getInt('d', 0);	
 		header('HTTP/1.1 301 Moved Permanently');
 		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$str_reading_plan."&b=".$str_bibleVersion.'&c='.$int_day_number.'&d='.$int_feed_type);	
 		parent::display($tpl);

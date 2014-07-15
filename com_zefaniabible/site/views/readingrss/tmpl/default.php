@@ -43,7 +43,7 @@ class BibleReadingPlan
 		$this->doc_page = JFactory::getDocument();	
 
 		$str_primary_reading = 		$params->get('primaryReading', 'ttb');		
-		$str_reading_plan = 	JRequest::getCmd('a', $str_primary_reading);		
+		$str_reading_plan = 	JRequest::getWord('a', $str_primary_reading);		
 		$int_feed_type	= 	JRequest::getInt('d', 0);
 		$str_bible_name = '';
 		$str_bible_audio_file = '';

@@ -76,7 +76,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));	
 		$flg_use_year_date = 	$this->params->get('flg_use_year_date', '0');
 		$int_day_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
-		$str_bibleVersion = JRequest::getCmd('a', $str_primary_bible);	
+		$str_bibleVersion = JRequest::getWord('a', $str_primary_bible);	
 				
 		$arr_verse_info	=	$biblemodel->_buildQuery_get_verses();
 		$arr_bible_info	=	$biblemodel->_buildQuery_bible_name($str_bibleVersion);

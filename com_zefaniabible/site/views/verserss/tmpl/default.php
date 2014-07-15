@@ -35,7 +35,7 @@ class ClsVerseRSS
 	{
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
-		$flg_redirect_request = JRequest::getCmd('b', 1);
+		$flg_redirect_request = JRequest::getInt('b', 1);
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_default_image = $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');		
 		

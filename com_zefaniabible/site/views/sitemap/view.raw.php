@@ -68,7 +68,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
 		if($flg_only_primary_bible)
 		{
-			$str_alias = JRequest::getCmd('a');
+			$str_alias = JRequest::getWord('a');
 			$arr_chapter_list = $mdl_bible_model_sitemap -> _buildQuery_ChapterList($str_alias);
 		}
 		else

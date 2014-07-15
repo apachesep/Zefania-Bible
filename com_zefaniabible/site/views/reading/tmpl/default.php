@@ -97,8 +97,8 @@ class BibleReadingPlan
 		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
 		$this->flg_show_references = $this->params->get('show_references', '0');
 		$this->str_tmpl = JRequest::getCmd('tmpl');
-		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
-		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
+		$this->str_reading_plan = 	JRequest::getWord('a', $this->str_primary_reading);	
+		$this->str_bibleVersion = 	JRequest::getWord('b', $this->str_primary_bible);		
 		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
 		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
 		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
@@ -106,8 +106,8 @@ class BibleReadingPlan
 		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
 		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
 		$this->str_primary_commentary = $this->params->get('primaryCommentary');
-		$this->str_curr_dict = JRequest::getCmd('dict');		
-		$this->str_commentary = JRequest::getCmd('com',$this->str_primary_commentary);
+		$this->str_curr_dict = JRequest::getWord('dict');		
+		$this->str_commentary = JRequest::getWord('com',$this->str_primary_commentary);
 		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
 		$this->flg_show_credit 			= $this->params->get('show_credit','0');
@@ -235,7 +235,7 @@ class BibleReadingPlan
 		$obj_dropdown = '';
 		foreach($arr_dictionary_list as $obj_dictionary)
 		{
-			if(JRequest::getCmd('dict') == $obj_dictionary->alias)
+			if(JRequest::getWord('dict') == $obj_dictionary->alias)
 			{
 				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'" selected>'.$obj_dictionary->name.'</option>';
 			}
@@ -250,7 +250,7 @@ class BibleReadingPlan
 	{
 		$this->flg_strong_dict = 1;
 		$str_verse='';
-		if(JRequest::getCmd('strong') == 1)
+		if(JRequest::getInt('strong') == 1)
 		{		
 			$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
 			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
@@ -314,9 +314,9 @@ class BibleReadingPlan
 		{
 			$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
 		}
-		if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
+		if(($this->flg_strong_dict)and(JRequest::getInt('strong') ==1))
 		{
-			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
+			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getInt('strong');
 		}		
 		// fix days yesterday's day when less than 1
 		if($int_day_number <= 1)
@@ -437,9 +437,9 @@ class BibleReadingPlan
 			{
 				$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
 			}
-			if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
+			if(($this->flg_strong_dict)and(JRequest::getInt('strong') ==1))
 			{
-				$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
+				$str_other_url_var = $str_other_url_var."&strong=".JRequest::getInt('strong');
 			}				
 			$str_url = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$x.$str_other_url_var;
 			$str_url = JRoute::_($str_url);
@@ -528,7 +528,7 @@ class BibleReadingPlan
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
 	                                <input type='hidden' value='0' name='strong'>
-                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getInt('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
 								</div>
 							</div>
 	                    <?php } ?>

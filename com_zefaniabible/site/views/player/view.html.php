@@ -84,7 +84,7 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 			$params->merge( $menuparams );
 		}
 		
-		$str_Bible_Alias = JRequest::getCmd('a','kjv');			
+		$str_Bible_Alias = JRequest::getWord('a','kjv');			
 		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/player.php');
