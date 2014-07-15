@@ -47,7 +47,7 @@ class StrongBible
 		
 		JHTML::stylesheet('zefaniascripturelinks.css', 'plugins/content/zefaniascripturelinks/css/');
 		$str_verse = "";	
-		$this->str_curr_dict = JRequest::getWord('a');
+		$this->str_curr_dict = JRequest::getCmd('a');
 		if(!$this->str_curr_dict)
 		{
 			$this->str_curr_dict = $this->str_primary_dictionary;

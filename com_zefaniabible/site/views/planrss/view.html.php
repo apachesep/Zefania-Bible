@@ -81,9 +81,9 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
 		$str_primary_plan = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_plan_alias = 	JRequest::getWord('a', $str_primary_plan);	
-		$str_Bible_Version = JRequest::getWord('b', $str_primary_bible);	
-		$int_start_item = JRequest::getInt('c', JRequest::getInt('limitstart', 0, '', 'int'));
+		$str_plan_alias = 	JRequest::getCmd('a', $str_primary_plan);	
+		$str_Bible_Version = JRequest::getCmd('b', $str_primary_bible);	
+		$int_start_item = JRequest::getInt('c', JRequest::getVar('limitstart', 0, '', 'int'));
 		$int_number_of_items = JRequest::getInt('d', $mainframe->getCfg('feed_limit'));
 
 		header('HTTP/1.1 301 Moved Permanently');

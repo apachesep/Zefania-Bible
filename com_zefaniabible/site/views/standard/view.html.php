@@ -110,7 +110,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$int_primary_book_front_end = $params->get('primary_book_frontend');
 		$int_primary_chapter_front_end = $params->get('int_front_start_chapter',1);
 		$str_tmpl = JRequest::getCmd('tmpl');
-		$str_Bible_Version = JRequest::getWord('a',$str_primary_bible);	
+		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);	
 		$int_Bible_Book_ID = JRequest::getInt('b', $int_primary_book_front_end);
 		$int_Bible_Chapter = JRequest::getInt('c', $int_primary_chapter_front_end);	
 		
@@ -142,7 +142,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
 			$mdl_commentary = new ZefaniabibleModelCommentary;			
 			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getWord('com', $str_primary_commentary);
+			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
 			$arr_commentary =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$int_Bible_Book_ID,$int_Bible_Chapter);
 			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
 			foreach($arr_commentary_list as $obj_comm_list)
@@ -182,9 +182,9 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			{
 				$str_redirect_url = $str_redirect_url . "&dict=".$str_primary_dictionary;
 			}
-			if(JRequest::getInt('strong') == 1)
+			if(JRequest::getCmd('strong') == 1)
 			{
-				$str_redirect_url = $str_redirect_url ."&strong=".JRequest::getInt('strong');
+				$str_redirect_url = $str_redirect_url ."&strong=".JRequest::getCmd('strong');
 			}			
 			$str_redirect_url = JRoute::_($str_redirect_url);
 			header('HTTP/1.1 301 Moved Permanently');

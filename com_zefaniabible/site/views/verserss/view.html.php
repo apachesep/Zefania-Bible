@@ -90,8 +90,8 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));		
 		$flg_use_year_date = 	$this->params->get('flg_use_year_date', '0');	
 		$int_date_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
-		$str_bibleVersion = JRequest::getWord('a', $str_primary_bible);	
-		$int_day_diff = JRequest::getInt('c', $int_date_diff);
+		$str_bibleVersion = JRequest::getCmd('a', $str_primary_bible);	
+		$int_day_diff = JRequest::getCmd('c', $int_date_diff);
 		
 		$arr_verse_info	=	$biblemodel->_buildQuery_get_verses();
 		$arr_bible_info	=	$biblemodel->_buildQuery_bible_name($str_bibleVersion);
@@ -111,7 +111,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		}				
 		$arr_verse	=	$biblemodel->_buildQuery_get_verse_of_the_day($arr_verse_info,$int_verse_remainder,$arr_bible_info);
 		
-		$flg_redirect_request = JRequest::getInt('b', 1);
+		$flg_redirect_request = JRequest::getCmd('b', 1);
 		if($flg_redirect_request)
 		{		
 			header('HTTP/1.1 301 Moved Permanently');

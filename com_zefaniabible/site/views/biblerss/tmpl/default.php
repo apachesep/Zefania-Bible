@@ -34,10 +34,10 @@ class BibleRss {
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_primary_bible = 		$this->params->get('primaryBible', 'kjv');
 		$str_default_image = 		$this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
-		$str_Bible_Version = JRequest::getWord('a', $str_primary_bible);	
+		$str_Bible_Version = JRequest::getCmd('a', $str_primary_bible);	
 		$int_book_id = JRequest::getInt('b', 1);
 		$int_chapter_id = JRequest::getInt('c', 1);
-		$str_feed_type = JRequest::getWord('d', 'rss');	
+		$str_feed_type = JRequest::getCmd('d', 'rss');	
 		
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();

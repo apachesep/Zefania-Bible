@@ -70,8 +70,8 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
 			
-		$str_reading_plan = JRequest::getWord('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getWord('b', $str_primary_bible);
+		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
+		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
 
 		// time zone offset.
  		$config = JFactory::getConfig();

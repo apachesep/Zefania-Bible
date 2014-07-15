@@ -90,7 +90,7 @@ class BibleStandard {
 		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
 		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
 		$this->str_primary_commentary = $this->params->get('primaryCommentary');
-		$this->str_curr_dict = JRequest::getWord('dict');
+		$this->str_curr_dict = JRequest::getCmd('dict');
 		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
  
 		$this->flg_show_credit 		= $this->params->get('show_credit','0');
@@ -196,7 +196,7 @@ class BibleStandard {
 			if($this->flg_show_commentary)
 			{
 				$str_primary_commentary = $this->params->get('primaryCommentary');
-				$this->str_commentary = JRequest::getWord('com',$str_primary_commentary);
+				$this->str_commentary = JRequest::getCmd('com',$str_primary_commentary);
 
 				foreach($arr_commentary as $int_verse_commentary)
 				{
@@ -221,7 +221,7 @@ class BibleStandard {
 	{
 		$this->flg_strong_dict = 1;
 		$str_verse='';
-		if(JRequest::getInt('strong') == 1)
+		if(JRequest::getCmd('strong') == 1)
 		{
 			$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
 			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
@@ -281,9 +281,9 @@ class BibleStandard {
 		{
 			$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
 		}
-		if(($this->flg_strong_dict)and(JRequest::getInt('strong') == 1))
+		if(($this->flg_strong_dict)and(JRequest::getCmd('strong') == 1))
 		{
-			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getInt('strong');
+			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
 		}
 		if($int_Bible_Book_ID > 1)
 		{
@@ -355,7 +355,7 @@ class BibleStandard {
 		$obj_dropdown = '';
 		foreach($arr_dictionary_list as $obj_dictionary)
 		{
-			if(JRequest::getWord('dict') == $obj_dictionary->alias)
+			if(JRequest::getCmd('dict') == $obj_dictionary->alias)
 			{
 				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'" selected>'.$obj_dictionary->name.'</option>';
 			}
@@ -456,7 +456,7 @@ class BibleStandard {
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
 	                                <input type='hidden' value='0' name='strong'>
-                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getInt('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
 								</div>
 							</div>
 	                    <?php } ?>                         

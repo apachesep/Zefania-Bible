@@ -88,7 +88,7 @@ class ZefaniabibleViewModal extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/models/modal.php');
 		$mdl_bible_modal = new ZefaniabibleModelModal;
 		$int_link_type = JRequest::getInt('b');
-		$str_bible_alias = JRequest::getWord('e');
+		$str_bible_alias = JRequest::getCmd('e');
 		$int_bible_book_id = JRequest::getInt('f');
 		$int_begin_chap = JRequest::getInt('g');
 		$int_begin_verse = JRequest::getInt('h');

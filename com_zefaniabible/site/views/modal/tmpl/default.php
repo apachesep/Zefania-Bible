@@ -80,11 +80,11 @@ class cls_button_scripture {
 		$this->int_modal_height = $params->get('int_modal_height', 500);
 		$this->str_bible_gateway_version = $params->get('bible_gateway_version', 9); 
 		
-		$this->str_lang = JRequest::getWord('a', 'en-GB');
+		$this->str_lang = JRequest::getCmd('a', 'en-GB');
 		$this->int_link_type = JRequest::getInt('b');
 		$this->flg_use_tags = JRequest::getBool('c');
-		$this->str_label = JRequest::getWord('d','');
-		$this->str_bible_alias = JRequest::getWord('e',$str_primary_bible);
+		$this->str_label = JRequest::getCmd('d','');
+		$this->str_bible_alias = JRequest::getCmd('e',$str_primary_bible);
 		$this->int_bible_book_id = JRequest::getInt('f');
 		$this->int_begin_chap = JRequest::getInt('g');
 		$this->int_begin_verse = JRequest::getInt('h');

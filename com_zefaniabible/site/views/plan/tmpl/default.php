@@ -131,12 +131,12 @@ class BibleReadingPlanOverview
 	public function __construct($arr_bibles, $arr_reading, $arr_readingplans)
 	{
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );	
-		$this->str_bible_layout = JRequest::getWord('layout','default');
+		$this->str_bible_layout = JRequest::getCmd('layout','default');
 		$this->str_primary_bible = $this->params->get('primaryBible', 'kjv');
-		$this->str_bibleVersion = JRequest::getWord('b', $this->str_primary_bible);		
+		$this->str_bibleVersion = JRequest::getCmd('b', $this->str_primary_bible);		
 		
 		$this->str_primary_reading = $this->params->get('primaryReading', 'ttb');
-		$this->str_reading_plan = JRequest::getWord('a', $this->str_primary_reading);
+		$this->str_reading_plan = JRequest::getCmd('a', $this->str_primary_reading);
 		$this->flg_show_credit = $this->params->get('show_credit','0');
 		$this->flg_show_page_top = $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot = $this->params->get('show_pagination_bot', '1');	
@@ -160,7 +160,7 @@ class BibleReadingPlanOverview
 			
 
 		//RSS RSS 2.0 Feed
-		$this->int_start_item = JRequest::getInt('limitstart', 0, '', 'int');
+		$this->int_start_item = JRequest::getVar('limitstart', 0, '', 'int');
 		$this->int_number_of_items = $app_site->getUserStateFromRequest('$option.limit', 'limit', $app_site->getCfg('feed_limit'), 'int');
 		$href = 'index.php?option=com_zefaniabible&view=planrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_start_item.'&d='.$this->int_number_of_items.'&e=rss'; 
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 

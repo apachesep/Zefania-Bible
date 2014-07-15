@@ -81,11 +81,11 @@ class BibleSubscribe
     	$this->str_from_email_name	= $config->get( 'config.fromname' );		
 		
 		$this->str_user_name 			=	JRequest::getString('a');
-		$this->str_reading_plan		 	= 	JRequest::getWord('b');
-		$this->str_bibleVersion 		= 	JRequest::getWord('c');
+		$this->str_reading_plan		 	= 	JRequest::getCmd('b');
+		$this->str_bibleVersion 		= 	JRequest::getCmd('c');
 		$this->str_email 				=	JRequest::getString('d');
-		$this->flg_send_reading 		= 	JRequest::getWord('e');
-		$this->flg_send_verse			=	JRequest::getWord('f'); 
+		$this->flg_send_reading 		= 	JRequest::getCmd('e');
+		$this->flg_send_verse			=	JRequest::getCmd('f'); 
 		$this->str_start_reading_date 	= 	JRequest::getString('g');
 		
 		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );	

@@ -83,7 +83,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$str_primary_bible = $params->get('primaryBible', 'kjv');
 		$flg_show_commentary = $params->get('show_commentary', '0');
 		$str_primary_commentary = $params->get('primaryCommentary');
-		$str_bible_version = JRequest::getWord('a',$str_primary_bible);			
+		$str_bible_version = JRequest::getCmd('a',$str_primary_bible);			
 		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
