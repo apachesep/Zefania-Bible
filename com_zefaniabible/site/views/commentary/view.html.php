@@ -81,7 +81,7 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 		$str_primary_commentary = $params->get('primaryCommentary');
 		$str_com_default_image = $params->get('str_com_default_image','media/com_zefaniabible/images/commentaries.jpg');
 		
-		$str_commentary = JRequest::getCmd('a',$str_primary_commentary);			
+		$str_commentary = JRequest::getWord('a',$str_primary_commentary);			
 		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
 		$int_Bible_Chapter = JRequest::getInt('c', '1');
 		$int_Bible_Verse = JRequest::getInt('d', '1');
