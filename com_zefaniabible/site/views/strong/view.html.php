@@ -74,7 +74,7 @@ class ZefaniabibleViewStrong extends JViewLegacy
 			b = Strong ID
 		*/
 		$str_stong_alias = JRequest::getWord('a');
-		$str_strong_id = JRequest::getWord('b', '1');	
+		$str_strong_id = JRequest::getInt('b', '1');	
 		
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/strong.php');
