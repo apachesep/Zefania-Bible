@@ -49,6 +49,42 @@ function ZefaniabibleBuildRoute(&$query){
 			unset( $query['cid'] );
 		}
 	};
+	if(isset($query['plan']))
+	{
+		$segments[] = $query['plan'];
+		unset( $query['plan'] );				
+	}	
+	if(isset($query['bible']))
+	{
+		$segments[] = $query['bible'];
+		unset( $query['bible'] );				
+	}
+	if(isset($query['bible2']))
+	{
+		$segments[] = $query['bible2'];
+		unset( $query['bible2'] );				
+	}	
+	if(isset($query['book']))
+	{
+		$segments[] = $query['book'];
+		unset( $query['book'] );				
+	}
+	if(isset($query['chapter']))
+	{
+		$segments[] = $query['chapter'];
+		unset( $query['chapter'] );				
+	}
+	if(isset($query['verse']))
+	{
+		$segments[] = $query['verse'];
+		unset( $query['verse'] );				
+	}	
+	if(isset($query['type']))
+	{
+		$segments[] = $query['type'];
+		unset( $query['type'] );				
+	}	
+	
 	if(isset($query['a']))
 	{
 		$segments[] = $query['a'];
@@ -119,6 +155,41 @@ function ZefaniabibleParseRoute($segments)
 	$vars['view'] = $segments[0];
 
 	$nextPos = 1;
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['plan'] = $segments[$nextPos];
+		$nextPos++;
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['bible'] = $segments[$nextPos];
+		$nextPos++;
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['bible2'] = $segments[$nextPos];
+		$nextPos++;
+	}	
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['book'] = $segments[$nextPos];
+		$nextPos++;
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['chapter'] = $segments[$nextPos];
+		$nextPos++;
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['verse'] = $segments[$nextPos];
+		$nextPos++;
+	}	
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['type'] = $segments[$nextPos];
+		$nextPos++;
+	}	
 	if (isset($segments[$nextPos]))
 	{	
 		$vars['a'] = $segments[$nextPos];
