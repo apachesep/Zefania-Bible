@@ -1096,7 +1096,7 @@ class getid3_mp3 extends getid3_handler
 					$nextframetestoffset += $nextframetestarray['mpeg']['audio']['framelength'];
 				} else {
 					$info['error'][] = 'Frame at offset ('.$offset.') is has an invalid frame length.';
-					return false;
+					return false;
 				}
 
 			} elseif (!empty($firstframetestarray['mpeg']['audio']['framelength']) && (($nextframetestoffset + $firstframetestarray['mpeg']['audio']['framelength']) > $info['avdataend'])) {

@@ -66,7 +66,7 @@ class getid3_id3v2 extends getid3_handler
 
 			unset($info['id3v2']);
 			return false;
-
+
 		}
 
 		if ($id3v2_majorversion > 4) { // this script probably won't correctly parse ID3v2.5.x and above (if it ever exists)
@@ -331,7 +331,7 @@ class getid3_id3v2 extends getid3_handler
 
 				if ($frame_name == 'COM ') {
 					$info['warning'][] = 'error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag). (ERROR: IsValidID3v2FrameName("'.str_replace("\x00", ' ', $frame_name).'", '.$id3v2_majorversion.'))). [Note: this particular error has been known to happen with tags edited by iTunes (versions "X v2.0.3", "v3.0.1" are known-guilty, probably others too)]';
-					$frame_name = 'COMM';
+					$frame_name = 'COMM';
 				}
 				if (($frame_size <= strlen($framedata)) && ($this->IsValidID3v2FrameName($frame_name, $id3v2_majorversion))) {
 

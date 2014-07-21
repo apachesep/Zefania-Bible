@@ -890,7 +890,7 @@ class getID3
 				'real' => array(
 							'pattern'   => '^(\\.RMF|\\.ra)',
 							'group'     => 'audio-video',
-							'module'    => 'real',
+							'module'    => 'real',
 							'mime_type' => 'audio/x-realaudio',
 						),
 
