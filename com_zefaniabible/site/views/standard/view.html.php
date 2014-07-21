@@ -47,8 +47,6 @@ class ZefaniabibleViewStandard extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -70,147 +68,111 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			strong = Show/Hide Strong Numgers flag
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+						
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 		
 		// menu item overwrites
-		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
 			$menu = JFactory::getApplication()->getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
-		}
+		}		
+		
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
+		$item->flg_show_audio_player 			= $params->get('show_audioPlayer', '0');
+		$item->flg_show_references				= $params->get('show_references', '0');
+		$item->flg_show_commentary 				= $params->get('show_commentary', '0');
+		$item->flg_show_dictionary 				= $params->get('flg_show_dictionary', 0);
+		$item->str_primary_commentary 			= $params->get('primaryCommentary');				
+		$item->flg_show_pagination_type 		= $params->get('show_pagination_type','0');
+		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		
+		$item->flg_show_page_top 				= $params->get('show_pagination_top', '1');
+		$item->flg_show_page_bot 				= $params->get('show_pagination_bot', '1');	
+		$item->flg_email_button 				= $params->get('flg_email_button', '1');	
+		$item->flg_use_bible_selection 			= $params->get('flg_use_bible_selection', '1');	
+		$item->flg_reading_rss_button 			= $params->get('flg_plan_rssfeed_button', '1');
+		$item->str_commentary_width 			= $params->get('commentaryWidth','800');
+		$item->str_commentary_height 			= $params->get('commentaryHeight','500');
+		$item->str_dictionary_height 			= $params->get('str_dictionary_height','500');
+		$item->str_dictionary_width 			= $params->get('str_dictionary_width','800');	
+		$item->str_primary_dictionary  			= $params->get('str_primary_dictionary','');
+		$item->str_primary_commentary 			= $params->get('primaryCommentary');		 
+		$item->flg_show_credit 					= $params->get('show_credit','0');
+		$item->flg_show_audio_player 			= $params->get('show_audioPlayer','0');
+		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
+		$item->int_player_popup_width 			= $params->get('player_popup_width','300');		
+
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');			
+		$item->str_view 			= $jinput->get('view', 'standard', 'CMD');
+		$item->flg_use_strong		= $jinput->get('strong', null, 'INT');
+		$item->str_com 				= $jinput->get('com', null, 'CMD'); 		
+		$item->str_tmpl 			= $jinput->get('tmpl',null,'CMD');
+		$item->str_option			= $jinput->get('option', null, 'CMD');
+		$item->int_menu_item_id 	= $jinput->get('Itemid', null, 'INT');		
+		$item->str_commentary 		= $jinput->get('com', $item->str_primary_commentary, 'CMD');
+		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
+		
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
             throw new Exception(implode("\n", $errors));
         }
-
-		require_once(JPATH_COMPONENT_SITE.'/models/standard.php');
-		$biblemodel = new ZefaniabibleModelStandard;
 		
-		// make english strings
-		$jlang = JFactory::getLanguage();
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-		for($i = 1; $i <=66; $i++)
+		$item->int_max_chapter	= 	$mdl_default->_buildQuery_Max_Chapter($item);
+		$item->int_max_verse	= 	$mdl_default->_buildQuery_Max_Verse($item);
+		$item->str_collation	= 	$mdl_default->_buildQuery_collation();
+		$item->arr_Bibles 		= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_Chapter 		= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
+		
+		$item->bible_name				= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
+		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
+		$item->obj_bible_book_dropdown 	= $mdl_common->fnc_bible_book_dropdown($item); 
+		$item->obj_bible_chap_dropdown 	= $mdl_common->fnc_bible_chapter_dropdown($item);
+		
+		$mdl_common->fnc_redirect_last_chapter($item);
+		if($item->flg_show_references)
 		{
-			$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
-		}
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
-		
-		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;
-		$str_primary_bible = $params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$flg_show_audio_player = $params->get('show_audioPlayer', '0');
-		$flg_show_references = $params->get('show_references', '0');
-		$flg_show_commentary = $params->get('show_commentary', '0');
-		$flg_show_dictionary = $params->get('flg_show_dictionary', 0);
-		
-		$int_primary_book_front_end = $params->get('primary_book_frontend');
-		$int_primary_chapter_front_end = $params->get('int_front_start_chapter',1);
-		$str_tmpl = JRequest::getCmd('tmpl');
-		$str_Bible_Version = JRequest::getCmd('a',$str_primary_bible);	
-		$int_Bible_Book_ID = JRequest::getInt('b', $int_primary_book_front_end);
-		$int_Bible_Chapter = JRequest::getInt('c', $int_primary_chapter_front_end);	
-		
-		$int_max_chapter = 	$biblemodel-> _buildQuery_Max_Chapter($int_Bible_Book_ID);
-		$str_collation = $mdl_default->_buildQuery_collation();
-			
-		$arr_Bibles = 		$biblemodel-> _buildQuery_Bibles();
-		$arr_Chapter = 		$biblemodel-> _buildQuery_Chapter($str_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter);
-		$arr_References = 	$biblemodel-> _buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter);
-		$int_max_verse = 	$biblemodel-> _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter);
-
-		if($flg_show_references)
-		{
-			$obj_references = $biblemodel->_buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter);
+			$item->arr_references = $mdl_default->_buildQuery_References($item);
 		}
 		
-		if($flg_show_audio_player)
+		if($item->flg_show_audio_player)
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
 			$mdl_audio = new ZefaniaAudioPlayer;
-			$obj_player_one = $mdl_audio->fnc_audio_player($str_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter, 1);
+			$obj_player_one = $mdl_audio->fnc_audio_player($item->str_Bible_Version,$item->int_Bible_Book_ID,$item->int_Bible_Chapter, 1);
 		}
 		
 		// commentary code
-		
-		$obj_commentary_dropdown = '';
-		if($flg_show_commentary)
+		if($item->flg_show_commentary)
 		{
-			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
-			$mdl_commentary = new ZefaniabibleModelCommentary;			
-			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
-			$arr_commentary =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$int_Bible_Book_ID,$int_Bible_Chapter);
-			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
-			foreach($arr_commentary_list as $obj_comm_list)
-			{
-				if($obj_comm_list->alias == "")
-				{
-					JError::raiseWarning('',str_replace('%s','<b>'.$obj_comm_list->title.'</b>',JText::_('ZEFANIABIBLE_ERROR_BLANK_ALIAS_COMMENTARY')));
-				}
-				if($str_commentary == $obj_comm_list->alias)
-				{
-					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>';
-				}
-				else
-				{
-					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>';
-				}
-			}
+			$item->arr_commentary 		=	$mdl_default->_buildQuery_commentary_chapter($item->str_commentary,$item->int_Bible_Book_ID,$item->int_Bible_Chapter);
+			$item->arr_commentary_list	=	$mdl_default->_buildQuery_commentary_list();
+			$item->obj_commentary_dropdown = $mdl_common->fnc_commentary_drop_down($item);
 		}
-		if($flg_show_dictionary)
+		if($item->flg_show_dictionary)
 		{
-			$str_primary_dictionary  = $params->get('str_primary_dictionary','');
-			$arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+			$item->arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
 		}
-		// redirect to last chapter
-		if($int_Bible_Chapter > $int_max_chapter)
-		{
-			$str_redirect_url = "index.php?option=com_zefaniabible&view=".JRequest::getCmd('view')."&a=".$str_Bible_Version."&b=".$int_Bible_Book_ID.'-'.strtolower(str_replace(" ","-",$arr_english_book_names[$int_Bible_Book_ID]))."&c=".$int_max_chapter.'-chapter';
-			if(($flg_show_commentary)and(count($arr_commentary_list) > 1))
-			{
-				$str_redirect_url = $str_redirect_url."&com=".$str_primary_commentary;
-			}
-			if($str_tmpl == "component")
-			{
-				$str_redirect_url = $str_redirect_url ."&tmpl=component";
-			}
-			if(($flg_show_dictionary)and(count($arr_dictionary_list) > 1))
-			{
-				$str_redirect_url = $str_redirect_url . "&dict=".$str_primary_dictionary;
-			}
-			if(JRequest::getCmd('strong') == 1)
-			{
-				$str_redirect_url = $str_redirect_url ."&strong=".JRequest::getCmd('strong');
-			}			
-			$str_redirect_url = JRoute::_($str_redirect_url);
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.$str_redirect_url); 		
-		}			
+		$item->str_description 			= 	$mdl_common->fnc_make_description($item->arr_Chapter);
+		$item->chapter_output 			= $mdl_common->fnc_output_single_chapter($item);
+		$mdl_common->fnc_meta_data($item); 
+
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',				$access);
-		$this->assignRef('arr_Chapter',			$arr_Chapter);
-		$this->assignRef('int_max_chapter',		$int_max_chapter);
-		$this->assignRef('int_max_verse',		$int_max_verse);
-		$this->assignRef('lists',				$lists);
-		$this->assignRef('arr_Bibles',			$arr_Bibles);
-		$this->assignRef('int_Bible_Book_ID',	$int_Bible_Book_ID);
-		$this->assignRef('int_Bible_Chapter',	$int_Bible_Chapter);
-		$this->assignRef('str_Bible_Version',	$str_Bible_Version);
-		$this->assignRef('obj_player',			$obj_player_one);
-		$this->assignRef('config',				$config);
-		$this->assignRef('arr_commentary',		$arr_commentary);
-		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);	
-		$this->assignRef('obj_references',		$obj_references);
-		$this->assignRef('str_collation',		$str_collation);
-		$this->assignRef('arr_dictionary_list',		$arr_dictionary_list);
-		$this->assignRef('arr_commentary_list',		$arr_commentary_list);
+		$this->assignRef('item', 		$item);
+		$this->assignRef('obj_player',	$obj_player_one);
 		parent::display($tpl);
 	}
 }
