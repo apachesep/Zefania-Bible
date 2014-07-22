@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -144,8 +143,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->obj_bible_Bible_dropdown_2	= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Second_Bible_Version);		
 		$item->obj_bible_book_dropdown 		= 	$mdl_common->fnc_bible_book_dropdown($item);
 		$item->obj_bible_chap_dropdown 		= 	$mdl_common->fnc_bible_chapter_dropdown($item);		
-		$item->bible_name_1					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Main_Bible_Version);
-		$item->bible_name_2					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Second_Bible_Version);
+		$item->str_bible_name_1				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Main_Bible_Version);
+		$item->str_bible_name_2				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Second_Bible_Version);
 		
 		if($item->flg_show_references)
 		{
