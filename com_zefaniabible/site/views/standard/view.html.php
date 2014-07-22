@@ -136,7 +136,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->arr_Bibles 		= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter 		= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
 		
-		$item->bible_name				= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->obj_bible_book_dropdown 	= $mdl_common->fnc_bible_book_dropdown($item); 
