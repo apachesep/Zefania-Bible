@@ -65,35 +65,51 @@ class ZefaniabibleCommonHelper
 	}
 	public function fnc_meta_data($item)
 	{
-		//RSS RSS 2.0 Feed
-		$doc_page = JFactory::getDocument();	
-		$href = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter; 
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
-		$doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs );
-		//Atom Feed
-		$href = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&type=atom'; 
-		$attribs_atom = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0'); 
-		$doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_atom );		
-				
 		// add breadcrumbs
 		$app_site = JFactory::getApplication();
-		$pathway = $app_site->getPathway();
-		$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter." - ".$item->str_Bible_Version, JFactory::getURI()->toString());		
-		
-		$str_descr = trim(mb_substr($item->str_description,0,146))." ..."; 
-		
-		if($item->str_view == 'compare')
+		$pathway = $app_site->getPathway();		
+		$doc_page = JFactory::getDocument();	
+		//$attribs_atom = '';
+		$href_atom = '';
+		$str_descr = '';
+		switch ($item->str_view)
 		{
-			$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Main_Bible_Version.', '. $item->str_Second_Bible_Version;				
-			$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->bible_name_1 .", ".$item->bible_name_2);			
-		}
-		else
-		{
-			$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Bible_Version;			
-			$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->bible_name );			
-		}
-		$doc_page->setMetaData( 'description', strip_tags($str_descr));
+			case 'standard':
+				$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Bible_Version;			
+				$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name );				
+				$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter." - ".$item->str_Bible_Version, JFactory::getURI()->toString());
+				$href_rss = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter; 				
+				$href_atom = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&type=atom'; 
+				break;			
 
+			case 'compare':
+				$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Main_Bible_Version.', '. $item->str_Second_Bible_Version;				
+				$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name_1 .", ".$item->str_bible_name_2);				
+				$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter." - ".$item->str_Bible_Version, JFactory::getURI()->toString());
+				$href_rss = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter; 				
+				$href_atom = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&type=atom'; 
+				break;
+			case 'reading':	
+				$pathway->addItem(($item->str_reading_plan_name." - ". mb_strtoupper($item->str_Bible_Version)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$item->int_day_number), JFactory::getURI()->toString());					
+				$href_rss = 'index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&day='.$item->int_day_number; 
+				$str_title = $item->str_reading_plan_name." | ". mb_strtoupper($item->str_Bible_Version)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$item->int_day_number;						
+				break;
+			default:
+			 	break;
+		}
+				
+		//RSS RSS 2.0 Feed
+
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
+		$doc_page->addHeadLink( $href_rss, 'alternate', 'rel', $attribs );
+		//Atom Feed
+
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0'); 
+		$doc_page->addHeadLink( $href_atom, 'alternate', 'rel', $attribs );		
+				
+		$str_descr = trim(mb_substr($item->str_description,0,146))." ..."; 
+
+		$doc_page->setMetaData( 'description', strip_tags($str_descr));
 		$doc_page->setTitle($str_title);
 					
 		// Facebook Open Graph
@@ -125,7 +141,7 @@ class ZefaniabibleCommonHelper
 		}*/
 		if($item->flg_use_strong == 1)
 		{
-			$str_other_url_var = $str_other_url_var."&strong=".$item->flg_use_strong;
+			$str_other_url_var .= "&strong=".$item->flg_use_strong;
 		}
 		if($item->int_Bible_Book_ID > 1)
 		{
@@ -204,8 +220,86 @@ class ZefaniabibleCommonHelper
 			} 
 		}
 	}
+	public function fnc_Pagination_Buttons_day($item)
+	{
+		$urlPrepend = "document.location.href=('";
+		$urlPostpend = "')";	
+		$str_other_url_var = '';	
+		if(($item->flg_show_commentary)and(count($item->arr_commentary_list) > 1))
+		{
+				$str_other_url_var .= "&com=".$item->str_commentary;
+		}
+		if($item->str_tmpl == "component")
+		{
+			$str_other_url_var .=  "&tmpl=component";
+		}
+		if(($item->flg_show_dictionary)and(count($item->arr_dictionary_list) > 1))
+		{
+			$str_other_url_var .=  "&dict=".$item->str_curr_dict;
+		}
+		if($item->flg_use_strong ==1)
+		{
+			$str_other_url_var .= "&strong=".$item->flg_use_strong;
+		}		
+		// fix days yesterday's day when less than 1
+		if($item->int_day_number <= 1)
+		{
+			$str_yesterday = $item->int_max_days;
+		}
+		else
+		{
+			$str_yesterday = ($item->int_day_number-1);
+		}
+		
+		// make yesterday's link/button
+		$url[2] = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$str_yesterday.$str_other_url_var;
+	
+		$url[2] = JRoute::_($url[2]);			
+		if($item->flg_show_pagination_type == 0)
+		{
+			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING').'" type="button" id="zef_Buttons" class="zef_last_day" name="lastday" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$str_yesterday.'" />';
+		}
+		else
+		{
+			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING')."' id='zef_links' href='".$url[2]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$str_yesterday."</a> ";
+		}
+		
+		// make today's text or disabled button
+		if($item->flg_show_pagination_type == 0)
+		{
+			echo '<input title="'.JText::_('').'" type="button" id="zef_Buttons" disabled="disabled" class="zef_today" name="today" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($item->int_day_number).'" />';		
+		}
+		else
+		{
+			echo JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($item->int_day_number);			
+		}
+		
+		// fix tommorow when greater than max days in plan
+		if($item->int_day_number >= $item->int_max_days)
+		{
+			$int_tommorow = 1;
+		}
+		else
+		{
+			$int_tommorow = ($item->int_day_number+1);
+		}
+		
+		//make tomorow's link/button
+		$url[3] = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$int_tommorow.$str_other_url_var;	
+		$url[3] = JRoute::_($url[3]);	
+		
+		if($item->flg_show_pagination_type == 0)
+		{
+			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING').'" type="button" id="zef_Buttons" class="zef_next_day" name="nextday" onclick="'.$urlPrepend.$url[3].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$int_tommorow.'" />';
+		}
+		else
+		{
+			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING')."' id='zef_links' href='".$url[3]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$int_tommorow."</a> ";
+		}
+	}	
 	public function fnc_find_bible_name($arr_Bibles, $str_Bible_Version)
 	{
+		$str_bible_name = '';
 		foreach($arr_Bibles as $obj_bibles)
 		{
 			if($str_Bible_Version == $obj_bibles->alias)
@@ -214,6 +308,18 @@ class ZefaniabibleCommonHelper
 			}
 		}
 		return $str_bible_name;
+	}
+	public function fnc_find_reading_name($arr_reading, $str_reading_plan)
+	{
+		$str_reading_name = '';
+		foreach($arr_reading as $obj_plan)
+		{
+			if($str_reading_plan == $obj_plan->alias)
+			{
+				$str_reading_name = $obj_plan->name;
+			}
+		}
+		return $str_reading_name;
 	}		
 	public function fnc_dictionary_dropdown($item)
 	{
@@ -304,6 +410,22 @@ class ZefaniabibleCommonHelper
 		}
 		return $obj_commentary_dropdown;
 	}
+	public function fnc_reading_plan_drop_down($item)
+	{
+		$str_dropdown = '';
+		foreach($item->arr_reading_plan_list as $readingplan)
+		{
+			if($item->str_reading_plan == $readingplan->alias)
+			{
+				$str_dropdown .= '<option value="'.$readingplan->alias.'" selected>'.$readingplan->name.'</option>';
+			}
+			else
+			{
+				$str_dropdown .= '<option value="'.$readingplan->alias.'" >'.$readingplan->name.'</option>';
+			}
+		}
+		return $str_dropdown;		
+	}
 	public function fnc_output_single_chapter($item)
 	{
 		$x = 0;
@@ -366,6 +488,7 @@ class ZefaniabibleCommonHelper
 		$a = 1;
 		$b = 1;
 		$str_Chapter_Output = '';
+		$temp2 = '';
 		foreach($item->arr_Chapter_1 as $arr_verse)
 		{
 			$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);	
@@ -450,7 +573,7 @@ class ZefaniabibleCommonHelper
 		}
 		return $str_descr;
 	}
-	public function fnc_calcualte_day_diff($str_start_reading_date)
+	public function fnc_calcualte_day_diff($str_start_reading_date, $int_max_days)
 	{
 		// time zone offset.
  		$config = JFactory::getConfig();
@@ -459,7 +582,13 @@ class ZefaniabibleCommonHelper
 		$arr_today = new DateTime($str_today);	
 		$arr_start_date = new DateTime($str_start_reading_date);	
 		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
-		return $int_day_diff;
+
+		$int_verse_remainder = $int_day_diff % $int_max_days;
+		if($int_verse_remainder == 0)
+		{
+			$int_verse_remainder = $int_max_days;
+		}
+		return $int_verse_remainder;
 	}
 	public function fnc_use_user_data($item)
 	{
@@ -474,5 +603,51 @@ class ZefaniabibleCommonHelper
 			}
 		}		*/	
 	}
+	public function fnc_jump_button($item)
+	{
+		$int_today = $item->int_day_diff;
+		$str_other_url_var = '';
+		$str_plan_start_date = date('d-m-Y', strtotime("-".$int_today." day"));
+				
+		echo '<select name="jump" id="zef_day_jump" class="inputbox" onchange="javascript:location.href = this.value;">';
+		for($x = 1; $x <= $item->int_max_days; $x++)
+		{
+			if(($item->flg_show_commentary)and(count($item->arr_commentary_list) > 1))
+			{
+					$str_other_url_var .= "&com=".$this->str_commentary;
+			}
+			if($item->str_tmpl == "component")
+			{
+				$str_other_url_var .=  "&tmpl=component";
+			}
+			if(($item->flg_show_dictionary)and(count($item->arr_dictionary_list) > 1))
+			{
+				$str_other_url_var .=  "&dict=".$this->str_curr_dict;
+			}
+			if($item->flg_use_strong ==1)
+			{
+				$str_other_url_var .= "&strong=".$item->flg_use_strong;
+			}			
+			$str_url = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$x.$str_other_url_var;
+			$str_url = JRoute::_($str_url);
+			echo '	<option value="'.$str_url.'"';			
+
+			if($x == $item->int_day_number )
+			{
+				echo 'selected';
+			}
+			echo  '>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$x;
+			if($x == $int_today)
+			{
+				echo " - " .JText::_('COM_ZEFANIABIBLE_TODAY');
+			}
+			else
+			{
+				echo " - " .date('d/m/Y', strtotime($str_plan_start_date. "+".$x." day"));
+			}
+			echo '</option>';
+		}
+		echo '</select>';
+	}	
 }
 ?>
