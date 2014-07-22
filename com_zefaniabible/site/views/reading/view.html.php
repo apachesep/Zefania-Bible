@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewReading extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -72,8 +69,6 @@ class ZefaniabibleViewReading extends JViewLegacy
 			strong = Show/Hide Strong Numgers flag
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
 		$document	= JFactory::getDocument();
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
@@ -84,110 +79,76 @@ class ZefaniabibleViewReading extends JViewLegacy
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+		
 		require_once(JPATH_COMPONENT_SITE.'/models/reading.php');
 		$biblemodel = new ZefaniabibleModelReading;		
 		
-		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;
-
-		$str_primary_reading = 		$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_primary_bible = 		$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$str_start_reading_date = 	$params->get('reading_start_date', '1-1-2012');
-		$flg_import_user_data = 	$params->get('flg_import_user_data', '0');
-		$flg_show_dictionary = $params->get('flg_show_dictionary', 0);
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
+		$item->flg_import_user_data 			= 	$params->get('flg_import_user_data', '0');
+		$item->flg_show_dictionary 				= 	$params->get('flg_show_dictionary', 0);
+		$item->flg_show_references				= 	$params->get('show_references', '0');
+		$item->flg_show_commentary 				= 	$params->get('show_commentary', '0');
+		$item->flg_show_dictionary 				= 	$params->get('flg_show_dictionary', 0);
+		$item->str_primary_commentary 			= 	$params->get('primaryCommentary');
+		$item->flg_reading_rss_button			=	$params->get('flg_plan_rssfeed_button', '1');
+		$item->flg_email_button 				= 	$params->get('flg_email_button', '1');	
+		$item->flg_use_bible_selection 			= 	$params->get('flg_use_bible_selection', '1');	
+		$item->flg_show_credit 					= 	$params->get('show_credit','0');
+		$item->flg_show_page_bot 				= 	$params->get('show_pagination_bot', '1');	
+		$item->flg_show_page_top 				= 	$params->get('show_pagination_top', '1');
+		$item->flg_show_pagination_type 		= 	$params->get('show_pagination_type','0');
+		$item->str_primary_dictionary  			= 	$params->get('str_primary_dictionary','');
+		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');		
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_max_days						=  	$mdl_default->_buildQuery_max_reading_days($item->str_reading_plan);
+		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);		
+		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
+		$item->str_commentary 					= 	$jinput->get('com', $item->str_primary_commentary, 'CMD');
+		$item->flg_use_strong					= 	$jinput->get('strong', null, 'INT');
+		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
+		$item->str_tmpl 						= 	$jinput->get('tmpl',null,'CMD');
+		$item->str_option						= 	$jinput->get('option', null, 'CMD');
+		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');
+		$item->str_view 						= 	$jinput->get('view', 'standard', 'CMD');		
+		$item->str_curr_dict 					= 	$jinput->get('dict', $item->str_primary_dictionary, 'CMD');
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
+		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->arr_reading						=	$mdl_default->_buildQuery_reading_plan($item);
+		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
+		$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
+		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
+		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading,$item->str_reading_plan);
+		$item->arr_plan 						=	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);
 		
-		// time zone offset.
- 		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
-		$str_today = $JDate->format('Y-m-d', true);
-		$arr_today = new DateTime($str_today);	
-				
-		if(($user->id > 0)and($flg_import_user_data))
+		if($item->flg_show_references)
 		{
-			$arr_user_data = $biblemodel->_buildQuery_getUserData($user->id);
-			foreach($arr_user_data as $obj_user_data)
-			{
-				$str_start_reading_date = $obj_user_data->reading_start_date;
-				$str_bibleVersion = $obj_user_data->bible_alias;
-				$str_reading_plan = $obj_user_data->plan_alias;
-			}
-		}	
-		
-		$arr_start_date = new DateTime($str_start_reading_date);	
-
-		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
-		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
-		$arr_bibles 		=	$biblemodel->_buildQuery_Bibles();
-		$arr_reading 		=	$biblemodel->_buildQuery_plan($str_reading_plan, $str_start_reading_date);
-		$arr_reading_plans 	= 	$biblemodel->_buildQuery_readingplan();
-		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
-		$int_max_days		=  	$biblemodel->_buildQuery_max_days($str_reading_plan);
-
-
-		$flg_show_commentary = $params->get('show_commentary', '0');
-		$flg_show_references = $params->get('show_references', '0');
-		if($flg_show_references)
-		{
-			$obj_references = $biblemodel->_buildQuery_References($arr_reading);
+			$item->arr_references = $mdl_default->_buildQuery_References($item);
 		}
 		// commentary code
-		$obj_commentary_dropdown = '';
-		if($flg_show_commentary)
-		{
-			require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
-			$mdl_commentary = new ZefaniabibleModelCommentary;			
-			$str_primary_commentary = $params->get('primaryCommentary');
-			$str_commentary = JRequest::getCmd('com', $str_primary_commentary);
-			$x = 0;
-			foreach($arr_reading as $obj_reading)
-			{
-				for($y = $obj_reading->begin_chapter; $y <= $obj_reading->end_chapter; $y++)
-				{
-					$arr_commentary[$x] =	$mdl_commentary-> _buildQuery_commentary_chapter($str_commentary,$obj_reading->book_id,$y);
-					$x++;
-				}
-			}
-
-			$arr_commentary_list =	$mdl_commentary-> _buildQuery_commentary_list();	
-			foreach($arr_commentary_list as $obj_comm_list)
-			{
-				if($str_commentary == $obj_comm_list->alias)
-				{
-					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>';
-				}
-				else
-				{
-					$obj_commentary_dropdown = $obj_commentary_dropdown.'<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>';
-				}
-			}
+		if($item->flg_show_commentary)
+		{	
+			$item->arr_commentary 			=	$mdl_default->_buildQuery_commentary_chapter($item->str_commentary,$item->int_Bible_Book_ID,$item->int_Bible_Chapter);
+			$item->arr_commentary_list		=	$mdl_default->_buildQuery_commentary_list();	
+			$item->obj_commentary_dropdown 	= 	$mdl_common->fnc_commentary_drop_down($item);
 		}
-		if($flg_show_dictionary)
+		if($item->flg_show_dictionary)
 		{
-			$arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
-		}		
+			$item->arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+		}
+		$mdl_common->fnc_meta_data($item); 
 		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('int_day_number',		$int_day_number);
-		$this->assignRef('access',				$access);
-		$this->assignRef('lists',				$lists);
-		$this->assignRef('bibles',				$arr_bibles);
-		$this->assignRef('plan',				$arr_plan);
-		$this->assignRef('reading',				$arr_reading);
-		$this->assignRef('arr_reading_plans',	$arr_reading_plans);
-		$this->assignRef('config',				$config);
-		$this->assignRef('arr_commentary',		$arr_commentary);
-		$this->assignRef('obj_commentary_dropdown',	$obj_commentary_dropdown);
-		$this->assignRef('int_orig_day',		$int_day_diff);
-		$this->assignRef('int_max_days',		$int_max_days);
-		$this->assignRef('str_reading_plan',	$str_reading_plan);
-		$this->assignRef('str_bible_version',	$str_bibleVersion);
-		$this->assignRef('obj_references',		$obj_references);
-		$this->assignRef('arr_dictionary_list',		$arr_dictionary_list);
-		$this->assignRef('arr_commentary_list',		$arr_commentary_list);				
+		$this->assignRef('item', 		$item);
 		parent::display($tpl);
 	}
 }
