@@ -24,7 +24,9 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days, $this->arr_commentary_list, $this->arr_dictionary_list,$this->obj_references);
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_common 	= new ZefaniabibleCommonHelper;
+//$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days, $this->arr_commentary_list, $this->arr_dictionary_list,$this->obj_references);
 
 class BibleReadingPlan
 {
@@ -114,8 +116,6 @@ class BibleReadingPlan
 		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
 		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
 		$this->flg_show_page_bot 		= $this->params->get('show_pagination_bot', '1');
-		$this->flg_email_button 		= $this->params->get('flg_email_button', '1');	
-		$this->flg_reading_rss_button 	= $this->params->get('flg_plan_rssfeed_button', '1');
 		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
 		$this->flg_strong_dict = 0;
 		$this->arr_commentary_list = $arr_commentary_list;
@@ -230,300 +230,70 @@ class BibleReadingPlan
 			}
 		return $str_chapter;
 	}
-	public function fnc_dictionary_dropdown($arr_dictionary_list)
-	{
-		$obj_dropdown = '';
-		foreach($arr_dictionary_list as $obj_dictionary)
-		{
-			if(JRequest::getCmd('dict') == $obj_dictionary->alias)
-			{
-				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'" selected>'.$obj_dictionary->name.'</option>';
-			}
-			else
-			{
-				$obj_dropdown = $obj_dropdown.'<option value="'.$obj_dictionary->alias.'">'.$obj_dictionary->name.'</option>';
-			}
-		}
-		return $obj_dropdown;	
-	}	
-	private function fnc_Make_Scripture(&$arr_matches)
-	{
-		$this->flg_strong_dict = 1;
-		$str_verse='';
-		if(JRequest::getCmd('strong') == 1)
-		{		
-			$temp = 'a='.$this->str_curr_dict.'&b='.trim(strip_tags($arr_matches[0]));
-			$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->str_dictionary_width.',y:'.$this->str_dictionary_height.'}}">';		
-			$str_verse = $str_verse. trim(strip_tags($arr_matches[0]));			
-			$str_verse = $str_verse. '</a> ';
-		}
-		return $str_verse;
-	}
-	private function getMetaData($arr_plan)
-	{
-		//RSS RSS 2.0 Feed
-		$href = 'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$this->str_reading_plan.'&b='.$this->str_bibleVersion.'&c='.$this->int_day_number; 
-		$attribs_rss = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0'); 
-		$this->doc_page->addHeadLink( $href, 'alternate', 'rel', $attribs_rss );		
-			
-		$app_site = JFactory::getApplication();
-		// add breadcrumbs
-		$pathway = $app_site->getPathway();
-		$pathway->addItem(($this->str_curr_read_plan." - ". mb_strtoupper($this->str_bibleVersion)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number), JFactory::getURI()->toString());		
-		
-		foreach ($arr_plan as $obj_plan)
-		{
-			foreach($obj_plan as $obj_chapter)
-			{
-				if($obj_chapter->verse_id == 1)
-				{
-					$this->str_first_verse = $this->str_first_verse. $obj_chapter->verse.' ';
-				}
-			}	
-		}
-		$int_len_first_verse = strlen($this->str_first_verse);
-		if($int_len_first_verse > 150)
-		{
-			$this->str_first_verse = mb_substr(strip_tags($this->str_first_verse),0, 147).'...';
-		}
-		
-		$this->doc_page->setTitle($this->str_curr_read_plan." | ". mb_strtoupper($this->str_bibleVersion)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number);		
-		$this->doc_page->setMetaData( 'keywords', $this->str_chapter_headings." ".$this->arr_book_info['str_nativeAlias'].", ".$this->str_curr_read_plan .", ".$this->str_bibleVersion.", ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$this->int_day_number );
-		$this->doc_page->setMetaData( 'description', $this->str_first_verse);
-		$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());	
-		$this->doc_page->setMetaData( 'og:type', "article" );	
-		$this->doc_page->setMetaData( 'og:image', JURI::root().$this->str_default_image );	
-		$this->doc_page->setMetaData( 'og:description', $this->str_first_verse );
-		$this->doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );			
-	}	
 	
-	public function paginationButtons($int_day_number,$int_max_days)
-	{
-		$urlPrepend = "document.location.href=('";
-		$urlPostpend = "')";	
-		$str_other_url_var = '';	
-		if(($this->flg_show_commentary)and(count($this->arr_commentary_list) > 1))
-		{
-				$str_other_url_var = $str_other_url_var."&com=".$this->str_commentary;
-		}
-		if($this->str_tmpl == "component")
-		{
-			$str_other_url_var = $str_other_url_var. "&tmpl=component";
-		}
-		if(($this->flg_show_dictionary)and(count($this->arr_dictionary_list) > 1))
-		{
-			$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
-		}
-		if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
-		{
-			$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
-		}		
-		// fix days yesterday's day when less than 1
-		if($int_day_number <= 1)
-		{
-			$str_yesterday = $int_max_days;
-		}
-		else
-		{
-			$str_yesterday = ($this->arr_reading[0]->day_number-1);
-		}
-		
-		// make yesterday's link/button
-		$url[2] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$str_yesterday.$str_other_url_var;
 	
-		$url[2] = JRoute::_($url[2]);			
-		if($this->flg_show_pagination_type == 0)
-		{
-			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING').'" type="button" id="zef_Buttons" class="zef_last_day" name="lastday" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$str_yesterday.'" />';
-		}
-		else
-		{
-			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_LAST_DAY_READING')."' id='zef_links' href='".$url[2]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$str_yesterday."</a> ";
-		}
-		
-		// make today's text or disabled button
-		if($this->flg_show_pagination_type == 0)
-		{
-			echo '<input title="'.JText::_('').'" type="button" id="zef_Buttons" disabled="disabled" class="zef_today" name="today" onclick="'.$urlPrepend.$url[2].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.($this->arr_reading[0]->day_number).'" />';		
-		}
-		else
-		{
-			echo JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".($this->arr_reading[0]->day_number);			
-		}
-		
-		// fix tommorow when greater than max days in plan
-		if($this->arr_reading[0]->day_number >= $int_max_days)
-		{
-			$int_tommorow = 1;
-		}
-		else
-		{
-			$int_tommorow = ($this->arr_reading[0]->day_number+1);
-		}
-		
-		//make tomorow's link/button
-		$url[3] = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$int_tommorow.$str_other_url_var;	
-		$url[3] = JRoute::_($url[3]);	
-		
-		if($this->flg_show_pagination_type == 0)
-		{
-			echo '<input title="'.JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING').'" type="button" id="zef_Buttons" class="zef_next_day" name="nextday" onclick="'.$urlPrepend.$url[3].$urlPostpend.'"  value="'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$int_tommorow.'" />';
-		}
-		else
-		{
-			echo "<a title='".JText::_('ZEFANIABIBLE_BIBLE_NEXT_DAY_READING')."' id='zef_links' href='".$url[3]."'>".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$int_tommorow."</a> ";
-		}
-	}
-	public function createBibleDropDown($items, $str_alias)
-	{		
-		$tempVersion = $str_alias;
-		$tmp = ""; 
-		foreach($items as $item)
-		{						
-			if($tempVersion == $item->alias)
-			{
-				$tmp = $tmp.'<option value="'.$item->alias.'" selected>'.$item->bible_name.'</option>';
-			}
-			else
-			{
-				$tmp = $tmp.'<option value="'.$item->alias.'" >'.$item->bible_name.'</option>';
-			}
-		}
-		return $tmp;
-	}
-
-	public function createReadingDropDown($readingplans,$str_alias)
-	{		
-		$tempVersion = $str_alias;
-		$tmp = ""; 
-		foreach($readingplans as $readingplan)
-		{
-			if($readingplan->publish == 1)
-			{								
-				if($tempVersion == $readingplan->alias)
-				{
-					$tmp = $tmp.'<option value="'.$readingplan->alias.'" selected>'.$readingplan->name.'</option>';
-				}
-				else
-				{
-					$tmp = $tmp.'<option value="'.$readingplan->alias.'" >'.$readingplan->name.'</option>';
-				}
-			}
-		}
-		return $tmp;
-	}
-	public function fnc_jump_button($int_day_number,$int_max_days,$int_orig_day)
-	{
-		$int_today = $int_orig_day % $int_max_days;
-		$str_other_url_var = '';
-		if($int_day_number > $int_max_days)
-		{
-			$int_day_number = $int_day_number % $int_max_days;
-		}
-		$str_plan_start_date = date('d-m-Y', strtotime("-".$int_today." day"));
-				
-		echo '<select name="jump" id="zef_day_jump" class="inputbox" onchange="javascript:location.href = this.value;">';
-		for($x = 1; $x <= $int_max_days; $x++)
-		{
-			if(($this->flg_show_commentary)and(count($this->arr_commentary_list) > 1))
-			{
-					$str_other_url_var = $str_other_url_var."&com=".$this->str_commentary;
-			}
-			if($this->str_tmpl == "component")
-			{
-				$str_other_url_var = $str_other_url_var. "&tmpl=component";
-			}
-			if(($this->flg_show_dictionary)and(count($this->arr_dictionary_list) > 1))
-			{
-				$str_other_url_var = $str_other_url_var. "&dict=".$this->str_curr_dict;
-			}
-			if(($this->flg_strong_dict)and(JRequest::getCmd('strong') ==1))
-			{
-				$str_other_url_var = $str_other_url_var."&strong=".JRequest::getCmd('strong');
-			}				
-			$str_url = "index.php?option=com_zefaniabible&a=".$this->str_reading_plan."&b=".$this->str_bibleVersion."&view=".$this->str_view."&c=".$x.$str_other_url_var;
-			$str_url = JRoute::_($str_url);
-			echo '	<option value="'.$str_url.'"';			
-
-			if($x == $int_day_number)
-			{
-				echo 'selected';
-			}
-			echo  '>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '.$x;
-			if($x == $int_today)
-			{
-				echo " - " .JText::_('COM_ZEFANIABIBLE_TODAY');
-			}
-			else
-			{
-				echo " - " .date('d/m/Y', strtotime($str_plan_start_date. "+".$x." day"));
-			}
-			echo '</option>';
-		}
-		echo '</select>';
-	}
 }
 ?>
 
 
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
-	<div id="zef_Bible_Main<?php if($cls_bible_reading_plan->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
+	<div id="zef_Bible_Main<?php if($this->item->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
     	<div class="zef_legend">
-        		<?php if(($cls_bible_reading_plan->flg_email_button)and($cls_bible_reading_plan->str_tmpl != "component")){?>
+        		<?php if(($this->item->flg_email_button)and($this->item->str_tmpl != "component")){?>
         		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" /></a></div>
                 <?php } 
-					if(($cls_bible_reading_plan->flg_reading_rss_button)and($cls_bible_reading_plan->str_tmpl != "component")){
+					if(($this->item->flg_reading_rss_button)and($this->item->str_tmpl != "component")){
 				?>
 					<div class="zef_reading_rss">
-                    	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&a=<?php echo $cls_bible_reading_plan->str_reading_plan; ?>&b=<?php echo $cls_bible_reading_plan->str_bibleVersion; ?>&c=<?php echo $cls_bible_reading_plan->int_day_number;?>" target="_blank" >
+                    	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=readingrss&format=raw&plan=<?php echo $this->item->str_reading_plan; ?>&bible=<?php echo $this->item->str_Bible_Version; ?>&day=<?php echo $this->item->int_day_diff;?>" target="_blank" >
                 			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
 						</a>
 					</div>                
 				<?php }?>                
                 <div class="zef_reading_label"><?php echo JText::_('ZEFANIABIBLE_READING_PLAN');?></div>
                 <div class="zef_reading_plan">
-                    <select name="a" id="reading" class="inputbox" onchange="this.form.submit()">
-                        <?php echo $cls_bible_reading_plan->createReadingDropDown($this->arr_reading_plans, $this->str_reading_plan);?>
+                    <select name="plan" id="reading" class="inputbox" onchange="this.form.submit()">
+                        <?php echo $this->item->obj_reading_plan_dropdown;?>
                     </select>
                 </div>
                 <div style="clear:both"></div>     
-                 <?php if(($cls_bible_reading_plan->flg_use_bible_selection)and(count($this->bibles) > 1)){?>                
+                 <?php if(($this->item->flg_use_bible_selection)and(count($this->item->arr_Bibles) > 1)){?>                
                 <div class="zef_bible_label"><?php echo JText::_('ZEFANIABIBLE_BIBLE_VERSION');?></div>
                 <div class="zef_bible">
-                    <select name="b" id="bible" class="inputbox" onchange="this.form.submit()">
-                        <?php echo $cls_bible_reading_plan->createBibleDropDown($this->bibles, $this->str_bible_version);?>
+                    <select name="bible" id="bible" class="inputbox" onchange="this.form.submit()">
+                        <?php echo $this->item->obj_bible_Bible_dropdown;?>
                     </select>
                 </div>
 				 <?php }else {
-					echo '<input type="hidden" name="b" value="'.$cls_bible_reading_plan->str_bibleVersion.'" />';
+					echo '<input type="hidden" name="bible" value="'.$this->item->str_Bible_Version.'" />';
 				} ?>
                 <div style="clear:both;"></div>
-				<?php if($cls_bible_reading_plan->flg_show_commentary){ 
-						if(count($this->arr_commentary_list)> 1){
+				<?php if($this->item->flg_show_commentary){ 
+						if(count($this->item->arr_commentary_list)> 1){
 				?>
                     <div>
                         <div class="zef_commentary_label"><?php echo JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL');?></div>
                         <div class="zef_commentary">
                             <select name="com" id="commentary" class="inputbox" onchange="this.form.submit()">
-                                <?php echo $this->obj_commentary_dropdown;?>
+                                <?php echo $this->item->obj_commentary_dropdown;?>
                              </select>
                         </div>
                     </div>
 					<?php }else{?>
-                        	<!--<input type="hidden" name="com" value="<?php echo $cls_bible_reading_plan->str_primary_commentary;?>" />-->
+                        	<!--<input type="hidden" name="com" value="<?php echo $this->item->str_primary_commentary;?>" />-->
                 <?php }} ?>
-				 <?php if($cls_bible_reading_plan->flg_show_dictionary){
-						if(count($this->arr_dictionary_list) > 1){?>
+				 <?php if($this->item->flg_show_dictionary){
+						if(count($this->item->arr_dictionary_list) > 1){?>
                             <div id="zef_dictionary_div">
                                 <div class="zef_dictionary_label"><?php echo JText::_('COM_ZEFANIABIBLE_DICTIONARY_LABEL');?></div>
                                 <div class="zef_dictionary">
                                     <select name="dict" id="dictionary" class="inputbox" onchange="this.form.submit()">
-                                        <?php echo $cls_bible_reading_plan->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
+                                        <?php echo $this->item->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
                                      </select>
                                 </div>
                             </div>
 					<?php }?>
-                    	<?php if($cls_bible_reading_plan->flg_strong_dict){?>
+                    	<?php if($this->item->flg_use_strong){?>
 							<div class="zef_dictionary_strong_box">
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
@@ -536,29 +306,29 @@ class BibleReadingPlan
                  <div style="clear:both"></div>      
             <div class="zef_top_pagination">        
                     <?php 
-                        if($cls_bible_reading_plan->flg_show_page_top)
+                        if($this->item->flg_show_page_top)
                         {
-                            $cls_bible_reading_plan->paginationButtons($this->int_day_number,$this->int_max_days);
-							if($cls_bible_reading_plan->str_tmpl == "component"){ echo "<br>";}
-							$cls_bible_reading_plan->fnc_jump_button($this->int_day_number,$this->int_max_days,$this->int_orig_day);
+						 	$mdl_common->fnc_Pagination_Buttons_day($this->item);
+							if($this->item->str_tmpl == "component"){ echo "<br>";}
+							$mdl_common->fnc_jump_button($this->item);
                         }
                     ?>              
           </div>
 	</div> 
-	<article><?php echo $cls_bible_reading_plan->str_chapter_output ?></article>
+	<article><?php //echo $cls_bible_reading_plan->str_chapter_output ?></article>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
-					if($cls_bible_reading_plan->flg_show_page_bot)
+					if($this->item->flg_show_page_bot)
 					{
-						$cls_bible_reading_plan->paginationButtons($this->int_day_number,$this->int_max_days);
-						if($cls_bible_reading_plan->str_tmpl == "component"){ echo "<br>";}
-						$cls_bible_reading_plan->fnc_jump_button($this->int_day_number,$this->int_max_days,$this->int_orig_day);
+						$mdl_common->fnc_Pagination_Buttons_day($this->item);
+						if($this->item->str_tmpl == "component"){ echo "<br>";}
+						$mdl_common->fnc_jump_button($this->item);
 					}
 				?>   
                 <div style="clear:both"></div>
                 <?php  
-				if(($cls_bible_reading_plan->flg_show_credit)or(JRequest::getInt('Itemid') == 0 ))
+				if(($this->item->flg_show_credit)or(JRequest::getInt('Itemid') == 0 ))
 				{ 
 					require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
 					$mdl_credits = new ZefaniabibleCredits;
@@ -569,41 +339,8 @@ class BibleReadingPlan
 			     
         </div>
     </div>
-	<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option');?>" />
-	<input type="hidden" name="view" value="<?php echo JRequest::getCmd('view');?>" />
-    <input type="hidden" name="c" value="<?php echo ($this->int_day_number); ?>" />
-    <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>"/>
+	<input type="hidden" name="option" value="<?php echo $this->item->str_option;?>" />
+	<input type="hidden" name="view" value="<?php echo $this->item->str_view;?>" />
+    <input type="hidden" name="day" value="<?php echo $this->item->int_day_diff; ?>" />
+    <input type="hidden" name="Itemid" value="<?php echo $this->item->int_menu_item_id; ?>"/>
 </form>
-<?php if(($cls_bible_reading_plan->str_commentary_width <= 1)or($cls_bible_reading_plan->str_commentary_height <= 1)){?>
-<script>
-		<?php if($cls_bible_reading_plan->str_commentary_width <= 1){?>
-        	var ScreenX = (screen.width)? Math.round(getWidth()*<?php echo $cls_bible_reading_plan->str_commentary_width;?>):800;
-		<?php }else{?>
-		 	var ScreenX = <?php echo $cls_bibleBook->str_commentary_width;?>;
-		<?php }?>
-		<?php if($cls_bible_reading_plan->str_commentary_height <= 1){?>
-        	var ScreenY = (screen.height)? Math.round(getHeight()*<?php echo $cls_bible_reading_plan->str_commentary_height;?>):600;
-		<?php }else{?>
-			var ScreenY = <?php echo $cls_bible_reading_plan->str_commentary_height;?>;
-		<?php }?>  
-   var Alinks = $$('a.modal');
-   function ModalRelation() {
-      this.handler = "'iframe'";
-      this.x = 800;
-      this.y = 600;
-   }
-   ModalRelation.prototype.toString = function ModalRelationtoString() {
-      var ret = "{handler:"+this.handler+",size:{x:"+this.x+",y:"+this.y+"}}";
-      return ret;
-   }
-   ModalRelation.prototype.setSize = function ModalSize(x,y) {
-      this.x = x;
-      this.y = y;
-   }
-   var ModalRel = new ModalRelation();
-   ModalRel.setSize(ScreenX,ScreenY);
-   Alinks.each(function(obj,idx){
-      obj.setProperty("rel",ModalRel.toString());
-   });
-</script>
-<?php }?>
