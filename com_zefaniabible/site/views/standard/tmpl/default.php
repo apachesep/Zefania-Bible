@@ -32,7 +32,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
     	<div class="zef_legend">
         	<?php if(($this->item->flg_reading_rss_button)and($this->item->str_tmpl != "component")){?>
 		        <div class="zef_reading_rss">
-                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=biblerss&format=raw&a=<?php echo $this->item->str_Bible_Version; ?>&b=<?php echo $this->item->int_Bible_Book_ID; ?>&c=<?php echo $this->item->int_Bible_Chapter;?>" target="_blank" rel="nofollow" >
+                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="index.php?option=com_zefaniabible&view=biblerss&format=raw&bible=<?php echo $this->item->str_Bible_Version; ?>&book=<?php echo $this->item->int_Bible_Book_ID; ?>&chapter=<?php echo $this->item->int_Bible_Chapter;?>" target="_blank" rel="nofollow" >
                     	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
                     </a>
 				</div>
