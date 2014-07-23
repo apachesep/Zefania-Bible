@@ -134,8 +134,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->str_curr_dict 				= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
 		
 		$item->arr_english_book_names 		=	$mdl_common->fnc_load_languages();
-		$item->int_max_chapter				= 	$mdl_default->_buildQuery_Max_Chapter($item);
-		$item->int_max_verse				= 	$mdl_default->_buildQuery_Max_Verse($item);
+		$item->int_max_chapter				= 	$mdl_default->_buildQuery_Max_Chapter($item->int_Bible_Book_ID);
+		$item->int_max_verse				= 	$mdl_default->_buildQuery_Max_Verse($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		$item->arr_Bibles 					= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter_1				= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Main_Bible_Version);
 		$item->arr_Chapter_2				= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Second_Bible_Version);		
@@ -148,7 +148,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		
 		if($item->flg_show_references)
 		{
-			$item->arr_references = $mdl_default->_buildQuery_References($item);
+			$item->arr_references = $mdl_default->_buildQuery_References($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		}
 		
 		if($item->flg_show_audio_player)
