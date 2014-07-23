@@ -83,6 +83,11 @@ function ZefaniabibleBuildRoute(&$query){
 	{
 		$segments[] = $query['type'];
 		unset( $query['type'] );				
+	}
+	if(isset($query['number']))
+	{
+		$segments[] = $query['number'];
+		unset( $query['number'] );				
 	}	
 	
 	if(isset($query['a']))
@@ -189,7 +194,14 @@ function ZefaniabibleParseRoute($segments)
 	{	
 		$vars['type'] = $segments[$nextPos];
 		$nextPos++;
-	}	
+	}
+	if (isset($segments[$nextPos]))
+	{	
+		$vars['number'] = $segments[$nextPos];
+		$nextPos++;
+	}		
+	
+	
 	if (isset($segments[$nextPos]))
 	{	
 		$vars['a'] = $segments[$nextPos];
