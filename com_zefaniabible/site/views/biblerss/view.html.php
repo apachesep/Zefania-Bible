@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -69,19 +66,21 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 			c = chapter number
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
+		$jinput = JFactory::getApplication()->input;
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		$mdl_default = new ZefaniabibleModelDefault;		
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$str_Bible_Version = JRequest::getCmd('a', $str_primary_bible);	
-		$int_book_id = JRequest::getInt('b', 1);
-		$int_chapter_id = JRequest::getInt('c', 1);
-
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
+		
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');				
+		
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=biblerss&format=raw&a='.$str_Bible_Version."&b=".$int_book_id.'&c='.$int_chapter_id);	
+		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter);	
 		parent::display($tpl);
 	}
 }
