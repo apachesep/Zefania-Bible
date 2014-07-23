@@ -93,13 +93,74 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
-	function _buildQuery_References($item)
+	public function fnc_make_verse($str_Bible_Version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse)
 	{
 		try 
 		{
 			$db = $this->getDbo();
-			$int_Bible_Book_ID = $db->quote($item->int_Bible_Book_ID);
-			$int_Bible_Chapter = $db->quote($item->int_Bible_Chapter);
+			$str_Bible_Version 	= $db->quote($str_Bible_Version);
+			$int_book_id 		= $db->quote($int_book_id);
+			$int_bible_chapter 	= $db->quote($int_bible_chapter);	
+			$str_start_verse 	= $db->quote($str_start_verse);
+			$str_end_verse 		= $db->quote($str_end_verse);
+								
+			$query  = $db->getQuery(true);
+			$query->select('a.verse_id ,a.verse, b.bible_name');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+			$query->from('`#__zefaniabible_bible_text` AS a');	
+			$query->where("b.alias=".$str_Bible_Version);
+			$query->where("a.book_id=".$int_book_id);
+			$query->where("a.chapter_id=".$int_bible_chapter);
+			if($str_end_verse == 0)
+			{
+				$query->where("a.verse_id = ".$str_start_verse);
+			}
+			else
+			{
+				$query->where("a.verse_id >= ".$str_start_verse);
+				$query->where("a.verse_id <= ".$str_end_verse);
+			}
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}	
+	public function _buildQuery_Single_Reference($int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse )
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_Bible_Book_ID 	= $db->quote($int_Bible_Book_ID);
+			$int_Bible_Chapter 	= $db->quote($int_Bible_Chapter);
+			$int_Bible_Verse 	= $db->quote($int_Bible_Verse);
+					
+			$query  = $db->getQuery(true);
+			$query->select('a.verse_id, a.word, a.reference');
+			$query->from('`#__zefaniabible_crossref` AS a');	
+			$query->where("a.book_id=".$int_Bible_Book_ID);
+			$query->where("a.chapter_id=".$int_Bible_Chapter);
+			$query->where("a.verse_id=".$int_Bible_Verse);
+			$query->order('a.sort_order');		
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
+	function _buildQuery_References($int_Bible_Book_ID,$int_Bible_Chapter)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_Bible_Book_ID = $db->quote($int_Bible_Book_ID);
+			$int_Bible_Chapter = $db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
 			$query->select('a.verse_id');
 			$query->from('`#__zefaniabible_crossref` AS a');	
@@ -203,13 +264,13 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;		
 	}	
-	function _buildQuery_Max_Verse($item)
+	function _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter)
 	{
 		try 
 		{
 			$db = $this->getDbo();
-			$int_Bible_Book_ID 	=	$db->quote($item->int_Bible_Book_ID);
-			$int_Bible_Chapter 	=	$db->quote($item->int_Bible_Chapter);
+			$int_Bible_Book_ID 	=	$db->quote($int_Bible_Book_ID);
+			$int_Bible_Chapter 	=	$db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
 			$query->select('Max(verse_id)');
 			$query->from('`#__zefaniabible_bible_text`');	
@@ -225,12 +286,12 @@ class ZefaniabibleModelDefault extends JModelItem
 		return $data;			
 	}
 
-	function _buildQuery_Max_Chapter($item)
+	function _buildQuery_Max_Chapter($int_Bible_Book_ID)
 	{
 		try 
 		{
 			$db = $this->getDbo();
-			$int_Bible_Book_ID =	$db->quote($item->int_Bible_Book_ID);
+			$int_Bible_Book_ID =	$db->quote($int_Bible_Book_ID);
 			$query  = $db->getQuery(true);
 			$query->select('Max(chapter_id)');
 			$query->from('`#__zefaniabible_bible_text`');	
@@ -264,7 +325,28 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;	
-	}			
+	}
+	function _buildQuery_max_verse_of_day_verse()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$str_alias = $db->quote($str_alias);
+			$query  = $db->getQuery(true);
+			$query->select('Max(ordering)');
+			$query->from('`#__zefaniabible_zefaniaverseofday`');	
+			$query->where("publish=1");
+			$db->setQuery($query);
+			$data = $db->loadResult();	
+			
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
+	
 	function _buildQuery_first_record()
 	{
 		try 
@@ -322,13 +404,13 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
-	function _buildQuery_reading_plan($item) 
+	function _buildQuery_reading_plan($str_reading_plan,$int_day_number) 
 	{
 		try 
 		{
 			$db = $this->getDbo();
-			$str_reading_plan 	=	$db->quote($item->str_reading_plan);
-			$int_day_number 	=	$db->quote($item->int_day_number);
+			$str_reading_plan 	=	$db->quote($str_reading_plan);
+			$int_day_number 	=	$db->quote($int_day_number);
 			$query  = $db->getQuery(true);
 			$query->select('a.name, a.alias, b.plan, b.book_id, b.begin_chapter, b.begin_verse, b.end_chapter, b.end_verse');
 			$query->from('`#__zefaniabible_zefaniareading` AS a');
@@ -365,6 +447,105 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;
+	}
+	function _buildQuery_commentary_name($str_commentary)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$str_commentary 			= $db->quote($str_commentary);
+			$query  = $db->getQuery(true);
+			$query->select('a.title');
+			$query->from('`#__zefaniabible_zefaniacomment` AS a');
+			$query->where('a.alias="'.$str_commentary.'"');
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}	
+	function _buildQuery_commentary_verse($str_commentary, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$str_commentary 			= $db->quote($str_commentary);
+			$int_Bible_Book_ID 		= $db->quote($int_Bible_Book_ID);
+			$int_Bible_Chapter 		= $db->quote($int_Bible_Chapter);
+			$int_Bible_Verse 		= $db->quote($int_Bible_Verse);			
+			$query  = $db->getQuery(true);
+			$query->select('a.verse');
+			$query->from('`#__zefaniabible_comment_text` AS a');
+			$query->innerjoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');
+			$query->where('b.alias='.$str_commentary);
+			$query->where('a.book_id='.$int_Bible_Book_ID);
+			$query->where('a.chapter_id='.$int_Bible_Chapter);
+			$query->where('a.verse_id='.$int_Bible_Verse);
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		
+		return $data;			
+	}
+	function _buildQuery_get_verse_of_the_day_info($int_day_diff)
+	{
+		try
+		{
+			$db = JFactory::getDBO();
+			$int_day_diff 	= $db->quote($int_day_diff);
+			$query  = $db->getQuery(true);	
+			$query->select('book_name, chapter_number, begin_verse, end_verse');
+			$query->from('`#__zefaniabible_zefaniaverseofday` AS a');
+			$query->where("ordering=".$int_day_diff);
+			$query->where("publish=1");
+			$db->setQuery($query,0, 1);
+			$data = $db->loadObjectList(); 
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}
+	function _buildQuery_get_verse_of_the_day($arr_verse_info, $str_Bible_Version)
+	{
+		try
+		{
+			$db = JFactory::getDBO();
+			$str_Bible_Version 		= $db->quote($str_Bible_Version);
+			$query  = $db->getQuery(true);	
+			$query->select('a.verse');
+			$query->from('`#__zefaniabible_bible_text` AS a');
+			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
+			$query->where("b.alias=".$str_Bible_Version);
+			$query->where("a.book_id=".$arr_verse_info->book_name);
+			$query->where("a.chapter_id=".$arr_verse_info->chapter_number);
+			if($arr_verse_info->end_verse = 0)
+			{
+				$query->where("a.verse_id=".$arr_verse_info->begin_verse);
+			}
+			else
+			{
+				$query->where("a.verse_id>=".$arr_verse_info->begin_verse);
+				$query->where("a.verse_id<=".$arr_verse_info->end_verse);
+			}
+			$query->order('a.verse_id ASC');
+			
+			$db->setQuery($query);
+			$data = $db->loadObjectList(); 
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
 	}
 	function _buildQuery_current_reading($arr_reading, $str_Bible_Version)
 	{
