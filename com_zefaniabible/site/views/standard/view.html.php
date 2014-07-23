@@ -107,7 +107,6 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->str_dictionary_height 			= $params->get('str_dictionary_height','500');
 		$item->str_dictionary_width 			= $params->get('str_dictionary_width','800');	
 		$item->str_primary_dictionary  			= $params->get('str_primary_dictionary','');
-		$item->str_primary_commentary 			= $params->get('primaryCommentary');		 
 		$item->flg_show_credit 					= $params->get('show_credit','0');
 		$item->flg_show_audio_player 			= $params->get('show_audioPlayer','0');
 		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
@@ -130,8 +129,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
             throw new Exception(implode("\n", $errors));
         }
 		
-		$item->int_max_chapter	= 	$mdl_default->_buildQuery_Max_Chapter($item);
-		$item->int_max_verse	= 	$mdl_default->_buildQuery_Max_Verse($item);
+		$item->int_max_chapter	= 	$mdl_default->_buildQuery_Max_Chapter($item->int_Bible_Book_ID);
+		$item->int_max_verse	= 	$mdl_default->_buildQuery_Max_Verse($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		$item->str_collation	= 	$mdl_default->_buildQuery_collation();
 		$item->arr_Bibles 		= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter 		= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
@@ -145,7 +144,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$mdl_common->fnc_redirect_last_chapter($item);
 		if($item->flg_show_references)
 		{
-			$item->arr_references = $mdl_default->_buildQuery_References($item);
+			$item->arr_references = $mdl_default->_buildQuery_References($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		}
 		
 		if($item->flg_show_audio_player)
