@@ -107,6 +107,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->flg_show_pagination_type 		= 	$params->get('show_pagination_type','0');
 		$item->str_primary_dictionary  			= 	$params->get('str_primary_dictionary','');
 		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		$item->flg_show_audio_player 			= 	$params->get('show_audioPlayer', '0');
+		$item->str_commentary_width 			= 	$params->get('commentaryWidth','800');
+		$item->str_commentary_height 			= 	$params->get('commentaryHeight','500');
 		
 		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');		
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
@@ -124,28 +127,55 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
-		$item->arr_reading						=	$mdl_default->_buildQuery_reading_plan($item);
+		$item->arr_reading						=	$mdl_default->_buildQuery_reading_plan($item->str_reading_plan,$item->int_day_number);
 		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
 		$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
 		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading,$item->str_reading_plan);
-		$item->arr_plan 						=	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);
-		
-		if($item->flg_show_references)
+		$item->arr_plan 						=	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);		
+				
+		$x=0;
+		foreach ($item->arr_reading as $obj_reading_day)
 		{
-			$item->arr_references = $mdl_default->_buildQuery_References($item);
+
+			foreach($obj_reading_day as $obj_reading)
+			{
+				
+				if($item->flg_show_references)
+				{
+					if($obj_reading->begin_chapter == $obj_reading->end_chapter)
+					{
+						$item->arr_references[$x] = $mdl_default->_buildQuery_References($obj_reading->book_id,$obj_reading->begin_chapter);
+						$x++;
+					}
+					else
+					{
+						for($y = $obj_reading->begin_chapter; $y <= $obj_reading->end_chapter; $y++)
+						{
+							$item->arr_references[$x] = $mdl_default->_buildQuery_References($obj_reading->book_id,$y);
+							$x++;
+						}
+					}
+				}					
+			}
 		}
+		
 		// commentary code
 		if($item->flg_show_commentary)
 		{	
 			$item->arr_commentary 			=	$mdl_default->_buildQuery_commentary_chapter($item->str_commentary,$item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 			$item->arr_commentary_list		=	$mdl_default->_buildQuery_commentary_list();	
-			$item->obj_commentary_dropdown 	= 	$mdl_common->fnc_commentary_drop_down($item);
+			$item->obj_commentary_dropdown 	= 	$mdl_common->fnc_commentary_drop_down($item);		
 		}
 		if($item->flg_show_dictionary)
 		{
 			$item->arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
 		}
+		if($item->flg_show_audio_player)
+		{
+			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');	
+			$mdl_audio = new ZefaniaAudioPlayer;
+		}			
 		$mdl_common->fnc_meta_data($item); 
 		//Filters
 		$this->assignRef('item', 		$item);
