@@ -309,7 +309,7 @@ class getid3_id3v2 extends getid3_handler
 
 					$frame_flags = getid3_lib::BigEndian2Int(substr($frame_header, 8, 2));
 				}
-
+
 				if ((($id3v2_majorversion == 2) && ($frame_name == "\x00\x00\x00")) || ($frame_name == "\x00\x00\x00\x00")) {
 					// padding encountered
 
