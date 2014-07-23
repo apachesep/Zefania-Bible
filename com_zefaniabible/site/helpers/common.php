@@ -454,7 +454,7 @@ class ZefaniabibleCommonHelper
 				{
 					if($obj_references->verse_id == $arr_verse->verse_id)
 					{
-						$temp = 'bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&d='.$arr_verse->verse_id;
+						$temp = 'bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&verse='.$arr_verse->verse_id;
 						$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->str_commentary_width.',y:'.$item->str_commentary_height.'}}">';
 						$str_Chapter_Output  .= '<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';	
 						break;
@@ -468,7 +468,7 @@ class ZefaniabibleCommonHelper
 				{
 					if($arr_verse->verse_id == $int_verse_commentary->verse_id)
 					{
-						$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&com=".$item->str_commentary."&book=".$item->int_Bible_Book_ID."&chapter=".$item->int_Bible_Chapter."&d=".$arr_verse->verse_id."&tmpl=component");
+						$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&com=".$item->str_commentary."&book=".$item->int_Bible_Book_ID."&chapter=".$item->int_Bible_Chapter."&verse=".$arr_verse->verse_id."&tmpl=component");
 						$str_Chapter_Output  .= '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->str_commentary_width.',y:'.$item->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
 					}
 				}
@@ -603,6 +603,87 @@ class ZefaniabibleCommonHelper
 			}
 		}		*/	
 	}
+	public function fnc_output_dual_reading_plan($item)
+	{
+			$book = 0;
+			$chap = 0;
+			$x = 1;
+			$y = 1;		
+			$str_chapter = '';
+		
+			foreach($item->arr_plan as $reading)
+			{
+				$cnt_verse_count = count($reading);
+				$z = 1;
+				foreach($reading as $plan)
+				{	
+					if (($plan->book_id > $book)or($plan->chapter_id > $chap))
+					{
+						$book = $plan->book_id;
+						$chap = $plan->chapter_id;
+						if($y > 1)
+						{
+							$str_chapter .=  '</div>';
+						}
+						$str_chapter .=  '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						$str_chapter .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
+						$str_chapter .=  '<div class="zef_bible_Chapter">';
+						$arr_single_commentary  = $arr_commentary[($y-1)];
+						if($item->flg_show_audio_player)
+						{
+							$obj_player = $mdl_audio->fnc_audio_player($item->str_Bible_Version,$plan->book_id,$plan->chapter_id, $y);
+							$str_chapter .=  '<div class="zef_player-'.$y.'">';
+							$str_chapter .=  $obj_player;
+        					$str_chapter .=  "</div>";
+							$str_chapter .=  '<div style="clear:both"></div>';
+						}
+						$x = 1;
+						$y++;			
+					}
+
+					if ($x % 2)
+					{
+						$str_chapter .=  '<div class="odd">';
+					}
+					else
+					{
+						$str_chapter .=  '<div class="even">'; 
+					}
+					$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
+					$plan->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $plan->verse);
+					
+					$str_chapter .=  "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
+					if($item->flg_show_references)
+					{
+						foreach($arr_references as $obj_references)
+						{
+							if(($plan->book_id == $obj_references->book_id)and($plan->chapter_id == $obj_references->chapter_id)and($plan->verse_id == $obj_references->verse_id))
+							{
+								$temp = 'bible='.$item->str_Bible_Version.'&book='.$plan->book_id.'&chapter='.$plan->chapter_id.'&verse='.$plan->verse_id;
+								$str_pre_link = '<a title="'. JText::_('COM_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".'" target="blank" href="index.php?view=references&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->str_commentary_width.',y:'.$item->str_commentary_height.'}}">';
+								$str_chapter .=  '<div class="zef_reference_hash">'.$str_pre_link.JText::_('ZEFANIABIBLE_BIBLE_REFERENCE_LINK').'</a></div>';									
+								break;
+							}
+						}							
+					}
+					if($item->flg_show_commentary)
+					{
+						foreach($arr_single_commentary as $int_verse_commentary)
+						{
+							if($plan->verse_id == $int_verse_commentary->verse_id)
+							{
+								$str_commentary_url = JRoute::_("index.php?option=com_zefaniabible&view=commentary&com=".$this->str_commentary."&book=".$plan->book_id."&chapter=".$plan->chapter_id."&verse=".$plan->verse_id."&tmpl=component");
+								$str_chapter .=  '<div class="zef_commentary_hash"><a href="'.$str_commentary_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->str_commentary_width.',y:'.$item->str_commentary_height.'}}">'.JText::_('ZEFANIABIBLE_BIBLE_COMMENTARY_LINK')."</a></div>";
+							}
+						}
+					}	
+					$str_chapter .=  '<div style="clear:both"></div></div>';		
+					$x++;
+					$z++;
+				}
+			}
+		return $str_chapter;
+	}	
 	public function fnc_jump_button($item)
 	{
 		$int_today = $item->int_day_diff;
