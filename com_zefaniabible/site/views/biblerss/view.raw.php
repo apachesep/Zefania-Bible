@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -55,33 +54,33 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 			c = chapter number
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
-		
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		require_once(JPATH_COMPONENT_SITE.'/models/biblerss.php');
-
-		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;		
-
-		$mdl_Bible_Model = new ZefaniabibleModelBiblerss;		
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$str_Bible_Version = JRequest::getCmd('a', $str_primary_bible);	
-		$int_book_id = JRequest::getInt('b', 1);
-		$int_chapter_id = JRequest::getInt('c', 1);
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 				
-		$arr_Bible_Chapter = $mdl_Bible_Model-> _buildQuery_Chapter($str_Bible_Version, $int_book_id, $int_chapter_id);
-		$str_Bible_Name = $mdl_Bible_Model-> _buildQuery_Bible_Name($str_Bible_Version);
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+			
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);		
+		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		$item->int_menu_item 					= $params->get('rp_mo_menuitem', 0);
+		
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
+		$item->str_feed_type 		= $jinput->get('type', 'rss', 'CMD');	
+		
+		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_Chapter 				= $mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
+		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		
 		//Filters
 		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',				$access);
-		$this->assignRef('lists',				$lists);
-		$this->assignRef('config',				$config);
-		$this->assignRef('arr_Bible_Chapter',	$arr_Bible_Chapter);
-		$this->assignRef('str_Bible_Name',	$str_Bible_Name);
+		$this->assignRef('item',$item);
 		parent::display($tpl);
 	}
 }
