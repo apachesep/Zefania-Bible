@@ -58,6 +58,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_current_url = JURI::root(true).urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
+		
 		// don't redirect for modal pages.
 		switch ($view) 
 		{
@@ -81,7 +82,7 @@ class ZefaniabibleController extends JControllerLegacy
 				{
 					case 'standard':
 					case 'compare':
-					case 'reading':				
+					case 'reading':					
 						if (($str_requested_url != $str_current_url)and($str_tmpl != 'component')and(stripos($str_current_url, 'index.php') <= 0))
 						{
 							header('HTTP/1.1 301 Moved Permanently');
