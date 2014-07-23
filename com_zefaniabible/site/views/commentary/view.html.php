@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -66,44 +63,33 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-
-		$document	= JFactory::getDocument();
 
 		/*
 			a = commentary
 			b = book
 			c = chapter
 			d = verse	
-		*/	
-		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_commentary = $params->get('primaryCommentary');
-		$str_com_default_image = $params->get('str_com_default_image','media/com_zefaniabible/images/commentaries.jpg');
-		
-		$str_commentary = JRequest::getCmd('a',$str_primary_commentary);			
-		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
-		$int_Bible_Chapter = JRequest::getInt('c', '1');
-		$int_Bible_Verse = JRequest::getInt('d', '1');
-
+		*/
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
 				
-		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
-		require_once(JPATH_COMPONENT_SITE.'/models/commentary.php');
-		$mdl_commentary = new ZefaniabibleModelCommentary;				
-		$str_commentary_text =	$mdl_commentary-> _buildQuery_commentary_verse($str_commentary, $int_Bible_Book_ID, $int_Bible_Chapter, $int_Bible_Verse);
-		$str_commentary_name = $mdl_commentary->_buildQuery_commentary_name($str_commentary);
-		echo '<div class="zef_commentary_image"><img src="'.$str_com_default_image.'"></div>';
-		echo '<div class="zef_commentary_title">'.$str_commentary_name."</div>";
-		echo '<div class="zef_commentary_book">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_Bible_Book_ID)." ".$int_Bible_Chapter.":".$int_Bible_Verse."</div>";
-		echo' <div class="zef_commentary_verse">'.JHtml::_('content.prepare',$str_commentary_text)."</div>";
+		$jinput = JFactory::getApplication()->input;
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
+		$item = new stdClass();
+		$item->str_primary_commentary 			= $params->get('primaryCommentary');
+		$item->str_com_default_image 			= $params->get('str_com_default_image','media/com_zefaniabible/images/commentaries.jpg');
+		$item->str_commentary 		= $jinput->get('com', $item->str_primary_commentary, 'CMD');
+		$item->int_Bible_Book_ID 	= $jinput->get('book', '1', 'INT');	
+		$item->int_Bible_Chapter 	= $jinput->get('chapter', '1', 'INT');
+		$item->int_Bible_Verse	 	= $jinput->get('verse', '1', 'INT');
+				
+		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');			
+		$item->str_commentary_text = $mdl_default->_buildQuery_commentary_verse($item->str_commentary, $item->int_Bible_Book_ID, $item->int_Bible_Chapter, $item->int_Bible_Verse);
+		$item->str_commentary_name = $mdl_default->_buildQuery_commentary_name($item->str_commentary);
+				
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('config',		$config);
+		$this->assignRef('item',	$item);
 		parent::display($tpl);
 	}
 }
