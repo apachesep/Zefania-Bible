@@ -89,11 +89,21 @@ class ZefaniabibleCommonHelper
 				$href_rss = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter; 				
 				$href_atom = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&type=atom'; 
 				break;
+				
 			case 'reading':	
 				$pathway->addItem(($item->str_reading_plan_name." - ". mb_strtoupper($item->str_Bible_Version)." - ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$item->int_day_number), JFactory::getURI()->toString());					
 				$href_rss = 'index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&day='.$item->int_day_number; 
 				$str_title = $item->str_reading_plan_name." | ". mb_strtoupper($item->str_Bible_Version)." | ".JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$item->int_day_number;						
 				break;
+				
+			case 'plan':
+					$pathway->addItem(($item->str_reading_plan_name." - ". mb_strtoupper($item->str_Bible_Version)), JFactory::getURI()->toString());					
+					$href_rss = 'index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$item->str_Bible_Version.'&bible='.$item->str_Bible_Version.'&start='.$item->arr_pagination->limitstart.'&items='.$item->arr_pagination->limit.'&type=rss'; 
+					$href_atom = 'index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$item->str_Bible_Version.'&bible='.$item->str_Bible_Version.'&start='.$item->arr_pagination->limitstart.'&items='.$item->arr_pagination->limit.'&type=atom'; 
+					$str_title = $item->str_reading_plan_name.' | '. ($item->arr_pagination->limitstart+1).'-'.($item->arr_pagination->limitstart + $item->arr_pagination->limit).' '.JText::_('ZEFANIABIBLE_READING_PLAN_DAY');
+						
+				break;
+				
 			default:
 			 	break;
 		}
@@ -729,6 +739,66 @@ class ZefaniabibleCommonHelper
 			echo '</option>';
 		}
 		echo '</select>';
-	}	
+	}
+	public function fnc_create_plan_list_output($item)
+	{
+		$temp_day = 0;
+		$str_page_output = '';
+		$str_page_output .=  '<div class="odd">';
+		$x = 0;
+		foreach($item->arr_reading as $reading)
+		{			
+			if($temp_day != $reading->day_number)
+			{
+				$temp_day = $reading->day_number;
+				if($x != 0)
+				{
+					$str_page_output .=  '<div style="clear:both"></div></div>';
+					if ($reading->day_number % 2)
+					{
+						$str_page_output .=  '<div class="odd">';
+					}
+					else
+					{
+						$str_page_output .=  '<div class="even">';
+					}
+					
+				}
+					$str_page_output .=  '<div class="zef_day_number">'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$reading->day_number."</div>";
+			}			
+			$x++;
+			$str_page_output .=  '<div class="zef_reading">';
+			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number).'" target="_self">';
+			$str_page_output .=  $link.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$reading->book_id)." ";
+			$str_page_output .=  $reading->begin_chapter;
+			if(($reading->begin_verse == 0)and($reading->end_verse == 0))
+			{
+				if($reading->end_chapter != $reading->begin_chapter )
+				{
+					$str_page_output .=  "-".$reading->end_chapter;
+				}
+			}
+			else
+			{
+				$str_page_output .=  ":".$reading->begin_verse."-".$reading->end_chapter.":".$reading->end_verse;
+			}
+			$str_page_output .=  "</a></div>";
+		}
+		$str_page_output .=  '</div><div style="clear:both"></div>';
+		return $str_page_output;
+	}
+	public function fnc_create_reading_desc($arr_readingplans, $str_reading_plan)
+	{
+		$str_plan_description = '';
+		foreach ($arr_readingplans as $reading_plan)
+		{
+			if($str_reading_plan == $reading_plan->alias)
+			{
+				$str_plan_description = JText::_(strip_tags($reading_plan->description)); 
+				break;
+			}
+		}
+		return $str_plan_description;
+	}
 }
 ?>
