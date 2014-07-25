@@ -81,44 +81,29 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->str_start_reading_date 			= $params->get('reading_start_date', '1-1-2012');
 		$item->flg_use_year_date				= $params->get('flg_use_year_date', '0');
+		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
 		$item->int_max_days						=  	$mdl_default->_buildQuery_max_verse_of_day_verse();
 		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
-		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
-		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_diff);
+		
+		if($item->flg_use_year_date)
+		{
+			$item->int_day_number = (date('z')+1);
+		}	
+		
+		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_number);
 		$item->arr_verse_of_day					=	$mdl_default->_buildQuery_get_verse_of_the_day($item->arr_verse_info, $item->str_Bible_Version);
-		print_r($item->arr_verse_info);
-		
-
-		
-		foreach ($arr_verse_info as $obj_verses)
-		{
-			$int_max_verses = count($obj_verses);
-		}
-		$int_verse_remainder = $int_day_diff % $int_max_verses;
-		if($int_verse_remainder == 0)
-		{
-			$int_verse_remainder = $int_max_verses;
-		}
-		if($flg_use_year_date)
-		{
-			$int_verse_remainder = (date('z')+1);
-		}				
-		//$arr_verse	=	$mdl_common->_buildQuery_get_verse_of_the_day($arr_verse_info,$int_verse_remainder,$arr_bible_info);
-		
-		
 		if($item->flg_redirect_request)
 		{		
-			//header('HTTP/1.1 301 Moved Permanently');
-			//header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=verserss&format=raw&bible='.$item->str_primary_bible);	
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=verserss&format=raw&bible='.$item->str_primary_bible);	
 		}
-		$this->assignRef('arr_verse',				$arr_verse);
-		$this->assignRef('int_verse_remainder',		$int_verse_remainder);
-		$this->assignRef('arr_verse_info',			$arr_verse_info);
-		$this->assignRef('str_bible_Version',		$str_bibleVersion);		
+		$this->assignRef('item', $item);			
 		parent::display($tpl);
 	}
 }
