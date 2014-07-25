@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -71,23 +68,26 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 			e = feed type atom/rss
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		$mdl_default = new ZefaniabibleModelDefault;	
-
-		$mainframe = JFactory::getApplication();			
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$str_primary_plan = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_plan_alias = 	JRequest::getCmd('a', $str_primary_plan);	
-		$str_Bible_Version = JRequest::getCmd('b', $str_primary_bible);	
-		$int_start_item = JRequest::getInt('c', JRequest::getVar('limitstart', 0, '', 'int'));
-		$int_number_of_items = JRequest::getInt('d', $mainframe->getCfg('feed_limit'));
-
+		$mainframe = JFactory::getApplication();		
+		
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		
+		$item->str_limit_start 					=	$jinput->get('limitstart', 0, 'INT');
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
+		$item->int_start_item 					= 	$jinput->get('start', $item->str_limit_start, 'INT');	
+		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
+		
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=planrss&format=raw&a='.$str_plan_alias.'&b='.$str_Bible_Version.'&c='.$int_start_item.'&d='.$int_number_of_items);
+		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items);
 		parent::display($tpl);
 	}
 }

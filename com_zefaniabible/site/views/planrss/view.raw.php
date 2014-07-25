@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -57,39 +56,40 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 			e = feed type atom/rss
 		*/			
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
 				
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		require_once(JPATH_COMPONENT_SITE.'/models/planrss.php');
-		jimport('joomla.html.pagination');
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;			
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;		
 		
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$str_primary_plan = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_plan_alias = 	JRequest::getWord('a', $str_primary_plan);	
-		$str_Bible_Version = JRequest::getWord('b', $str_primary_bible);	
-		$int_start_item = JRequest::getInt('c', JRequest::getInt('limitstart', 0, '', 'int'));
-		$int_number_of_items = JRequest::getInt('d', $mainframe->getCfg('feed_limit'));
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();		
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
-
-		$mdl_Plan_Model = new ZefaniabibleModelPlanrss;	
-
-		$str_Bible_Name = $mdl_Plan_Model->_buildQuery_Bible_Name($str_Bible_Version);
-		$arr_Plan_Info = $mdl_Plan_Model-> _buildQuery_Plan($str_plan_alias,$int_start_item,$int_number_of_items);
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
+		
+		$item->str_limit_start 					=	$jinput->get('limitstart', 0, 'INT');		
+		$item->int_start_item 					= 	$jinput->get('start', $item->str_limit_start, 'INT');	
+		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
+		$item->str_feed_type		 			= 	$jinput->get('type', 'rss', 'CMD');
+								
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->arr_pagination 					= 	$mdl_default->_get_pagination_readingplan_overview($item->str_reading_plan);
+		$item->arr_pagination->limitstart 		= 	$item->int_start_item;
+		$item->arr_pagination->limit			= 	$item->int_number_of_items;		
+		$item->arr_reading 						= 	$mdl_default->_buildQuery_readingplan_overview($item->str_reading_plan,$item->arr_pagination);
+		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
+		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
+		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
 		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',				$access);
-		$this->assignRef('lists',				$lists);
-		$this->assignRef('config',				$config);
-		$this->assignRef('str_Bible_Name',		$str_Bible_Name);
-		$this->assignRef('arr_Plan_Info',		$arr_Plan_Info);
-		
+		$this->assignRef('item',				$item);		
 		parent::display($tpl);
 	}
 }
