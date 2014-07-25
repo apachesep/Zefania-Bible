@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -54,51 +53,45 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 			b = bible
 			c = day
 		*/		
+		/*
+			a = plan
+			b = bible
+			c = day
+		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
-		
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		require_once(JPATH_COMPONENT_SITE.'/models/verserss.php');
 		$biblemodel = new ZefaniabibleModelVerserss;		
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;	
-				
-		// time zone offset.
- 		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
-		$str_today = $JDate->format('Y-m-d', true);
-		$str_today = new DateTime($str_today);
-				
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());
-		$str_start_date = new DateTime($this->params->get('reading_start_date', '1-1-2012'));	
-		$flg_use_year_date = 	$this->params->get('flg_use_year_date', '0');
-		$int_day_diff = round(abs($str_today->format('U') - $str_start_date->format('U')) / (60*60*24));	
-		$str_bibleVersion = JRequest::getCmd('a', $str_primary_bible);	
-				
-		$arr_verse_info	=	$biblemodel->_buildQuery_get_verses();
-		$arr_bible_info	=	$biblemodel->_buildQuery_bible_name($str_bibleVersion);
-		foreach ($arr_verse_info as $obj_verses)
-		{
-			$int_max_verses = count($obj_verses);
-		}
-		$int_verse_remainder = $int_day_diff % $int_max_verses;
-		if($int_verse_remainder == 0)
-		{
-			$int_verse_remainder = $int_max_verses;
-		}
-		if($flg_use_year_date)
-		{
-			$int_verse_remainder = (date('z')+1);
-		}
-		$arr_verse	=	$biblemodel->_buildQuery_get_verse_of_the_day($arr_verse_info,$int_verse_remainder,$arr_bible_info);
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 		
-		$this->assignRef('arr_verse',				$arr_verse);
-		$this->assignRef('int_verse_remainder',		$int_verse_remainder);
-		$this->assignRef('arr_verse_info',			$arr_verse_info);
-		$this->assignRef('str_bible_Version',		$str_bibleVersion);
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_start_reading_date 			= $params->get('reading_start_date', '1-1-2012');
+		$item->flg_use_year_date				= $params->get('flg_use_year_date', '0');
+		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		
+		$item->int_max_days						=  	$mdl_default->_buildQuery_max_verse_of_day_verse();
+		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
+		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
+		
+		if($item->flg_use_year_date)
+		{
+			$item->int_day_number = (date('z')+1);
+		}	
+		
+		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_number);
+		$item->arr_verse_of_day					=	$mdl_default->_buildQuery_get_verse_of_the_day($item->arr_verse_info, $item->str_Bible_Version);
+		$this->assignRef('item', $item);			
 		parent::display($tpl);
 	}
 }
