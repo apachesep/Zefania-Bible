@@ -102,8 +102,9 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_book_id 		= $db->quote($int_book_id);
 			$int_bible_chapter 	= $db->quote($int_bible_chapter);	
 			$str_start_verse 	= $db->quote($str_start_verse);
+			$str_end_verse_raw	= $str_end_verse;
 			$str_end_verse 		= $db->quote($str_end_verse);
-								
+											
 			$query  = $db->getQuery(true);
 			$query->select('a.verse_id ,a.verse, b.bible_name');
 			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
@@ -111,7 +112,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("b.alias=".$str_Bible_Version);
 			$query->where("a.book_id=".$int_book_id);
 			$query->where("a.chapter_id=".$int_bible_chapter);
-			if($str_end_verse == 0)
+			if($str_end_verse_raw == 0)
 			{
 				$query->where("a.verse_id = ".$str_start_verse);
 			}
@@ -331,7 +332,6 @@ class ZefaniabibleModelDefault extends JModelItem
 		try 
 		{
 			$db = $this->getDbo();
-			$str_alias = $db->quote($str_alias);
 			$query  = $db->getQuery(true);
 			$query->select('Max(ordering)');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');	
@@ -435,7 +435,7 @@ class ZefaniabibleModelDefault extends JModelItem
 		{
 			$db = $this->getDbo();
 			$query  = $db->getQuery(true);
-			$query->select('name,alias');
+			$query->select('name, alias, description');
 			$query->from('`#__zefaniabible_zefaniareading`');
 			$query->where("publish=1");
 			$query->order('name');
@@ -472,7 +472,7 @@ class ZefaniabibleModelDefault extends JModelItem
 		try 
 		{
 			$db = $this->getDbo();
-			$str_commentary 			= $db->quote($str_commentary);
+			$str_commentary 		= $db->quote($str_commentary);
 			$int_Bible_Book_ID 		= $db->quote($int_Bible_Book_ID);
 			$int_Bible_Chapter 		= $db->quote($int_Bible_Chapter);
 			$int_Bible_Verse 		= $db->quote($int_Bible_Verse);			
@@ -519,25 +519,32 @@ class ZefaniabibleModelDefault extends JModelItem
 		try
 		{
 			$db = JFactory::getDBO();
+			foreach($arr_verse_info as $obj_verse_info)
+			{
+				$int_book_name 		= $db->quote($obj_verse_info->book_name);
+				$int_chapter_number = $db->quote($obj_verse_info->chapter_number);
+				$int_begin_verse	= $db->quote($obj_verse_info->begin_verse);
+				$int_end_verse_raw 	= $obj_verse_info->end_verse;
+				$int_end_verse		= $db->quote($obj_verse_info->end_verse);
+			}
 			$str_Bible_Version 		= $db->quote($str_Bible_Version);
 			$query  = $db->getQuery(true);	
 			$query->select('a.verse');
 			$query->from('`#__zefaniabible_bible_text` AS a');
 			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
 			$query->where("b.alias=".$str_Bible_Version);
-			$query->where("a.book_id=".$arr_verse_info->book_name);
-			$query->where("a.chapter_id=".$arr_verse_info->chapter_number);
-			if($arr_verse_info->end_verse = 0)
+			$query->where("a.book_id=".$int_book_name);
+			$query->where("a.chapter_id=".$int_chapter_number);
+			if($int_end_verse_raw == '0')
 			{
-				$query->where("a.verse_id=".$arr_verse_info->begin_verse);
+				$query->where("a.verse_id=".$int_begin_verse);
 			}
 			else
 			{
-				$query->where("a.verse_id>=".$arr_verse_info->begin_verse);
-				$query->where("a.verse_id<=".$arr_verse_info->end_verse);
+				$query->where("a.verse_id>=".$int_begin_verse);
+				$query->where("a.verse_id<=".$int_end_verse);
 			}
 			$query->order('a.verse_id ASC');
-			
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
 		}
@@ -559,6 +566,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				$db = $this->getDbo();
 				$int_book_id 			= $db->quote($reading->book_id);
 				$int_begin_chapter 		= $db->quote($reading->begin_chapter);
+				$int_begin_verse_raw	= $reading->begin_verse;
 				$int_begin_verse 		= $db->quote($reading->begin_verse);
 				$int_end_chapter 		= $db->quote($reading->end_chapter);
 				$int_end_verse 			= $db->quote($reading->end_verse);
@@ -571,7 +579,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				$query->where("a.book_id=".$int_book_id);
 				$query->where("a.chapter_id>=".$int_begin_chapter);
 				$query->where("a.chapter_id<=".$int_end_chapter);	
-				if($int_begin_verse != 0)
+				if($int_begin_verse_raw != 0)
 				{
 					$query->where("a.verse_id>=".$int_begin_verse);
 					$query->where("a.verse_id<=".$int_end_verse);
@@ -594,4 +602,173 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $arr_data;		
 	}	
+	function _get_pagination_verseofday()
+	{
+		try 
+		{
+			$mainframe = JFactory::getApplication();			
+			$jinput = JFactory::getApplication()->input;
+			$lim = $mainframe->getUserStateFromRequest('$option.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+			$lim0	= $jinput->get('limitstart', 0, 'INT');
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('Max(ordering)');
+			$query->from('`#__zefaniabible_zefaniaverseofday`');	
+			$query->where("publish=1");
+			$db->setQuery($query);
+			$data = new JPagination( $db->loadResult(), $lim0, $lim );
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;
+	}
+	function _get_pagination_readingplan_overview($alias)
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$alias 		= $db->quote($alias);
+			$mainframe = JFactory::getApplication();
+			$jinput = JFactory::getApplication()->input;			
+			$lim = $mainframe->getUserStateFromRequest('$option.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+			$lim0	= $jinput->get('limitstart', 0, 'INT');	
+			$query  = $db->getQuery(true);
+			$query->select('Max(details.day_number)');
+			$query->from('`#__zefaniabible_zefaniareadingdetails` AS details');	
+			$query->innerJoin("`#__zefaniabible_zefaniareading` AS plan ON details.plan = plan.id");
+			$query->where("plan.publish=1");
+			$query->where("plan.alias=".$alias);
+						
+			$db->setQuery($query);
+			$data = new JPagination( $db->loadResult(), $lim0, $lim );
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;
+	}
+	function _buildQuery_readingplan_overview($alias, $pagination)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$alias 			= $db->quote($alias);
+			$limitstart		= $db->quote($pagination->limitstart);
+			$limit 			= $db->quote($pagination->limitstart + $pagination->limit);
+			$query->select('plan.book_id, plan.begin_chapter, plan.begin_verse, plan.end_chapter, plan.end_verse, plan.day_number');
+			$query->from('`#__zefaniabible_zefaniareading` AS reading');
+			$query->innerJoin("`#__zefaniabible_zefaniareadingdetails` AS plan ON reading.id = plan.plan");
+			$query->where("reading.alias=".$alias);
+			$query->where("plan.day_number > ".$limitstart);
+			$query->where("plan.day_number <=".$limit);
+			$query->order('plan.day_number');
+			$query->order('plan.book_id');
+			$query->order('plan.begin_chapter');
+			
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;
+	}
+	function _buildQuery_verseofday($pagination)
+	{
+		try 
+		{
+			$db = JFactory::getDBO();
+			$query  = $db->getQuery(true);
+			$query->select('a.book_name, a.chapter_number, a.begin_verse, a.end_verse');
+			$query->from('`#__zefaniabible_zefaniaverseofday` AS a');
+			$query->where("a.publish=1");
+			$query->order('a.ordering');
+			
+			$db->setQuery($query, $pagination->limitstart, $pagination->limit);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}	
+		return $data;
+	}
+	function _buildQuery_get_verses($arr_Verse_Of_Day, $str_primary_bible)
+	{
+		$x=0;
+		$arr_data = '';
+		try
+		{
+			foreach($arr_Verse_Of_Day as $arr_verse)
+			{
+				$db = JFactory::getDBO();
+				$str_primary_bible_escapped	= 	$db->quote($str_primary_bible);
+				$int_book 					= 	$db->quote($arr_verse->book_name);
+				$int_chpater 				= 	$db->quote($arr_verse->chapter_number);
+				$int_begin_verse 			=	$db->quote($arr_verse->begin_verse);
+				$int_end_verse_raw			=	$arr_verse->end_verse;
+				$int_end_verse				=	$db->quote($arr_verse->end_verse);
+								
+				$query  = $db->getQuery(true);
+				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse');
+				$query->from('`#__zefaniabible_bible_text` AS a');
+				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+				$query->where("a.book_id=".$int_book);
+				$query->where("a.chapter_id=".$int_chpater);
+				$query->where("b.alias=".$str_primary_bible_escapped);
+				if($int_end_verse_raw == 0)
+				{				
+					$query->where("a.verse_id=".$int_begin_verse);
+				}
+				else
+				{
+					$query->where("a.verse_id>=".$int_begin_verse);
+					$query->where("a.verse_id<=".$int_end_verse);
+				}				
+				$query->order("a.book_id, a.chapter_id, a.verse_id");
+				
+
+				$db->setQuery($query);
+				$data = $db->loadObjectList();	
+				$arr_data[$x] = $data;
+				$x++;
+			}
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $arr_data;
+	}
+	function _buildQuery_Chapter_List($alias)
+	{
+		try 
+		{							
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('a.book_id, a.chapter_id, b.alias');
+			$query->from('`#__zefaniabible_bible_text` AS a');			
+			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+			if($alias != '')
+			{
+				$alias 	= $db->quote($alias);
+				$query->where('b.alias ='.$alias);
+			}
+			$query->where('a.verse_id =1');			
+			$query->order('b.alias ASC, a.book_id ASC, a.chapter_id ASC, a.verse_id ASC');	
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	 
+	}	
+	
 }
