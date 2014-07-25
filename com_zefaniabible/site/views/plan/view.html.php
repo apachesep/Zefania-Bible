@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewPlan extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -69,8 +66,6 @@ class ZefaniabibleViewPlan extends JViewLegacy
 			c = day
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
 	
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
@@ -80,37 +75,49 @@ class ZefaniabibleViewPlan extends JViewLegacy
 			$menu = JFactory::getApplication()->getMenu();
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
-		}
-		
-		$document	= JFactory::getDocument();
-		require_once(JPATH_COMPONENT_SITE.'/models/plan.php');
-		$biblemodel = new ZefaniabibleModelPlan;
-		
+		}		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;		
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+		
 		// create pagination
 		jimport('joomla.html.pagination');
-
-		$str_primary_reading = $params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);
-		$str_start_reading_date = $params->get('reading_start_date', '1-1-2012');
-		$str_primary_bible = $params->get('primaryBible', $mdl_default->_buildQuery_first_record());
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
+		$item->flg_email_button 				= 	$params->get('flg_email_button', '1');
+		$item->flg_reading_rss_button 			= 	$params->get('flg_plan_rssfeed_button', '1');
+		$item->flg_use_bible_selection 			= 	$params->get('flg_use_bible_selection', '1');	
+		$item->flg_show_page_top 				= 	$params->get('show_pagination_top', '1');
+		$item->flg_show_page_bot 				= 	$params->get('show_pagination_bot', '1');	
+		$item->flg_show_credit 					= 	$params->get('show_credit','0');
+		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
-		$arr_pagination = $biblemodel->_get_pagination_readingplan_overview($str_reading_plan);
-		$arr_reading = $biblemodel->_buildQuery_readingplan_overview($str_reading_plan,$arr_pagination);
-		$arr_reading_plans = $biblemodel->_buildQuery_readingplan();
-		$arr_bibles = $biblemodel->_buildQuery_Bibles();
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
+		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');
+		$item->str_option						= 	$jinput->get('option', null, 'CMD');
+		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
+		$item->str_tmpl 						= 	$jinput->get('tmpl',null,'CMD');
+		$item->str_view 						= 	$jinput->get('view', 'standard', 'CMD');
+		
+		$item->arr_pagination 					= 	$mdl_default->_get_pagination_readingplan_overview($item->str_reading_plan);
+		$item->arr_reading 						= 	$mdl_default->_buildQuery_readingplan_overview($item->str_reading_plan,$item->arr_pagination);
+		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
+		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
+		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
+
+		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
+		$item->chapter_output					=	$mdl_common->fnc_create_plan_list_output($item);	
+		$mdl_common->fnc_meta_data($item); 
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('bibles',		$arr_bibles);
-		$this->assignRef('pagination',	$arr_pagination);
-		$this->assignRef('reading',		$arr_reading);
-		$this->assignRef('readingplans',$arr_reading_plans);
-		$this->assignRef('config',		$config);
+		$this->assignRef('item',		$item);
+		$this->assignRef('pagination',	$item->arr_pagination);
 		parent::display($tpl);		
 	}
 }
