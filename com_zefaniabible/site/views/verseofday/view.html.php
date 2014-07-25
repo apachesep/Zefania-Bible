@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewVerseofday extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -64,29 +61,28 @@ class ZefaniabibleViewVerseofday extends JViewLegacy
 
 	function display_default($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
-		require_once(JPATH_COMPONENT_SITE.'/models/verseoftheday.php');
-		$biblemodel = new ZefaniabibleModelVerseoftheday;
-		// create pagination
 		jimport('joomla.html.pagination');
-		$pagination = $biblemodel->_get_pagination_verseofday();
-		$arr_Verse_Of_Day = $biblemodel->_buildQuery_verseofday($pagination);
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = $this->params->get('primaryBible', 'kjv');
+		$app = JFactory::getApplication();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 				
-		$arr_verses = $biblemodel->_buildQuery_get_verses($arr_Verse_Of_Day,$str_primary_bible);
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+		// create pagination
+
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();		
+		
+		$item->arr_pagination 		= $mdl_default->_get_pagination_verseofday();
+		$item->arr_Verse_Of_Day 	= $mdl_default->_buildQuery_verseofday($item->arr_pagination);
+		$item->str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->arr_verses 			= $mdl_default->_buildQuery_get_verses($item->arr_Verse_Of_Day,$item->str_Bible_Version);
+		
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',			$access);
-		$this->assignRef('lists',			$lists);
-		$this->assignRef('pagination',		$pagination);	
-		$this->assignRef('arr_verses',		$arr_verses);	
-		$this->assignRef('config',			$config);
+		$this->assignRef('item',			$item);
+		$this->assignRef('pagination',		$item->arr_pagination);
 		parent::display($tpl);
 	}	
 }
