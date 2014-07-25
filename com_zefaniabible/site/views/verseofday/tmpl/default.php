@@ -25,15 +25,17 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::stylesheet('zefaniabible.css', 'components/com_zefaniabible/css/'); 
 ?>
-<div class="pagination">
+<form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm"><article>
+	<div class="pagination">
 		<p class="counter">
-			<?php echo $this->pagination->getPagesCounter(); ?>
+			<div style="float:left"><?php echo $this->pagination->getPagesCounter(); ?></div>
+            <div style="float:right"><?php echo JText::_('JGLOBAL_DISPLAY_NUM')." ".$this->pagination->getLimitBox();?></div>
+            <div style="clear:both"></div>
 		</p>
 		<?php echo $this->pagination->getPagesLinks(); ?>
-</div>
-<form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm"><article>
-<?
-$cls_verses_of_day = new VersesOfTheDay($this->arr_verses);
+	</div>
+<?php 
+$cls_verses_of_day = new VersesOfTheDay($this->item);
 class VersesOfTheDay
 {
 	private $str_primary_bible;
@@ -41,22 +43,10 @@ class VersesOfTheDay
 	private $arr_bible_info;
 	private $arr_bookXMLFile;
 	private $arr_book_paths;
-	public function __construct($arr_verses)
-	{
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$this->doc_page = JFactory::getDocument();	
-		$this->str_primary_bible = $this->params->get('primaryBible', 'kjv');
-		$this->str_biblePath = $this->params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-		$this->fnc_Get_Bible_Info($arr_verses);
-		
-	}
-
-	private function fnc_Get_Bible_Info($arr_verses)
-	{
-		
-		foreach ($arr_verses as $arr_verse)
+	public function __construct($item)
+	{		
+		foreach ($item->arr_verses as $arr_verse)
 		{
-			
 			$int_verse_cnt = count($arr_verse);
 			$x=0;
 			$str_verse_output = '';
@@ -71,21 +61,21 @@ class VersesOfTheDay
 				{
 					if($x == 0)
 					{
-						$str_verse_output = $str_verse_output. '<div class="zef_verse_of_day">';
-						$str_verse_output = $str_verse_output. '<div class="zef_verse_header">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id)." ".$obj_verse->chapter_id.":".$obj_verse->verse_id."-{zefania_end_verse}</div>";										
+						$str_verse_output .=  '<div class="zef_verse_of_day">';
+						$str_verse_output .=  '<div class="zef_verse_header">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id)." ".$obj_verse->chapter_id.":".$obj_verse->verse_id."-{zefania_end_verse}</div>";										
 					}
 					if ($x % 2)
 					{
-						$str_verse_output = $str_verse_output. '<div class="odd">';
+						$str_verse_output .=  '<div class="odd">';
 					}
 					else
 					{
-						$str_verse_output = $str_verse_output. '<div class="even">'; 
+						$str_verse_output .=  '<div class="even">'; 
 					}
-					$str_verse_output = $str_verse_output. '<div class="zef_verse_number" >'.$obj_verse->verse_id.'</div><div class="zef_verse_verse">'.$obj_verse->verse.'</div></div>';												
+					$str_verse_output .=  '<div class="zef_verse_number" >'.$obj_verse->verse_id.'</div><div class="zef_verse_verse">'.$obj_verse->verse.'</div></div>';												
 					if(($int_verse_cnt-1) == $x)
 					{						
-						$str_verse_output = $str_verse_output. '</div><hr><div style="clear:both"></div>';
+						$str_verse_output .=  '</div><hr><div style="clear:both"></div>';
 						echo str_replace('{zefania_end_verse}',$obj_verse->verse_id,$str_verse_output);
 					}
 					$x++;				
