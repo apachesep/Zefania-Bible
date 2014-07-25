@@ -24,33 +24,19 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_zefania_sitemap = new ZefaniaSitemap($this->arr_chapter_list);
+$cls_zefania_sitemap = new ZefaniaSitemap($this->item);
 
 class ZefaniaSitemap
 {
-		public function __construct($arr_list)
-		{
-			$params = JComponentHelper::getParams( 'com_zefaniabible' );			
-			$int_priority = $params->get('prio', '0.1');
-			$str_frequency = $params->get('freq', 'weekly');	
-			$str_menuItem = $params->get('rp_mo_menuitem', 0);
-			
-			// make english strings
-			$jlang = JFactory::getLanguage();
-			$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-			for($i = 1; $i <=66; $i++)
-			{
-				$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
-			}
-			$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
-			
+		public function __construct($item)
+		{					
 			echo '<urlset>'.PHP_EOL;
-			foreach($arr_list as $obj_chapter_list)
+			foreach($item->arr_chapter_list as $obj_chapter_list)
 			{
 				echo '	<url>'.PHP_EOL;
-				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&a='.$obj_chapter_list->alias.'&b='.$obj_chapter_list->book_id.'-'.strtolower(str_replace(" ","-",$arr_english_book_names[$obj_chapter_list->book_id])).'&c='.$obj_chapter_list->chapter_id.'-chapter&Itemid='.$str_menuItem).'</loc>'.PHP_EOL;
-				echo '		<priority>'.$int_priority.'</priority>'.PHP_EOL;
-				echo '		<changefreq>'.$str_frequency.'</changefreq>'.PHP_EOL;
+				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&bible='.$obj_chapter_list->alias.'&book='.$obj_chapter_list->book_id.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$obj_chapter_list->book_id])).'&chapter='.$obj_chapter_list->chapter_id.'-chapter&Itemid='.$item->str_menuItem).'</loc>'.PHP_EOL;
+				echo '		<priority>'.$item->str_priority.'</priority>'.PHP_EOL;
+				echo '		<changefreq>'.$item->str_frequency.'</changefreq>'.PHP_EOL;
 				echo '		<lastmod>'.date("Y-m-d").'</lastmod>'.PHP_EOL;
 				echo '	</url>'.PHP_EOL;
 			}

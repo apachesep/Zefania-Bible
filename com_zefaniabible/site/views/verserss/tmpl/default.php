@@ -24,46 +24,45 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
-
-$cls_verse_rss = new ClsVerseRSS($this->arr_verse_info, $this->int_verse_remainder, $this->arr_verse, $this->str_bible_Version);
+$cls_verse_rss = new ClsVerseRSS($this->item);
 
 class ClsVerseRSS
 {
-	
-	public function __construct($arr_verse_info, $int_verse_remainder, $arr_verse, $str_bible_Version)
+	public function __construct($item)
 	{
 		$doc = JFactory::getDocument();
-		$mainframe = JFactory::getApplication();
-		$flg_redirect_request = JRequest::getInt('b', 1);
-		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_default_image = $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');		
-		
+		$mainframe = JFactory::getApplication();		
 		$str_verse = '';
 		$x = 1;
-
-		$int_book_name 		= 	$arr_verse_info['book_name'][$int_verse_remainder];	
-		$int_chapter_number =	$arr_verse_info['chapter_number'][$int_verse_remainder];
-		$int_begin_verse	=	$arr_verse_info['begin_verse'][$int_verse_remainder];
-		$int_end_verse 		=	$arr_verse_info['end_verse'][$int_verse_remainder];
+		$int_book_name = 1;
+		$int_chapter_number = 1;
+		$int_begin_verse = 1;
+		$int_end_verse = 0;
+		foreach ($item->arr_verse_info as $obj_arr_verse_info)
+		{
+			$int_book_name 		= 	$obj_arr_verse_info->book_name;	
+			$int_chapter_number =	$obj_arr_verse_info->chapter_number;
+			$int_begin_verse	=	$obj_arr_verse_info->begin_verse;
+			$int_end_verse 		=	$obj_arr_verse_info->end_verse;
+		}
 		$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_name)." ".$int_chapter_number.":".$int_begin_verse;
 		if($int_end_verse)
 		{
-			$str_title = $str_title. "-". $int_end_verse;
+			$str_title .= "-". $int_end_verse;
 		}
 
-		if($flg_redirect_request)
+		if($item->flg_redirect_request)
 		{
-			foreach ($arr_verse as $obj_verse)
+			foreach ($item->arr_verse_of_day as $obj_verse)
 			{
-				$str_verse = $str_verse." ". $obj_verse->verse;
+				$str_verse .= " ". $obj_verse->verse;
 			}			
 			echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 			echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 			echo '<channel>'.PHP_EOL;
 			echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
 			echo '	<image>'.PHP_EOL;
-			echo '	  <url>'.JURI::root().$str_default_image.'</url>'.PHP_EOL;
+			echo '	  <url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
 			echo '	  <title>'.JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY').'</title>'.PHP_EOL;
 			echo '	  <link>'.JRoute::_(JURI::base()).'index.php?ord='.date("mdy").'</link>'.PHP_EOL;
 			echo '	</image>'.PHP_EOL;		
@@ -75,8 +74,8 @@ class ClsVerseRSS
 			echo '	<description>'.JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY').'</description>'.PHP_EOL;
 			echo '	<item>'.PHP_EOL;
 			echo '		<title>'.$str_title.'</title>'.PHP_EOL;	 
-			echo '		<link>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;a='.$str_bible_Version.'&amp;b=0&amp;c='.$int_verse_remainder.'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
-			echo '		<guid>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;a='.$str_bible_Version.'&amp;b=0&amp;c='.$int_verse_remainder.'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
+			echo '		<link>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
+			echo '		<guid>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
 			echo '		<pubDate>'.date('D, d M Y 00:00:00').'</pubDate>'.PHP_EOL;		
 			echo '		<description>'.PHP_EOL;	
 			echo '			'.strip_tags($str_verse).PHP_EOL;	
@@ -92,13 +91,13 @@ class ClsVerseRSS
 			$this->doc_page->setMetaData( 'og:title', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'));
 			$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 			$this->doc_page->setMetaData( 'og:type', "article" );	
-			$this->doc_page->setMetaData( 'og:image', JURI::root().$str_default_image );	
+			$this->doc_page->setMetaData( 'og:image', JURI::root().$item->str_default_image );	
 			$this->doc_page->setMetaData( 'og:description', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY') );
 			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );				
 			echo '<div id="zef_Bible_Main_verse_tmpl_comp">';
 			echo '<div class="zef_bible_Header_Label">'.$str_title.'</div>';
 			echo '<div style="clear:both"></div>';
-			foreach ($arr_verse as $obj_verse)
+			foreach ($item->arr_verse_of_day as $obj_verse)
 			{
 				if ($x % 2)
 				{
