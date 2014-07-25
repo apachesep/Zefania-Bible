@@ -5,8 +5,8 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request">
-			<field name="a" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
-			<field name="b" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+			<field name="plan" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />		
+			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
 		</fieldset>
 	</fields>
 	<fields name="params">
