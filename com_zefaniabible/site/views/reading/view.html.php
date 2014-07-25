@@ -83,10 +83,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_default 	= new ZefaniabibleModelDefault;
 		$mdl_common 	= new ZefaniabibleCommonHelper;
-		
-		require_once(JPATH_COMPONENT_SITE.'/models/reading.php');
-		$biblemodel = new ZefaniabibleModelReading;		
-		
+				
 		$jinput = JFactory::getApplication()->input;
 		$item = new stdClass();
 		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());

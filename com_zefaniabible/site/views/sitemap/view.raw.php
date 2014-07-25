@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -55,36 +54,39 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 			c = day
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
+		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;		
 		
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		require_once(JPATH_COMPONENT_SITE.'/models/sitemap.php');
-		$mdl_bible_model_sitemap = new ZefaniabibleModelSitemap;		
-	
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();	
+
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->flg_only_primary_bible 			= $params->get('flg_only_primary_bible', '1');
+		$item->str_priority 					= $params->get('prio', '0.1');
+		$item->str_frequency 					= $params->get('freq', 'weekly');	
+		$item->str_menuItem 					= $params->get('rp_mo_menuitem', 0);
+		
+		$item->str_Bible_Version 				= $jinput->get('bible', $item->str_primary_bible, 'CMD');					
+		$item->arr_english_book_names 			= $mdl_common->fnc_load_languages();
+		
 		$menuitemid = $params->get('rp_mo_menuitem');
 		
-		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
-		if($flg_only_primary_bible)
+		if($item->flg_only_primary_bible)
 		{
-			$str_alias = JRequest::getCmd('a');
-			$arr_chapter_list = $mdl_bible_model_sitemap -> _buildQuery_ChapterList($str_alias);
+			$item->arr_chapter_list = $mdl_default->_buildQuery_Chapter_List($item->str_Bible_Version);
 		}
 		else
 		{
-			$str_alias = '';
-			$arr_chapter_list = $mdl_bible_model_sitemap -> _buildQuery_ChapterList($str_alias);
+			$item->arr_chapter_list = $mdl_default->_buildQuery_Chapter_List('');
 
 		}		
 		
 		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('int_day_number',		$int_day_number);
-		$this->assignRef('access',				$access);
-		$this->assignRef('arr_chapter_list',	$arr_chapter_list);
-
+		$this->assignRef('item',	$item);
 		parent::display($tpl);
 	}
 }

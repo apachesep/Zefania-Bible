@@ -47,8 +47,6 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -66,29 +64,31 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 
 		*/	
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+				
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = $params->get('primaryBible', 'kjv');
-		$flg_only_primary_bible = $params->get('flg_only_primary_bible', '1');
-		$str_bible_alias = JRequest::getCmd('a', $str_primary_bible);	
-		
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();	
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->flg_only_primary_bible 			= $params->get('flg_only_primary_bible', '1');
+		$item->str_Bible_Version 				= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+				
 		$menuitemid = $params->get('rp_mo_menuitem');		
 		
 		('HTTP/1.1 301 Moved Permanently');
-		if($flg_only_primary_bible)  
+		if($item->flg_only_primary_bible)  
 		{
-			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=sitemap&format=raw&a='.$str_bible_alias."&Itemid=".$menuitemid);			
+			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=sitemap&format=raw&bible='.$item->str_Bible_Version."&Itemid=".$menuitemid);			
 		}
 		else
 		{
 			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=sitemap&format=raw&Itemid='.$menuitemid);
 		}
 		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',				$access);
+		$this->assignRef('item',$item);
 		parent::display($tpl);
 	}
 }
