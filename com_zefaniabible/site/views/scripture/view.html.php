@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewScripture extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -64,45 +61,39 @@ class ZefaniabibleViewScripture extends JViewLegacy
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$mdl_access = new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-		$document	= JFactory::getDocument();
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
-		require_once(JPATH_COMPONENT_SITE.'/models/scripture.php');
-		$str_Bible_Version = JRequest::getCmd('a', 'kjv');
-		$str_Bible_book_id = JRequest::getInt('b', '1');
-		$str_begin_chap = JRequest::getInt('c', '1');
-		$str_begin_verse = preg_replace('/[^0-9\-\,]/','', preg_replace('/[\:]/','-',JRequest::getString('d', '1')));
-		$str_end_chap = JRequest::getInt('e', '0');
-		$str_end_verse = JRequest::getInt('f', '0');	
-		$flg_add_title = 0;	
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
-		$str_Bible_alias = $this->params->get('content_Bible_alias', 'kjv');
-		if($str_Bible_alias != $str_Bible_Version)
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;		
+		
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
+		$item->str_content_Bible_alias 			= $params->get('content_Bible_alias', 'kjv');
+		$item->flg_show_credit 					= $params->get('show_credit','0');
+		$item->str_default_image 				= $params->get('str_scripture_default_image','media/com_zefaniabible/images/scripture.jpg');
+		
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+		$item->str_begin_chap 		= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
+		$item->str_begin_verse 		= preg_replace('/[^0-9\-\,]/','', preg_replace('/[\:]/','-',$jinput->get('verse', '1','STRING')));
+		$item->str_end_chap			= $jinput->get('endchapter', '0', 'INT');	
+		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
+		$item->flg_add_title = 0;
+
+		if($item->str_content_Bible_alias != $item->str_Bible_Version)
 		{
-			$flg_add_title = 1;
+			$item->flg_add_title = 1;
 		}
-		$biblemodel = new ZefaniabibleModelScripture;	
-		$arr_verses = $biblemodel->_buildQuery_scripture($str_Bible_Version, $str_Bible_book_id, $str_begin_chap, $str_begin_verse, $str_end_chap, $str_end_verse);	 
+		$item->arr_verses = $mdl_default->_buildQuery_scripture($item->str_Bible_Version, $item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse);	 
 
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',					$access);
-		$this->assignRef('arr_verses',				$arr_verses);
-		$this->assignRef('str_Bible_Version',		$str_Bible_Version);
-		$this->assignRef('str_Bible_book_id',		$str_Bible_book_id);
-		$this->assignRef('str_begin_chap',			$str_begin_chap);
-		$this->assignRef('str_begin_verse',			$str_begin_verse);
-		$this->assignRef('str_end_chap',			$str_end_chap);
-		$this->assignRef('str_end_verse',			$str_end_verse);
-		$this->assignRef('flg_add_title',			$flg_add_title);		
-		$this->assignRef('lists',					$lists);
-		$this->assignRef('config',					$config);
+		$this->assignRef('item', $item);
 		parent::display($tpl);
 	}
 }
