@@ -769,6 +769,96 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;	 
+	}
+	function _buildQuery_scripture($str_alias, $str_Bible_book_id, $str_begin_chap, $str_begin_verse, $str_end_chap, $str_end_verse)
+	{
+		try 
+		{
+			$params = JComponentHelper::getParams( 'com_zefaniabible' );
+			$int_limit_query = $params->get('int_limit_query', '500');
+			$db		= JFactory::getDbo();
+			$query	= "SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a".
+				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
+				" WHERE a.book_id=".(int)$str_Bible_book_id;
+				$query .= " AND b.alias='".trim($str_alias)."'";
+				// Genesis 1
+				if(($str_begin_chap)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
+				{
+					$query .= " AND a.chapter_id=".(int)$str_begin_chap;
+					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+				}
+				// Genesis 1-2
+				else if(($str_begin_chap)and($str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
+				{
+					$query .= " AND a.chapter_id>=".(int)$str_begin_chap." AND a.chapter_id<=".(int)$str_end_chap;
+					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+				}
+				// Genesis 1:1
+				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
+				{
+					$query .= " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id=".(int)$str_begin_verse;
+					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+				}
+				// Genesis 1:1-2
+				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and($str_end_verse))
+				{
+					$query .= " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " AND a.verse_id<=".$str_end_verse;
+					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
+				}
+				// Genesis 1:2-2:3
+				else if(($str_begin_chap)and($str_end_chap)and($str_begin_verse)and($str_end_verse))
+				{
+					$str_tmp_old_query = $query;
+					$query	= "SELECT * FROM( ".$query . " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " ORDER BY a.verse_id ASC ) as c";
+					$query .= " UNION SELECT * FROM( ".$str_tmp_old_query." AND a.chapter_id=".$str_end_chap." AND a.verse_id<=".$str_end_verse." ORDER BY a.verse_id ASC) as d";
+					if(($str_end_chap - $str_begin_chap)>1)
+					{
+						$query .= " UNION SELECT * FROM( ".$str_tmp_old_query." AND a.chapter_id>=".($str_begin_chap+1)." AND a.chapter_id<=".($str_end_chap-1)." ORDER BY a.verse_id ASC) as e";
+   					}
+					$query .= " ORDER BY chapter_id, verse_id";
+				}
+				// Multi Verse Query
+				if(strpos($str_begin_verse, ',') !== FALSE)
+				{
+					$arr_verse_ranges = explode(',',$str_begin_verse);
+					$arr_multi_query = "";
+					$d = 0;
+					foreach ($arr_verse_ranges as $arr_verse_range)
+					{
+						$arr_multi_query[$d] = explode("-", $arr_verse_range); 
+						$d++;
+					}
+					$query = ("SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a");
+					$query .= (' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+					$query .= (" WHERE a.book_id=".(int)$str_Bible_book_id." AND b.alias='".trim($str_alias)."' AND a.chapter_id=".(int)$str_begin_chap." AND (");
+					$y=1;				
+					foreach ($arr_multi_query as $obj_multi_query)
+					{
+						if($y > 1)
+						{
+							$query .= (' OR ');
+						}
+						$query .= ('(');
+						if(count($obj_multi_query)>1)
+						{
+							$query .= (' a.verse_id>='.$obj_multi_query[0].' AND a.verse_id<='.$obj_multi_query[1]);
+						}
+						else
+						{
+							$query .= (' a.verse_id ='.$obj_multi_query[0]);
+						}
+						$query .= (')');
+						$y++;
+					}
+					$query .= (") ORDER BY a.book_id, a.chapter_id, a.verse_id"); 	
+				}
+			$db->setQuery($query, 0,$int_limit_query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}		
+		return $data;
 	}	
-	
 }
