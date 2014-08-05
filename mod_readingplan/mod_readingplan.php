@@ -89,7 +89,7 @@ class zefReadingPlan
 		$this->get_reading_plan();
 		$this->cnt_reading_elements = count($this->arr_reading_plan);
 		$x = 0;
-		$str_link = JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&a=".$this->str_reading_plan."&b=".$this->str_Bible_alias."&c=".$this->int_verse_remainder);
+		$str_link = JRoute::_("index.php?option=com_zefaniabible&view=reading&Itemid=".$this->str_menuItem."&plan=".$this->str_reading_plan."&bible=".$this->str_Bible_alias."&day=".$this->int_verse_remainder);
 		$str_verse_output_link = '<a rel="nofollow" title="'.JText::_('MOD_ZEFANIABIBLE_READING_PLAN_CLICK_TITLE').'" href="'.$str_link.'" target="_self">';
 		$str_scripture = '';
 		foreach ($this->arr_reading_plan as $arr_reading)
