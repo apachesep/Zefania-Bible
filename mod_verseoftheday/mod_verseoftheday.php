@@ -49,15 +49,15 @@ class ZefVerseOfTheDay
 			c = chapter
 			d = verse
 		*/		
-		$this->str_bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
-		$this->int_link_type = $params->get('link_type', 0);
-		$this->int_display_order = $params->get('display_order', 0);
-		$this->str_menuItem = $params->get('vd_mo_menuitem', 0);
-		$this->flg_import_user_data = 	$params->get('flg_import_user_data', '0');
-		$this->flg_use_year_date = 	$params->get('flg_use_year_date', '0');
-		$this->flg_use_biblegateway = 	$params->get('flg_use_biblegateway', '0');
-		$this->str_biblegateway_version = 	$params->get('str_biblegateway_version', 'KJV');
-		$this->str_custom_html = $params->get('str_custom_html');
+		$this->str_bible_alias 			= $params->get('bibleAlias', $this->fnc_first_bible_record());
+		$this->int_link_type 			= $params->get('link_type', 0);
+		$this->int_display_order 		= $params->get('display_order', 0);
+		$this->str_menuItem 			= $params->get('vd_mo_menuitem', 0);
+		$this->flg_import_user_data 	= $params->get('flg_import_user_data', '0');
+		$this->flg_use_year_date 		= $params->get('flg_use_year_date', '0');
+		$this->flg_use_biblegateway 	= $params->get('flg_use_biblegateway', '0');
+		$this->str_biblegateway_version = $params->get('str_biblegateway_version', 'KJV');
+		$this->str_custom_html 			= $params->get('str_custom_html');
 		
 		$user 	= JFactory::getUser();
 		if($this->flg_use_biblegateway)
@@ -191,8 +191,8 @@ class ZefVerseOfTheDay
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
 			$str_verse_output = '';
-			$str_blockquote_verse = '';
-			$str_url = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$this->str_menuItem."&a=".$this->str_bible_alias."&b=".$this->arr_verse_info['book_name'][$int_day]."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$this->arr_verse_info['book_name'][$int_day]]))."&c=".$this->arr_verse_info['chapter_number'][$int_day].'-chapter');
+			$str_blockquote_verse = ''; 
+			$str_url = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$this->str_menuItem."&bible=".$this->str_bible_alias."&book=".$this->arr_verse_info['book_name'][$int_day]."-".strtolower(str_replace(" ","-",$this->arr_english_book_names[$this->arr_verse_info['book_name'][$int_day]]))."&chapter=".$this->arr_verse_info['chapter_number'][$int_day].'-chapter');
 			foreach($data as $datum)
 			{		
 				if($this->arr_verse_info['end_verse'][$int_day] == 0)
