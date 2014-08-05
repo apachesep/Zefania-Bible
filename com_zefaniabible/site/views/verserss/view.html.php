@@ -67,8 +67,6 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		*/		
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		require_once(JPATH_COMPONENT_SITE.'/models/verserss.php');
-		$biblemodel = new ZefaniabibleModelVerserss;		
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
