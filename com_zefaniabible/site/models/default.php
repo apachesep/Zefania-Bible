@@ -163,7 +163,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_Bible_Book_ID = $db->quote($int_Bible_Book_ID);
 			$int_Bible_Chapter = $db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
-			$query->select('a.verse_id');
+			$query->select('a.book_id, a.chapter_id, a.verse_id');
 			$query->from('`#__zefaniabible_crossref` AS a');	
 			$query->where("a.book_id=".$int_Bible_Book_ID);
 			$query->where("a.chapter_id=".$int_Bible_Chapter);
@@ -205,10 +205,10 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_Bible_Book_ID 	= $db->quote($int_Bible_Book_ID);
 			$int_Bible_Chapter 	= $db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
-			$query->select('a.verse_id');
+			$query->select('a.book_id, a.chapter_id, a.verse_id');
 			$query->from('`#__zefaniabible_comment_text` AS a');
 			$query->innerjoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');
-			$query->where('b.alias="'.$str_commentary.'"');
+			$query->where('b.alias='.$str_commentary);
 			$query->where('a.book_id='.$int_Bible_Book_ID);
 			$query->where('a.chapter_id='.$int_Bible_Chapter);
 			$query->order('a.verse_id');
@@ -564,13 +564,13 @@ class ZefaniabibleModelDefault extends JModelItem
 			foreach($arr_reading as $reading)
 			{
 				$db = $this->getDbo();
-				$int_book_id 			= $db->quote($reading->book_id);
-				$int_begin_chapter 		= $db->quote($reading->begin_chapter);
-				$int_begin_verse_raw	= $reading->begin_verse;
-				$int_begin_verse 		= $db->quote($reading->begin_verse);
-				$int_end_chapter 		= $db->quote($reading->end_chapter);
-				$int_end_verse 			= $db->quote($reading->end_verse);
-				$str_Bible_Version 		= $db->quote($str_Bible_Version);
+				$int_book_id 				= $db->quote($reading->book_id);
+				$int_begin_chapter 			= $db->quote($reading->begin_chapter);
+				$int_begin_verse_raw		= $reading->begin_verse;
+				$int_begin_verse 			= $db->quote($reading->begin_verse);
+				$int_end_chapter 			= $db->quote($reading->end_chapter);
+				$int_end_verse 				= $db->quote($reading->end_verse);			
+				$str_Bible_Version_clean	= $db->quote($str_Bible_Version);
 				
 				$query  = $db->getQuery(true);	
 				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse');
@@ -584,7 +584,7 @@ class ZefaniabibleModelDefault extends JModelItem
 					$query->where("a.verse_id>=".$int_begin_verse);
 					$query->where("a.verse_id<=".$int_end_verse);
 				}
-				$query->where("b.alias=".$str_Bible_Version);
+				$query->where("b.alias=".$str_Bible_Version_clean);
 				$query->order('a.book_id ASC');
 				$query->order('a.chapter_id ASC');
 				$query->order('a.verse_id ASC');
@@ -770,88 +770,177 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;	 
 	}
-	function _buildQuery_scripture($str_alias, $str_Bible_book_id, $str_begin_chap, $str_begin_verse, $str_end_chap, $str_end_verse)
+	function _buildQuery_InsertUser($item)
+	{
+		try 
+		{							
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('Max(id)');
+			$query->from('`#__zefaniabible_zefaniauser`');
+			$db->setQuery($query);
+			$int_max_ids = $db->loadResult();
+			
+			$query = '';
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$str_Bible_Version =	$db->quote($item->str_Bible_Version);
+			$query->select('id');
+			$query->from('`#__zefaniabible_bible_names`');
+			$query->where('alias = '.$str_Bible_Version);
+			$db->setQuery($query);
+			$int_bible_version_id = $db->loadResult();
+			
+			$query = '';
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$str_reading_plan = $db->quote($item->str_reading_plan);
+			$query->select('id');
+			$query->from('`#__zefaniabible_zefaniareading`');
+			$query->where('alias = '.$str_reading_plan);
+			$db->setQuery($query);
+			$int_reading_plan_id = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}		
+		try 
+		{		
+			if($int_max_ids == "")
+			{
+				$int_max_ids = 1;	
+			}
+			else  
+			{
+				$int_max_ids++;
+			}
+			
+			$str_start_date = JHtml::date($item->str_start_date,'Y-m-d', true);
+			$arr_row->user_name 				= $item->str_user_name;
+			$arr_row->plan 						= $int_reading_plan_id;
+			$arr_row->bible_version 			= $int_bible_version_id;
+			$arr_row->user_id 					= $item->id;
+			$arr_row->email 					= $item->str_email;
+			$arr_row->send_reading_plan_email 	= $item->flg_send_reading;
+			$arr_row->send_verse_of_day_email 	= $item->flg_send_verse;
+			$arr_row->reading_start_date 		= $str_start_date;
+			$db->insertObject("#__zefaniabible_zefaniauser", $arr_row);
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('ZEFANIABIBLE_CATCHA_SUBMITED'));		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+	}
+	function _buildQuery_UpdateUser($str_email,$flg_send_reading,$flg_send_verse)
+	{
+		try 
+		{
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$str_email	= 	$db->quote($str_email);
+			$query->select('id');
+			$query->from('`#__zefaniabible_zefaniauser`');
+			$query->where('email = '.$str_email);
+			$query->where('(send_reading_plan_email = 1 or send_verse_of_day_email = 1 )');
+			$db->setQuery($query);
+			$int_user_id = $db->loadResult();
+			if($int_user_id != '')
+			{
+				$arr_row->id = 	$int_user_id;
+				$arr_row->send_reading_plan_email 	= $flg_send_reading;
+				$arr_row->send_verse_of_day_email 	= $flg_send_verse;
+				$db->updateObject("#__zefaniabible_zefaniauser", $arr_row, 'id');
+				
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('ZEFANIABIBLE_CATCHA_SUBMITED'));	
+			}
+			else
+			{
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_EMAIL_NOT_FOUND'));	
+			}
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}			
+	}
+	
+	function _buildQuery_scripture($str_alias, $int_Bible_book_id, $int_begin_chap, $int_begin_verse, $int_end_chap, $int_end_verse)
 	{
 		try 
 		{
 			$params = JComponentHelper::getParams( 'com_zefaniabible' );
 			$int_limit_query = $params->get('int_limit_query', '500');
 			$db		= JFactory::getDbo();
-			$query	= "SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a".
-				' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id'.	
-				" WHERE a.book_id=".(int)$str_Bible_book_id;
-				$query .= " AND b.alias='".trim($str_alias)."'";
-				// Genesis 1
-				if(($str_begin_chap)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
+			echo $int_begin_verse;
+			$int_Bible_book_id_clean	= 	$db->quote($int_Bible_book_id);
+			$str_alias_clean			=	$db->quote($str_alias);
+			$int_begin_chap_clean		=	$db->quote($int_begin_chap);
+			$int_end_chap_clean			=	$db->quote($int_end_chap);
+			$int_begin_verse_clean		= 	$db->quote($int_begin_verse);
+			$int_end_verse_clean		=	$db->quote($int_end_verse);
+			
+			$query  = $db->getQuery(true);
+			$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name');
+			$query->from('`#__zefaniabible_bible_text` AS a');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
+			$query->where('a.book_id='.$int_Bible_book_id_clean);
+			$query->where('b.alias='.$str_alias_clean);
+			// Genesis 1
+			if(($int_begin_chap)and(!$int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			{
+				$query->where('a.chapter_id='.$int_begin_chap_clean);
+				$query->order('a.book_id, a.chapter_id, a.verse_id');
+			}
+			// Genesis 1-2
+			else if(($int_begin_chap)and($int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			{
+				$query->where('a.chapter_id>='.$int_begin_chap_clean);
+				$query->where('a.chapter_id<='.$int_end_chap_clean);
+				$query->order('a.book_id, a.chapter_id, a.verse_id');
+			}
+			// Genesis 1:1
+			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and(!$int_end_verse))
+			{
+				$query->where('a.chapter_id='.$int_begin_chap_clean);
+				$query->where('a.verse_id='.$int_begin_verse_clean);
+				$query->order('a.book_id, a.chapter_id, a.verse_id');
+			}
+			// Genesis 1:1-2
+			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and($int_end_verse))
+			{
+				$query->where('a.chapter_id='.$int_begin_chap_clean);
+				$query->where('a.verse_id>='.$int_begin_verse_clean);
+				$query->where('a.verse_id<='.$int_end_verse_clean);
+				$query->order('a.book_id, a.chapter_id, a.verse_id');
+			}
+			// Genesis 1:2-2:3
+			else if(($int_begin_chap)and($int_end_chap)and($int_begin_verse)and($int_end_verse))
+			{		
+				if(($int_end_chap - $int_begin_chap) > 1)
 				{
-					$query .= " AND a.chapter_id=".(int)$str_begin_chap;
-					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
-				}
-				// Genesis 1-2
-				else if(($str_begin_chap)and($str_end_chap)and(!$str_begin_verse)and(!$str_end_verse))
-				{
-					$query .= " AND a.chapter_id>=".(int)$str_begin_chap." AND a.chapter_id<=".(int)$str_end_chap;
-					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
-				}
-				// Genesis 1:1
-				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse))
-				{
-					$query .= " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id=".(int)$str_begin_verse;
-					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
-				}
-				// Genesis 1:1-2
-				else if(($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and($str_end_verse))
-				{
-					$query .= " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " AND a.verse_id<=".$str_end_verse;
-					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id "; 
-				}
-				// Genesis 1:2-2:3
-				else if(($str_begin_chap)and($str_end_chap)and($str_begin_verse)and($str_end_verse))
-				{
-					$str_tmp_old_query = $query;
-					$query	= "SELECT * FROM( ".$query . " AND a.chapter_id=".(int)$str_begin_chap." AND a.verse_id>=".(int)$str_begin_verse. " ORDER BY a.verse_id ASC ) as c";
-					$query .= " UNION SELECT * FROM( ".$str_tmp_old_query." AND a.chapter_id=".$str_end_chap." AND a.verse_id<=".$str_end_verse." ORDER BY a.verse_id ASC) as d";
-					if(($str_end_chap - $str_begin_chap)>1)
+					$str_temp = '';
+					$y=0;
+					for($x = ($int_begin_chap+1); $x < $int_end_chap; $x++)
 					{
-						$query .= " UNION SELECT * FROM( ".$str_tmp_old_query." AND a.chapter_id>=".($str_begin_chap+1)." AND a.chapter_id<=".($str_end_chap-1)." ORDER BY a.verse_id ASC) as e";
-   					}
-					$query .= " ORDER BY chapter_id, verse_id";
-				}
-				// Multi Verse Query
-				if(strpos($str_begin_verse, ',') !== FALSE)
-				{
-					$arr_verse_ranges = explode(',',$str_begin_verse);
-					$arr_multi_query = "";
-					$d = 0;
-					foreach ($arr_verse_ranges as $arr_verse_range)
-					{
-						$arr_multi_query[$d] = explode("-", $arr_verse_range); 
-						$d++;
-					}
-					$query = ("SELECT a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name FROM `#__zefaniabible_bible_text` AS a");
-					$query .= (' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-					$query .= (" WHERE a.book_id=".(int)$str_Bible_book_id." AND b.alias='".trim($str_alias)."' AND a.chapter_id=".(int)$str_begin_chap." AND (");
-					$y=1;				
-					foreach ($arr_multi_query as $obj_multi_query)
-					{
-						if($y > 1)
+						if($y > 0 )
 						{
-							$query .= (' OR ');
-						}
-						$query .= ('(');
-						if(count($obj_multi_query)>1)
-						{
-							$query .= (' a.verse_id>='.$obj_multi_query[0].' AND a.verse_id<='.$obj_multi_query[1]);
-						}
-						else
-						{
-							$query .= (' a.verse_id ='.$obj_multi_query[0]);
-						}
-						$query .= (')');
+							$str_temp .= " OR ";
+						}						
+						$str_temp .= "a.chapter_id='".$x."'";
 						$y++;
 					}
-					$query .= (") ORDER BY a.book_id, a.chapter_id, a.verse_id"); 	
+					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR('.$str_temp.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
 				}
+				else
+				{
+					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
+				}
+				$query->order('a.book_id, a.chapter_id, a.verse_id');
+			}
 			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}
