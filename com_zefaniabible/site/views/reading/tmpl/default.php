@@ -26,107 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 $mdl_common 	= new ZefaniabibleCommonHelper;
-//$cls_bible_reading_plan = new BibleReadingPlan($this->bibles, $this->reading, $this->arr_reading_plans, $this->plan,$this->arr_commentary, $this->int_max_days, $this->arr_commentary_list, $this->arr_dictionary_list,$this->obj_references);
 
-class BibleReadingPlan
-{
-		/*
-			a = plan
-			b = bible
-			c = day
-			com = commentary
-			dict = Dictionary
-			strong = Show/Hide Strong Numgers flag			
-		*/
-	public $str_bibleVersion;
-	private $str_primary_bible;
-	private $int_reading_day;
-	private $str_start_reading_date;
-	private $biblePath;
-	private $str_nativeLocation;
-	private $arr_book_info;
-	private $arr_bookXMLFile;
-	public $str_page_output;
-	public $str_bible_layout;
-	public $flg_show_credit;
-	private $flg_show_pagination_type;
-	public $flg_show_page_top;
-	private $arr_reading;
-	private $str_primary_reading;
-	public $arr_total_bibles_loaded;
-	public $str_reading_plan;
-	private $str_prmary_commentary;
-	private $str_Commentary_XML_Path;
-	public $flg_show_commentary;
-	public $int_day_number;
-	private $str_chapter_headings;
-	private $str_curr_read_plan;
-	public $str_first_verse;
-	private $arr_commentary_File;
-	private $str_view;
-	public $flg_email_button;
-	public $flg_reading_rss_button;
-	public $flg_show_audio_player;
-	public $flg_use_bible_selection;
-	private $str_commentary;
-	public $str_tmpl;
-	public $str_commentary_width;
-	public $str_commentary_height;
-	public $flg_show_references;
-	private $str_dictionary_height;
-	private $str_dictionary_width;
-	public $str_primary_dictionary;
-	public $flg_show_dictionary;
-	public $str_primary_commentary;
-	private $str_curr_dict;	
-	public $flg_strong_dict;
-	private $arr_commentary_list;
-	private $arr_dictionary_lis;
-	public $str_chapter_output;
-	public $str_default_image;
-	
-	public function __construct($arr_bibles, $arr_reading, $arr_reading_plans, $arr_plan, $arr_commentary, $int_max_days, $arr_commentary_list, $arr_dictionary_list, $obj_references)
-	{
-		
-		$this->arr_reading = $arr_reading;
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );		
-		$this->doc_page = JFactory::getDocument();	
-
-		$this->str_view = JRequest::getCmd('view');
-		$this->str_primary_reading = 	$this->params->get('primaryReading', 'ttb');
-		$this->str_primary_bible = 		$this->params->get('primaryBible', 'kjv');	
-		$this->flg_show_audio_player = 	$this->params->get('show_audioPlayer', '0');
-		$this->flg_show_commentary = $this->params->get('show_commentary', '0');
-		$this->flg_show_references = $this->params->get('show_references', '0');
-		$this->str_tmpl = JRequest::getCmd('tmpl');
-		$this->str_reading_plan = 	JRequest::getCmd('a', $this->str_primary_reading);	
-		$this->str_bibleVersion = 	JRequest::getCmd('b', $this->str_primary_bible);		
-		$this->str_commentary_width = $this->params->get('commentaryWidth','800');
-		$this->str_commentary_height = $this->params->get('commentaryHeight','500');
-		$this->str_dictionary_height = $this->params->get('str_dictionary_height','500');
-		$this->str_dictionary_width = $this->params->get('str_dictionary_width','800');	
-		$this->str_primary_dictionary  = $this->params->get('str_primary_dictionary','');
-		$this->flg_show_dictionary = $this->params->get('flg_show_dictionary', 0);
-		$this->str_primary_commentary = $this->params->get('primaryCommentary');
-		$this->str_curr_dict = JRequest::getCmd('dict');		
-		$this->str_commentary = JRequest::getCmd('com',$this->str_primary_commentary);
-		$this->str_default_image = $this->params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
-		
-		$this->flg_show_credit 			= $this->params->get('show_credit','0');
-		$this->flg_show_pagination_type = $this->params->get('show_pagination_type','0');
-		$this->flg_show_page_top 		= $this->params->get('show_pagination_top', '1');
-		$this->flg_show_page_bot 		= $this->params->get('show_pagination_bot', '1');
-		$this->flg_use_bible_selection 	= $this->params->get('flg_use_bible_selection', '1');
-		$this->flg_strong_dict = 0;
-		$this->arr_commentary_list = $arr_commentary_list;
-		$this->arr_dictionary_list = $arr_dictionary_list;
-				
-		$this->getMetaData($arr_plan);
-		$this->str_chapter_output = $this->fnc_output_chapter($arr_plan, $arr_commentary, $obj_references);
-	}
-	
-	
-}
 ?>
 
 
@@ -209,7 +109,7 @@ class BibleReadingPlan
                     ?>              
           </div>
 	</div> 
-	<article><?php echo $mdl_common->fnc_output_dual_reading_plan($this->item); ?></article>
+	<article><?php echo $mdl_common->fnc_output_reading_plan($this->item); ?></article>
         <div class="zef_footer">
 			<div class="zef_bot_pagination">        
                 <?php 
@@ -235,6 +135,6 @@ class BibleReadingPlan
     </div>
 	<input type="hidden" name="option" value="<?php echo $this->item->str_option;?>" />
 	<input type="hidden" name="view" value="<?php echo $this->item->str_view;?>" />
-    <input type="hidden" name="day" value="<?php echo $this->item->int_day_diff; ?>" />
+    <input type="hidden" name="day" value="<?php echo $this->item->int_day_number; ?>" />
     <input type="hidden" name="Itemid" value="<?php echo $this->item->int_menu_item_id; ?>"/>
 </form>
