@@ -81,11 +81,10 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->str_begin_chap 		= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
-		$item->str_begin_verse 		= preg_replace('/[^0-9\-\,]/','', preg_replace('/[\:]/','-',$jinput->get('verse', '1','STRING')));
+		$item->str_begin_verse 		= $jinput->get('verse', '1','INT');
 		$item->str_end_chap			= $jinput->get('endchapter', '0', 'INT');	
 		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
 		$item->flg_add_title = 0;
-
 		if($item->str_content_Bible_alias != $item->str_Bible_Version)
 		{
 			$item->flg_add_title = 1;
