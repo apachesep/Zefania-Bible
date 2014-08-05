@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -50,8 +49,6 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -69,33 +66,29 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			c = day
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		
+
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;	
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 				
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_reading = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();	
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());
+		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
 			
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);	
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
 		
-		// time zone offset.
- 		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
-		$str_today = $JDate->format('Y-m-d', true);
-		$arr_today = new DateTime($str_today);	
-		
-		$arr_start_date = new DateTime($str_start_reading_date);	
-		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
-		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
-		
-		$int_feed_type = JRequest::getCmd('d', 0);	
+		$item->int_max_days						=  	$mdl_default->_buildQuery_max_verse_of_day_verse();
+		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
+		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
+		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
+			
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=readingrss&format=raw&a='.$str_reading_plan."&b=".$str_bibleVersion.'&c='.$int_day_number.'&d='.$int_feed_type);	
+		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$item->str_reading_plan."&bible=".$item->str_Bible_Version.'&day='.$item->int_day_number.'&type='.$item->flg_redirect_request);	
 		parent::display($tpl);
 	}
 }
