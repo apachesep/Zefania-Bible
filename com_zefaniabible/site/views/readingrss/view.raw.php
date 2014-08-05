@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -55,53 +54,38 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			c = day
 		*/		
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
-		
-		$this->params = JComponentHelper::getParams( 'com_zefaniabible' );
-		require_once(JPATH_COMPONENT_SITE.'/models/readingrss.php');
-		$biblemodel = new ZefaniabibleModelReadingrss;		
 		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
-		$mdl_default = new ZefaniabibleModelDefault;	
-				
-		$str_primary_reading = 		$this->params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
-		$str_primary_bible = 		$this->params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$str_start_reading_date = 	$this->params->get('reading_start_date', '1-1-2012');
-			
-		$str_reading_plan = JRequest::getCmd('a', $str_primary_reading);	
-		$str_bibleVersion = JRequest::getCmd('b', $str_primary_bible);
-
-		// time zone offset.
- 		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
-		$str_today = $JDate->format('Y-m-d', true);
-		$arr_today = new DateTime($str_today);	
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 		
-		$arr_start_date = new DateTime($str_start_reading_date);	
-
-		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
-		$int_day_number = 	JRequest::getInt('c', $int_day_diff);
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();	
+		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
+		$item->str_primary_bible 				= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());
+		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
+		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		
-		$arr_bibles 		=	$biblemodel->_buildQuery_Bibles();
-		$arr_reading 		=	$biblemodel->_buildQuery_plan($str_reading_plan, $str_start_reading_date);
-		$arr_reading_plans 	= 	$biblemodel->_buildQuery_readingplan();
-		$arr_plan 			=	$biblemodel->_buildQuery_current_reading($arr_reading, $str_bibleVersion);
+		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
+		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
 		
+		$item->int_max_days						=  	$mdl_default->_buildQuery_max_verse_of_day_verse();
+		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
+		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
+		
+		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_reading						=	$mdl_default->_buildQuery_reading_plan($item->str_reading_plan,$item->int_day_number);	
+		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
+		$item->arr_plan							= 	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);	
+		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
+		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
+		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading,$item->str_reading_plan);
 		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('int_day_number',		$int_day_number);
-		$this->assignRef('access',				$access);
-		$this->assignRef('lists',				$lists);
-		$this->assignRef('bibles',				$arr_bibles);
-		$this->assignRef('plan',				$arr_plan);
-		$this->assignRef('str_reading_plan',	$str_reading_plan);
-		$this->assignRef('str_bible_Version',	$str_bibleVersion);
-		$this->assignRef('reading',				$arr_reading);
-		$this->assignRef('arr_reading_plans',	$arr_reading_plans);
-		$this->assignRef('config',				$config);
+		$this->assignRef('item', $item);
 		parent::display($tpl);
 	}
 }
