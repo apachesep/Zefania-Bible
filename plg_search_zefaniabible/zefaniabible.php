@@ -66,10 +66,10 @@ class plgSearchZefaniaBible extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
-		$this->flg_search_commentary = $this->params->get('flg_search_commentary', 0);
-		$this->flg_search_dictionary = $this->params->get('flg_search_dictionary', 0);
-		$this->flg_search_one_dictionary = $this->params->get('flg_search_one_dictionary', 0);
-		$this->flg_search_one_commentary = $this->params->get('flg_search_one_commentary', 0);
+		$this->flg_search_commentary 		= $this->params->get('flg_search_commentary', 0);
+		$this->flg_search_dictionary 		= $this->params->get('flg_search_dictionary', 0);
+		$this->flg_search_one_dictionary 	= $this->params->get('flg_search_one_dictionary', 0);
+		$this->flg_search_one_commentary 	= $this->params->get('flg_search_one_commentary', 0);
 		
 		$comp_params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->str_primary_commentary = $comp_params->get('primaryCommentary');
@@ -212,38 +212,42 @@ class plgSearchZefaniaBible extends JPlugin
 		{
 			$db		= JFactory::getDbo();
 			$query  = $db->getQuery(true);
+			$str_text 	= $db->quote('%'.$str_text.'%');
 			switch($area)
 			{
 				case 'Bible':
+					$str_primary_bible 	= $db->quote($this->str_primary_bible);					
 					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name as bible_name, b.alias');
 					$query->from('`#__zefaniabible_bible_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');	
-					$query->where("a.verse LIKE '%".$str_text."%'");
+					$query->where("a.verse LIKE ".$str_text);
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
-						$query->where("b.alias='".$this->str_primary_bible."'");
+						$query->where("b.alias=".$str_primary_bible);
 					}								
 					break;
 				case 'Commentary':
+					$str_primary_commentary 	= $db->quote($this->str_primary_commentary);
 					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.title as bible_name, b.alias');
 					$query->from('`#__zefaniabible_comment_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
-					$query->where("a.verse LIKE '%".$str_text."%'");
+					$query->where("a.verse LIKE ".$str_text);
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
-						$query->where("b.alias='".$this->str_primary_commentary."'");
+						$query->where("b.alias=".$str_primary_commentary);
 					}					
 					break;
 				case 'Dictionary':
+					$str_primary_dictionary 	= $db->quote($this->str_primary_dictionary);
 					$query->select('a.dict_id, a.item, a.description, b.name, b.alias');
 					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
 					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
-					$query->where("a.description LIKE '%".$str_text."%'");	
+					$query->where("a.description LIKE ".$str_text);
 					if($this->flg_search_one_dictionary)
 					{
-						$query->where("b.alias='".$this->str_primary_dictionary."'");
+						$query->where("b.alias=".$str_primary_dictionary);
 					}					
 					$query->order('a.dict_id');					
 					break;
@@ -276,56 +280,71 @@ class plgSearchZefaniaBible extends JPlugin
 			switch ($area)
 			{
 				case 'Bible':
+					$str_primary_bible 	= $db->quote($this->str_primary_bible);
+					$str_Bible_book_id 	= $db->quote($this->str_Bible_book_id);
+					$str_begin_chap 	= $db->quote($this->str_begin_chap);
+					$str_begin_verse 	= $db->quote($this->str_begin_verse);
+					$str_end_verse 		= $db->quote($this->str_end_verse);
+					
 					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.bible_name as bible_name, b.alias');
 					$query->from('`#__zefaniabible_bible_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-					$query->where("a.book_id=".$this->str_Bible_book_id);
-					$query->where("a.chapter_id=".$this->str_begin_chap);
+					$query->where("a.book_id=".$str_Bible_book_id);
+					$query->where("a.chapter_id=".$str_begin_chap);
 					if($this->str_end_verse)
 					{
-						$query->where("a.verse_id>=".$this->str_begin_verse);
-						$query->where("a.verse_id<=".$this->str_end_verse);
+						$query->where("a.verse_id>=".$str_begin_verse);
+						$query->where("a.verse_id<=".$str_end_verse);
 					}
 					else
 					{
-						$query->where("a.verse_id=".$this->str_begin_verse);
+						$query->where("a.verse_id=".$str_begin_verse);
 					}
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
-						$query->where("b.alias='".$this->str_primary_bible."'");
-					}					
+						$query->where("b.alias=".$str_primary_bible);
+					}		
 					break;
 				case 'Commentary':
+					$str_primary_commentary 	= $db->quote($this->str_primary_commentary);
+					$str_Bible_book_id 			= $db->quote($this->str_Bible_book_id);
+					$str_begin_chap 			= $db->quote($this->str_begin_chap);
+					$str_begin_verse 			= $db->quote($this->str_begin_verse);
+					$str_end_verse 				= $db->quote($this->str_end_verse);
+					
 					$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.title as bible_name, b.alias');
 					$query->from('`#__zefaniabible_comment_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
-					$query->where("a.book_id=".$this->str_Bible_book_id);
-					$query->where("a.chapter_id=".$this->str_begin_chap);
+					$query->where("a.book_id=".$str_Bible_book_id);
+					$query->where("a.chapter_id=".$str_begin_chap);
 					if($this->str_end_verse)
 					{
-						$query->where("a.verse_id>=".$this->str_begin_verse);
-						$query->where("a.verse_id<=".$this->str_end_verse);
+						$query->where("a.verse_id>=".$str_begin_verse);
+						$query->where("a.verse_id<=".$str_end_verse);
 					}
 					else
 					{
-						$query->where("a.verse_id=".$this->str_begin_verse);
+						$query->where("a.verse_id=".$str_begin_verse);
 					}
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
-						$query->where("b.alias='".$this->str_primary_commentary."'");
+						$query->where("b.alias=".$str_primary_commentary);
 					}					
 					
 					break;
 				case 'Dictionary':
+					$str_primary_dictionary 	= $db->quote($this->str_primary_dictionary);
+					$str_text 					= $db->quote($text);
+					
 					$query->select('a.dict_id, a.item,a.description, b.name, b.alias');
 					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
 					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
-					$query->where("a.item ='".$text."'");	
+					$query->where("a.item =".$str_text);	
 					if($this->flg_search_one_dictionary)
 					{
-						$query->where("b.alias='".$this->str_primary_dictionary."'");
+						$query->where("b.alias=".$str_primary_dictionary);
 					}
 					$query->order('a.dict_id');					
 					break;
@@ -415,9 +434,9 @@ class plgSearchZefaniaBible extends JPlugin
 					$datum->verse = preg_replace("/(?=\S)([HG](\d{1,4}))/iu",'',$datum->verse);				
 					$data[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id)." ".$datum->chapter_id.":".$datum->verse_id;				
 					$data[$y]->text = $datum->verse;				
-					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&a=".$datum->alias.
-						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
-						"&c=".$datum->chapter_id.'-chapter');
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=standard&Itemid=".$str_menuItem."&bible=".$datum->alias.
+						"&book=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
+						"&chapter=".$datum->chapter_id.'-chapter');
 					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');
 					break;
 				case 'Commentary':
@@ -427,17 +446,17 @@ class plgSearchZefaniaBible extends JPlugin
 				
 					$data[$y]->title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$datum->book_id)." ".$datum->chapter_id.":".$datum->verse_id;				
 					$data[$y]->text = $datum->verse;								
-					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=commentary&Itemid=".$str_menuItem."&a=".$datum->alias.
-						"&b=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
-						"&c=".$datum->chapter_id.'-chapter'.'&d='.$datum->verse_id.'-verse');				
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=commentary&Itemid=".$str_menuItem."&com=".$datum->alias.
+						"&book=".$datum->book_id."-".str_replace(" ","-",$str_temp_title).
+						"&chapter=".$datum->chapter_id.'-chapter'.'&verse='.$datum->verse_id.'-verse');				
 					$data[$y]->section = $datum->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');						
 					break;
 				case 'Dictionary':
 					$datum->description = preg_replace("/(?=\S)(&lt;tw\:\/\/\[self\]\?(.*?)&gt;)/iu",'',$datum->description); // remove <tw://[self]?.. code
 					$data[$y]->title = $datum->item;				
 					$data[$y]->text = $datum->description;								
-					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=strong&Itemid=".$str_menuItem."&a=".$datum->alias.
-						"&b=".$datum->item);		
+					$data[$y]->href = JRoute::_("index.php?option=com_zefaniabible&view=strong&Itemid=".$str_menuItem."&dict=".$datum->alias.
+						"&item=".$datum->item);		
 					$data[$y]->section = $datum->name." - ".JText::_('PLG_ZEFANIABIBLE_SEARCH_BIBLE_COMPONENT_NAME');					
 					break;
 				default:
