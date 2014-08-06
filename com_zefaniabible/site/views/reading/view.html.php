@@ -83,7 +83,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_default 	= new ZefaniabibleModelDefault;
 		$mdl_common 	= new ZefaniabibleCommonHelper;
-				
+		
 		$jinput = JFactory::getApplication()->input;
 		$item = new stdClass();
 		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
@@ -133,6 +133,12 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->arr_plan							= 	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);
 		$item->cnt_chapters						=	$mdl_common->fnc_count_chapters($item->arr_reading);
 		$item->str_description 					= 	$mdl_common->fnc_make_description($item->arr_plan[0]);
+		
+		if($item->flg_show_audio_player)
+		{
+			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
+			$mdl_audio = new ZefaniaAudioPlayer;			
+		}
 		// commentary code
 		if($item->flg_show_commentary)
 		{
@@ -156,14 +162,14 @@ class ZefaniabibleViewReading extends JViewLegacy
 				{
 					$item->arr_commentary[$z] 	= $mdl_default->_buildQuery_commentary_chapter($item->str_commentary,$obj_reading_day->book_id,$y);
 				}
+				if($item->flg_show_audio_player)
+				{
+					$obj_player[$z] 			= $mdl_audio->fnc_audio_player($item->str_Bible_Version,$obj_reading_day->book_id,$y, 1);
+				}				
 				$z++;
 			}
 		}
-		if($item->flg_show_audio_player)
-		{
-			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');	
-			$mdl_audio = new ZefaniaAudioPlayer;
-		}
+
 		
 
 		$mdl_common->fnc_meta_data($item); 
