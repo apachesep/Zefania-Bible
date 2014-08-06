@@ -113,7 +113,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
              	<div class="zef_player-1"> 
                 	<?php echo $this->obj_player_one; 
 							echo '<div style="clear:both;"></div>';
-				            echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&a='.$this->str_Bible_Version.'&view=player&tmpl=component&b='.$this->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
+				            echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&bible='.$this->item->str_Bible_Version.'&view=player&tmpl=component&book='.$this->item->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
 					?>
                 </div>
             <?php }?>                   
@@ -121,7 +121,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
                 <div class="zef_player-2"> 
                		<?php echo $this->obj_player_two; 
 							echo '<div style="clear:both;"></div>';
-				            echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&a='.$this->str_Bible_Version2.'&view=player&tmpl=component&b='.$this->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";					
+				            echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&bible='.$this->item->str_Second_Bible_Version.'&view=player&tmpl=component&book='.$this->item->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";					
 					?>
                 </div>
                 <?php }?>
