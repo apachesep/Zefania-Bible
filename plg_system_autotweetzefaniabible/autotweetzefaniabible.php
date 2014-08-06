@@ -277,11 +277,11 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 				{
 					$this->id = $reading->book_id;
 					$int_book_id = $reading->book_id;
-					$int_begin_chapter =  $reading->begin_chapter;
-					$int_begin_verse =  $reading->begin_verse;
-					$int_end_chapter =  $reading->end_chapter;
-					$int_end_verse =  $reading->end_verse;
-					$this->str_reading_link = substr_replace(JURI::base(),'',-1).JRoute::_("index.php?option=com_zefaniabible&view=reading&a=".$this->str_Reading."&b=".$this->str_Bible."&c=".$this->int_reading_remainder.'&Itemid='.$this->reading_menuitem);
+					$int_begin_chapter 		=  $reading->begin_chapter;
+					$int_begin_verse 		=  $reading->begin_verse;
+					$int_end_chapter 		=  $reading->end_chapter;
+					$int_end_verse 			=  $reading->end_verse;
+					$this->str_reading_link = substr_replace(JURI::base(),'',-1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$this->str_Reading."&bible=".$this->str_Bible."&day=".$this->int_reading_remainder.'&Itemid='.$this->reading_menuitem);
 					$this->str_reading_title = $this->str_reading_title. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id).' '.$int_begin_chapter;				
 					if($int_begin_verse)
 					{
@@ -298,17 +298,24 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 					}						
 					$x++;
 				}
+				$str_Bible_clean 			= $db->quote($this->str_Bible);
+				$int_book_id_clean 			= $db->quote($int_book_id);
+				$int_begin_chapter_clean 	= $db->quote($int_begin_chapter);
+				$int_end_chapter_clean 		= $db->quote($int_end_chapter);
+				$int_begin_verse_clean 		= $db->quote($int_begin_verse);
+				$int_end_verse_clean 		= $db->quote($int_end_verse);
+				
 				$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse');
 				$query->from('`#__zefaniabible_bible_text` AS a');
 				$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-				$query->where("b.alias='".$this->str_Bible."'");
-				$query->where("a.book_id=".$int_book_id);
-				$query->where("a.chapter_id>=".$int_begin_chapter);			
-				$query->where("a.chapter_id<=".$int_end_chapter);	
+				$query->where("b.alias=".$str_Bible_clean);
+				$query->where("a.book_id=".$int_book_id_clean);
+				$query->where("a.chapter_id>=".$int_begin_chapter_clean);			
+				$query->where("a.chapter_id<=".$int_end_chapter_clean);	
 				if(($int_begin_verse != 0)and($int_begin_verse != ''))
 				{
-					$query->where("a.verse_id>=".$int_begin_verse);	
-					$query->where("a.verse_id<=".$int_end_verse);	
+					$query->where("a.verse_id>=".$int_begin_verse_clean);
+					$query->where("a.verse_id<=".$int_end_verse_clean);	
 				}
 				$query->order('a.book_id ASC, a.chapter_id ASC, a.verse_id ASC');	
 							
@@ -326,12 +333,15 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		try 
 		{
 			$db = JFactory::getDBO();
-			$query  = $db->getQuery(true);			
+			$query  = $db->getQuery(true);	
+			$str_Reading 			= $db->quote($this->str_Reading);
+			$int_reading_remainder 	= $db->quote($this->int_reading_remainder);
+					
 			$query->select('a.id, a.book_id, a.begin_chapter, a.begin_verse, a.end_chapter, a.end_verse');
 			$query->from('`#__zefaniabible_zefaniareadingdetails` AS a');
 			$query->innerJoin('`#__zefaniabible_zefaniareading` AS b ON a.plan = b.id');
-			$query->where("b.alias='".$this->str_Reading."'");
-			$query->where("a.day_number = ".$this->int_reading_remainder);
+			$query->where("b.alias=".$str_Reading);
+			$query->where("a.day_number = ".$int_reading_remainder);
 				
 			$db->setQuery($query);
 			$data = $db->loadObjectList();	
@@ -348,10 +358,11 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		{
 			$db = JFactory::getDBO();
 			$query  = $db->getQuery(true);
+			$str_Reading = $db->quote($this->str_Reading);
 			$query->select('Max(b.day_number)');
 			$query->from('`#__zefaniabible_zefaniareadingdetails` AS b');
 			$query->innerJoin('`#__zefaniabible_zefaniareading` AS c ON b.plan = c.id');
-			$query->where("c.alias='".$this->str_Reading."'");
+			$query->where("c.alias=".$str_Reading);
 			$db->setQuery($query);
 			$int_max_days = $db->loadResult();		
 		}
@@ -367,20 +378,26 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		{
 			$db = JFactory::getDBO();
 			$query  = $db->getQuery(true);
+			$str_book_name 			= $db->quote($this->book_name);
+			$int_chapter_number 	= $db->quote($this->chapter_number);
+			$str_Bible 				= $db->quote($this->str_Bible);
+			$int_begin_verse 		= $db->quote($this->begin_verse);
+			$int_end_verse	 		= $db->quote($this->end_verse);
+			
 			$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse');
 			$query->from('`#__zefaniabible_bible_text` AS a');
 			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
-			$query->where("a.book_id=".$this->book_name);
-			$query->where("a.chapter_id=".$this->chapter_number);
-			$query->where("b.alias='".$this->str_Bible."'");
+			$query->where("a.book_id=".$str_book_name);
+			$query->where("a.chapter_id=".$int_chapter_number);
+			$query->where("b.alias=".$str_Bible);
 			if($this->end_verse == 0)
 			{
-				$query->where("a.verse_id=".$this->begin_verse);
+				$query->where("a.verse_id=".$int_begin_verse);
 			}
 			else
 			{
-				$query->where("a.verse_id>=".$this->begin_verse);
-				$query->where("a.verse_id<=".$this->end_verse);
+				$query->where("a.verse_id>=".$int_begin_verse);
+				$query->where("a.verse_id<=".$int_end_verse);
 			}
 			$db->setQuery($query);		
 			
@@ -394,7 +411,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			{
 				$this->str_verse_body = $this->str_verse_body .$datum->verse;
 			}
-			$this->str_verse_link = substr_replace(JURI::base(),'',-1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&a='.$this->str_Bible.'&b=0&c='.$this->int_verse_remainder.'&Itemid='.$this->verse_menuitem.'&ord='.date("mdy"));
+			$this->str_verse_link = substr_replace(JURI::base(),'',-1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$this->str_Bible.'&type=0&day='.$this->int_verse_remainder.'&Itemid='.$this->verse_menuitem.'&ord='.date("mdy"));
 		}
 		catch (JException $e)
 		{
@@ -422,10 +439,11 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		{
 			$db = JFactory::getDBO();
 			$query  = $db->getQuery(true);
+			$id_clean 	= $db->quote($id);
 			$query->select('id, book_name, chapter_number, begin_verse, end_verse');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');
 			$query->where("publish=1");
-			$query->where("ordering=".$id);			
+			$query->where("ordering=".$id_clean);			
 			$db->setQuery($query, 0, 1);		
 			
 			$arr_rows = $db->loadObjectList();
@@ -450,11 +468,12 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		{
 			$db = JFactory::getDBO();
 			$query  = $db->getQuery(true);
+			$str_title_clean = $db->quote($str_title);
 			$query->select('last_send_date');
 			$query->from('`#__zefaniabible_zefaniapublish`');
-			$query->where("title='".$str_title."'");	
+			$query->where("title=".$str_title_clean);	
 			$db->setQuery($query);
-			$data = $db->loadObjectList();	
+			$data = $db->loadObjectList();
 		}
 		catch (JException $e)
 		{
