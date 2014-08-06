@@ -116,7 +116,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
              <div class="zef_player">
                 <?php echo $this->obj_player;
                 echo '<div style="clear:both;"></div>';
-                echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&a='.$this->item->str_Bible_Version.'&view=player&tmpl=component&b='.$this->item->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
+                echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&bible='.$this->item->str_Bible_Version.'&view=player&tmpl=component&book='.$this->item->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
                  ?>
             </div>
         <?php }?>             
