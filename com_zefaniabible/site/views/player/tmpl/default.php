@@ -24,28 +24,21 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_player= new BiblePlayer($this->arr_book_info, $this->int_Bible_Book_ID); 
+$cls_player= new BiblePlayer($this->item); 
 
 class BiblePlayer 
 {
-
-	
-	public function __construct($arr_book_info, $int_Bible_Book_ID)
+	public function __construct($item)
 	{
-		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_xml_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
-		$int_player_type = $params->get('player_type', '0');
-		$int_player_popup_height = $params->get('player_popup_height','300');
-		$int_player_popup_width = $params->get('player_popup_width','300');		
 		$arr_mp3_files = '';
-		foreach($arr_book_info as $arr_book)
+		foreach($item->arr_book_info as $arr_book)
 		{
 			$str_alias 			= $arr_book->alias;
 			$str_bible_name		= $arr_book->bible_name;
 			$str_xml_audio_url	= $arr_book->xml_audio_url;
 		}
-		$arr_mp3_files = $this->fnc_get_playlist($str_xml_audio_url,$str_xml_audio_path, $int_Bible_Book_ID);
-		$this->fnc_get_player($arr_mp3_files, $int_player_type, $int_Bible_Book_ID, $int_player_popup_height, $int_player_popup_width );
+		$arr_mp3_files = $this->fnc_get_playlist($str_xml_audio_url,$item->str_xml_audio_path, $item->int_Bible_Book_ID);
+		$this->fnc_get_player($arr_mp3_files, $item->int_player_type, $item->int_Bible_Book_ID, $item->int_player_popup_height, $item->int_player_popup_width );
 		
 	}
 	protected function fnc_get_playlist($str_xml_audio_url,$str_xml_audio_path, $int_Bible_Book_ID )
