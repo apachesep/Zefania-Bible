@@ -29,8 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
-jimport( 'joomla.html.parameter' );
 /**
  * HTML View class for the Zefaniabible component
  *
@@ -49,9 +47,6 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -68,10 +63,12 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 			b = book
 		*/	
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$document	= JFactory::getDocument();
 	
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+			
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
@@ -84,21 +81,23 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 			$params->merge( $menuparams );
 		}
 		
-		$str_Bible_Alias = JRequest::getCmd('a','kjv');			
-		$int_Bible_Book_ID = JRequest::getInt('b', '1');	
-		
-		require_once(JPATH_COMPONENT_SITE.'/models/player.php');
-		$mdl_player = new ZefaniabibleModelPlayer;
-		$arr_book_info = $mdl_player->_buildQuery_Bible($str_Bible_Alias,$int_Bible_Book_ID);
-		
-		//Filters
-		$user = JFactory::getUser();
-		$this->assignRef('user',				$user);
-		$this->assignRef('access',				$access);
-		$this->assignRef('arr_book_info',		$arr_book_info);
-		$this->assignRef('int_Bible_Book_ID',	$int_Bible_Book_ID);
-		
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
 
+		$item->str_xml_audio_path 				= $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
+		$item->int_player_type 					= $params->get('player_type', '0');
+		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
+		$item->int_player_popup_width 			= $params->get('player_popup_width','300');		
+
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+				
+		$item->arr_book_info 		= $mdl_default->_buildQuery_Bible_info($item->str_Bible_Version);
+
+		//Filters
+		$this->assignRef('item',	$item);
 		parent::display($tpl);
 	}
 }
