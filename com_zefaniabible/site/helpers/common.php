@@ -620,6 +620,9 @@ class ZefaniabibleCommonHelper
 			$y = 1;		
 			$str_chapter = '';
 			$int_chap_cnt = 1;
+			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
+			$mdl_audio = new ZefaniaAudioPlayer;
+						
 			foreach($item->arr_plan as $reading)
 			{
 				$cnt_verse_count = count($reading);
