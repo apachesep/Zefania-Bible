@@ -155,11 +155,11 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
 			$mdl_audio = new ZefaniaAudioPlayer;
-			$obj_player_one = $mdl_audio->fnc_audio_player($str_Main_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter, 1);
+			$obj_player_one = $mdl_audio->fnc_audio_player($item->str_Main_Bible_Version,$item->int_Bible_Book_ID,$item->int_Bible_Chapter, 1);
 			$this->assignRef('obj_player_one',		$obj_player_one);				
 			if($item->flg_show_second_player == 1)
 			{
-				$obj_player_two = $mdl_audio->fnc_audio_player($str_Second_Bible_Version,$int_Bible_Book_ID,$int_Bible_Chapter, 2);
+				$obj_player_two = $mdl_audio->fnc_audio_player($item->str_Second_Bible_Version,$item->int_Bible_Book_ID,$item->int_Bible_Chapter, 2);
 				$this->assignRef('obj_player_two',		$obj_player_two);
 			}
 		}
