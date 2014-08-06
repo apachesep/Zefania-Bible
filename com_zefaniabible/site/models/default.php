@@ -770,6 +770,28 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;	 
 	}
+	function _buildQuery_Bible_info($str_Bible_Alias)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$str_Bible_Alias = 	$db->quote($str_Bible_Alias);
+			$query->select('alias, bible_name, xml_audio_url');
+			$query->from('`#__zefaniabible_bible_names`');		
+			$query->where("publish = 1");
+			$query->where("alias=".$str_Bible_Alias);
+			$query->order('bible_name');	
+			
+			$db->setQuery($query,0, 1);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}		
 	function _buildQuery_InsertUser($item)
 	{
 		try 
@@ -875,7 +897,6 @@ class ZefaniabibleModelDefault extends JModelItem
 			$params = JComponentHelper::getParams( 'com_zefaniabible' );
 			$int_limit_query = $params->get('int_limit_query', '500');
 			$db		= JFactory::getDbo();
-			echo $int_begin_verse;
 			$int_Bible_book_id_clean	= 	$db->quote($int_Bible_book_id);
 			$str_alias_clean			=	$db->quote($str_alias);
 			$int_begin_chap_clean		=	$db->quote($int_begin_chap);
@@ -949,5 +970,5 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}		
 		return $data;
-	}	
+	}
 }
