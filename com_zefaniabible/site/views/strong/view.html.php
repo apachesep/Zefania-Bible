@@ -29,7 +29,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-jimport( '0');
 
 /**
  * HTML View class for the Zefaniabible component
@@ -49,9 +48,6 @@ class ZefaniabibleViewStrong extends JViewLegacy
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
 		switch($layout)
 		{
@@ -64,33 +60,33 @@ class ZefaniabibleViewStrong extends JViewLegacy
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-		$user 	= JFactory::getUser();
-		$mdl_access = new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-		$document	= JFactory::getDocument();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 		/*
 			a = Dictionary alias
 			b = Strong ID
 		*/
-		$str_stong_alias = JRequest::getWord('a');
-		$str_strong_id = JRequest::getInt('b', '1');	
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+		$item->str_primary_dictionary  			= $params->get('str_primary_dictionary','');
+		$item->str_default_image 				= $params->get('str_dict_default_image','media/com_zefaniabible/images/dictionary.jpg');
+		$item->flg_show_credit 					= $params->get('show_credit','0');
+		$item->str_dictionary_height 			= $params->get('str_dictionary_height','500');
+		$item->str_dictionary_width 			= $params->get('str_dictionary_width','800');	
+				
+		$item->str_tmpl 			= $jinput->get('tmpl',null,'CMD');
+		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
+		$item->str_strong_id		= $jinput->get('item', '1', 'CMD');
 		
-		
-		require_once(JPATH_COMPONENT_SITE.'/models/strong.php');
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
-		$mdl_strong = new ZefaniabibleModelStrong;	
-		$arr_passage = $mdl_strong->_buildQuery_strong($str_stong_alias,$str_strong_id);	 
-		$str_dict_name = $mdl_strong->_buildQuery_dict_name($str_stong_alias);
+		$item->arr_passage 		= $mdl_default->_buildQuery_strong($item->str_curr_dict,$item->str_strong_id);	 
+		$item->str_dict_name 	= $mdl_default->_buildQuery_dict_name($item->str_curr_dict);
+
 		//Filters
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$user = JFactory::getUser();
-		$this->assignRef('user',					$user);
-		$this->assignRef('access',					$access);
-		$this->assignRef('arr_passage',				$arr_passage);	
-		$this->assignRef('str_dict_name',			$str_dict_name);
-		$this->assignRef('lists',					$lists);
-		$this->assignRef('config',					$config);
+		$this->assignRef('item',				$item);	
 		parent::display($tpl);
 	}
 }
