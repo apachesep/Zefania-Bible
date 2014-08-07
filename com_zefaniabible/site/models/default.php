@@ -404,6 +404,49 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
+	function _buildQuery_dict_name($str_alias)
+	{
+		try 
+		{							
+			$db		= JFactory::getDbo();
+			$str_alias_clean 	=	$db->quote($str_alias);
+			$query  = $db->getQuery(true);
+			$query->select('name');
+			$query->from('`#__zefaniabible_dictionary_info`');						
+			$query->where('alias ='.$str_alias_clean);	
+			$db->setQuery($query,0,1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
+	function _buildQuery_strong($str_alias, $strong_id)
+	{
+		try 
+		{							
+			$db		= JFactory::getDbo();
+			$str_alias_clean 		=	$db->quote($str_alias);
+			$strong_id_clean 		=	$db->quote($strong_id);
+			$query  = $db->getQuery(true);
+			$query->select('a.item, a.description');
+			$query->from('`#__zefaniabible_dictionary_detail` AS a');			
+			$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');
+			
+			$query->where('b.alias ='.$str_alias_clean);	
+			$query->where('a.item ='.$strong_id_clean);
+			$query->order('a.id ASC');	
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;
+	}	
 	function _buildQuery_reading_plan($str_reading_plan,$int_day_number) 
 	{
 		try 
