@@ -88,8 +88,10 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
 		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
+		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
+
 		//Filters
-		$this->assignRef('item',				$item);		
+		$this->assignRef('item',	$item);		
 		parent::display($tpl);
 	}
 }
