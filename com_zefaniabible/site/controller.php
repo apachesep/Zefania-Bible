@@ -47,7 +47,7 @@ class ZefaniabibleController extends JControllerLegacy
 	{
 
 		$view		= JFactory::getApplication()->input->getCmd('view', 's');
-		$option		=JFactory::getApplication()->input->getCmd('option', 's');
+		$option		= JFactory::getApplication()->input->getCmd('option', 's');
         JFactory::getApplication()->input->set('view', $view);
 		$str_tmpl = JRequest::getCmd('tmpl');
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
@@ -59,50 +59,20 @@ class ZefaniabibleController extends JControllerLegacy
 		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
 		$str_current_url = JURI::root(true).urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
 		
-		// don't redirect for modal pages.
 		switch ($view) 
 		{
-			case 'commentary':
-			case 'scripture':
-			case 'references':
-			case 'strong':
-				parent::display($cachable, $urlparams);
-				return;
-				break;
-			
-		}	
-		switch ($jversion->RELEASE) 
-		{ 
-			case '3.0':
-			case '3.1':
-			case '3.2':
-			case '3.3':			
-			case '3.5':
-				switch ($view) 
-				{
-					case 'standard':
-					case 'compare':
-					case 'reading':					
-						if (($str_requested_url != $str_current_url)and($str_tmpl != 'component')and(stripos($str_current_url, 'index.php') <= 0))
-						{
-							header('HTTP/1.1 301 Moved Permanently');
-							header('Location: '.$str_redirect_url);  
-						}
-						break;
-				}
-					break;
-			case '2.5':
-				if(!JRequest::getCmd('option',null, 'get'))
+			case 'standard':
+			case 'compare':
+			case 'reading':					
+				if (($str_requested_url != $str_current_url)and($str_tmpl != 'component')and(stripos($str_current_url, 'index.php') <= 0))
 				{
 					header('HTTP/1.1 301 Moved Permanently');
-					header('Location: '.$str_redirect_url); 	
+					header('Location: '.$str_redirect_url);  
 				}
 				break;
 		}
-
-	//echo 'request: '.$str_requested_url.'<br>current: '.$str_current_url.'<br>current: '.$str_redirect_url;
 	
-		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'a'=>'STRING','b'=>'STRING','c'=>'STRING','d'=>'STRING','e'=>'STRING','f'=>'STRING','g'=>'STRING','h'=>'STRING','com'=>'STRING');
+		$urlparams = array('option'=>'STRING', 'view'=>'STRING', 'layout'=>'STRING', 'Itemid'=>'INT', 'tmpl'=>'STRING', 'lang'=>'CMD', 'book'=> 'STRING', 'chapter'=> 'STRING');
 		
 		parent::display($cachable, $urlparams);
 		return;
