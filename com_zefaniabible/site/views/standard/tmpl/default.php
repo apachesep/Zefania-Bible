@@ -116,7 +116,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
              <div class="zef_player">
                 <?php echo $this->obj_player;
                 echo '<div style="clear:both;"></div>';
-                echo  '<a href="#" onclick="return popitup(\''.JURI::root().'index.php?option=com_zefaniabible&bible='.$this->item->str_Bible_Version.'&view=player&tmpl=component&book='.$this->item->int_Bible_Book_ID.'\')" target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
+                echo  '<a href="'.JRoute::_('index.php?option=com_zefaniabible&view=player&bible='.$this->item->str_Bible_Version.'&book='.$this->item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$this->item->arr_english_book_names[($this->item->int_Bible_Book_ID)])).'&Itemid='.$this->item->int_menu_item_id.'&tmpl=component').'"  target="_blank" >'.JText::_('ZEFANIABIBLE_PLAYER_WHOLE_BOOK')."</a>";
                  ?>
             </div>
         <?php }?>             
@@ -145,11 +145,8 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
     <meta itemprop="image" content="<?php echo JURI::root().$this->item->str_default_image; ?>">
     <meta itemprop="url" content="<?php echo JFactory::getURI()->toString(); ?>">
 </div>
-
-<script language="javascript" type="text/javascript">
-function popitup(url) {
-	newwindow=window.open(url,'name','height=<?php echo ($this->item->int_player_popup_height);?>,width=<?php echo ($this->item->int_player_popup_width );?>','scrollbars=no','resizable=no');
-	if (window.focus) {newwindow.focus()}
-	return false;
-}
-</script>
+<?php 
+	echo '<!--';
+	//print_r($this->item);
+	echo '-->';
+?>
