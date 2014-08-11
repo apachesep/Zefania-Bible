@@ -34,7 +34,7 @@ class ZefaniaSitemap
 			foreach($item->arr_chapter_list as $obj_chapter_list)
 			{
 				echo '	<url>'.PHP_EOL;
-				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&bible='.$obj_chapter_list->alias.'&book='.$obj_chapter_list->book_id.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$obj_chapter_list->book_id])).'&chapter='.$obj_chapter_list->chapter_id.'-chapter&Itemid='.$item->str_menuItem).'</loc>'.PHP_EOL;
+				echo '		<loc>'.substr(JURI::root(),0,-1).JRoute::_('index.php?option=com_zefaniabible&view=standard&bible='.$obj_chapter_list->alias.'&book='.$obj_chapter_list->book_id.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$obj_chapter_list->book_id])).'&chapter='.$obj_chapter_list->chapter_id.'-chapter&Itemid='.$item->str_view_plan).'</loc>'.PHP_EOL;
 				echo '		<priority>'.$item->str_priority.'</priority>'.PHP_EOL;
 				echo '		<changefreq>'.$item->str_frequency.'</changefreq>'.PHP_EOL;
 				echo '		<lastmod>'.date("Y-m-d").'</lastmod>'.PHP_EOL;
