@@ -83,11 +83,11 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			$menuparams = $menu->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}		
-		
+
 		$jinput = JFactory::getApplication()->input;
 		$item = new stdClass();
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend', 1);
 		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
 		$item->flg_show_audio_player 			= $params->get('show_audioPlayer', '0');
 		$item->flg_show_references				= $params->get('show_references', '0');
@@ -123,7 +123,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->int_menu_item_id 	= $jinput->get('Itemid', null, 'INT');		
 		$item->str_commentary 		= $jinput->get('com', $item->str_primary_commentary, 'CMD');
 		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
-		
+
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
             throw new Exception(implode("\n", $errors));
