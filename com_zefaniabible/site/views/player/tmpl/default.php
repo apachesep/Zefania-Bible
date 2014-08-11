@@ -150,3 +150,6 @@ class BiblePlayer
 	}
 }
 ?>
+<script language="javascript">
+window.resizeTo(<?php echo $this->item->int_player_popup_height;?>,<?php echo $this->item->int_player_popup_width;?>);
+</script>
