@@ -112,9 +112,11 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
 
+		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
 		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
 		$item->chapter_output					=	$mdl_common->fnc_create_plan_list_output($item);	
 		$mdl_common->fnc_meta_data($item); 
+
 		//Filters
 		$this->assignRef('item',		$item);
 		$this->assignRef('pagination',	$item->arr_pagination);
