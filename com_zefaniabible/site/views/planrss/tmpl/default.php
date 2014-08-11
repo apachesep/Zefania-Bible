@@ -54,10 +54,10 @@ class PlanRss
 			echo '	<image>'.PHP_EOL;
 			echo '	  <url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
 			echo '	  <title>'.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	  <link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;
+			echo '	  <link>'.substr(JURI::base(),0, -1).JRoute::_($str_url_escaped).'</link>'.PHP_EOL;
 			echo '	</image>'.PHP_EOL;		
 			echo '	<title>'.$item->str_reading_plan_name.' - '.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	<link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;			
+			echo '	<link>'.substr(JURI::base(),0, -1).JRoute::_($str_url_escaped).'</link>'.PHP_EOL;			
 			echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
 			echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 			echo '	<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
@@ -68,7 +68,7 @@ class PlanRss
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
 				$str_subtitle = '';
-				$str_link = JRoute::_(JURI::base()."index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number);
+				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan);
 				$str_url_escaped = 	str_replace('&', '&amp;',$str_link);
 				$str_subtitle = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_plan_info->book_id).' '.$obj_plan_info->begin_chapter;
 				if($obj_plan_info->begin_verse != 0)
@@ -87,8 +87,8 @@ class PlanRss
 				{
 					echo '	<item>'.PHP_EOL;
 					echo '		<title>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '. $obj_plan_info->day_number.'</title>'.PHP_EOL;			
-					echo '		<link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;	
-					echo '		<guid>'.JRoute::_(JURI::base().$str_url_escaped).'</guid>'.PHP_EOL;
+					echo '		<link>'.$str_url_escaped.'</link>'.PHP_EOL;	
+					echo '		<guid>'.$str_url_escaped.'</guid>'.PHP_EOL;
 					echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;
 					echo '		<description>'.$str_subtitle.'</description>'.PHP_EOL;
 					echo '	</item>'.PHP_EOL;	
@@ -105,7 +105,7 @@ class PlanRss
         	echo '	<title>'.$item->str_reading_plan_name.' - '.$item->str_bible_name.'</title>'.PHP_EOL;
 			echo '  <subtitle>'.$item->str_description.'</subtitle>'.PHP_EOL;
 			echo '  <link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" />'.PHP_EOL;
-			echo '  <link href="'.JRoute::_(JURI::base().$str_url_escaped).'" />'.PHP_EOL;
+			echo '  <link href="'.substr(JURI::base(),0, -1).JRoute::_($str_url_escaped).'" />'.PHP_EOL;
 			echo '  <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').'</id>'.PHP_EOL;
 			echo '  <updated>'.date('Y-m-d\TH:i:sP').'</updated>'.PHP_EOL;
 			$x = 0;
@@ -113,7 +113,7 @@ class PlanRss
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
 				$str_subtitle = '';
-				$str_link = JRoute::_(JURI::base()."index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number);
+				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan);
 				$str_url_escaped = 	str_replace('&', '&amp;',$str_link);
 				$str_subtitle = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_plan_info->book_id).' '.$obj_plan_info->begin_chapter;
 				if($obj_plan_info->begin_verse != 0)
@@ -132,7 +132,7 @@ class PlanRss
 				{						
 					echo '  	<entry>'.PHP_EOL;
 					echo '      	<title>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '. $obj_plan_info->day_number.'</title>'.PHP_EOL;
-					echo '          <link href="'.JRoute::_(JURI::base().$str_url_escaped).'" />'.PHP_EOL;
+					echo '          <link href="'.$str_url_escaped.'" />'.PHP_EOL;
 					echo '          <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').$y.'</id>'.PHP_EOL;
 					echo '          <updated>'.date('Y-m-d\TH:i:sP',$y).'</updated>'.PHP_EOL;
 					echo '          <summary>'.$str_subtitle.'</summary>'.PHP_EOL;
