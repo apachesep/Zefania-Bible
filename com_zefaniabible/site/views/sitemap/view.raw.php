@@ -68,8 +68,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$item->flg_only_primary_bible 			= $params->get('flg_only_primary_bible', '1');
 		$item->str_priority 					= $params->get('prio', '0.1');
 		$item->str_frequency 					= $params->get('freq', 'weekly');	
-		$item->str_menuItem 					= $params->get('rp_mo_menuitem', 0);
-		
+				
 		$item->str_Bible_Version 				= $jinput->get('bible', $item->str_primary_bible, 'CMD');					
 		$item->arr_english_book_names 			= $mdl_common->fnc_load_languages();
 		
@@ -84,6 +83,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 			$item->arr_chapter_list = $mdl_default->_buildQuery_Chapter_List('');
 
 		}		
+		$item->str_view_plan			=	$mdl_default->_buildQuery_get_menu_id('standard');
 		
 		//Filters
 		$this->assignRef('item',	$item);
