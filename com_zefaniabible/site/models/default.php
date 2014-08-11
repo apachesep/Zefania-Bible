@@ -667,6 +667,27 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}
+	function _buildQuery_getUserData($int_id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_id_clean	= $db->quote($int_id);
+			$query  = $db->getQuery(true);
+			$query->select('user.reading_start_date,bible.alias as bible_alias,plan.alias as plan_alias');
+			$query->from('`#__zefaniabible_zefaniauser` AS user');	
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS plan ON user.plan = plan.id');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS bible ON user.bible_version = bible.id');			
+			$query->where("user.user_id=".$int_id_clean);
+			$db->setQuery($query,0, 1);
+			$data = $db->loadObjectList();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
 	function _get_pagination_readingplan_overview($alias)
 	{
 		try 
@@ -720,6 +741,25 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;
+	}
+	function _buildQuery_get_menu_id($str_view)
+	{
+		try 
+		{	
+			$db = JFactory::getDBO();
+			$str_view_clean	= $db->quote('%'.$str_view.'%');
+			$query  = $db->getQuery(true);
+			$query->select('id');
+			$query->from('`#__menu`');
+			$query->where("(link LIKE ". $str_view_clean." AND link LIKE '%option=com_zefaniabible%')");
+			$db->setQuery($query,0,1);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}	
+		return $data;		
 	}
 	function _buildQuery_verseofday($pagination)
 	{
@@ -880,8 +920,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			{
 				$int_max_ids++;
 			}
-			
-			$str_start_date = JHtml::date($item->str_start_date,'Y-m-d', true);
+			$arr_row 							= new stdClass();
+			$str_start_date 					= JHtml::date($item->str_start_date,'Y-m-d', true);
 			$arr_row->user_name 				= $item->str_user_name;
 			$arr_row->plan 						= $int_reading_plan_id;
 			$arr_row->bible_version 			= $int_bible_version_id;
