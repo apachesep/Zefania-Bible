@@ -37,8 +37,8 @@ class BibleRss {
 		$mainframe = JFactory::getApplication();
 		
 		$str_verse = '';											
-		$str_url_link = "index.php?option=com_zefaniabible&view=standard&bible=".$item->str_Bible_Version."&book=".
-			$item->int_Bible_Book_ID."&chapter=".$item->int_Bible_Chapter."&Itemid=".$item->int_menu_item."&ord=".date("mdy");	
+		$str_url_link = substr(JURI::root(),0,-1).JRoute::_("index.php?option=com_zefaniabible&view=standard&bible=".$item->str_Bible_Version."&book=".
+			$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID)]))."&chapter=".$item->int_Bible_Chapter."-chapter&Itemid=".$item->int_menu_item."&ord=".date("mdy").'&Itemid='.$item->str_view_plan);	
 		$str_url_escaped = 	str_replace('&', '&amp;',$str_url_link);
 		$str_admin_email = $this->params->get('adminEmail', 'admin@'.substr(JURI::root(),7,-1));
 		
@@ -55,20 +55,20 @@ class BibleRss {
 			echo '	<image>'.PHP_EOL;
 			echo '	  <url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
 			echo '	  <title>'.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	  <link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;
+			echo '	  <link>'.$str_url_escaped.'</link>'.PHP_EOL;
 			echo '	</image>'.PHP_EOL;		
 			echo '	<title>'.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	<link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;			
+			echo '	<link>'.$str_url_escaped.'</link>'.PHP_EOL;			
 			echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
 			echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 			echo '	<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
 			echo '	<description>';
 			echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter;
-			echo '</description>'.PHP_EOL;		
+			echo '</description>'.PHP_EOL;
 			echo '	<item>'.PHP_EOL;
 			echo '		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter."</title>".PHP_EOL;			
-			echo '		<link>'.JRoute::_(JURI::base().$str_url_escaped).'</link>'.PHP_EOL;	
-			echo '		<guid>'.JRoute::_(JURI::base().$str_url_escaped).'</guid>'.PHP_EOL;
+			echo '		<link>'.$str_url_escaped.'</link>'.PHP_EOL;	
+			echo '		<guid>'.$str_url_escaped.'</guid>'.PHP_EOL;
 			echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;
 			echo '		<description>'.PHP_EOL;
 			echo $str_verse;
@@ -84,12 +84,12 @@ class BibleRss {
         	echo '	<title>'.$item->str_bible_name.'</title>'.PHP_EOL;
 			echo '  <subtitle>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.'</subtitle>'.PHP_EOL;
 			echo '  <link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" />'.PHP_EOL;
-			echo '  <link href="'.JRoute::_(JURI::base().$str_url_escaped).'" />'.PHP_EOL;
+			echo '  <link href="'.$str_url_escaped.'" />'.PHP_EOL;
 			echo '  <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').'</id>'.PHP_EOL;
 			echo '  <updated>'.date('Y-m-d\TH:i:sP').'</updated>'.PHP_EOL;
 			echo '  	<entry>'.PHP_EOL;
 			echo '      	<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.'</title>'.PHP_EOL;
-			echo '          <link href="'.JRoute::_(JURI::base().$str_url_escaped).'" />'.PHP_EOL;
+			echo '          <link href="'.$str_url_escaped.'" />'.PHP_EOL;
 			echo '          <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').'</id>'.PHP_EOL;
 			echo '          <updated>'.date('Y-m-d\TH:i:sP').'</updated>'.PHP_EOL;
 			echo '          <summary>'.PHP_EOL;
