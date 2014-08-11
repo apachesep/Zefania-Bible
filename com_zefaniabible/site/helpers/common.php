@@ -36,12 +36,34 @@ class ZefaniabibleCommonHelper
 		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
 		return $arr_english_book_names;
 	}
+	public function fnc_redirect_last_day($item)
+	{
+		if($item->int_day_number > $item->int_max_days)
+		{
+			$str_redirect_url = "index.php?option=com_zefaniabible&view=".$item->str_view."&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$str_yesterday;
+			if($item->str_tmpl == "component")
+			{
+				$str_redirect_url .= "&tmpl=component";
+			}			
+			$str_redirect_url = JRoute::_($str_redirect_url);
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: '.$str_redirect_url); 			
+		}
+	}
 	public function fnc_redirect_last_chapter($item)
 	{		
 		// redirect to last chapter
 		if($item->int_Bible_Chapter > $item->int_max_chapter)
 		{
-			$str_redirect_url = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".$item->int_max_chapter.'-chapter';
+			if($item->str_view =='standard')
+			{
+				$str_redirect_url = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".$item->int_max_chapter.'-chapter';
+			}
+			else
+			{
+				$str_redirect_url = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&bible2=".$item->str_Second_Bible_Version."&book=".$item->int_Bible_Book_ID.'-'.strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".$item->int_max_chapter.'-chapter';				
+			}
+			
 			if(($item->flg_show_commentary)and(count($item->arr_commentary_list) > 1))
 			{
 				$str_redirect_url .= "&com=".$item->str_primary_commentary;
@@ -154,11 +176,10 @@ class ZefaniabibleCommonHelper
 		}
 		if($item->int_Bible_Book_ID > 1)
 		{
-			$url[3] = "index.php?option=com_zefaniabible&bible=".$item->str_Bible_Version."&view=".$item->str_view."&book=".
-			($item->int_Bible_Book_ID-1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID-1)]))."&chapter=1-chapter".$str_other_url_var;
+			$url[3] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".($item->int_Bible_Book_ID-1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID-1)]))."&chapter=1-chapter".$str_other_url_var;
 			if($item->str_view == 'compare')
 			{
-				$url[3] .= '&bible2='.$item->str_Second_Bible_Version;
+				$url[3] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&bible2=".$item->str_Second_Bible_Version."&book=".($item->int_Bible_Book_ID-1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID-1)]))."&chapter=1-chapter".$str_other_url_var;				
 			}
 			$url[3] = JRoute::_($url[3]);
 			if($item->flg_show_pagination_type == 0)
@@ -172,12 +193,10 @@ class ZefaniabibleCommonHelper
 		}
 		if($item->int_Bible_Chapter > 1)
 		{
-			$url[1] = "index.php?option=com_zefaniabible&bible=".$item->str_Bible_Version."&view=".$item->str_view."&book=".
-			$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter-1).
-			"-chapter".$str_other_url_var;	
+			$url[1] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter-1)."-chapter".$str_other_url_var;	
 			if($item->str_view == 'compare')
 			{
-				$url[1] .= '&bible2='.$item->str_Second_Bible_Version;
+				$url[1] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&bible2=".$item->str_Second_Bible_Version."&book=".$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter-1)."-chapter".$str_other_url_var;	
 			}
 			$url[1] = JRoute::_($url[1]);
 			if($item->flg_show_pagination_type == 0)
@@ -191,12 +210,10 @@ class ZefaniabibleCommonHelper
 		}
 		if($item->int_Bible_Chapter < $item->int_max_chapter)
 		{
-			$url[0] = "index.php?option=com_zefaniabible&bible=".$item->str_Bible_Version."&view=".
-			$item->str_view."&book=".$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".
-			($item->int_Bible_Chapter+1)."-chapter".$str_other_url_var;	
+			$url[0] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter+1)."-chapter".$str_other_url_var;	
 			if($item->str_view == 'compare')
 			{
-				$url[0] .= '&bible2='.$item->str_Second_Bible_Version;
+				$url[0] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&bible2=".$item->str_Second_Bible_Version."&book=".$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter+1)."-chapter".$str_other_url_var;
 			}
 			$url[0] = JRoute::_($url[0]);
 			
@@ -211,11 +228,10 @@ class ZefaniabibleCommonHelper
 		}
 		if($item->int_Bible_Book_ID < 66)
 		{
-			$url[2] = "index.php?option=com_zefaniabible&bible=".$item->str_Bible_Version."&view=".$item->str_view."&book=".
-			($item->int_Bible_Book_ID+1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID+1)]))."&chapter=1-chapter".$str_other_url_var;
+			$url[2] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&book=".($item->int_Bible_Book_ID+1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID+1)]))."&chapter=1-chapter".$str_other_url_var;
 			if($item->str_view == 'compare')
 			{
-				$url[2] .= '&bible2='.$item->str_Second_Bible_Version;
+				$url[2] = "index.php?option=com_zefaniabible&view=".$item->str_view."&bible=".$item->str_Bible_Version."&bible2=".$item->str_Second_Bible_Version."&book=".($item->int_Bible_Book_ID+1)."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID+1)]))."&chapter=1-chapter".$str_other_url_var;
 			}
 			$url[2] = JRoute::_($url[2]);
 			
@@ -261,7 +277,7 @@ class ZefaniabibleCommonHelper
 		}
 		
 		// make yesterday's link/button
-		$url[2] = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$str_yesterday.$str_other_url_var;
+		$url[2] = "index.php?option=com_zefaniabible&view=".$item->str_view."&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$str_yesterday.$str_other_url_var;
 	
 		$url[2] = JRoute::_($url[2]);			
 		if($item->flg_show_pagination_type == 0)
@@ -294,7 +310,7 @@ class ZefaniabibleCommonHelper
 		}
 		
 		//make tomorow's link/button
-		$url[3] = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$int_tommorow.$str_other_url_var;	
+		$url[3] = "index.php?option=com_zefaniabible&view=".$item->str_view."&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$int_tommorow.$str_other_url_var;	
 		$url[3] = JRoute::_($url[3]);	
 		
 		if($item->flg_show_pagination_type == 0)
@@ -599,19 +615,6 @@ class ZefaniabibleCommonHelper
 		}
 		return $int_verse_remainder;
 	}
-	public function fnc_use_user_data($item)
-	{
-/*		if(($user->id > 0)and($flg_import_user_data))
-		{
-			$arr_user_data = $biblemodel->_buildQuery_getUserData($user->id);
-			foreach($arr_user_data as $obj_user_data)
-			{
-				$str_start_reading_date = $obj_user_data->reading_start_date;
-				$str_bibleVersion = $obj_user_data->bible_alias;
-				$str_reading_plan = $obj_user_data->plan_alias;
-			}
-		}		*/	
-	}
 	public function fnc_output_reading_plan($item)
 	{
 			$book = 0;
@@ -704,7 +707,7 @@ class ZefaniabibleCommonHelper
 			{
 				$str_other_url_var .= "&strong=".$item->flg_use_strong;
 			}			
-			$str_url = "index.php?option=com_zefaniabible&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&view=".$item->str_view."&day=".$x.$str_other_url_var;
+			$str_url = "index.php?option=com_zefaniabible&view=".$item->str_view."&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$x.$str_other_url_var;
 			$str_url = JRoute::_($str_url);
 			echo '	<option value="'.$str_url.'"';			
 
@@ -753,7 +756,7 @@ class ZefaniabibleCommonHelper
 			}			
 			$x++;
 			$str_page_output .=  '<div class="zef_reading">';
-			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number).'" target="_self">';
+			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number.'&Itemid='.$item->str_view_plan).'" target="_self">';
 			$str_page_output .=  $link.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$reading->book_id)." ";
 			$str_page_output .=  $reading->begin_chapter;
 			if(($reading->begin_verse == 0)and($reading->end_verse == 0))
