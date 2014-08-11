@@ -101,3 +101,4 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 		parent::display($tpl);
 	}
 }
+?>
