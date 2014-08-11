@@ -34,133 +34,242 @@ defined('_JEXEC') or die;
  */
 function ZefaniabibleBuildRoute(&$query){
 
-	$segments = array();
+	$segments 	= array();
+	$view = 'standard';
 	if(isset($query['view']))
 	{
 		$view = $query['view'];
 		$segments[] = $view;
 		unset( $query['view'] );
 	}
-	if(isset($query['cid']))
-	{
-		if(in_array($view, array()))
-		{
-			$segments[] = (is_array($query['cid'])?implode(',', $query['cid']):$query['cid']);
-			unset( $query['cid'] );
-		}
-	};
-	if(isset($query['plan']))
-	{
-		$segments[] = $query['plan'];
-		unset( $query['plan'] );				
-	}	
-	if(isset($query['bible']))
-	{
-		$segments[] = $query['bible'];
-		unset( $query['bible'] );				
-	}
-	if(isset($query['bible2']))
-	{
-		$segments[] = $query['bible2'];
-		unset( $query['bible2'] );				
-	}	
-	if(isset($query['book']))
-	{
-		$segments[] = $query['book'];
-		unset( $query['book'] );				
-	}
-	if(isset($query['chapter']))
-	{
-		$segments[] = $query['chapter'];
-		unset( $query['chapter'] );				
-	}
-	if(isset($query['verse']))
-	{
-		$segments[] = $query['verse'];
-		unset( $query['verse'] );				
-	}
-	if(isset($query['start']))
-	{
-		$segments[] = $query['start'];
-		unset( $query['start'] );				
-	}
-	if(isset($query['items']))
-	{
-		$segments[] = $query['items'];
-		unset( $query['items'] );				
-	}
-	if(isset($query['type']))
-	{
-		$segments[] = $query['type'];
-		unset( $query['type'] );				
-	}
-	if(isset($query['number']))
-	{
-		$segments[] = $query['number'];
-		unset( $query['number'] );				
-	}
-	if(isset($query['endchapter']))
-	{
-		$segments[] = $query['endchapter'];
-		unset( $query['endchapter'] );				
-	}
-	if(isset($query['endverse']))
-	{
-		$segments[] = $query['endverse'];
-		unset( $query['endverse'] );				
-	}
-		
-	if(isset($query['a']))
-	{
-		$segments[] = $query['a'];
-		unset( $query['a'] );				
-	}	
-	if(isset($query['b']))
-	{
-		$segments[] = $query['b'];
-		unset( $query['b'] );				
-	}
-	if(isset($query['c']))
-	{
-		$segments[] = $query['c'];
-		unset( $query['c'] );				
-	}
-	if(isset($query['d']))
-	{
-		$segments[] = $query['d'];
-		unset( $query['d'] );				
-	}
-	if(isset($query['e']))
-	{
-		$segments[] = $query['e'];
-		unset( $query['e'] );				
-	}
-	if(isset($query['f']))
-	{
-		$segments[] = $query['f'];
-		unset( $query['f'] );				
-	}
-	if(isset($query['g']))
-	{
-		$segments[] = $query['g'];
-		unset( $query['g'] );				
-	}
-	if(isset($query['h']))
-	{
-		$segments[] = $query['h'];
-		unset( $query['h'] );				
-	}
-	if(isset($query['i']))
-	{
-		$segments[] = $query['i'];
-		unset( $query['i'] );				
-	}
-	if(isset($query['j']))
-	{
-		$segments[] = $query['j'];
-		unset( $query['j'] );				
-	}
+	switch($view)
+	{			
+		case "compare":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['bible2']))
+			{								
+				$segments[] = $query['bible2'];
+				unset( $query['bible2'] );
+			}
+			if(isset($query['book']))
+			{						
+				$segments[] = $query['book'];
+				unset( $query['book'] );				
+			}
+			if(isset($query['chapter']))
+			{
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );
+			}
+			break;
+			
+		case "commentary":
+			if(isset($query['com']))
+			{		
+				$segments[] = $query['com'];
+				unset( $query['com'] );	
+			}
+			if(isset($query['book']))
+			{						
+				$segments[] = $query['book'];
+				unset( $query['book'] );				
+			}				
+			if(isset($query['chapter']))
+			{
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );
+			}
+			if(isset($query['chapter']))
+			{			
+				$segments[] = $query['verse'];
+				unset( $query['verse'] );
+			}
+			break;
+			
+		case "player":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}			
+			if(isset($query['book']))
+			{						
+				$segments[] = $query['book'];
+				unset( $query['book'] );				
+			}		
+			break;
+			
+		case "plan":
+		case "planrss":
+			if(isset($query['plan']))
+			{		
+				$segments[] = $query['plan'];
+				unset( $query['plan'] );
+			}
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['start']))
+			{			
+				$segments[] = $query['start'];
+				unset( $query['start'] );
+			}
+			if(isset($query['items']))
+			{				
+				$segments[] = $query['items'];
+				unset( $query['items'] );
+			}
+			if(isset($query['type']))
+			{
+				$segments[] = $query['type'];
+				unset( $query['type'] );		
+			}			
+			break;
+			
+		case "references":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}	
+			if(isset($query['book']))
+			{					
+				$segments[] = $query['book'];
+				unset( $query['book'] );				
+			}
+			if(isset($query['chapter']))
+			{				
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );
+			}
+			if(isset($query['verse']))
+			{				
+				$segments[] = $query['verse'];
+				unset( $query['verse'] );	
+			}
+			break;
+			
+		case "reading":				
+		case "readingrss":
+			if(isset($query['plan']))
+			{		
+				$segments[] = $query['plan'];
+				unset( $query['plan'] );
+			}
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['day']))
+			{			
+				$segments[] = $query['day'];
+				unset( $query['day'] );	
+			}
+			if(isset($query['type']))
+			{
+				$segments[] = $query['type'];
+				unset( $query['type'] );		
+			}								
+			break;
 
+		case "scripture":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['book']))
+			{							
+				$segments[] = $query['book'];
+				unset( $query['book'] );	
+			}
+			if(isset($query['chapter']))
+			{			
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );				
+			}
+			if(isset($query['verse']))
+			{						
+				$segments[] = $query['verse'];
+				unset( $query['verse'] );
+			}
+			if(isset($query['endchapter']))
+			{			
+				$segments[] = $query['endchapter'];
+				unset( $query['endchapter'] );
+			}
+			if(isset($query['endverse']))
+			{							
+				$segments[] = $query['endverse'];
+				unset( $query['endverse'] );					
+			}
+			break;
+			
+		case "strong":
+			if(isset($query['dict']))
+			{
+				$segments[] = $query['dict'];
+				unset( $query['dict'] );
+			}
+			if(isset($query['item']))
+			{			
+				$segments[] = $query['item'];
+				unset( $query['item'] );		
+			}
+			break;
+			
+		case "standard":
+		case "biblerss":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['book']))
+			{							
+				$segments[] = $query['book'];
+				unset( $query['book'] );	
+			}
+			if(isset($query['chapter']))
+			{			
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );				
+			}
+			if(isset($query['type']))
+			{
+				$segments[] = $query['type'];
+				unset( $query['type'] );		
+			}			
+			break;
+			
+		case "verserss":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['day']))
+			{			
+				$segments[] = $query['day'];
+				unset( $query['day'] );	
+			}
+			if(isset($query['type']))
+			{
+				$segments[] = $query['type'];
+				unset( $query['type'] );		
+			}	
+			break;
+						
+		default:
+			break;
+	}
 	return $segments;
 }
 
@@ -176,131 +285,249 @@ function ZefaniabibleParseRoute($segments)
 {
 	$vars = array();
 
-
 	$vars['view'] = $segments[0];
-
 	$nextPos = 1;
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['plan'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['bible'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['bible2'] = $segments[$nextPos];
-		$nextPos++;
-	}	
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['book'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['chapter'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['verse'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['start'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['items'] = $segments[$nextPos];
-		$nextPos++;
-	}	
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['type'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['number'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['endchapter'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['endverse'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['a'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{
-		$vars['b'] = $segments[$nextPos];	
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{
-		$vars['c'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['d'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['e'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['f'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['g'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['h'] = $segments[$nextPos];
-		$nextPos++;
-	}		
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['i'] = $segments[$nextPos];
-		$nextPos++;
-	}
-	if (isset($segments[$nextPos]))
-	{	
-		$vars['j'] = $segments[$nextPos];
-		$nextPos++;
-	}		
-	//Item layout : get the cid value
-	if(in_array($vars['view'], array()) && isset($segments[$nextPos]))
-	{
-		$slug = $segments[$nextPos];
-		$id = explode( ':', $slug );
-		$vars['cid'] = (int) $id[0];
 
-		$nextPos++;
-	}
-
+	switch($segments[0])
+	{			
+		case "compare":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['bible2'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			break;
+			
+		case "commentary":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['com'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['verse'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			break;
+			
+		case "plan":
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['plan'] = $segments[$nextPos];
+				$nextPos++;	
+			}
+			if (isset($segments[$nextPos]))
+			{					
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			break;
+			
+		case "player":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;			
+			}
+			break;
+			
+		case "planrss":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['plan'] = $segments[$nextPos];
+				$nextPos++;		
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['start'] = $segments[$nextPos];
+				$nextPos++;				
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['items'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['type'] = $segments[$nextPos];
+				$nextPos++;			
+			}			
+			break;
+			
+		case "references":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['verse'] = $segments[$nextPos];
+				$nextPos++;	
+			}
+			break;			
+				
+		case "reading":
+		case "readingrss":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['plan'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['day'] = $segments[$nextPos];
+				$nextPos++;	
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['type'] = $segments[$nextPos];
+				$nextPos++;			
+			}	
+			break;		
+				
+		case "scripture":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{						
+				$vars['verse'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['endchapter'] = $segments[$nextPos];
+				$nextPos++;		
+			}
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['endverse'] = $segments[$nextPos];
+				$nextPos++;					
+			}
+			break;
+			
+		case "strong":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['dict'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['item'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			break;
+			
+		case "biblerss":	
+		case "standard":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['type'] = $segments[$nextPos];
+				$nextPos++;			
+			}			
+			break;
+			
+		case "verserss":
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{			
+				$vars['day'] = $segments[$nextPos];
+				$nextPos++;	
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['type'] = $segments[$nextPos];
+				$nextPos++;			
+			}			
+			break;
+						
+		default:
+			break;
+	}		
 	return $vars;
 }
 
