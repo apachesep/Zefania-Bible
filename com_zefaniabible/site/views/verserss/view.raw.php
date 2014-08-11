@@ -89,6 +89,8 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		
 		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_number);
 		$item->arr_verse_of_day					=	$mdl_default->_buildQuery_get_verse_of_the_day($item->arr_verse_info, $item->str_Bible_Version);
+		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('verserss');
+		
 		$this->assignRef('item', $item);			
 		parent::display($tpl);
 	}
