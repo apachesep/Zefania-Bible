@@ -69,15 +69,16 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$item->int_menu_item 					= $params->get('rp_mo_menuitem', 0);
 		
-		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
-		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
-		$item->str_feed_type 		= $jinput->get('type', 'rss', 'CMD');	
+		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');
+		$item->str_feed_type 		= $jinput->get('type', 'rss', 'CMD');
 		
 		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter 				= $mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
-		
+		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
+		$item->str_view_plan			=	$mdl_default->_buildQuery_get_menu_id('standard');
 		//Filters
 		$user = JFactory::getUser();
 		$this->assignRef('item',$item);
