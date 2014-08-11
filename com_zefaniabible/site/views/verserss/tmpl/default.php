@@ -74,8 +74,8 @@ class ClsVerseRSS
 			echo '	<description>'.JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY').'</description>'.PHP_EOL;
 			echo '	<item>'.PHP_EOL;
 			echo '		<title>'.$str_title.'</title>'.PHP_EOL;	 
-			echo '		<link>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
-			echo '		<guid>'.JRoute::_(JURI::base()).'index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
+			echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</link>'.PHP_EOL;	
+			echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</guid>'.PHP_EOL;
 			echo '		<pubDate>'.date('D, d M Y 00:00:00').'</pubDate>'.PHP_EOL;		
 			echo '		<description>'.PHP_EOL;	
 			echo '			'.strip_tags($str_verse).PHP_EOL;	
