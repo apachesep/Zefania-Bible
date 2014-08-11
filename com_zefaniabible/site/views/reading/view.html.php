@@ -70,6 +70,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 		*/		
 		$app = JFactory::getApplication();
 		$document	= JFactory::getDocument();
+		$user = JFactory::getUser();
+		
 		// menu item overwrites
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$menuitemid = JRequest::getInt( 'Itemid' );
@@ -114,14 +116,27 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');
 		$item->str_view 						= 	$jinput->get('view', 'standard', 'CMD');		
 				
+
+		if(($user->id > 0)and($item->flg_import_user_data))
+		{
+			$item->arr_user_data = $mdl_default->_buildQuery_getUserData($user->id);
+			foreach($item->arr_user_data as $obj_user_data)
+			{
+				$item->str_start_reading_date 	= $obj_user_data->reading_start_date;
+				$item->str_primary_bible 		= $obj_user_data->bible_alias;
+				$item->str_primary_reading 		= $obj_user_data->plan_alias;
+			}
+		}
+
 		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');
-		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
+				
 		$item->int_max_days						=  	$mdl_default->_buildQuery_max_reading_days($item->str_reading_plan);
 		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);		
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->str_commentary 					= 	$jinput->get('com', $item->str_primary_commentary, 'CMD');
 		$item->str_curr_dict 					= 	$jinput->get('dict', $item->str_primary_dictionary, 'CMD');
-		
+
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
@@ -133,6 +148,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->arr_plan							= 	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);
 		$item->cnt_chapters						=	$mdl_common->fnc_count_chapters($item->arr_reading);
 		$item->str_description 					= 	$mdl_common->fnc_make_description($item->arr_plan[0]);
+		$mdl_common->fnc_redirect_last_day($item);
 		
 		if($item->flg_show_audio_player)
 		{
@@ -169,8 +185,6 @@ class ZefaniabibleViewReading extends JViewLegacy
 				$z++;
 			}
 		}
-
-		
 
 		$mdl_common->fnc_meta_data($item); 
 		//Filters
