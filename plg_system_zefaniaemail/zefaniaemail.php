@@ -203,21 +203,21 @@ class plgSystemZefaniaEmail extends JPlugin
 			$db = JFactory::getDBO();
 			foreach($arr_reading as $reading)
 			{
-				$int_book_id = $reading->book_id;
-				$int_begin_chapter =  $reading->begin_chapter;
-				$int_begin_verse =  $reading->begin_verse;
-				$int_end_chapter =  $reading->end_chapter;
-				$int_end_verse =  $reading->end_verse;
+				$int_book_id 		=  $reading->book_id;
+				$int_begin_chapter 	=  $reading->begin_chapter;
+				$int_begin_verse 	=  $reading->begin_verse;
+				$int_end_chapter 	=  $reading->end_chapter;
+				$int_end_verse 		=  $reading->end_verse;
 								
 				$query = 'SELECT a.book_id, a.chapter_id, a.verse_id, a.verse FROM `#__zefaniabible_bible_text` AS a ';
-				$query = $query. ' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id';
-				$query = $query. " WHERE a.book_id=".$int_book_id." AND a.chapter_id>=".$int_begin_chapter." AND a.chapter_id<=".$int_end_chapter;
+				$query .=  ' INNER JOIN `#__zefaniabible_bible_names` AS b ON a.bible_id = b.id';
+				$query .=  " WHERE a.book_id=".$int_book_id." AND a.chapter_id>=".$int_begin_chapter." AND a.chapter_id<=".$int_end_chapter;
 				if($int_begin_verse != 0)
 				{
-					$query = $query. " AND a.verse_id>=".$int_begin_verse." AND a.verse_id<=".$int_end_verse;
+					$query .=  " AND a.verse_id>=".$int_begin_verse." AND a.verse_id<=".$int_end_verse;
 				}
-				$query = $query. " AND b.id='".$str_plan_id."'";
-				$query = $query." ORDER BY a.book_id ASC, a.chapter_id ASC, a.verse_id ASC";
+				$query .=  " AND b.id='".$str_plan_id."'";
+				$query .= " ORDER BY a.book_id ASC, a.chapter_id ASC, a.verse_id ASC";
 				
 				$db->setQuery($query);
 				$data = $db->loadObjectList(); 
@@ -230,7 +230,7 @@ class plgSystemZefaniaEmail extends JPlugin
 			$y = 1;
 			if($this->str_image_reading_plan)
 			{
-				$str_message = $str_message. '<table><img src="'.$this->str_reading_plan_image.'" border="0" /></table>';
+				$str_message .=  '<table><img src="'.$this->str_reading_plan_image.'" border="0" /></table>';
 			}
 			foreach($arr_data as $reading)
 			{
@@ -241,28 +241,28 @@ class plgSystemZefaniaEmail extends JPlugin
 					{
 						if($y > 1)
 						{
-							$str_message = $str_message. '</table>';
+							$str_message .=  '</table>';
 						}
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
-						$str_message = $str_message.'<table><tr><td style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						$str_message = $str_message. mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</td></tr></table><table>";		
+						$str_message .= '<table><tr><td style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						$str_message .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</td></tr></table><table>";		
 					}
 					if ($y % 2)
 					{
-						$str_message = $str_message.'<tr>';
+						$str_message .= '<tr>';
 					}
 					else
 					{
-						$str_message = $str_message.'<tr style="background-color:#CCC;border:none;">';
+						$str_message .= '<tr style="background-color:#CCC;border:none;">';
 					}
-					$str_message = $str_message. '<td style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$plan->verse_id."</td>";
-					$str_message = $str_message. "<td style='float:left;width:95%;'>".$plan->verse."</td></tr>";				
+					$str_message .=  '<td style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$plan->verse_id."</td>";
+					$str_message .=  "<td style='float:left;width:95%;'>".$plan->verse."</td></tr>";				
 					$y++;
 				}
-				$str_message = $str_message.'</table>';
+				$str_message .= '</table>';
 			}
-			$str_message = $str_message. $this->str_unsubscribe_message;			
+			$str_message .=  $this->str_unsubscribe_message;			
 		}
 		catch (JException $e)
 		{
@@ -276,8 +276,8 @@ class plgSystemZefaniaEmail extends JPlugin
 		try
 		{
 			$db = JFactory::getDBO();
-			$arr_row->id = 	$int_id;
-			$arr_row->title = 	$str_title;
+			$arr_row->id 				= $int_id;
+			$arr_row->title 			= $str_title;
 			$arr_row->last_send_date 	= $this->str_today;
 			$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
 		}
@@ -297,35 +297,35 @@ class plgSystemZefaniaEmail extends JPlugin
 					" WHERE a.book_id=".$this->arr_verse_info['book_name']." AND a.chapter_id=".$this->arr_verse_info['chapter_number'];
 				if($this->arr_verse_info['end_verse'] == 0)
 				{
-					$query = $query ." AND a.verse_id=".$this->arr_verse_info['begin_verse'];
+					$query .= " AND a.verse_id=".$this->arr_verse_info['begin_verse'];
 				}
 				else
 				{
-					$query = $query . " AND a.verse_id>=".$this->arr_verse_info['begin_verse']." AND a.verse_id<=".$this->arr_verse_info['end_verse'];
+					$query .=  " AND a.verse_id>=".$this->arr_verse_info['begin_verse']." AND a.verse_id<=".$this->arr_verse_info['end_verse'];
 				}
-				$query = $query. " AND a.bible_id=".$int_id;
+				$query .=  " AND a.bible_id=".$int_id;
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
 			if($this->str_image_verse_of_day)
 			{
-				$str_verse = $str_verse . '<table><img src="'.$this->str_verse_of_day_image.'" border="0" /></table>';			
+				$str_verse .=  '<table><img src="'.$this->str_verse_of_day_image.'" border="0" /></table>';			
 			}
 			if($this->arr_verse_info['end_verse'] == 0)
 			{
 				$this->str_verse_name = JText::_('PLG_ZEFANIABIBLE_BIBLE_EMAIL_SUBJECT')." - ".$this->str_book_title." - ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ". $this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse'];
-				$str_verse = $str_verse .'<div style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ".$this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse']."</div><div>";
+				$str_verse .= '<div style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ".$this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse']."</div><div>";
 				foreach($data as $datum)
 				{
-					$str_verse = $str_verse .'<div>' . $datum->verse.'</div><div style="clear:both"></div></div>';
+					$str_verse .= '<div>' . $datum->verse.'</div><div style="clear:both"></div></div>';
 				}
 			}
 			else
 			{
 				$this->str_verse_name = JText::_('PLG_ZEFANIABIBLE_BIBLE_EMAIL_SUBJECT')." - ".$this->str_book_title." - ".JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ". $this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse']."-".$this->arr_verse_info['end_verse'];
-				$str_verse = $str_verse .'<div style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ". $this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse']."-".$this->arr_verse_info['end_verse']."</div>";
+				$str_verse .= '<div style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'])." ". $this->arr_verse_info['chapter_number'].":".$this->arr_verse_info['begin_verse']."-".$this->arr_verse_info['end_verse']."</div>";
 				foreach($data as $datum)
 				{
-					$str_verse = $str_verse .'<div><div style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$datum->verse_id .'</div><div style="float:left;width:95%;">'.$datum->verse.'</div></div><div style="clear:both"></div>';
+					$str_verse .= '<div><div style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$datum->verse_id .'</div><div style="float:left;width:95%;">'.$datum->verse.'</div></div><div style="clear:both"></div>';
 				}				
 			}			
 		}
@@ -333,7 +333,7 @@ class plgSystemZefaniaEmail extends JPlugin
 		{
 			$this->setError($e);
 		}				
-		$str_verse = $str_verse. $this->str_unsubscribe_message;
+		$str_verse .=  $this->str_unsubscribe_message;
 		return $str_verse;
 	}
 	protected function fnc_Get_Verse_Of_The_Day_Info()
@@ -348,10 +348,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		{
 			if($this->int_verse_remainder == $x)
 			{
-				$this->arr_verse_info['book_name'] = $arr_row->book_name;
+				$this->arr_verse_info['book_name'] 		= $arr_row->book_name;
 				$this->arr_verse_info['chapter_number'] = $arr_row->chapter_number;
-				$this->arr_verse_info['begin_verse'] = $arr_row->begin_verse;
-				$this->arr_verse_info['end_verse'] = $arr_row->end_verse;		
+				$this->arr_verse_info['begin_verse'] 	= $arr_row->begin_verse;
+				$this->arr_verse_info['end_verse'] 		= $arr_row->end_verse;		
 			}
 			$x++;
 		}
