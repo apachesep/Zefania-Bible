@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.9.0</version>
+	<version>3.0.0</version>
 	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
