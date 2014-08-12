@@ -48,13 +48,7 @@ class ZefaniabibleViewModal extends JViewLegacy
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
-
-
 
 		switch($layout)
 		{
@@ -80,28 +74,46 @@ class ZefaniabibleViewModal extends JViewLegacy
 		i = End Chap
 		j = End Verse
 	*/
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
 
-		$user 	= JFactory::getUser();
+		$app = JFactory::getApplication();
+		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
-		require_once(JPATH_COMPONENT_SITE.'/models/modal.php');
-		$mdl_bible_modal = new ZefaniabibleModelModal;
-		$int_link_type = JRequest::getInt('b');
-		$str_bible_alias = JRequest::getCmd('e');
-		$int_bible_book_id = JRequest::getInt('f');
-		$int_begin_chap = JRequest::getInt('g');
-		$int_begin_verse = JRequest::getInt('h');
-		$int_end_chap = JRequest::getInt('i');
-		$int_end_verse = JRequest::getInt('j');
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 				
-		$arr_bible_list = $mdl_bible_modal-> _buildQuery_Bibles();
-		if(($int_link_type == 2)or($int_link_type == 3))
+		$jinput = JFactory::getApplication()->input;
+		$item = new stdClass();
+				
+		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
+		$item->int_modal_width 					= $params->get('int_modal_width',800);
+		$item->int_modal_height 				= $params->get('int_modal_height', 500);
+		$item->str_bible_gateway_version 		= $params->get('bible_gateway_version', 9); 
+								
+		$item->str_lang				= $jinput->get('lang', 'en-GB', 'CMD');
+		$item->int_link_type		= $jinput->get('type', null, 'INT');
+		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
+		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
+		$item->str_begin_chap 		= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
+		$item->str_begin_verse 		= $jinput->get('verse', '1','INT');
+		$item->str_end_chap			= $jinput->get('endchapter', '0', 'INT');	
+		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
+		$item->flg_use_tags 		= $jinput->get('tag', '0', 'BOOL');
+		$item->str_label 			= $jinput->get('label', 'link', 'CMD');						
+								
+		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
+		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
+		$item->obj_bible_book_dropdown 	= $mdl_common->fnc_bible_book_dropdown($item); 
+				
+		if(($item->int_link_type == 2)or($item->int_link_type == 3))
 		{
-			$arr_bible_verse = $mdl_bible_modal-> _buildQuery_Verses($str_bible_alias,$int_bible_book_id,$int_begin_chap,$int_begin_verse,$int_end_chap,$int_end_verse);
+			$item->arr_bible_verse = $mdl_default->_buildQuery_scripture($item->str_Bible_Version, $item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse);	 		 			 
 		}
-		$this->assignRef('arr_bible_list',		$arr_bible_list);
-		$this->assignRef('arr_bible_verse',		$arr_bible_verse);		
+		$this->assignRef('item', $item);
 		parent::display($tpl);
 	}
 }
