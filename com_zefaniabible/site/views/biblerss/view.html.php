@@ -80,7 +80,7 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');				
 		
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter);	
+		header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter).'?format=raw');	
 		parent::display($tpl);
 	}
 }
