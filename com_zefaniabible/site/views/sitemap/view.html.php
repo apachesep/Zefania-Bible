@@ -81,11 +81,11 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		('HTTP/1.1 301 Moved Permanently');
 		if($item->flg_only_primary_bible)  
 		{
-			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=sitemap&format=raw&bible='.$item->str_Bible_Version."&Itemid=".$menuitemid);			
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&bible='.$item->str_Bible_Version."&Itemid=".$menuitemid).'&format=raw');
 		}
 		else
 		{
-			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=sitemap&format=raw&Itemid='.$menuitemid);
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&Itemid='.$menuitemid).'&format=raw');
 		}
 		//Filters
 		$this->assignRef('item',$item);
