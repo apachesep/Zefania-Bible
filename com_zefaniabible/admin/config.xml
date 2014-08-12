@@ -352,14 +352,6 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>		
-		<field name="catcha_color" type="radio" class="btn-group" default="red" label="COM_ZEFANIABIBLE_CATCHA_COLOR" description="COM_ZEFANIABIBLE_CATCHA_COLOR_DESC">
-			<option value="red">COM_ZEFANIABIBLE_CATCHA_COLOR_RED</option>
-			<option value="white">COM_ZEFANIABIBLE_CATCHA_COLOR_WHITE</option>
-			<option value="blackglass">COM_ZEFANIABIBLE_CATCHA_COLOR_BLACKGRASS</option>
-			<option value="clean">COM_ZEFANIABIBLE_CATCHA_COLOR_CLEAN</option>
-		</field>	
-		<field name="catchaPublicKey" type="text" size="75" label="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY" description="COM_ZEFANIABIBLE_CATCHA_PUBLIC_KEY_DESC" />
-		<field name="catchaPrivateKey" type="text" size="75" label="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY" description="COM_ZEFANIABIBLE_CATCHA_PRIVATE_KEY_DESC" />
 	</fieldset>
 		
 	<fieldset name="pagination" label="COM_ZEFANIABIBLE_PAGINATION_LABEL" description="COM_ZEFANIABIBLE_PAGINATION_DESC">
@@ -402,7 +394,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="rp_mo_menuitem" type="menuitem" default="" label="COM_ZEFANIABIBLE_SITEMAP_PARAM_MO_MENUITEM" description="COM_ZEFANIABIBLE_SITEMAP_PARAM_MO_MENUITEM_DESC" state="1" />		
 		<field name="freq" type="list" label="COM_ZEFANIABIBLE_SITEMAP_FREQ" description="COM_ZEFANIABIBLE_SITEMAP_FREQ_DESC" useglobal="true" default="weekly">
 			<option value="always">always</option>
 			<option value="hourly">hourly</option>
