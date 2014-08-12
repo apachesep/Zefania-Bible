@@ -103,3 +103,25 @@
 {
 	background:none !important;
 }
+
+.zef_modal
+{
+	font-size:1.3em !important;
+}
+.zef_modal .zef_scripture div
+{
+	float:left;
+	margin-right:3px;
+}
+.zef_modal .zef_alias, .zef_modal .zef_scripture
+{
+	margin-top:5px;	
+}
+#zef_button_begin_chap, #zef_button_begin_verse, #zef_button_end_chap, #zef_button_end_verse
+{
+	max-width:25px;	
+}
+.zef_modal label
+{
+	display:inline !important;
+}
