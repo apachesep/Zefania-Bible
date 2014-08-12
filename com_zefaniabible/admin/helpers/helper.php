@@ -42,7 +42,7 @@ class ZefaniabibleHelper
 		$parts = array();
 
 		//Contains followers
-		$authorizedInUrl = array('option', 'view', 'layout', 'Itemid', 'tmpl', 'lang', 'a','b','c','d','e','f','g','h','i','j','k','plan','bible','bible2','book','chapter','verse','day','com','dict','strong','type');
+		$authorizedInUrl = array('plan','bible','bible2','book','chapter','verse','day','option', 'view', 'layout', 'Itemid', 'tmpl', 'lang','com','dict','strong','start','items','type','number');
 
 		$request = JRequest::get();
 		foreach($request as $key => $value)
