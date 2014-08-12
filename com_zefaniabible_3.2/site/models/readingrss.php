@@ -80,7 +80,7 @@ class ZefaniabibleModelReadingrss extends ZefaniabibleModelList
 	 * @since	1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
-	{
+	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
