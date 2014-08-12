@@ -87,7 +87,7 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
 		
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items);
+		header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items).'?format=raw');
 		parent::display($tpl);
 	}
 }
