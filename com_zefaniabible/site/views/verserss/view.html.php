@@ -99,7 +99,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		if($item->flg_redirect_request)
 		{		
 			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.JURI::root().'index.php?option=com_zefaniabible&view=verserss&format=raw&bible='.$item->str_primary_bible);	
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible).'?format=raw');	
 		}
 		$this->assignRef('item', $item);			
 		parent::display($tpl);
