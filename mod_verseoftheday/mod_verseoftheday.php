@@ -68,8 +68,8 @@ class ZefVerseOfTheDay
 			if($this->int_link_type == 1)
 			{
 				$str_verse_output = $str_pre_url.stripslashes(strip_tags($str_verse_rss->entry->title)).$str_post_url;
-				$str_verse_output = $str_verse_output."<br>";
-				$str_verse_output = $str_verse_output. stripslashes(strip_tags($str_verse_rss->entry->content)); 				
+				$str_verse_output .= "<br>";
+				$str_verse_output .=  stripslashes(strip_tags($str_verse_rss->entry->content)); 				
 			}
 			else if($this->int_link_type == 3)
 			{
@@ -81,8 +81,8 @@ class ZefVerseOfTheDay
 			else
 			{
 				$str_verse_output = stripslashes(strip_tags($str_verse_rss->entry->title));
-				$str_verse_output = $str_verse_output."<br>";
-				$str_verse_output = $str_verse_output. stripslashes(strip_tags($str_verse_rss->entry->content)); 				
+				$str_verse_output .= "<br>";
+				$str_verse_output .=  stripslashes(strip_tags($str_verse_rss->entry->content)); 				
 			}
 				echo $str_verse_output;
 		}
@@ -202,14 +202,14 @@ class ZefVerseOfTheDay
 					$str_scripture = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$this->arr_verse_info['book_name'][$int_day])." ".$this->arr_verse_info['chapter_number'][$int_day].":".$this->arr_verse_info['begin_verse'][$int_day];
 					if($this->int_link_type == 1)
 					{
-						$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>" 
+						$str_verse_output .=  "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>" 
 						.$str_temp."</a>";
 					}
 					else
 					{
-						$str_verse_output = $str_verse_output. $str_temp;
+						$str_verse_output .=  $str_temp;
 					}
-					$str_verse_output = $str_verse_output. '<div class="zef_verse_of_day_verse">'.$datum->verse.'</div>';		
+					$str_verse_output .=  '<div class="zef_verse_of_day_verse">'.$datum->verse.'</div>';		
 					$str_blockquote_verse = $str_blockquote_verse ." ". $datum->verse;
 				}
 				else
@@ -224,15 +224,15 @@ class ZefVerseOfTheDay
 					}
 					if($this->int_link_type == 1)
 					{
-						$str_verse_output = $str_verse_output. "<a rel='nofollow'  title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
+						$str_verse_output .=  "<a rel='nofollow'  title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
 						.$str_temp
 						."</a>";
 					}
 					else
 					{
-						$str_verse_output = $str_verse_output. $str_temp;	
+						$str_verse_output .=  $str_temp;	
 					}
-					$str_verse_output = $str_verse_output. $datum->verse." ";		
+					$str_verse_output .=  $datum->verse." ";		
 					$str_blockquote_verse = $str_blockquote_verse ." ". $datum->verse;
 				}
 			}
@@ -248,10 +248,10 @@ class ZefVerseOfTheDay
 			{
 				if($this->int_link_type == 2)
 				{
-					$str_verse_output = $str_verse_output. "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
+					$str_verse_output .=  "<a rel='nofollow' title='".JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC')."' id='zef_links' href='".$str_url."'>"
 					.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK')."</a>";
 				}				
-				$str_verse_output = $str_verse_output. '<div style="clear:both"></div>';
+				$str_verse_output .=  '<div style="clear:both"></div>';
 			}
 			echo $str_verse_output ;
 		}
@@ -265,7 +265,7 @@ class ZefVerseOfTheDay
 		try
 		{
 			$db = JFactory::getDBO();
-			$query 	= "SELECT * FROM #__zefaniabible_zefaniaverseofday WHERE publish=1";
+			$query 	= "SELECT book_name, chapter_number, begin_verse, end_verse FROM #__zefaniabible_zefaniaverseofday WHERE publish=1";
 			$db->setQuery($query);
 			$arr_rows = $db->loadObjectList();	
 			$x = 0;
@@ -290,7 +290,7 @@ class ZefVerseOfTheDay
 		try 
 		{
 			$db = JFactory::getDBO();
-			$query 	= "SELECT * FROM #__zefaniabible_bible_names WHERE alias='".$this->str_bible_alias."'";
+			$query 	= "SELECT id, bible_name, alias FROM #__zefaniabible_bible_names WHERE alias='".$this->str_bible_alias."'";
 			$db->setQuery($query);
 			$arr_rows = $db->loadObjectList();
 			foreach($arr_rows as $arr_row)

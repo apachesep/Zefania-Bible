@@ -31,202 +31,125 @@ class zefSubscibe
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));	
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$jlang = JFactory::getLanguage();
+		$config = JFactory::getConfig();
+				
 		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", 'en-GB', true);
 		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", null, true);
-
-		$flg_show_overlay = $params->get('flg_overlay', 0);
-		$flg_use_catcha = $params->get('flg_use_catcha', 0);
-		$flg_use_image = $params->get('flg_use_image', 0);
-		$int_overlay_width = $params->get('overlay_width', 640);
-		$int_overlay_height = $params->get('overlay_height', 480);
+				
+		require_once('components/com_zefaniabible/helpers/common.php');	
+		$mdl_common 	= new ZefaniabibleCommonHelper;
 		
-		if($flg_show_overlay)
+		require_once('components/com_zefaniabible/models/default.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+				
+		$user = JFactory::getUser();
+		$item = new stdClass();
+		$item->flg_show_overlay 	= $params->get('flg_overlay', 0);
+		$item->flg_use_image 		= $params->get('flg_use_image', 0);
+		$item->int_overlay_width 	= $params->get('overlay_width', 640);
+		$item->int_overlay_height 	= $params->get('overlay_height', 480);
+		
+		$item->flg_catcha_correct 	= 0;
+		$item->flg_email_valid 		= 0;
+		if($item->flg_show_overlay)
 		{
-			if(!$flg_use_image)
+			if(!$item->flg_use_image)
 			{
 				echo '<div class="zef_email_button">';
-				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_overlay_width.',y:'.$int_overlay_height.'}}" >';
+				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->int_overlay_width.',y:'.$item->int_overlay_height.'}}" >';
 				echo JText::_('MOD_ZEFANIASUBSCRIBE_SUBSCRIBE').'</a></div>';
 			}
 			else
 			{
 				echo '<div class="zef_email_button">';
-				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$int_overlay_width.',y:'.$int_overlay_height.'}}" >';
+				echo '<a title="'. JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE').'" target="blank" href="index.php?view=subscribe&option=com_zefaniabible&tmpl=component" class="modal" rel="{handler: \'iframe\', size: {x:'.$item->int_overlay_width.',y:'.$item->int_overlay_height.'}}" >';
 				echo '<img src="'.JRoute::_('/media/com_zefaniabible/images/e_mail.png').'">'.'</a></div>';				
 			}
 		}
 		else
+		{
+			$item->str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+			$item->str_primary_reading 	= $params->get('primaryReading', $mdl_default->_buildQuery_first_plan());	
+			$item->flg_use_catcha 		= $params->get('flg_use_catcha', 0);	
+			$item->str_admin_email 		= $params->get('adminEmail');
+			$item->str_from_email 		= $config->get( 'mailfrom' );
+	    	$item->str_from_email_name	= $config->get( 'fromname' );
+			
+			
+			$jinput = JFactory::getApplication()->input;
+			$item->str_user_name 	= 	$jinput->get('mod_zef_subs_name', null,'USERNAME');
+			$item->str_email 		= 	$jinput->get('mod_zef_subs_email', $user->email, 'STRING');
+			if(trim($item->str_user_name) !='')
 			{
-			$int_bible_id =	JRequest::getInt('mod_zef_sub_bible_id');	
-			$int_reading_plan_id =	JRequest::getInt('mod_zef_sub_reading_plan_id');
-			$flg_send_reading =	JRequest::getBool('mod_zef_sub_flg_send_reading' , 0);
-			$flg_send_verse =	JRequest::getBool('mod_zef_sub_flg_send_verse' , 0);
-			$str_start_date =	JRequest::getCmd('mod_zef_sub_calendar_date');
-			$str_user_name = JRequest::getString('mod_zef_subs_name');
-			$str_user_email = JRequest::getString('mod_zef_subs_email');
-		
-			$com_param = JComponentHelper::getParams( 'com_zefaniabible' );
-			$str_catcha_public_key = $com_param->get('catchaPublicKey');
-			$str_catcha_private_key = $com_param->get('catchaPrivateKey');
-			$str_catcha_color = $com_param->get('catcha_color', 'red');
-//			if(!$int_bible_id)
-			{
-				$this->fnc_contruct_form($flg_use_catcha,$str_catcha_public_key,$str_catcha_color);	
-				$this->fnc_Check_Catcha($str_catcha_public_key,$str_catcha_private_key);
-			}
-/*			else
-			{
-				if(($str_user_email != "")and($str_user_name != '')and(($flg_send_reading)or($flg_send_verse)))
+				if($item->flg_use_catcha)
 				{
-					if($this->fnc_validate_email($str_user_email))
-					{
-						$arr_bible = $this->fnc_get_bibles($int_bible_id);
-						$arr_reading_plan = $this->fnc_get_reading_plans($int_reading_plan_id);		
-									
-						$this->fnc_insert_data($int_bible_id,$int_reading_plan_id,$flg_send_reading,$flg_send_verse,$str_start_date,$str_user_name,$str_user_email);
-						$this->fnc_send_signup_email($arr_bible,$arr_reading_plan,$flg_send_reading,$flg_send_verse,$str_start_date,$str_user_name,$str_user_email);
-					}
-					else
-					{
-						JError::raiseWarning('',JText::_('ZEFANIABIBLE_EMAIL_NOT_VALID'));
-					}
+					$item->flg_catcha_correct 	= 	$mdl_common->fnc_check_catcha('subscribe-form');
 				}
 				else
 				{
-					JError::raiseWarning('',JText::_('MOD_ZEFANIABIBLE_SUBSCRIBE_NOT_VALID_NAME_EMAIL'));
+					$item->flg_catcha_correct = 1;
 				}
-			}*/
-		}
-	}
-	private function fnc_Check_Catcha($str_catcha_public_key,$str_catcha_private_key)
-	{
-		$resp = null;
-		$error = null;
-		//require_once(JPATH_COMPONENT_SITE.'/helpers/recaptchalib.php');
-
-		if (isset($_POST["recaptcha_response_field"])) {
-				$resp = recaptcha_check_answer ($str_catcha_private_key,
-												$_SERVER["REMOTE_ADDR"],
-												$_POST["recaptcha_challenge_field"],
-												$_POST["recaptcha_response_field"]);
-		
-				if ($resp->is_valid) {
-						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::_('ZEFANIABIBLE_CATCHA_SUBMITED')); 
-						$flg_catcha_correct = 1;
+				if($item->str_email)
+				{
+					$item->flg_email_valid 		=	$mdl_common->fnc_validate_email($item->str_email);
+				}					
+			}
+			elseif($user->name)
+			{
+				$item->str_user_name 		= 	$user->name;
+				
+			}	
+			$item->flg_send_reading 				=	$jinput->get('mod_zef_sub_flg_send_reading' , '0', 'BOOL');
+			$item->flg_send_verse					=	$jinput->get('mod_zef_sub_flg_send_verse' , '0', 'BOOL');
+			$item->str_Bible_Version 				= 	$jinput->get('mod_zef_sub_bible_id', $item->str_primary_bible, 'CMD');	
+			$item->str_reading_plan 				= 	$jinput->get('mod_zef_sub_reading_plan_id', $item->str_primary_reading,'CMD');	
+			$item->str_start_reading_date 			= 	JHtml::date($params->get('reading_start_date', '1-1-2012'),'d-m-Y',true);
+			$item->str_start_date					= 	JHtml::date($jinput->get('mod_zef_sub_calendar_date', $item->str_start_reading_date, 'CMD'),'d-m-Y',true);
+			
+			$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+			$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);			
+			$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
+			$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
+			$item->id								=	$user->id;
 						
-				} else {
-						JError::raiseWarning('',JText::_('ZEFANIABIBLE_CATCHA_ERROR'));
+			$this->fnc_contruct_form($item);	
+			if(($item->flg_catcha_correct)and($item->flg_email_valid))
+			{
+				if(($item->flg_send_reading)or($item->flg_send_verse))
+				{
+					$mdl_default->_buildQuery_InsertUser($item);
+					$mdl_common->sendSignUpEmail($item);				}
+				else
+				{
+					JError::raiseWarning('',JText::_('ZEFANIABIBLE_SELECT_EMAIL'));
 				}
-		}	
+			}
+		}
 	}
-
-	public function fnc_Create_Catcha($str_catcha_public_key)
-	{
-			require_once('components/com_zefaniabible/helpers/recaptchalib.php');
-			echo recaptcha_get_html($str_catcha_public_key);
-	}	
-	
-	private function fnc_send_signup_email($arr_bible,$arr_reading_plan,$flg_send_reading,$flg_send_verse,$str_start_date,$str_user_name,$str_user_email)
-	{ 
-		$config = JFactory::getConfig();
-		$str_from_email 		= $config->get( 'config.mailfrom' );
-    	$str_from_email_name	= $config->get( 'config.fromname' );	
-		foreach($arr_bible as $obj_bible)
-		{
-			$str_bible_name = $obj_bible->bible_name;
-		}
-		foreach($arr_reading_plan as $obj_reading_plan)
-		{
-			$str_reading_plan_name = $obj_reading_plan->name;
-		}
-		$str_message = str_replace('%n',$str_user_name,JText::_('ZEFANIABIBLE_SIGNUP_EMAIL_BODY'))."<br>";
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_BIBLE_START_READING_DATE').": ".$str_start_date."<br>";
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_BIBLE_VERSION').": ".$str_bible_name."<br>";
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_READING_PLAN').": " . $str_reading_plan_name."<br>";
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_BIBLE_SEND_READING_EMAIL').": ";
-		if($flg_send_reading) 
-		{ 
-			$str_message = $str_message . JText::_('JYES'); 
-		}
-		else 
-		{ 
-			$str_message = $str_message . JText::_('JNO'); 
-		} 
-		$str_message = $str_message . "<br>"; 
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_BIBLE_SEND_VERSE_EMAIL').": ";
-		if($flg_send_verse) 
-		{ 
-			$str_message = $str_message . JText::_('JYES'); 
-		} 
-		else 
-		{ 
-			$str_message = $str_message . JText::_('JNO'); 
-		} 
-		$str_message = $str_message . "<br>";	
-		$str_message = $str_message . JText::_('ZEFANIABIBLE_IP_ADDRESS').": ". $_SERVER['REMOTE_ADDR']."<br>";	
-
-		$mailer =& JFactory::getMailer();
-		$str_sender = array($str_from_email,$str_from_email_name);
-		$mailer->setSender($str_sender);
-		$mailer->addRecipient($str_user_email);
-		//$mailer->addBCC($this->str_admin_email);
-		$mailer->setSubject(JText::_('ZEFANIABIBLE_SIGNUP_EMAIL_SUBJECT'));
-		$mailer->isHTML(true);
-		$mailer->Encoding = 'base64';
-		$mailer->setBody($str_message);
-		$send =& $mailer->Send();			
-	}	
-	function fnc_validate_email($x)
-	{
-    	if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/',$x))return true;
-	    return false;
-	}  
-	protected function fnc_insert_data($int_bible_id,$int_reading_plan_id,$flg_send_reading,$flg_send_verse,$str_start_date,$str_user_name,$str_user_email)
-	{
-		$db = JFactory::getDBO();
-		$arr_row->user_name = $str_user_name;
-		$arr_row->plan = $int_reading_plan_id;
-		$arr_row->bible_version = $int_bible_id;
-		$arr_row->user_id = '';
-		$arr_row->email = $str_user_email;
-		$arr_row->send_reading_plan_email = $flg_send_reading;
-		$arr_row->send_verse_of_day_email = $flg_send_verse;
-		$arr_row->reading_start_date = $str_start_date;
-		
-		$db->insertObject("#__zefaniabible_zefaniauser", $arr_row);
-        $app = JFactory::getApplication();
-		$app->enqueueMessage(JText::_('ZEFANIABIBLE_CATCHA_SUBMITED'));			
-	}
-	protected function fnc_contruct_form($flg_use_catcha,$str_catcha_public_key,$str_catcha_color)
+	protected function fnc_contruct_form($item)
 	{	
-		$arr_bibles = $this->fnc_get_bibles(0);
-		$arr_reading_plans = $this->fnc_get_reading_plans(0);
+		require_once('components/com_zefaniabible/helpers/common.php');	
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+				
 		echo '<form action="'. JFactory::getURI()->toString().'" method="post" id="zefania_subscribe" name="zefania_subscribe">';
 		
 		echo '<div><div class="zef_bible_label">'.JText::_('ZEFANIABIBLE_USER_NAME_LABEL').'</div>';
-		echo '<div><input type="text" name="mod_zef_subs_name" id="mod_zef_subs_name" size="25" maxlength="50"></div></div>';
+		echo '<div><input type="text" name="mod_zef_subs_name" id="mod_zef_subs_name" size="25" maxlength="50" value="'.$item->str_user_name.'"></div></div>';
          
 		
 		echo '<div><div class="zef_bible_label">'.JText::_('ZEFANIABIBLE_EMAIL_LABEL').'</div>';
-        echo '<div><input type="text" name="mod_zef_subs_email" id="mod_zef_subs_email" maxlength="50" size="25"></div></div>';
+        echo '<div><input type="text" name="mod_zef_subs_email" id="mod_zef_subs_email" maxlength="50" size="25" value="'. $item->str_email .'"></div></div>';
 		echo '<div style="clear:both"></div>';
 		
 		echo '<div><div class="mod_zefsend_bible_label">'. JText::_('ZEFANIABIBLE_BIBLE_VERSION').'</div>';
 		echo '<div class="mod_zefsend_bible"><select name="mod_zef_sub_bible_id" id="zef_mod_send_bible" class="inputbox" >';
-		foreach ($arr_bibles as $obj_bible)
-		{
-			echo '<option value="'.$obj_bible->id.'" >'.$obj_bible->bible_name.'</option>';	
-		}
+		echo $item->obj_bible_Bible_dropdown;
 		echo '</select></div></div>';
 		echo '<div style="clear:both"></div>';
 		
 		echo '<div><div class="mod_zefsend_readingplan_label">'. JText::_('ZEFANIABIBLE_READING_PLAN').'</div>';
 		echo '<div class="mod_zefsend_readingplan"><select name="mod_zef_sub_reading_plan_id" id="zef_mod_send_readingplan" class="inputbox">';
-		foreach ($arr_reading_plans as $obj_reading_plan)
-		{
-			echo '<option value="'.$obj_reading_plan->id.'" >'.$obj_reading_plan->name.'</option>';	
-		}
+		echo $item->obj_reading_plan_dropdown;
 		echo '</select></div></div>';
 		echo '<div style="clear:both"></div>';
 		
@@ -250,57 +173,11 @@ class zefSubscibe
         JHTML::calendar(date('d-m-Y',strtotime('now')),'mod_zef_sub_calendar_date','mod_zefsend_start_date','%Y-%m-%d','');
         echo '<div><input type="text" name="mod_zef_sub_calendar_date" id="mod_zefsend_start_date" maxlength="10" size="10" value="'.date("Y-m-d").'"></div></div>';
 		echo '<div style="clear:both"></div>';
-		if($flg_use_catcha)
+		if($item->flg_use_catcha)
 		{
-			echo '<script type="text/javascript">'.PHP_EOL;
-			echo 'var RecaptchaOptions = {'.PHP_EOL;
-			echo '	custom_translations : {'.PHP_EOL;
-			echo '		instructions_visual : "'. JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_TWO_WORD').'",'.PHP_EOL;
-			echo '		instructions_audio : "'. JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_TYPE').'", '.PHP_EOL;
-			echo '		play_again : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_PLAY_AGAIN').'",'.PHP_EOL;
-			echo '		cant_hear_this : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_DOWNLOAD').'",'.PHP_EOL; 
-			echo '		visual_challenge : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_NEW_VISUAL').'", '.PHP_EOL;
-			echo '		audio_challenge : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_NEW_AUDIO').'",'.PHP_EOL;
-			echo '		refresh_btn : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_NEW_CHALLANGE').'",'.PHP_EOL;
-			echo '		help_btn : "'.  JText::_('COM_ZEFANIABIBLE_CATCHA_TRANS_HELP').'",'.PHP_EOL;
-			echo '		incorrect_try_again : "'.  JText::_('ZEFANIABIBLE_CATCHA_ERROR').'",'.PHP_EOL;
-			echo '	},'.PHP_EOL;
-			echo 'theme : "'.$str_catcha_color.'"'.PHP_EOL;
-			echo '};'.PHP_EOL;
-			echo '</script>'.PHP_EOL;
-			$this->fnc_Create_Catcha($str_catcha_public_key);	
+			$mdl_common->fnc_create_catcha('subscribe-form');
 		}
 		echo '<div><input class="button" type="submit" value="submit" name="'.JText::_('JSAVE').'"/></div></form>';		
-	}
-	protected function fnc_get_bibles($id)
-	{
-		$db		= JFactory::getDbo();
-		$query  = $db->getQuery(true);
-		$query->select("a.id, a.bible_name, a.alias FROM `#__zefaniabible_bible_names` AS a");
-		$query->where('a.publish =1');
-		if($id)
-		{
-			$query->where('a.id ='.$id);
-		}
-		$query->order('a.bible_name ASC');
-		$db->setQuery($query);
-		$data = $db->loadObjectList();
-		return $data;
-	}
-	protected function fnc_get_reading_plans($id)
-	{
-		$db		= JFactory::getDbo();
-		$query  = $db->getQuery(true);
-		$query->select("b.id, b.name, b.alias FROM `#__zefaniabible_zefaniareading` AS b");
-		$query->where('b.publish =1');
-		if($id)
-		{
-			$query->where('b.id ='.$id);
-		}		
-		$query->order('b.name');
-		$db->setQuery($query);
-		$data = $db->loadObjectList();
-		return $data;		
 	}
 }
 ?>

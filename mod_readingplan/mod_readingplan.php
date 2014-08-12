@@ -47,13 +47,13 @@ class zefReadingPlan
 			c = day
 		*/
 		$user 	= JFactory::getUser();
-		$this->str_reading_plan = $params->get('reading_plan', $this->fnc_first_plan_record());
-		$this->str_Bible_alias = $params->get('bibleAlias', $this->fnc_first_bible_record());
-		$this->str_menuItem = $params->get('rp_mo_menuitem', 0);
-		$this->str_reading_start_date = new DateTime($params->get('reading_start_date', '1-1-2012'));
-		$this->flg_custom_code = $params->get('flg_use_custom_code',0);		
-		$this->str_custom_html = $params->get('str_custom_html');
-		$this->flg_import_user_data = 	$params->get('flg_import_user_data', '0');
+		$this->str_reading_plan 		= $params->get('reading_plan', $this->fnc_first_plan_record());
+		$this->str_Bible_alias 			= $params->get('bibleAlias', $this->fnc_first_bible_record());
+		$this->str_menuItem 			= $params->get('rp_mo_menuitem', 0);
+		$this->str_reading_start_date 	= new DateTime($params->get('reading_start_date', '1-1-2012'));
+		$this->flg_custom_code 			= $params->get('flg_use_custom_code',0);		
+		$this->str_custom_html 			= $params->get('str_custom_html');
+		$this->flg_import_user_data 	= $params->get('flg_import_user_data', '0');
 
 		if(($user->id > 0)and($this->flg_import_user_data))
 		{
@@ -98,20 +98,20 @@ class zefReadingPlan
 			{
 				if($arr_reading->begin_chapter == $arr_reading->end_chapter)
 				{
-					$str_scripture = $str_scripture .  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter;					
+					$str_scripture .= JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter;					
 				}
 				else
 				{
-					$str_scripture = $str_scripture  .JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter."-".$arr_reading->end_chapter;
+					$str_scripture .= JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter."-".$arr_reading->end_chapter;
 				}
 			}
 			else
 			{
-				$str_scripture = $str_scripture . JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter.":".$arr_reading->begin_verse."-".$arr_reading->end_chapter.":".$arr_reading->end_verse;
+				$str_scripture .=  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$arr_reading->book_id)." ".$arr_reading->begin_chapter.":".$arr_reading->begin_verse."-".$arr_reading->end_chapter.":".$arr_reading->end_verse;
 			}
 			if(($this->cnt_reading_elements > 1)and($x <  $this->cnt_reading_elements))
 			{
-				$str_scripture = $str_scripture . "<br>";
+				$str_scripture .=  "<br>";
 			}
 			$x++;
 		}
