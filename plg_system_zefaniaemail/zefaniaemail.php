@@ -26,7 +26,11 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.helper');
-
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Email Plugin - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 /**
  * System plugin to highlight terms.
  *

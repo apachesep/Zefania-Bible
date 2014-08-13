@@ -27,6 +27,11 @@ if (!JComponentHelper::getComponent('com_autotweet', true)->enabled)
 	JError::raiseWarning('5', 'AutoTweet NG ZefaniaBible - Verse Plugin - AutoTweet NG Component is not installed or not enabled.');
 	return;
 }
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - AutoTweet Plugin - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 
 include_once JPATH_ROOT . '/administrator/components/com_autotweet/helpers/autotweetbase.php';
 

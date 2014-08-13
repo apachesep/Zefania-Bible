@@ -24,6 +24,12 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - ScriptureLinks Plugin - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
+
 class plgContentZefaniaScriptureLinks extends JPlugin
 {
 	private $int_tooltip_width;

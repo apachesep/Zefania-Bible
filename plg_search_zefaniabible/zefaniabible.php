@@ -24,6 +24,11 @@
 
 // no direct access
 defined('_JEXEC') or die;
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Search Plugin - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 

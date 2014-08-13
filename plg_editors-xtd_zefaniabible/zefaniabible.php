@@ -3,6 +3,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Editor Button Plugin - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 
 class plgButtonZefaniabible extends JPlugin
 {
