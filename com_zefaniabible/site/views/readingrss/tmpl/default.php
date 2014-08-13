@@ -61,10 +61,10 @@ class BibleReadingPlan
 		echo '	<image>'.PHP_EOL;
 		echo '	  <url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
 		echo '	  <title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $item->str_reading_plan_name." - ". $item->str_bible_name. '</title>'.PHP_EOL;
-		echo '	  <link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;
+		echo '	  <link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?amp;ord='.date("mdy").'</link>'.PHP_EOL;
 		echo '	</image>'.PHP_EOL;		
 		echo '	<title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $item->str_reading_plan_name.  " - ". $item->str_bible_name. '</title>'.PHP_EOL;
-		echo '	<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;				
+		echo '	<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</link>'.PHP_EOL;				
 		echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
 		echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 		echo '	<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
@@ -86,8 +86,8 @@ class BibleReadingPlan
 					$book = $plan->book_id;
 					$chap = $plan->chapter_id;
 					echo '		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</title>".PHP_EOL;			
-					echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL;	
-					echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL;
+					echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'#'.$y.'</link>'.PHP_EOL;	
+					echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'#'.$y.'</guid>'.PHP_EOL;
 					echo '		<pubDate>'.date('D, d M Y 00:00:00').'</pubDate>'.PHP_EOL;
 					echo '		<description>'.PHP_EOL;
 					$y++;
@@ -118,10 +118,10 @@ class BibleReadingPlan
 		echo '		<image>'.PHP_EOL;
 		echo '	  		<url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
 		echo '	  		<title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $item->str_reading_plan_name." - ". $item->str_bible_name. '</title>'.PHP_EOL;
-		echo '	  		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;
+		echo '	  		<link>'.JRoute::_(JURI::base()."index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</link>'.PHP_EOL;
 		echo '		</image>'.PHP_EOL;		
 		echo '		<title>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE') .' - '. $item->str_reading_plan_name.  " - ". $item->str_bible_name. '</title>'.PHP_EOL;
-		echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;				
+		echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</link>'.PHP_EOL;				
 		echo '		<generator>Zefania Bible</generator>'.PHP_EOL;
 		echo '		<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 		echo '		<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
@@ -147,8 +147,8 @@ class BibleReadingPlan
 		$str_title = mb_substr($str_title, 0, ($int_len-2),'UTF-8');
 		echo '		<item>'.PHP_EOL;
 		echo '		<title>'.$str_title."</title>".PHP_EOL;		
-		echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</link>'.PHP_EOL;	
-		echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'&amp;ord='.date("mdy").'</guid>'.PHP_EOL;
+		echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</link>'.PHP_EOL;	
+		echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</guid>'.PHP_EOL;
 		echo '		<pubDate>'.date('D, d M Y 00:00:00').'</pubDate>'.PHP_EOL;		
 		echo '		<description>';	
 		echo '		'.$str_desc;
