@@ -76,7 +76,8 @@ class ZefaniabibleViewStrong extends JViewLegacy
 		$item->flg_show_credit 					= $params->get('show_credit','0');
 		$item->str_dictionary_height 			= $params->get('str_dictionary_height','500');
 		$item->str_dictionary_width 			= $params->get('str_dictionary_width','800');	
-				
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');
+		
 		$item->str_tmpl 			= $jinput->get('tmpl',null,'CMD');
 		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
 		$item->str_strong_id		= $jinput->get('item', '1', 'CMD');

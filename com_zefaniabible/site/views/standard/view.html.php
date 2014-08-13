@@ -111,7 +111,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->flg_show_audio_player 			= $params->get('show_audioPlayer','0');
 		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
 		$item->int_player_popup_width 			= $params->get('player_popup_width','300');		
-
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
+		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');			

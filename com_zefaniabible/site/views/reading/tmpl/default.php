@@ -138,3 +138,11 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
     <input type="hidden" name="day" value="<?php echo $this->item->int_day_number; ?>" />
     <input type="hidden" name="Itemid" value="<?php echo $this->item->int_menu_item_id; ?>"/>
 </form>
+<?php 
+	if($this->item->flg_enable_debug == 1)
+	{
+		echo '<!--';
+		print_r($this->item);
+		echo '-->';
+	}
+?>

@@ -90,6 +90,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$jinput = JFactory::getApplication()->input;
+
 		$item = new stdClass();		
 		$item->str_first_bible_record 			= $mdl_default->_buildQuery_first_record();
 		$item->str_primary_bible 				= $params->get('primaryBible', 		$item->str_first_bible_record);	
@@ -119,6 +120,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->flg_show_page_bot 				= $params->get('show_pagination_bot', '1');	
 		$item->flg_show_pagination_type 		= $params->get('show_pagination_type','0');		
 		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
 		
 		$item->str_Main_Bible_Version 		= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->str_Second_Bible_Version 	= $jinput->get('bible2', $item->str_secondary_bible, 'CMD');
@@ -179,6 +181,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->chapter_output			=	$mdl_common->fnc_output_dual_chapter($item);
 		$mdl_common->fnc_redirect_last_chapter($item);
 		$mdl_common->fnc_meta_data($item); 
+
 		//Filters
 		$this->assignRef('item',				$item);
 		parent::display($tpl);

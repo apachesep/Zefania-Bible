@@ -83,3 +83,11 @@ class StrongBible
 }
 
 ?>
+<?php 
+	if($this->item->flg_enable_debug == 1)
+	{
+		echo '<!--';
+		print_r($this->item);
+		echo '-->';
+	}
+?>

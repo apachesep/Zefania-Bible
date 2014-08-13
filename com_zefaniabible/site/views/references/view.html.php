@@ -88,6 +88,7 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		$item->flg_reference_chapter_link 		= $params->get('flg_reference_chapter_link', '1');
 		$item->str_primary_dictionary  			= $params->get('str_primary_dictionary','');
 		$item->str_ref_default_image 			= $params->get('str_ref_default_image', 'media/com_zefaniabible/images/references.jpg');
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');
 		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', '1', 'INT');	
@@ -96,7 +97,8 @@ class ZefaniabibleViewReferences extends JViewLegacy
 		
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();		
 		$item->arr_references 			= $mdl_default->_buildQuery_Single_Reference($item->int_Bible_Book_ID, $item->int_Bible_Chapter, $item->int_Bible_Verse );
-
+		$item->str_view_plan			= $mdl_default->_buildQuery_get_menu_id('standard');
+		
 			$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
 			$arr_orig_ref[1]='ge';
 			$arr_orig_ref[2]='ex';
@@ -237,10 +239,10 @@ class ZefaniabibleViewReferences extends JViewLegacy
 						}		
 							
 						$str_url = "index.php?option=com_zefaniabible&bible=".$item->str_Bible_Version."&view=standard&book=".
-								$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter)."-chapter";	
+								$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$item->int_Bible_Book_ID]))."&chapter=".($item->int_Bible_Chapter)."-chapter&Itemid=".$item->str_view_plan;	
 						if($item->flg_show_commentary)
 						{
-							$str_url = $str_url. "&com=".$item->str_primary_commentary;
+							$str_url .=  "&com=".$item->str_primary_commentary;
 						}
 						if($item->flg_reference_chapter_link)
 						{

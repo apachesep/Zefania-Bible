@@ -101,3 +101,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="view" value="<?php echo $this->item->str_view;?>" />
     <input type="hidden" name="Itemid" value="<?php echo $this->item->int_menu_item_id; ?>"/>    
 </form>
+<?php 
+	if($this->item->flg_enable_debug == 1)
+	{
+		echo '<!--';
+		print_r($this->item);
+		echo '-->';
+	}
+?>

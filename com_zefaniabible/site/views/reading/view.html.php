@@ -109,13 +109,15 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->flg_show_audio_player 			= 	$params->get('show_audioPlayer', '0');
 		$item->str_commentary_width 			= 	$params->get('commentaryWidth','800');
 		$item->str_commentary_height 			= 	$params->get('commentaryHeight','500');
+		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
+		
 		$item->flg_use_strong					= 	$jinput->get('strong', null, 'INT');
 		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
 		$item->str_tmpl 						= 	$jinput->get('tmpl',null,'CMD');
 		$item->str_option						= 	$jinput->get('option', null, 'CMD');
 		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');
 		$item->str_view 						= 	$jinput->get('view', 'standard', 'CMD');		
-				
+		
 
 		if(($user->id > 0)and($item->flg_import_user_data))
 		{

@@ -146,7 +146,10 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
     <meta itemprop="url" content="<?php echo JFactory::getURI()->toString(); ?>">
 </div>
 <?php 
-	echo '<!--';
-	//print_r($this->item);
-	echo '-->';
+	if($this->item->flg_enable_debug == 1)
+	{
+		echo '<!--';
+		print_r($this->item);
+		echo '-->';
+	}
 ?>

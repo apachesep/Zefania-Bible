@@ -77,6 +77,7 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->str_content_Bible_alias 			= $params->get('content_Bible_alias', 'kjv');
 		$item->flg_show_credit 					= $params->get('show_credit','0');
 		$item->str_default_image 				= $params->get('str_scripture_default_image','media/com_zefaniabible/images/scripture.jpg');
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
 		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');

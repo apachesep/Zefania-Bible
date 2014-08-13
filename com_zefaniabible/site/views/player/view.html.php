@@ -85,12 +85,12 @@ class ZefaniabibleViewPlayer extends JViewLegacy
 		$item = new stdClass();
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
-
 		$item->str_xml_audio_path 				= $params->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
 		$item->int_player_type 					= $params->get('player_type', '0');
 		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
 		$item->int_player_popup_width 			= $params->get('player_popup_width','300');		
-
+		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
+		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 				
