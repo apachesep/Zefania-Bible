@@ -747,7 +747,7 @@ class ZefaniabibleModelDefault extends JModelItem
 		try 
 		{	
 			$db = JFactory::getDBO();
-			$str_view_clean	= $db->quote('%'.$str_view.'%');
+			$str_view_clean	= $db->quote('%view='.$str_view.'&%');
 			$query  = $db->getQuery(true);
 			$query->select('id');
 			$query->from('`#__menu`');
