@@ -22,6 +22,11 @@
 *               \_)  (_/
 */
 defined('_JEXEC') or die('Restricted access');
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Verse of the Day Module - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/'); 
 $cls_verse_of_day = new ZefVerseOfTheDay($params);
 class ZefVerseOfTheDay

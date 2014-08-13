@@ -22,6 +22,12 @@
 *               \_)  (_/
 */
 defined('_JEXEC') or die('Restricted access');
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Subscribe Module - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
+
 JHTML::stylesheet('mod_zefaniasubscribe.css', 'modules/mod_zefaniasubscribe/css/'); 
 $cls_zefania_subscribe = new zefSubscibe($params);
 class zefSubscibe

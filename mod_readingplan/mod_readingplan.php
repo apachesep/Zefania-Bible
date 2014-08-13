@@ -22,6 +22,11 @@
 *               \_)  (_/
 */
 defined('_JEXEC') or die('Restricted access');
+if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
+{
+	JError::raiseWarning('5', 'ZefaniaBible - Reading Plan Module - ZefaniaBible component is not installed or not enabled.');
+	return;
+}
 JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/'); 
 $cls_bible_reading_plan = new zefReadingPlan($params);
 class zefReadingPlan
