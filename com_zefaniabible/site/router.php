@@ -83,7 +83,7 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['chapter'];
 				unset( $query['chapter'] );
 			}
-			if(isset($query['chapter']))
+			if(isset($query['verse']))
 			{			
 				$segments[] = $query['verse'];
 				unset( $query['verse'] );
@@ -176,7 +176,7 @@ function ZefaniabibleBuildRoute(&$query){
 			{
 				$segments[] = $query['type'];
 				unset( $query['type'] );		
-			}								
+			}
 			break;
 
 		case "scripture":
