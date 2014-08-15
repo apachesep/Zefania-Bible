@@ -80,7 +80,6 @@
 			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 		</field>
-<!--		<field name="int_backend_start_chapter" type="text"  size="3" default="" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_BACKEND_DESC" />		-->
 		<field name="primary_book_frontend" type="list" default="1" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND_DESC">
 			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
 			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
@@ -176,6 +175,10 @@
 				<option value="1">JSHOW</option>
 		</field>
 		<field name="flg_plan_rssfeed_button" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON" description="COM_ZEFANIABIBLE_FIELD_RSS_FEED_PLAN_BUTTON_DESC">
+				<option value="0">JHIDE</option> 
+				<option value="1">JSHOW</option>
+		</field>
+		<field name="flg_enable_debug" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_DEBUGING" description="COM_ZEFANIABIBLE_DEBUGING_DESC">
 				<option value="0">JHIDE</option> 
 				<option value="1">JSHOW</option>
 		</field>			
