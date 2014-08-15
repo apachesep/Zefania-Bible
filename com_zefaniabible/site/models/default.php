@@ -121,6 +121,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				$query->where("a.verse_id >= ".$str_start_verse);
 				$query->where("a.verse_id <= ".$str_end_verse);
 			}
+			$query->where("b.publish=1");
 			$db->setQuery($query);
 			$data = $db->loadObjectList();	
 		}
@@ -255,6 +256,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("a.chapter_id=".$int_Bible_Chapter);
 			$query->where("a.book_id=".$int_Bible_Book_ID);
 			$query->where("b.alias=".$str_Bible_Version);
+			$query->where("b.publish=1");
 			$query->order('a.verse_id ASC');			
 			$db->setQuery($query);
 			$data = $db->loadObjectList();			
@@ -413,7 +415,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('name');
 			$query->from('`#__zefaniabible_dictionary_info`');						
-			$query->where('alias ='.$str_alias_clean);	
+			$query->where('alias ='.$str_alias_clean);
 			$db->setQuery($query,0,1);
 			$data = $db->loadResult();
 		}
@@ -527,6 +529,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where('a.book_id='.$int_Bible_Book_ID);
 			$query->where('a.chapter_id='.$int_Bible_Chapter);
 			$query->where('a.verse_id='.$int_Bible_Verse);
+			$query->where('b.publish=1');
 			$db->setQuery($query);
 			$data = $db->loadResult();
 		}
@@ -576,6 +579,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->from('`#__zefaniabible_bible_text` AS a');
 			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
 			$query->where("b.alias=".$str_Bible_Version);
+			$query->where("b.publish=1");
 			$query->where("a.book_id=".$int_book_name);
 			$query->where("a.chapter_id=".$int_chapter_number);
 			if($int_end_verse_raw == '0')
@@ -628,6 +632,7 @@ class ZefaniabibleModelDefault extends JModelItem
 					$query->where("a.verse_id<=".$int_end_verse);
 				}
 				$query->where("b.alias=".$str_Bible_Version_clean);
+				$query->where("b.publish=1");
 				$query->order('a.book_id ASC');
 				$query->order('a.chapter_id ASC');
 				$query->order('a.verse_id ASC');
@@ -993,6 +998,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
 			$query->where('a.book_id='.$int_Bible_book_id_clean);
 			$query->where('b.alias='.$str_alias_clean);
+			$query->where('b.publish=1');
 			// Genesis 1
 			if(($int_begin_chap)and(!$int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
 			{
