@@ -349,7 +349,7 @@ class ZefaniabibleCommonHelper
 	public function fnc_dictionary_dropdown($item)
 	{
 		$obj_dropdown = '';
-		foreach($arr_dictionary_list as $obj_dictionary)
+		foreach($item->arr_dictionary_list as $obj_dictionary)
 		{
 			if($item->str_curr_dict == $obj_dictionary->alias)
 			{
@@ -457,11 +457,21 @@ class ZefaniabibleCommonHelper
 		$str_Chapter_Output = '';
 		foreach ($item->arr_Chapter as $arr_verse)
 		{
-			if($item->flg_use_strong == 1)
+			if($item->flg_show_dictionary == 1)
 			{
 				$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
-				$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);
-			}		
+				if($item->flg_use_strong == 1)
+				{
+					$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);
+					$arr_verse->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$arr_verse->verse);
+					$arr_verse->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$arr_verse->verse);
+					$arr_verse->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$arr_verse->verse);
+				}
+				else
+				{
+					$arr_verse->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse->verse);
+				}
+			}
 			if ($x % 2)	
 			{
 				$str_Chapter_Output .= '<div class="odd">';
@@ -513,20 +523,48 @@ class ZefaniabibleCommonHelper
 		$a = 1;
 		$b = 1;
 		$str_Chapter_Output = '';
-		$temp2 = '';
+		$temp   = '';
+		$temp2  = '';
 		foreach($item->arr_Chapter_1 as $arr_verse)
 		{
-			$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);	
+			if($item->flg_show_dictionary)
+			{
+				if($item->flg_use_strong)
+				{
+					$arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);	
+					$arr_verse->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$arr_verse->verse);
+					$arr_verse->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$arr_verse->verse);
+					$arr_verse->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$arr_verse->verse);	
+				}
+				else
+				{
+					$arr_verse->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse->verse);
+				}		
+			}
 			$temp[$a] = '<div class="zef_compare_bibles">'.'<div class="zef_verse_number">'.$arr_verse->verse_id.'</div><div class="zef_verse">'.$arr_verse->verse.'</div></div>';		
 			$a++;
 		}
 		foreach($item->arr_Chapter_2 as $arr_verse2)
 		{
-			$arr_verse2->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse2->verse);	
+			if($item->flg_show_dictionary)
+			{
+				if($item->flg_use_strong)
+				{				
+					$arr_verse2->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse2->verse);	
+					$arr_verse2->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$arr_verse2->verse);
+					$arr_verse2->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$arr_verse2->verse);
+					$arr_verse2->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$arr_verse2->verse);		
+				}
+				else
+				{
+					$arr_verse->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse->verse);
+				}	
+			}
 			$temp2[$b] = '<div class="zef_compare_bibles">'.'<div class="zef_verse_number">'.$arr_verse2->verse_id.'</div><div class="zef_verse">'.$arr_verse2->verse.'</div></div>';
 			$b++;				
 		}
-		for($x=1; $x< $a; $x++)
+		
+		for($x=1; $x < $item->int_max_verse; $x++)
 		{
 			if ($x % 2)
 			{
@@ -575,13 +613,34 @@ class ZefaniabibleCommonHelper
 			$str_Chapter_Output  .= '<div style="clear:both"></div></div>';			
 		}
 		return $str_Chapter_Output;
-	}				
+	}
+	public function fnc_check_strong_bible($arr_chapter)
+	{
+		$flg_is_strong = 0;
+		$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
+		$x=1;
+		foreach($arr_chapter as $obj_chapter)
+		{
+			if(preg_match($str_match_fuction,$obj_chapter->verse))
+			{
+				$flg_is_strong = 1;
+				break;
+			}
+			// only check 1st 5 verses
+			if($x>4)
+			{
+				break;	
+			}
+			
+			$x++;
+		}
+		return $flg_is_strong;
+	}
 	public function fnc_Make_Scripture(&$arr_matches)
 	{
-		$this->flg_strong_dict = 1;
 		$str_verse='';
-		$temp = 'bible='.$this->item->str_curr_dict.'&book='.trim(strip_tags($arr_matches[0]));
-		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->item->str_dictionary_width.',y:'.$this->item->str_dictionary_height.'}}">';		
+		$temp = 'dict={dict-alias}&item='.trim(strip_tags($arr_matches[0]));
+		$str_verse = ' <a id="zef_strong_link" title="'. JText::_('COM_ZEFANIA_BIBLE_STRONG_LINK').'" target="blank" href="index.php?view=strong&option=com_zefaniabible&tmpl=component&'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:{dict-width},y:{dict-height}}}">';		
 		$str_verse .=  trim(strip_tags($arr_matches[0]));			
 		$str_verse .= '</a> ';
 		return $str_verse;
@@ -594,6 +653,7 @@ class ZefaniabibleCommonHelper
 			if($arr_verse->verse_id <= 1)
 			{
 				$str_descr .= " ".trim($arr_verse->verse);
+				break;
 			}
 		}
 		return $str_descr;
@@ -663,8 +723,21 @@ class ZefaniabibleCommonHelper
 					{
 						$str_chapter .=  '<div class="even">'; 
 					}
-					$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
-					$plan->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $plan->verse);
+					if($item->flg_show_dictionary == 1)
+					{
+						$str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";					
+						if($item->flg_use_strong == 1)
+						{
+							$plan->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $plan->verse);
+							$plan->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$plan->verse);
+							$plan->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$plan->verse);
+							$plan->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$plan->verse);
+						}
+						else
+						{
+							$plan->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$plan->verse);
+						}					
+					}
 					
 					$str_chapter .=  "<div class='zef_verse_number'>".$plan->verse_id."</div><div class='zef_verse'>".$plan->verse."</div>";
 
@@ -681,7 +754,7 @@ class ZefaniabibleCommonHelper
 				}
 			}
 		return $str_chapter;
-	}	
+	}
 	public function fnc_jump_button($item)
 	{
 		$int_today = $item->int_day_diff;
