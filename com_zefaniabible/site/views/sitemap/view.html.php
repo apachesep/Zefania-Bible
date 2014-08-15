@@ -75,17 +75,31 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->flg_only_primary_bible 			= $params->get('flg_only_primary_bible', '1');
 		$item->str_Bible_Version 				= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
-				
-		$menuitemid = $params->get('rp_mo_menuitem');		
+		$item->int_menu_item_id 				= $jinput->get('Itemid', null, 'INT');
+		$item->flg_use_sef						= 	JFactory::getApplication()->getRouter()->getMode();
 		
-		('HTTP/1.1 301 Moved Permanently');
-		if($item->flg_only_primary_bible)  
+		header('HTTP/1.1 301 Moved Permanently');
+		if($item->flg_use_sef)
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&bible='.$item->str_Bible_Version."&Itemid=".$menuitemid).'&format=raw');
+			if($item->flg_only_primary_bible)  
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&bible='.$item->str_Bible_Version."&Itemid=".$item->int_menu_item_id).'?format=raw');
+			}
+			else
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&Itemid='.$item->int_menu_item_id).'?format=raw');
+			}	
 		}
 		else
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&Itemid='.$menuitemid).'&format=raw');
+			if($item->flg_only_primary_bible)  
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&bible='.$item->str_Bible_Version."&Itemid=".$item->int_menu_item_id.'&format=raw', false));
+			}
+			else
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=sitemap&Itemid='.$item->int_menu_item_id.'&format=raw', false));
+			}		
 		}
 		//Filters
 		$this->assignRef('item',$item);
