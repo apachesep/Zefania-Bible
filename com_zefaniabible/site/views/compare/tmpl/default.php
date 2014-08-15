@@ -81,18 +81,18 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 					<?php }else{?>
                        	<!--<input type="hidden" name="com" value="<?php echo $cls_bibleBook->str_primary_commentary;?>" />-->
             <?php }} ?>
-			<!--<?php if($this->item->flg_show_dictionary){
-						if((count($this->item->arr_dictionary_list) > 1)and($item->item->flg_use_strong)){?>
+			<?php if($this->item->flg_show_dictionary){
+						if((count($this->item->arr_dictionary_list) > 1)and($this->item->flg_strong_dict)){?>
                             <div id="zef_dictionary_div">
                                 <div class="zef_dictionary_label"><?php echo JText::_('COM_ZEFANIABIBLE_DICTIONARY_LABEL');?></div>
                                 <div class="zef_dictionary">
                                     <select name="dict" id="dictionary" class="inputbox" onchange="this.form.submit()">
-                                        <?php echo $cls_bibleBook->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
+                                        <?php echo $this->item->obj_dictionary_dropdown;?>
                                      </select>
                                 </div>
                             </div>
 					<?php }?>
-                    	<?php if($cls_bibleBook->flg_strong_dict){?>
+                    	<?php if($this->item->flg_strong_dict){?>
 							<div class="zef_dictionary_strong_box">
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
@@ -102,7 +102,6 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 							</div>
 	                    <?php } ?>      
                    <?php } ?>
-                 -->
              <div style="clear:both;"></div>
             <div class="zef_top_pagination">
 				<?php if($this->item->flg_show_page_top){ $mdl_common->fnc_Pagination_Buttons($this->item);} ?>

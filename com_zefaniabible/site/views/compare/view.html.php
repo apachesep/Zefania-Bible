@@ -147,7 +147,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->obj_bible_chap_dropdown 		= 	$mdl_common->fnc_bible_chapter_dropdown($item);		
 		$item->str_bible_name_1				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Main_Bible_Version);
 		$item->str_bible_name_2				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Second_Bible_Version);
-		
+
 		if($item->flg_show_references)
 		{
 			$item->arr_references = $mdl_default->_buildQuery_References($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
@@ -174,7 +174,14 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		}
 		if($item->flg_show_dictionary)
 		{
-			$item->arr_dictionary_list 	= 	$mdl_default->_buildQuery_dictionary_list();
+			$item->arr_dictionary_list 		= 	$mdl_default->_buildQuery_dictionary_list();
+			$item->obj_dictionary_dropdown 	= 	$mdl_common->fnc_dictionary_dropdown($item);
+			$item->flg_strong_dict			= 	$mdl_common->fnc_check_strong_bible($item->arr_Chapter_1);
+			// check 2nd bible
+			if($item->flg_strong_dict == 0)
+			{
+				$item->flg_strong_dict			= 	$mdl_common->fnc_check_strong_bible($item->arr_Chapter_2);
+			}
 		}
 		$item->str_description 			= 	$mdl_common->fnc_make_description($item->arr_Chapter_1);
 		$item->str_description 			.= 	$mdl_common->fnc_make_description($item->arr_Chapter_2);
