@@ -82,12 +82,12 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
                                 <div class="zef_dictionary_label"><?php echo JText::_('COM_ZEFANIABIBLE_DICTIONARY_LABEL');?></div>
                                 <div class="zef_dictionary">
                                     <select name="dict" id="dictionary" class="inputbox" onchange="this.form.submit()">
-                                        <?php echo $this->item->fnc_dictionary_dropdown($this->arr_dictionary_list);?>
+                                        <?php echo $this->item->obj_dictionary_dropdown;?>
                                      </select>
                                 </div>
                             </div>
 					<?php }?>
-                    	<?php if($this->item->flg_use_strong){?>
+                    	<?php if($this->item->flg_strong_dict){?>
 							<div class="zef_dictionary_strong_box">
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
