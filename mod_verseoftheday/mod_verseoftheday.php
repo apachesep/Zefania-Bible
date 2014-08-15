@@ -186,13 +186,14 @@ class ZefVerseOfTheDay
 					$this->arr_verse_info['chapter_number'][$int_day];
 					if($this->arr_verse_info['end_verse'][$int_day] != 0)
 					{
-						$query = $query ." AND a.verse_id>=".$this->arr_verse_info['begin_verse'][$int_day]." AND a.verse_id<=".$this->arr_verse_info['end_verse'][$int_day];
+						$query .= " AND a.verse_id>=".$this->arr_verse_info['begin_verse'][$int_day]." AND a.verse_id<=".$this->arr_verse_info['end_verse'][$int_day];
 					}
 					else
 					{
-						$query = $query ." AND a.verse_id=".$this->arr_verse_info['begin_verse'][$int_day];
+						$query .= " AND a.verse_id=".$this->arr_verse_info['begin_verse'][$int_day];
 					}
-					$query = $query ." ORDER BY a.book_id, a.chapter_id, a.verse_id";
+					$query .= ' AND b.publish=1';
+					$query .= " ORDER BY a.book_id, a.chapter_id, a.verse_id";
 			$db->setQuery($query);
 			$data = $db->loadObjectList(); 
 			$str_verse_output = '';
