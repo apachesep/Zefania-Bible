@@ -121,7 +121,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->str_com 				= $jinput->get('com', null, 'CMD'); 		
 		$item->str_tmpl 			= $jinput->get('tmpl',null,'CMD');
 		$item->str_option			= $jinput->get('option', null, 'CMD');
-		$item->int_menu_item_id 	= $jinput->get('Itemid', null, 'INT');		
+		$item->int_menu_item_id 	= $jinput->get('Itemid', null, 'INT');
 		$item->str_commentary 		= $jinput->get('com', $item->str_primary_commentary, 'CMD');
 		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
 
@@ -141,8 +141,9 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->obj_bible_book_dropdown 	= $mdl_common->fnc_bible_book_dropdown($item); 
 		$item->obj_bible_chap_dropdown 	= $mdl_common->fnc_bible_chapter_dropdown($item);
-		
+
 		$mdl_common->fnc_redirect_last_chapter($item);
+		
 		if($item->flg_show_references)
 		{
 			$item->arr_references = $mdl_default->_buildQuery_References($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
@@ -164,10 +165,12 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		}
 		if($item->flg_show_dictionary)
 		{
-			$item->arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+			$item->arr_dictionary_list 		= $mdl_default->_buildQuery_dictionary_list();
+			$item->obj_dictionary_dropdown 	= $mdl_common->fnc_dictionary_dropdown($item);
+			$item->flg_strong_dict			= $mdl_common->fnc_check_strong_bible($item->arr_Chapter);
 		}
-		$item->str_description 			= 	$mdl_common->fnc_make_description($item->arr_Chapter);
-		$item->chapter_output 			= $mdl_common->fnc_output_single_chapter($item);
+		$item->str_description 				= $mdl_common->fnc_make_description($item->arr_Chapter);
+		$item->chapter_output 				= $mdl_common->fnc_output_single_chapter($item);
 		$mdl_common->fnc_meta_data($item); 
 
 		//Filters
