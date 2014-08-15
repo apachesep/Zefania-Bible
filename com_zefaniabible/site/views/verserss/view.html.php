@@ -88,7 +88,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
-		
+		$item->flg_use_sef						= 	JFactory::getApplication()->getRouter()->getMode();
 		if($item->flg_use_year_date)
 		{
 			$item->int_day_number = (date('z')+1);
@@ -99,7 +99,14 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		if($item->flg_redirect_request)
 		{		
 			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible).'?format=raw');	
+			if($item->flg_use_sef)
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible).'?format=raw');	
+			}
+			else
+			{
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible.'&format=raw', false));	
+			}
 		}
 		$this->assignRef('item', $item);			
 		parent::display($tpl);
