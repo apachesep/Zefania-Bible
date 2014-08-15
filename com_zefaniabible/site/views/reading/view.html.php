@@ -110,7 +110,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->str_commentary_width 			= 	$params->get('commentaryWidth','800');
 		$item->str_commentary_height 			= 	$params->get('commentaryHeight','500');
 		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
-		
+		$item->str_dictionary_height 			= 	$params->get('str_dictionary_height','500');
+		$item->str_dictionary_width 			= 	$params->get('str_dictionary_width','800');
+				
 		$item->flg_use_strong					= 	$jinput->get('strong', null, 'INT');
 		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
 		$item->str_tmpl 						= 	$jinput->get('tmpl',null,'CMD');
@@ -165,9 +167,16 @@ class ZefaniabibleViewReading extends JViewLegacy
 		}
 		if($item->flg_show_dictionary)
 		{
-			$item->arr_dictionary_list = $mdl_default->_buildQuery_dictionary_list();
+			$item->arr_dictionary_list 		= 	$mdl_default->_buildQuery_dictionary_list();
+			$item->obj_dictionary_dropdown 	= 	$mdl_common->fnc_dictionary_dropdown($item);
+			foreach($item->arr_plan as $ojb_plan)
+			{
+				$item->flg_strong_dict			= 	$mdl_common->fnc_check_strong_bible($ojb_plan);
+				break; 
+			}
 		}
 		$z=0;
+
 		foreach ($item->arr_reading as $obj_reading_day)
 		{
 			for($y = $obj_reading_day->begin_chapter; $y <= $obj_reading_day->end_chapter; $y++)
@@ -183,7 +192,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 				if($item->flg_show_audio_player)
 				{
 					$obj_player[$z] 			= $mdl_audio->fnc_audio_player($item->str_Bible_Version,$obj_reading_day->book_id,$y, 1);
-				}				
+				}
 				$z++;
 			}
 		}
