@@ -124,7 +124,6 @@ class plgSearchZefaniaBible extends JPlugin
 		$flg_search_area = 0;
 		$arr_data = '';
 		$arr_result = array();
-
 		
 		$jlang = JFactory::getLanguage();
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', 'en-GB', true);
@@ -135,8 +134,7 @@ class plgSearchZefaniaBible extends JPlugin
 		}
 		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
 		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", null, true);
-		
-		
+			
 		$this->params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
 		$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
 		$str_bible_alias = $this->params->get('search_Bible_alias', 'kjv');
@@ -226,6 +224,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_bible_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');	
 					$query->where("a.verse LIKE ".$str_text);
+					$query->where("b.publish=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -238,6 +237,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_comment_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
 					$query->where("a.verse LIKE ".$str_text);
+					$query->where("b.publish=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -250,6 +250,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
 					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
 					$query->where("a.description LIKE ".$str_text);
+					$query->where("b.publish=1");
 					if($this->flg_search_one_dictionary)
 					{
 						$query->where("b.alias=".$str_primary_dictionary);
@@ -305,6 +306,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
+					$query->where("b.publish=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -332,6 +334,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
+					$query->where("b.publish=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -351,6 +354,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("b.alias=".$str_primary_dictionary);
 					}
+					$query->where("b.publish=1");
 					$query->order('a.dict_id');					
 					break;
 				default:
