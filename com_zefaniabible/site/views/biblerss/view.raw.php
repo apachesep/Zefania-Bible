@@ -78,7 +78,7 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->arr_Chapter 				= $mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
-		$item->str_view_plan			=	$mdl_default->_buildQuery_get_menu_id('standard');
+		$item->str_view_plan			= $mdl_default->_buildQuery_get_menu_id('standard');
 		//Filters
 		$user = JFactory::getUser();
 		$this->assignRef('item',$item);

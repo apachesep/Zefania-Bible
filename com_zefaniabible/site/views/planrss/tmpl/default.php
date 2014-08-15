@@ -68,7 +68,7 @@ class PlanRss
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
 				$str_subtitle = '';
-				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan);
+				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan, false);
 				$str_url_escaped = 	str_replace('&', '&amp;',$str_link);
 				$str_subtitle = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_plan_info->book_id).' '.$obj_plan_info->begin_chapter;
 				if($obj_plan_info->begin_verse != 0)
@@ -113,7 +113,7 @@ class PlanRss
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
 				$str_subtitle = '';
-				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan);
+				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan, false);
 				$str_url_escaped = 	str_replace('&', '&amp;',$str_link);
 				$str_subtitle = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_plan_info->book_id).' '.$obj_plan_info->begin_chapter;
 				if($obj_plan_info->begin_verse != 0)

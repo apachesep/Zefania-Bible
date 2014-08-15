@@ -38,7 +38,7 @@ class BibleRss {
 		
 		$str_verse = '';											
 		$str_url_link = substr(JURI::root(),0,-1).JRoute::_("index.php?option=com_zefaniabible&view=standard&bible=".$item->str_Bible_Version."&book=".
-			$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID)]))."&chapter=".$item->int_Bible_Chapter."-chapter&Itemid=".$item->int_menu_item."&ord=".date("mdy").'&Itemid='.$item->str_view_plan);	
+			$item->int_Bible_Book_ID."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[($item->int_Bible_Book_ID)]))."&chapter=".$item->int_Bible_Chapter."-chapter&Itemid=".$item->int_menu_item."&ord=".date("mdy").'&Itemid='.$item->str_view_plan, false);	
 		$str_url_escaped = 	str_replace('&', '&amp;',$str_url_link);
 		$str_admin_email = $this->params->get('adminEmail', 'admin@'.substr(JURI::root(),7,-1));
 		
