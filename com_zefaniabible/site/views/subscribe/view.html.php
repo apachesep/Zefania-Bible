@@ -94,6 +94,7 @@ class ZefaniabibleViewSubscribe extends JViewLegacy
 		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->id								=	$user->id;
 
+		$item->flg_email_valid = 0;
 		if($item->str_email)
 		{
 			$item->flg_email_valid 				=	$mdl_common->fnc_validate_email($item->str_email);
