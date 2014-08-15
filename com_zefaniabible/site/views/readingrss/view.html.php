@@ -66,7 +66,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			c = day
 		*/		
 		$app = JFactory::getApplication();
-
+		
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_default 	= new ZefaniabibleModelDefault;
@@ -86,11 +86,18 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
+		$item->flg_use_sef						= 	JFactory::getApplication()->getRouter()->getMode();
 		
-		$url = substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=readingrss&plan='.$item->str_reading_plan."&bible=".$item->str_Bible_Version.'&day='.$item->int_day_number.'&type='.$item->flg_redirect_request).'?format=raw';
 
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: '.$url);	
+		if($item->flg_use_sef)
+		{
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=readingrss&plan='.$item->str_reading_plan."&bible=".$item->str_Bible_Version.'&day='.$item->int_day_number.'&type='.$item->flg_redirect_request).'?format=raw');	
+		}
+		else
+		{
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=readingrss&plan='.$item->str_reading_plan."&bible=".$item->str_Bible_Version.'&day='.$item->int_day_number.'&type='.$item->flg_redirect_request.'&format=raw', false));				
+		}
 		parent::display($tpl);
 	}
 }
