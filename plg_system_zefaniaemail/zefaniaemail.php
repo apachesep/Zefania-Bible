@@ -109,9 +109,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		$config = JFactory::getConfig();
 		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
 		$this->str_today = $JDate->format('Y-m-d', true);
+		$str_today_as_string = $this->str_today;
 		$this->str_today = new DateTime($this->str_today);
-		
-		if($this->str_reading_send_date != $this->str_today)
+						
+		if($this->str_reading_send_date != $str_today_as_string)
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_READING_PLAN_EMAIL', 2);
 			$this->arr_reading_subscribers = $this->fnc_get_subsribers_reading();
@@ -155,7 +156,7 @@ class plgSystemZefaniaEmail extends JPlugin
 				}
 			}
 		}
-		else if($this->str_verse_send_date != $this->str_today)
+		else if($this->str_verse_send_date != $str_today_as_string)
 		{
 			$this->fnc_Update_Dates('COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL', 1);
 			$this->arr_verse_subscribers = $this->fnc_get_subsribers_verse();
@@ -192,7 +193,6 @@ class plgSystemZefaniaEmail extends JPlugin
 						$this->str_book_title = $arr_info->bible_name;
 					}
 					$verse =  $this->fnc_Make_Bible_Verse($arr_subscriber->bible_version);
-
 					$this->fnc_Send_SignUp_Email($arr_subscriber->user_name,$arr_subscriber->email,$verse, $this->str_verse_name);
 				}
 			}		
@@ -277,12 +277,15 @@ class plgSystemZefaniaEmail extends JPlugin
 	}
 	private function fnc_Update_Dates($str_title, $int_id)
 	{
+ 		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$str_today = $JDate->format('Y-m-d', true);		
 		try
 		{
 			$db = JFactory::getDBO();
 			$arr_row->id 				= $int_id;
 			$arr_row->title 			= $str_title;
-			$arr_row->last_send_date 	= $this->str_today;
+			$arr_row->last_send_date 	= $str_today;
 			$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
 		}
 		catch (JException $e)
@@ -436,7 +439,7 @@ class plgSystemZefaniaEmail extends JPlugin
 	}	
 	private function fnc_Send_SignUp_Email($str_to_name,$str_to_email,$str_message, $str_subject)
 	{ 
-		$mailer =& JFactory::getMailer();
+		$mailer = JFactory::getMailer();
 		$str_sender = array($this->str_from_email,$this->str_from_email_name);
 		$mailer->setSender($str_sender);
 		$mailer->addRecipient($str_to_email);
@@ -444,7 +447,7 @@ class plgSystemZefaniaEmail extends JPlugin
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($str_message);
-		$send =& $mailer->Send();			
+		$send = $mailer->Send();			
 	}
 
 	private function fnc_Find_Max_Reading_Days($int_reading_plan_id)
