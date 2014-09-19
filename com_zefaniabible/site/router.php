@@ -44,6 +44,29 @@ function ZefaniabibleBuildRoute(&$query){
 	}
 	switch($view)
 	{			
+		case "biblerss":	
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}
+			if(isset($query['book']))
+			{							
+				$segments[] = $query['book'];
+				unset( $query['book'] );	
+			}
+			if(isset($query['chapter']))
+			{			
+				$segments[] = $query['chapter'];
+				unset( $query['chapter'] );				
+			}
+			if(isset($query['layout']))
+			{
+				$segments[] = $query['layout'];
+				unset( $query['layout'] );		
+			}
+			break;	
+			
 		case "compare":
 			if(isset($query['bible']))
 			{
@@ -226,7 +249,6 @@ function ZefaniabibleBuildRoute(&$query){
 			break;
 			
 		case "standard":
-		case "biblerss":
 			if(isset($query['bible']))
 			{
 				$segments[] = $query['bible'];
@@ -260,11 +282,16 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['day'];
 				unset( $query['day'] );	
 			}
+			if(isset($query['layout']))
+			{
+				$segments[] = $query['layout'];
+				unset( $query['layout'] );		
+			}			
 			if(isset($query['type']))
 			{
 				$segments[] = $query['type'];
 				unset( $query['type'] );		
-			}	
+			}
 			break;
 						
 		default:
@@ -290,6 +317,29 @@ function ZefaniabibleParseRoute($segments)
 
 	switch($segments[0])
 	{			
+		case "biblerss":	
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['book'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{	
+				$vars['chapter'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['layout'] = $segments[$nextPos];
+				$nextPos++;			
+			}			
+			break;	
+			
 		case "compare":
 			if (isset($segments[$nextPos]))
 			{		
@@ -483,7 +533,6 @@ function ZefaniabibleParseRoute($segments)
 			}
 			break;
 			
-		case "biblerss":	
 		case "standard":
 			if (isset($segments[$nextPos]))
 			{		
@@ -518,6 +567,11 @@ function ZefaniabibleParseRoute($segments)
 				$vars['day'] = $segments[$nextPos];
 				$nextPos++;	
 			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['layout'] = $segments[$nextPos];
+				$nextPos++;			
+			}			
 			if (isset($segments[$nextPos]))
 			{				
 				$vars['type'] = $segments[$nextPos];
