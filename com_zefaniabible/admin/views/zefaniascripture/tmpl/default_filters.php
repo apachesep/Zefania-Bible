@@ -66,21 +66,17 @@ function resetFilters()
 
 	<div style="float:right;">
 		<div style="float:left">
-				<div class="filter filter_buttons">
-					<button onclick="this.form.submit();"><?php echo(JText::_("JSEARCH_FILTER_SUBMIT")); ?></button>
-                    <button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+				<div class="btn-group pull-left hidden-phone">
+					<button class="btn tip" onclick="this.form.submit();"><i class="icon-search"></i></button>
+					<button class="btn tip" onclick="resetFilters()"><i class="icon-remove"></i></button>
 				</div>
 		</div>
 	</div>
 	<div style="float:right">
-				<div class='search filter filter_search'>
-					<?php echo JDom::_('html.form.input.search', array(
-											'domID' => 'filter_search',
-											'dataKey' => 'filter_search',
-											'dataValue' => $this->filters['filter_search']->value
-												));
-						?>
-				</div>                
+			<div class="filter-search btn-group pull-left">
+				<label for="filter_search" class="element-invisible"><?php echo JText::_('ZEFANIABIBLE_SEARCH');?></label>
+				<input type="text" name="filter_search" placeholder="<?php echo JText::_('ZEFANIABIBLE_SEARCH'); ?>" id="filter_search" value="<?php echo $this->filters['search']->value; ?>" title="<?php echo JText::_('ZEFANIABIBLE_SEARCH'); ?>" />
+			</div>                 
 	</div>    
 
 	<div>
