@@ -47,33 +47,27 @@ class BibleRss {
 				$str_verse .= '				'.strip_tags($obj_chapter->verse).''.PHP_EOL;
 		}
 			echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
-			echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
-			echo '<channel>'.PHP_EOL;
-			echo '	<atom:link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" type="application/rss+xml" />'.PHP_EOL;
-			echo '	<image>'.PHP_EOL;
-			echo '	  <url>'.JURI::root().$item->str_default_image.'</url>'.PHP_EOL;
-			echo '	  <title>'.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	  <link>'.$str_url_escaped.'</link>'.PHP_EOL;
-			echo '	</image>'.PHP_EOL;		
-			echo '	<title>'.$item->str_bible_name.'</title>'.PHP_EOL;
-			echo '	<link>'.$str_url_escaped.'</link>'.PHP_EOL;			
-			echo '	<generator>Zefania Bible</generator>'.PHP_EOL;
-			echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
-			echo '	<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
-			echo '	<description>';
-			echo JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter;
-			echo '</description>'.PHP_EOL;
-			echo '	<item>'.PHP_EOL;
-			echo '		<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter."</title>".PHP_EOL;			
-			echo '		<link>'.$str_url_escaped.'</link>'.PHP_EOL;	
-			echo '		<guid>'.$str_url_escaped.'</guid>'.PHP_EOL;
-			echo '		<pubDate>'.date('D, d M Y H:i:s O').'</pubDate>'.PHP_EOL;
-			echo '		<description>'.PHP_EOL;
-			echo $str_verse;
-			echo '		</description>'.PHP_EOL;
-			echo '	</item>'.PHP_EOL;			
-			echo '</channel>'.PHP_EOL;
-			echo '</rss>';				
+			echo '<feed xmlns="http://www.w3.org/2005/Atom">'.PHP_EOL;
+        	echo '	<title>'.$item->str_bible_name.'</title>'.PHP_EOL;
+			echo '  <subtitle>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.'</subtitle>'.PHP_EOL;
+			echo '  <link href="'.htmlspecialchars(JURI::getInstance()).'" rel="self" />'.PHP_EOL;
+			echo '  <link href="'.$str_url_escaped.'" />'.PHP_EOL;
+			echo '  <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').'</id>'.PHP_EOL;
+			echo '  <updated>'.date('Y-m-d\TH:i:sP').'</updated>'.PHP_EOL;
+			echo '  	<entry>'.PHP_EOL;
+			echo '      	<title>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.'</title>'.PHP_EOL;
+			echo '          <link href="'.$str_url_escaped.'" />'.PHP_EOL;
+			echo '          <id>tag:'.substr(JURI::root(),7,-1).','.date('Y-m-d').':'.date('Ymd').'</id>'.PHP_EOL;
+			echo '          <updated>'.date('Y-m-d\TH:i:sP').'</updated>'.PHP_EOL;
+			echo '          <summary>'.PHP_EOL;
+			echo 				$str_verse;
+			echo '			</summary>'.PHP_EOL;
+			echo '          <author>'.PHP_EOL;
+			echo '          	<name>'.$mainframe->getCfg('sitename').'</name>'.PHP_EOL;
+			echo '              <email>'.$str_admin_email.'</email>'.PHP_EOL;
+			echo '			</author>'.PHP_EOL;
+			echo '	</entry>'.PHP_EOL;
+			echo '</feed>';				
 	}
 }
 ?>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="ZEFANIABIBLE_LAYOUT_VERSE_RSS">
+		<message><![CDATA[ZEFANIABIBLE_LAYOUT_SHOW_VERSE_RSS_LAYOUT]]></message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		</fieldset>
+	</fields>	
+</metadata>

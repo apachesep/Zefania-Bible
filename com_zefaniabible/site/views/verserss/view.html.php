@@ -85,6 +85,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->str_layout		 				= 	$jinput->get('layout', 'default', 'CMD');	
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
@@ -96,16 +97,17 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		
 		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_number);
 		$item->arr_verse_of_day					=	$mdl_default->_buildQuery_get_verse_of_the_day($item->arr_verse_info, $item->str_Bible_Version);
-		if($item->flg_redirect_request)
+		
+		if(($item->str_layout == 'rss')or($item->str_layout == 'json'))
 		{		
 			header('HTTP/1.1 301 Moved Permanently');
 			if($item->flg_use_sef)
 			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible).'?format=raw');	
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible.'&layout='.$item->str_layout).'?format=raw');	
 			}
 			else
 			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible.'&format=raw', false));	
+				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=verserss&bible='.$item->str_primary_bible.'&format=raw&layout='.$item->str_layout, false));	
 			}
 		}
 		$this->assignRef('item', $item);			

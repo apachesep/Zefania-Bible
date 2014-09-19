@@ -47,7 +47,6 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 
 	function display( $tpl = null )
 	{
-		$this->document->setMimeEncoding('text/xml');
 		/*
 			a = Plan Alias
 			b = Bible Alias
@@ -73,12 +72,13 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		
 		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
+		$item->str_layout		 				= 	$jinput->get('layout', 'default', 'CMD');			
 		
 		$item->str_limit_start 					=	$jinput->get('limitstart', 0, 'INT');		
 		$item->int_start_item 					= 	$jinput->get('start', $item->str_limit_start, 'INT');	
 		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
 		$item->str_feed_type		 			= 	$jinput->get('type', 'rss', 'CMD');
-								
+		
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_pagination 					= 	$mdl_default->_get_pagination_readingplan_overview($item->str_reading_plan);
@@ -89,7 +89,17 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
 		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
-
+		$item->str_today 						=	$mdl_common->fnc_todays_date();	
+		
+		if($item->str_layout == 'json')
+		{
+			$this->document->setMimeEncoding('application/json');
+		}
+		else
+		{
+			$this->document->setMimeEncoding('text/xml');
+		}
+				
 		//Filters
 		$this->assignRef('item',	$item);		
 		parent::display($tpl);

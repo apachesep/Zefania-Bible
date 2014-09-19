@@ -47,7 +47,6 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 
 	function display( $tpl = null )
 	{
-		$this->document->setMimeEncoding('text/xml');
 		/*
 			a = plan
 			b = bible
@@ -81,15 +80,14 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
+		$item->str_layout		 				= 	$jinput->get('layout', 'default', 'CMD');	
 		
-		if($item->flg_use_year_date)
-		{
-			$item->int_day_number = (date('z')+1);
-		}	
+		$this->document->setMimeEncoding('application/json');
 		
 		$item->arr_verse_info					= 	$mdl_default->_buildQuery_get_verse_of_the_day_info($item->int_day_number);
 		$item->arr_verse_of_day					=	$mdl_default->_buildQuery_get_verse_of_the_day($item->arr_verse_info, $item->str_Bible_Version);
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('verserss');
+		$item->str_today 						=	$mdl_common->fnc_todays_date();	
 		
 		$this->assignRef('item', $item);			
 		parent::display($tpl);

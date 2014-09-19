@@ -81,8 +81,14 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->str_view_plan			= $mdl_default->_buildQuery_get_menu_id('standard');
 					
-		$this->document->setMimeEncoding('text/xml');
-		
+		if($item->str_layout == 'json')
+		{
+			$this->document->setMimeEncoding('application/json');
+		}
+		else
+		{
+			$this->document->setMimeEncoding('text/xml');
+		}
 		//Filters
 		$user = JFactory::getUser();
 		$this->assignRef('item',$item);
