@@ -59,6 +59,15 @@ class BibleReadingPlan
 			foreach ($obj_chapter as $obj_verse)
 			{		
 				echo '	{'.PHP_EOL;
+				echo '		"type":"reading",'.PHP_EOL;
+				echo '		"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+				echo '		"planname":"'.$item->str_reading_plan_name.'",'.PHP_EOL;
+				echo '		"plandesc":"'.$item->str_description.'",'.PHP_EOL;
+				echo '		"biblealias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
+				echo '		"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
+				echo '		"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
+				echo '		"day":"'.$item->int_day_number.'",'.PHP_EOL;	
+				echo '		"booknameenglish:":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
 				echo '		"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
 				echo '		"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
 				echo '		"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
@@ -79,9 +88,18 @@ class BibleReadingPlan
 	}
 	private function fnc_getBible_type($item)
 	{
-		echo '['.PHP_EOL;
+		echo '[{'.PHP_EOL;
 		$x=1;
-		echo '{"bookname":{'.PHP_EOL;		
+		echo '	"type":"reading",'.PHP_EOL;
+		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+		echo '	"planname":"'.$item->str_reading_plan_name.'",'.PHP_EOL;
+		echo '	"plandesc":"'.$item->str_description.'",'.PHP_EOL;
+		echo '	"biblealias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
+		echo '	"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
+		echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
+		echo '	"day":"'.$item->int_day_number.'",'.PHP_EOL;	
+				
+		echo '	"bookname":{'.PHP_EOL;		
 		foreach($item->arr_plan as $obj_chapter)
 		{			
 			$y = 1;
@@ -119,6 +137,7 @@ class BibleReadingPlan
 				}
 				echo '					"'.$obj_verse->verse_id.'":'.PHP_EOL;			
 				echo '					{'.PHP_EOL;
+				echo '						"booknameenglish:":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
 				echo '						"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
 				echo '						"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
 				echo '						"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
@@ -130,14 +149,20 @@ class BibleReadingPlan
 			if($x >= count($item->arr_plan))
 			{
 				echo '}'.PHP_EOL;
+				// used to add extra closing brackets for plans that are more than one book.
+				if(count($item->arr_plan) > 1)
+				{
+					echo "}}}}";
+				}				
 			}
 			else
 			{
 				echo '},'.PHP_EOL;
 			}
+
 			$x++;			
 		}
-		echo '}}}}}}}}}}]'.PHP_EOL;			
+		echo '}}}}}}]'.PHP_EOL;			
 	}	
 }
 ?>

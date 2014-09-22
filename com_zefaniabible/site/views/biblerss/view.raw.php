@@ -80,8 +80,18 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->str_view_plan			= $mdl_default->_buildQuery_get_menu_id('standard');
+		$item->int_max_chapter			= $mdl_default->_buildQuery_Max_Chapter($item->int_Bible_Book_ID);
+		$item->int_max_verse			= $mdl_default->_buildQuery_Max_Verse($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
+		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 					
-		$this->document->setMimeEncoding('text/xml');
+		if($item->str_layout == 'json')
+		{
+			$this->document->setMimeEncoding('application/json');
+		}
+		else
+		{
+			$this->document->setMimeEncoding('text/xml');
+		}
 		
 		//Filters
 		$user = JFactory::getUser();

@@ -90,6 +90,8 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
 		$item->str_today 						=	$mdl_common->fnc_todays_date();	
+		$item->int_max_days						=  	$mdl_default->_buildQuery_max_reading_days($item->str_reading_plan);
+		$item->arr_english_book_names 			= $mdl_common->fnc_load_languages();
 		
 		if($item->str_layout == 'json')
 		{
