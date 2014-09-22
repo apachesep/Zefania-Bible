@@ -82,27 +82,14 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->flg_use_sef			= JFactory::getApplication()->getRouter()->getMode();
 				
 		header('HTTP/1.1 301 Moved Permanently');
-		if($item->str_layout != 'json')
+
+		if($item->flg_use_sef)
 		{
-			if($item->flg_use_sef)
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter).'?format=raw');
-			}
-			else
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&format=raw', false));
-			}
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter).'?format=raw');
 		}
 		else
 		{
-			if($item->flg_use_sef)
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout=json&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter).'?format=json');
-			}
-			else
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout=json&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&format=json', false));
-			}			
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&format=raw', false));
 		}
 
 		parent::display($tpl);
