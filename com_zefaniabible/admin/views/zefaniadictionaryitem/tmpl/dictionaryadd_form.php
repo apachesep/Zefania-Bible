@@ -32,7 +32,10 @@ $params	= JComponentHelper::getParams( 'com_zefaniabible' );
 ?>
 <fieldset class="fieldsform">
 	<legend><?php echo $actionText;?></legend>
-
+	<?php 
+		$app = JFactory::getApplication();
+		$app->enqueueMessage(JText::_('ZEFANIABIBLE_WARNING_DICTIONARY_INSTALL'));	
+	?>    
 	<table class="admintable">
 
 		<tr>
