@@ -24,27 +24,11 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
-$cls_BibleJSON = new BibleJSON($this->item); 
 
 class BibleJSON {
 
 	public function __construct($item)
 	{	
-		//print_r($item);
-		switch($item->flg_type)
-		{
-			case 1:
-				$this->fnc_bibleorg_type($item);
-				break;
-			default:
-				$this->fnc_getBible_type($item);
-				break;
-		}		
-		
-	}
-	private function fnc_bibleorg_type($item)
-	{
 		echo '['.PHP_EOL;
 		foreach($item->arr_Chapter as $obj_chapter)
 		{			
@@ -70,40 +54,6 @@ class BibleJSON {
 			}
 		}
 		echo ']'.PHP_EOL;				
-	}
-	private function fnc_getBible_type($item)
-	{
-		echo '[{'.PHP_EOL;
-
-		echo '	"type":"chapter",'.PHP_EOL;
-		echo '	"alias:":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
-		echo '	"biblename:":"'.$item->str_bible_name.'",'.PHP_EOL;
-		echo '	"maxchapter:":"'.$item->int_max_chapter.'",'.PHP_EOL;
-		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
-		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
-		
-		echo '	"booknameenglish:":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;		
-		echo '	"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID).'",'.PHP_EOL;
-		echo '	"book_nr":'.$item->int_Bible_Book_ID.','.PHP_EOL;			
-		echo '	"chapter_nr":"'.$item->int_Bible_Chapter.'",'.PHP_EOL;	
-		echo '	"chapter":{'.PHP_EOL;
-
-		foreach($item->arr_Chapter as $obj_chapter)
-		{			
-			echo '"'.$obj_chapter->verse_id.'":'.PHP_EOL;
-			echo '{'.PHP_EOL;
-			echo '	"verse_nr":'.$obj_chapter->verse_id.','.PHP_EOL;
-			echo '	"verse":"'.strip_tags($obj_chapter->verse).'"'.PHP_EOL;
-			if($obj_chapter->verse_id >= count($item->arr_Chapter))
-			{
-				echo '}'.PHP_EOL;
-			}
-			else
-			{
-				echo '},'.PHP_EOL;
-			}
-		}
-		echo '}}]'.PHP_EOL;			
 	}
 }
 ?>

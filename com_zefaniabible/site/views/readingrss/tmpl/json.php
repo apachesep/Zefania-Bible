@@ -24,11 +24,8 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
 
-$cls_bible_reading_plan = new BibleReadingPlan($this->item);
-
-class BibleReadingPlan
+class BibleReadingPlanJSON
 {
 		/*
 			a = plan
@@ -37,18 +34,6 @@ class BibleReadingPlan
 		*/
 
 	public function __construct($item)
-	{
-		switch($item->flg_redirect_request)
-		{
-			case 1:
-				$this->fnc_bibleorg_type($item);
-				break;
-			default:
-				$this->fnc_getBible_type($item);
-				break;
-		}	
-	}
-	private function fnc_bibleorg_type($item)
 	{
 		echo '['.PHP_EOL;
 		$y = 1;
@@ -86,83 +71,5 @@ class BibleReadingPlan
 		}
 		echo ']'.PHP_EOL;				
 	}
-	private function fnc_getBible_type($item)
-	{
-		echo '[{'.PHP_EOL;
-		$x=1;
-		echo '	"type":"reading",'.PHP_EOL;
-		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
-		echo '	"planname":"'.$item->str_reading_plan_name.'",'.PHP_EOL;
-		echo '	"plandesc":"'.$item->str_description.'",'.PHP_EOL;
-		echo '	"biblealias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
-		echo '	"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
-		echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
-		echo '	"day":"'.$item->int_day_number.'",'.PHP_EOL;	
-				
-		echo '	"bookname":{'.PHP_EOL;		
-		foreach($item->arr_plan as $obj_chapter)
-		{			
-			$y = 1;
-			$flg_prev_chap = 0;
-			$flg_last_verse = 0;
-			foreach ($obj_chapter as $obj_verse)
-			{	
-				if($y != 1)
-				{
-					if($flg_prev_chap != $obj_verse->chapter_id)
-					{
-						echo '					}'.PHP_EOL;
-						echo '				}'.PHP_EOL;
-					}
-					else
-					{
-						echo '					},'.PHP_EOL;
-					}
-				}
-				$flg_chapt_change = 0;
-				if($y == 1)
-				{
-					echo '	"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'":{'.PHP_EOL;	
-					echo '		"chapter":{'.PHP_EOL;	
-				}
-				if($flg_prev_chap != $obj_verse->chapter_id)
-				{
-					if($flg_prev_chap != 0)
-					{
-						echo '			},'.PHP_EOL;
-					}
-					echo '			"'.$obj_verse->chapter_id.'":{'.PHP_EOL;
-					echo '				"verse":{'.PHP_EOL;
-					$flg_prev_chap = $obj_verse->chapter_id;
-				}
-				echo '					"'.$obj_verse->verse_id.'":'.PHP_EOL;			
-				echo '					{'.PHP_EOL;
-				echo '						"booknameenglish:":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
-				echo '						"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
-				echo '						"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
-				echo '						"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
-				echo '						"text":"'.strip_tags($obj_verse->verse).'"'.PHP_EOL;
-				
-				$y++;
-			}
-
-			if($x >= count($item->arr_plan))
-			{
-				echo '}'.PHP_EOL;
-				// used to add extra closing brackets for plans that are more than one book.
-				if(count($item->arr_plan) > 1)
-				{
-					echo "}}}}";
-				}				
-			}
-			else
-			{
-				echo '},'.PHP_EOL;
-			}
-
-			$x++;			
-		}
-		echo '}}}}}}]'.PHP_EOL;			
-	}	
 }
 ?>

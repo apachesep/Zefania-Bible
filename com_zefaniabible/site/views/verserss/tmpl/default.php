@@ -24,59 +24,27 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_verse_rss = new ClsVerseRSS($this->item);
+$cls_verse_rss_default = new ClsVerseRSSDefault($this->item);
 
-class ClsVerseRSS
+class ClsVerseRSSDefault
 {
 	public function __construct($item)
 	{
-		$doc = JFactory::getDocument();
-		$mainframe = JFactory::getApplication();		
-		$str_verse = '';
-		$x = 1;
-		$int_book_name = 1;
-		$int_chapter_number = 1;
-		$int_begin_verse = 1;
-		$int_end_verse = 0;
-		foreach ($item->arr_verse_info as $obj_arr_verse_info)
-		{
-			$int_book_name 		= 	$obj_arr_verse_info->book_name;	
-			$int_chapter_number =	$obj_arr_verse_info->chapter_number;
-			$int_begin_verse	=	$obj_arr_verse_info->begin_verse;
-			$int_end_verse 		=	$obj_arr_verse_info->end_verse;
+		switch($item->str_variant)
+		{				
+			case "json":
+				require_once(JPATH_COMPONENT_SITE.'/views/verserss/tmpl/json.php');
+				$mdl_json 	= new ClsVerseJSON($item);					
+				break;
+			case "rss":
+				require_once(JPATH_COMPONENT_SITE.'/views/verserss/tmpl/rss.php');
+				$mdl_json 	= new ClsVerseRSS($item);					
+				break;
+			default:
+				require_once(JPATH_COMPONENT_SITE.'/views/verserss/tmpl/html.php');
+				$mdl_json 	= new ClsVerseHTML($item);					
+				break;	
 		}
-		$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_name)." ".$int_chapter_number.":".$int_begin_verse;
-		if($int_end_verse)
-		{
-			$str_title .= "-". $int_end_verse;
-		}
-
-			// Facebook Open Graph
-			$this->doc_page = JFactory::getDocument();	
-			$this->doc_page->setMetaData( 'og:title', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'));
-			$this->doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
-			$this->doc_page->setMetaData( 'og:type', "article" );	
-			$this->doc_page->setMetaData( 'og:image', JURI::root().$item->str_default_image );	
-			$this->doc_page->setMetaData( 'og:description', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY') );
-			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );				
-			echo '<div id="zef_Bible_Main_verse_tmpl_comp">';
-			echo '<div class="zef_bible_Header_Label">'.$str_title.'</div>';
-			echo '<div style="clear:both"></div>';
-			foreach ($item->arr_verse_of_day as $obj_verse)
-			{
-				if ($x % 2)
-				{
-					echo '<div class="odd">';
-				}
-				else
-				{
-					echo '<div class="even">'; 
-				}	
-				echo $obj_verse->verse.'</div>';
-				$x++;
-			}
-			echo '<div style="clear:both"></div>';
-			echo '</div>';
 	}
 }
 

@@ -24,10 +24,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
-$cls_BibleRSS = new BibleRss($this->item); 
-
-class BibleRss {
+class BibleAtom{
 
 	public function __construct($item)
 	{

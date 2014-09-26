@@ -24,42 +24,42 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
 
-$cls_bible_reading_plan = new BibleReadingPlan($this->item);
-
-class BibleReadingPlan
-{
-		/*
-			a = plan
-			b = bible
-			c = day
-		*/
+class BibleJSON {
 
 	public function __construct($item)
-	{
-		switch($item->str_variant)
-		{
-			case "single":
-				require_once(JPATH_COMPONENT_SITE.'/views/readingrss/tmpl/single.php');
-				$mdl_atom 	= new BibleReadingPlanSingle($item);			
-				break;
-				
-			case "json":
-				require_once(JPATH_COMPONENT_SITE.'/views/readingrss/tmpl/json.php');
-				$mdl_json 	= new BibleReadingPlanJSON($item);					
-				break;
-				
-			case "json2":
-				require_once(JPATH_COMPONENT_SITE.'/views/readingrss/tmpl/json2.php');
-				$mdl_json 	= new BibleReadingPlanJSON($item);					
-				break;
-								
-			default:
-				require_once(JPATH_COMPONENT_SITE.'/views/readingrss/tmpl/seperate.php');
-				$mdl_rss 	= new BibleReadingPlanSeperate($item);					
-				break;	
-		}	
+	{	
+		echo '[{'.PHP_EOL;
+
+		echo '	"type":"chapter",'.PHP_EOL;
+		echo '	"alias:":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
+		echo '	"biblename:":"'.$item->str_bible_name.'",'.PHP_EOL;
+		echo '	"maxchapter:":"'.$item->int_max_chapter.'",'.PHP_EOL;
+		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
+		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
+		
+		echo '	"booknameenglish:":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;		
+		echo '	"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID).'",'.PHP_EOL;
+		echo '	"book_nr":'.$item->int_Bible_Book_ID.','.PHP_EOL;			
+		echo '	"chapter_nr":"'.$item->int_Bible_Chapter.'",'.PHP_EOL;	
+		echo '	"chapter":{'.PHP_EOL;
+
+		foreach($item->arr_Chapter as $obj_chapter)
+		{			
+			echo '"'.$obj_chapter->verse_id.'":'.PHP_EOL;
+			echo '{'.PHP_EOL;
+			echo '	"verse_nr":'.$obj_chapter->verse_id.','.PHP_EOL;
+			echo '	"verse":"'.strip_tags($obj_chapter->verse).'"'.PHP_EOL;
+			if($obj_chapter->verse_id >= count($item->arr_Chapter))
+			{
+				echo '}'.PHP_EOL;
+			}
+			else
+			{
+				echo '},'.PHP_EOL;
+			}
+		}
+		echo '}}]'.PHP_EOL;			
 	}
 }
 ?>

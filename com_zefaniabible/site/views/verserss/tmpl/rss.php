@@ -24,7 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_verse_rss = new ClsVerseRSS($this->item);
 
 class ClsVerseRSS
 {
@@ -71,8 +70,8 @@ class ClsVerseRSS
 			echo '	<description>'.JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY').'</description>'.PHP_EOL;
 			echo '	<item>'.PHP_EOL;
 			echo '		<title>'.$str_title.'</title>'.PHP_EOL;	 
-			echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;layout=default&amp;&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</link>'.PHP_EOL;	
-			echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;layout=default&amp;bible='.$item->str_Bible_Version.'&amp;type=0&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</guid>'.PHP_EOL;
+			echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;variant=html&amp;&amp;bible='.$item->str_Bible_Version.'&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</link>'.PHP_EOL;	
+			echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&amp;view=verserss&amp;variant=html&amp;bible='.$item->str_Bible_Version.'&amp;day='.$item->int_day_number.'&amp;Itemid='.$item->str_view_plan.'&amp;ord='.date("mdy")).'</guid>'.PHP_EOL;
 			echo '		<pubDate>'.$item->str_today.'</pubDate>'.PHP_EOL;		
 			echo '		<description>'.PHP_EOL;	
 			echo '			'.strip_tags($str_verse).PHP_EOL;	

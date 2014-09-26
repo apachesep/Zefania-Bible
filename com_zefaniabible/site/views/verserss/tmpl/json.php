@@ -24,9 +24,8 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_verse_rss = new ClsVerseRSS($this->item);
 
-class ClsVerseRSS
+class ClsVerseJSON
 {
 	public function __construct($item)
 	{

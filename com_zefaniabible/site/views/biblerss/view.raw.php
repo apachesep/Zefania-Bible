@@ -47,7 +47,6 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 
 	function display( $tpl = null )
 	{
-		$this->document->setMimeEncoding('text/xml');
 		/*
 			a = bible alias
 			b = book id
@@ -72,9 +71,8 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');
-		$item->str_layout		 	= $jinput->get('layout', 'default', 'CMD');	
-		$item->flg_type		 		= $jinput->get('type', 'default', 'INT');	
-				
+		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');	
+			
 		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter 				= $mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
@@ -83,15 +81,22 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->int_max_chapter			= $mdl_default->_buildQuery_Max_Chapter($item->int_Bible_Book_ID);
 		$item->int_max_verse			= $mdl_default->_buildQuery_Max_Verse($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
-					
-		if($item->str_layout == 'json')
+		
+		switch($item->str_variant)
 		{
-			$this->document->setMimeEncoding('application/json');
-		}
-		else
-		{
-			$this->document->setMimeEncoding('text/xml');
-		}
+			case "atom":
+				$this->document->setMimeEncoding('text/xml');
+				break;
+				
+			case "json":
+			case "json2":
+				$this->document->setMimeEncoding('application/json');			
+				break;
+												
+			default:
+				$this->document->setMimeEncoding('text/xml');				
+				break;	
+		}					
 		
 		//Filters
 		$user = JFactory::getUser();

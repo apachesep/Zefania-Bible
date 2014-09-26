@@ -78,18 +78,20 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');
-		$item->str_layout		 	= $jinput->get('layout', 'default', 'CMD');	
+		$item->str_layout		 	= $jinput->get('layout', 'default', 'CMD');
+		$item->str_variant		 	= $jinput->get('variant', 'rss', 'CMD');
 		$item->flg_use_sef			= JFactory::getApplication()->getRouter()->getMode();
-				
+		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');
+			
 		header('HTTP/1.1 301 Moved Permanently');
 
 		if($item->flg_use_sef)
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter).'?format=raw');
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter."&variant=".$item->str_variant).'?format=raw');
 		}
 		else
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&layout='.$item->str_layout.'&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&format=raw', false));
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=biblerss&bible='.$item->str_Bible_Version."&book=".$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter."&variant=".$item->str_variant.'&format=raw', false));
 		}
 
 		parent::display($tpl);

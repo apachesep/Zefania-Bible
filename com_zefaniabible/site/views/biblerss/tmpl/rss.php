@@ -24,8 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_BibleRSS = new BibleRss($this->item); 
-
 class BibleRss {
 
 	public function __construct($item)

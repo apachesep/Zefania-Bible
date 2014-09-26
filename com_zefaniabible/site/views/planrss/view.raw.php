@@ -78,6 +78,7 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->int_start_item 					= 	$jinput->get('start', $item->str_limit_start, 'INT');	
 		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
 		$item->str_feed_type		 			= 	$jinput->get('type', 'rss', 'CMD');
+		$item->str_variant		 				= 	$jinput->get('variant', 'default', 'CMD');
 		
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
@@ -91,16 +92,23 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
 		$item->str_today 						=	$mdl_common->fnc_todays_date();	
 		$item->int_max_days						=  	$mdl_default->_buildQuery_max_reading_days($item->str_reading_plan);
-		$item->arr_english_book_names 			= $mdl_common->fnc_load_languages();
+		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
 		
-		if($item->str_layout == 'json')
+		switch($item->str_variant)
 		{
-			$this->document->setMimeEncoding('application/json');
-		}
-		else
-		{
-			$this->document->setMimeEncoding('text/xml');
-		}
+			case "atom":
+				$this->document->setMimeEncoding('text/xml');
+				break;
+				
+			case "json":
+			case "json2":
+				$this->document->setMimeEncoding('application/json');			
+				break;
+												
+			default:
+				$this->document->setMimeEncoding('text/xml');				
+				break;	
+		}				
 				
 		//Filters
 		$this->assignRef('item',	$item);		

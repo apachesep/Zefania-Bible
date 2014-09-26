@@ -24,11 +24,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
-
-$cls_bible_reading_plan = new BibleReadingPlan($this->item);
-
-class BibleReadingPlan
+class BibleReadingPlanSingle
 {
 		/*
 			a = plan
@@ -37,10 +33,6 @@ class BibleReadingPlan
 		*/
 
 	public function __construct($item)
-	{
-			$this->fnc_output_single($item);	
-	}
-	private function fnc_output_single($item)
 	{
 		$book = 0;
 		$chap = 0;

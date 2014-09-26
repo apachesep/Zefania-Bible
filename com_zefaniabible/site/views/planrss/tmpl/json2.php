@@ -35,37 +35,40 @@ class PlanJSON
 			c = start day filter
 			d = number of items
 			e = feed type atom/rss
-		*/			
+		*/				
 		$x= 1;
 		echo '['.PHP_EOL;
+		echo '{'.PHP_EOL;
+		echo '	"type":"plan",'.PHP_EOL;
+		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+		echo '	"planname":"'.$item->str_reading_plan_name.'",'.PHP_EOL;
+		echo '	"plandesc":"'.$item->str_description.'",'.PHP_EOL;
+		echo '	"biblealias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
+		echo '	"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
+		echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
+					
+		echo '	"day":{'.PHP_EOL;		
 		foreach($item->arr_reading as $obj_reading)
 		{			
-			echo '{'.PHP_EOL;
-			echo '	"type":"plan",'.PHP_EOL;
-			echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
-			echo '	"planname":"'.$item->str_reading_plan_name.'",'.PHP_EOL;
-			echo '	"plandesc":"'.$item->str_description.'",'.PHP_EOL;
-			echo '	"biblealias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
-			echo '	"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
-			echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;					
-			echo '	"day":"'.$obj_reading->day_number.'",'.PHP_EOL;	
-			echo '	"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_reading->book_id).'",'.PHP_EOL;
-			echo '	"booknameenglish:":"'.$item->arr_english_book_names[$obj_reading->book_id].'",'.PHP_EOL;	
-			echo '	"chapter_begin":"'.$obj_reading->begin_chapter.'",'.PHP_EOL;	
-			echo '	"chapter_end":"'.$obj_reading->end_chapter.'",'.PHP_EOL;
-			echo '	"verse_begin":"'.$obj_reading->begin_verse.'",'.PHP_EOL;
-			echo '	"end_verse":"'.$obj_reading->end_verse.'"'.PHP_EOL;
+			echo '		"'.$obj_reading->day_number.'":'.PHP_EOL;
+			echo '		{'.PHP_EOL;
+			echo '			"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_reading->book_id).'",'.PHP_EOL;
+			echo '			"booknameenglish:":"'.$item->arr_english_book_names[$obj_reading->book_id].'",'.PHP_EOL;	
+			echo '			"chapter_begin":"'.$obj_reading->begin_chapter.'",'.PHP_EOL;	
+			echo '			"chapter_end":"'.$obj_reading->end_chapter.'",'.PHP_EOL;
+			echo '			"verse_begin":"'.$obj_reading->begin_verse.'",'.PHP_EOL;
+			echo '			"end_verse":"'.$obj_reading->end_verse.'"'.PHP_EOL;
 			if( $x < count($item->arr_reading))
 			{
-				echo '},'.PHP_EOL;
+				echo '		},'.PHP_EOL;
 			}
 			else
 			{
-				echo '}'.PHP_EOL;
+				echo '		}'.PHP_EOL;
 			}
 			$x++;
 		}
-		echo ']'.PHP_EOL;			
-	}	
+		echo '}}]'.PHP_EOL;				
+	}
 }
 ?>
