@@ -60,10 +60,10 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['chapter'];
 				unset( $query['chapter'] );				
 			}
-			if(isset($query['layout']))
+			if(isset($query['variant']))
 			{
-				$segments[] = $query['layout'];
-				unset( $query['layout'] );		
+				$segments[] = $query['variant'];
+				unset( $query['variant'] );		
 			}
 			break;	
 			
@@ -148,6 +148,11 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['items'];
 				unset( $query['items'] );
 			}
+			if(isset($query['variant']))
+			{
+				$segments[] = $query['variant'];
+				unset( $query['variant'] );		
+			}				
 			if(isset($query['type']))
 			{
 				$segments[] = $query['type'];
@@ -195,11 +200,17 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['day'];
 				unset( $query['day'] );	
 			}
+			if(isset($query['variant']))
+			{
+				$segments[] = $query['variant'];
+				unset( $query['variant'] );		
+			}				
 			if(isset($query['type']))
 			{
 				$segments[] = $query['type'];
 				unset( $query['type'] );		
 			}
+		
 			break;
 
 		case "scripture":
@@ -282,16 +293,11 @@ function ZefaniabibleBuildRoute(&$query){
 				$segments[] = $query['day'];
 				unset( $query['day'] );	
 			}
-			if(isset($query['layout']))
+			if(isset($query['variant']))
 			{
-				$segments[] = $query['layout'];
-				unset( $query['layout'] );		
-			}			
-			if(isset($query['type']))
-			{
-				$segments[] = $query['type'];
-				unset( $query['type'] );		
-			}
+				$segments[] = $query['variant'];
+				unset( $query['variant'] );		
+			}					
 			break;
 						
 		default:
@@ -335,7 +341,7 @@ function ZefaniabibleParseRoute($segments)
 			}
 			if (isset($segments[$nextPos]))
 			{				
-				$vars['layout'] = $segments[$nextPos];
+				$vars['variant'] = $segments[$nextPos];
 				$nextPos++;			
 			}			
 			break;	
@@ -435,6 +441,11 @@ function ZefaniabibleParseRoute($segments)
 			}
 			if (isset($segments[$nextPos]))
 			{				
+				$vars['variant'] = $segments[$nextPos];
+				$nextPos++;			
+			}				
+			if (isset($segments[$nextPos]))
+			{				
 				$vars['type'] = $segments[$nextPos];
 				$nextPos++;			
 			}			
@@ -480,6 +491,11 @@ function ZefaniabibleParseRoute($segments)
 				$vars['day'] = $segments[$nextPos];
 				$nextPos++;	
 			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['variant'] = $segments[$nextPos];
+				$nextPos++;			
+			}				
 			if (isset($segments[$nextPos]))
 			{				
 				$vars['type'] = $segments[$nextPos];
@@ -569,14 +585,9 @@ function ZefaniabibleParseRoute($segments)
 			}
 			if (isset($segments[$nextPos]))
 			{				
-				$vars['layout'] = $segments[$nextPos];
+				$vars['variant'] = $segments[$nextPos];
 				$nextPos++;			
-			}			
-			if (isset($segments[$nextPos]))
-			{				
-				$vars['type'] = $segments[$nextPos];
-				$nextPos++;			
-			}			
+			}									
 			break;
 						
 		default:
