@@ -24,8 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-JHTML::_('behavior.modal');
-
 $cls_bible_reading_plan = new BibleReadingPlan($this->item);
 
 class BibleReadingPlan
