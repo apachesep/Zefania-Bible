@@ -188,7 +188,7 @@ class JDomHtml extends JDom
 
 	function createRoute()
 	{
-		if (!isset($this->route))
+		if (!isset($this->route))
 			return;
 
 

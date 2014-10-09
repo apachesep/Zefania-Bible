@@ -184,7 +184,7 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 								},
 								file_dialog_start_handler : fileDialogStart,
 								file_queued_handler : fileQueued,
-								file_queue_error_handler : fileQueueError,
+								file_queue_error_handler : fileQueueError,
 								file_dialog_complete_handler : fileDialogComplete,
 								upload_start_handler : uploadStart,
 								upload_progress_handler : uploadProgress,

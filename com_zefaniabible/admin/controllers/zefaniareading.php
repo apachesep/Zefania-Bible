@@ -439,7 +439,7 @@ class ZefaniabibleControllerZefaniareading extends ZefaniabibleController
 	}
 
 	function orderup()
-	{
+	{
 		if (!$this->can('core.edit.state', JText::_("ZEFANIABIBLE_JTOOLBAR_CHANGE_ORDER")))
 			return;
 

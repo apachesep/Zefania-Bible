@@ -94,7 +94,7 @@ class ZefaniabibleViewZefaniadictionary extends JViewLegacy
 		// table ordering
 		$lists['order'] = $model->getState('list.ordering');
 		$lists['order_Dir'] = $model->getState('list.direction');
-
+
 		// Toolbar
 		jimport('joomla.html.toolbar');
 		$bar = JToolBar::getInstance('toolbar');

@@ -336,7 +336,7 @@ class ZefaniabibleControllerZefaniauser extends ZefaniabibleController
 
 
 
-	function cancel()
+	function cancel()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
