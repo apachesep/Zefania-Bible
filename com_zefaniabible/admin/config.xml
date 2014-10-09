@@ -11,7 +11,7 @@
 			<option value='1000' >1000</option>
 			<option value='5000' >5000</option>					
 			<option value='0' >COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_ALL</option>
-		</field>		
+		</field>
 		<field name="primary_book_backend" type="list" default="" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_BACKEND_DESC">
 			<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
 			<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
@@ -182,6 +182,13 @@
 				<option value="0">JHIDE</option> 
 				<option value="1">JSHOW</option>
 		</field>			
+	</fieldset>
+	
+	<fieldset name="layouts" label="COM_ZEFANIABIBLE_LAYOUT_LABEL" description="COM_ZEFANIABIBLE_LAYOUT_DESC">
+		<field name="standard_layout" type="filelist" default="standard" label="COM_ZEFANIABIBLE_STANDARD_LAYOUT" description="COM_ZEFANIABIBLE_STANDARD_LAYOUT_DESC" directory="components/com_zefaniabible/views/standard/tmpl" filter="php" exclude="default.php" stripext="true"  />
+		<field name="compare_layout" type="filelist" default="compare" label="COM_ZEFANIABIBLE_COMPARE_LAYOUT" description="COM_ZEFANIABIBLE_COMPARE_LAYOUT_DESC" directory="components/com_zefaniabible/views/compare/tmpl" filter="php" exclude="default.php" stripext="true"  />
+		<field name="plan_layout" type="filelist" default="plan" label="COM_ZEFANIABIBLE_PLAN_LAYOUT" description="COM_ZEFANIABIBLE_PLAN_LAYOUT_DESC" directory="components/com_zefaniabible/views/plan/tmpl" filter="php" exclude="default.php" stripext="true"  />
+		<field name="reading_layout" type="filelist" default="reading" label="COM_ZEFANIABIBLE_READING_LAYOUT" description="COM_ZEFANIABIBLE_READING_LAYOUT_DESC" directory="components/com_zefaniabible/views/reading/tmpl" filter="php" exclude="default.php" stripext="true"  />		
 	</fieldset>
 	
 	<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
