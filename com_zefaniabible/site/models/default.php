@@ -164,7 +164,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_Bible_Book_ID = $db->quote($int_Bible_Book_ID);
 			$int_Bible_Chapter = $db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
-			$query->select('a.book_id, a.chapter_id, a.verse_id');
+			$query->select('a.book_id, a.chapter_id, a.verse_id, reference');
 			$query->from('`#__zefaniabible_crossref` AS a');	
 			$query->where("a.book_id=".$int_Bible_Book_ID);
 			$query->where("a.chapter_id=".$int_Bible_Chapter);
