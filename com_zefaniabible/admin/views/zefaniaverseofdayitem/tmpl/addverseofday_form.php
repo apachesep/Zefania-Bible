@@ -57,7 +57,7 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
                                 {
                                     echo '<option value="'.$x.'">'. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
                                 }
-								if($x == 40)
+								if($x == 39)
 								{
 									echo '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
 								}								
