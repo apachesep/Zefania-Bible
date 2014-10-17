@@ -28,8 +28,8 @@ class ZefaniabibleCredits
 	{
 		// IF YOU WANT TO TURN OFF CREDITS USE PARAMETERS SECTION INSIDE THE COMPONENT ON THE BACK END.
 		echo '<div class="zef_credits">';
-		echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>Zefania Bible</a>"; 
-		echo "<br><a href='http://www.propoved.org/?utm_campaign=".JRequest::getCmd('view')."&utm_medium=referral&utm_source=".substr(JURI::base(),7,-1)."' target='_blank'>".JText::_('ZEFANIABIBLE_DEVELOPER_CREDIT')."</a>"; 
+		echo JText::_('ZEFANIABIBLE_DEVELOPED_BY')." <a href='http://www.zefaniabible.com/' rel='follow' target='_blank'>Zefania Bible</a>"; 
+		echo "<br><a href='http://www.propoved.org' rel='follow' target='_blank'>".JText::_('ZEFANIABIBLE_DEVELOPER_CREDIT')."</a>"; 
 		echo '</div>';
 	}
 }

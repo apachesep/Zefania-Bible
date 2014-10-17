@@ -133,7 +133,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 		</tr>
-		<?php
+		<?php
 		$k = 1 - $k;
 
 	endfor;

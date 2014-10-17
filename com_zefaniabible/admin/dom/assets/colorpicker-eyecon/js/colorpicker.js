@@ -393,7 +393,7 @@
 						if (options.flat) {
 							cal.appendTo(this).show();
 						} else {
-							cal.appendTo(document.body);
+							cal.appendTo(document.body);
 						}
 						options.fields = cal
 											.find('input')

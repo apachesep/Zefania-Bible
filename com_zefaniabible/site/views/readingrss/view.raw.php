@@ -47,7 +47,6 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 
 	function display( $tpl = null )
 	{
-		$this->document->setMimeEncoding('text/xml');
 		/*
 			a = plan
 			b = bible
@@ -70,7 +69,8 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		
 		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');
-		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
+		$item->str_layout		 				= 	$jinput->get('layout', 'default', 'CMD');
+		$item->str_variant		 				= 	$jinput->get('variant', 'default', 'CMD');
 		
 		$item->int_max_days						=  	$mdl_default->_buildQuery_max_verse_of_day_verse();
 		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days);
@@ -85,6 +85,26 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading,$item->str_reading_plan);
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
+		$item->str_today 						=	$mdl_common->fnc_todays_date();	
+		
+		switch($item->str_variant)
+		{
+			case "atom":
+			case "seperate":
+			case "single":
+				$this->document->setMimeEncoding('text/xml');
+				break;
+				
+			case "json":
+			case "json2":
+				$this->document->setMimeEncoding('application/json');			
+				break;
+								
+			default:
+				$this->document->setMimeEncoding('text/xml');				
+				break;	
+		}	
+						
 		//Filters
 		$this->assignRef('item', $item);
 		parent::display($tpl);

@@ -207,7 +207,7 @@ class ZefaniabibleModelZefaniauseritem extends ZefaniabibleModelItem
 		return true;
 	}
 
-	/**
+	/**
 	 * Method to save the zefaniauseritem
 	 *
 	 * @access	public

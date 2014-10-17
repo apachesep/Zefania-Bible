@@ -488,7 +488,7 @@ class ZefaniabibleModelZefaniabibleitem extends ZefaniabibleModelItem
 
 		// update ordering values
 		for( $i=0; $i < count($cid); $i++ )
-		{
+		{
 			$row->load( (int) $cid[$i] );
 
 			if ($row->ordering != $order[$i])

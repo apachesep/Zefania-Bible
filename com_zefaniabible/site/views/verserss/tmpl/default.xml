@@ -6,6 +6,7 @@
 	<fields name="request">
 		<fieldset name="request">
 			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+			<field name="variant" type="filelist" default="rss" label="COM_ZEFANIABIBLE_LAYOUT" description="COM_ZEFANIABIBLE_LAYOUT_DESC" directory="components/com_zefaniabible/views/verserss/tmpl" filter="php" exclude="default.php" stripext="true"  />
 		</fieldset>
 	</fields>	
 </metadata>

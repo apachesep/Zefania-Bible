@@ -290,7 +290,7 @@ class ZefaniabibleModelList extends JModelList
 
 	function activeAll($active = true)
 	{
-		foreach($this->_modes as $mode)
+		foreach($this->_modes as $mode)
 		{
 			$this->active($mode, $active);
 		}

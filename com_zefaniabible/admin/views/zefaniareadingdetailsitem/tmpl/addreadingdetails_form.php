@@ -60,15 +60,28 @@ $actionText = $isNew ? JText::_( "ZEFANIABIBLE_NEW" ) : JText::_( "ZEFANIABIBLE_
 				</label>
 			</td>
 			<td>
-				<?php echo JDom::_('html.form.input.select', array(
-												'dataKey' => 'book_id',
-												'dataObject' => $this->zefaniareadingdetailsitem,
-												'list' => $this->lists['fk']['book_id'],
-												'listKey' => 'id',
-												'labelKey' => 'bible_book_name',
-												'nullLabel' => "ZEFANIABIBLE_JSEARCH_SELECT_BOOK_ID"
-												));
-				?>
+            	<select aria-invalid="false" id="book_id" name="book_id" class="inputbox">
+					<option value=""><?php echo JText::_('ZEFANIABIBLE_JSEARCH_SELECT_BOOK_ID'); ?></option>
+                        <optgroup id="oldTest" label="<?php echo JText::_('ZEFANIABIBLE_BIBLE_OLD_TEST');?>">
+                        <?php 
+                            for($x=1; $x<=66; $x++)
+                            {
+                                if($x== $this->zefaniareadingdetailsitem->book_id )
+                                {
+                                    echo '<option value="'.$x.'" selected>'. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+                                }
+                                else
+                                {
+                                    echo '<option value="'.$x.'">'. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+                                }
+								if($x == 39)
+								{
+									echo '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
+								}								
+                            }
+                        ?>
+                        </optgroup>
+                </select>
 			</td>
 		</tr>
 		<tr>
