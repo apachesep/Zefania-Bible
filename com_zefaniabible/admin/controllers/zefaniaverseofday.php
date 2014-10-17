@@ -370,7 +370,7 @@ class ZefaniabibleControllerZefaniaverseofday extends ZefaniabibleController
 			if (!$this->can('access-edit', JText::_("JTOOLBAR_APPLY"), $item->params))
 				return;
 		}
-
+
 
 		$post	= JRequest::get('post');
 		$post['id'] = $model->getId();

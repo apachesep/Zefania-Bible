@@ -164,7 +164,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_Bible_Book_ID = $db->quote($int_Bible_Book_ID);
 			$int_Bible_Chapter = $db->quote($int_Bible_Chapter);
 			$query  = $db->getQuery(true);
-			$query->select('a.book_id, a.chapter_id, a.verse_id');
+			$query->select('a.book_id, a.chapter_id, a.verse_id, reference');
 			$query->from('`#__zefaniabible_crossref` AS a');	
 			$query->where("a.book_id=".$int_Bible_Book_ID);
 			$query->where("a.chapter_id=".$int_Bible_Chapter);
@@ -548,10 +548,10 @@ class ZefaniabibleModelDefault extends JModelItem
 			$int_day_diff 	= $db->quote($int_day_diff);
 			$query  = $db->getQuery(true);	
 			$query->select('book_name, chapter_number, begin_verse, end_verse');
-			$query->from('`#__zefaniabible_zefaniaverseofday` AS a');
-			$query->where("ordering=".$int_day_diff);
+			$query->from('`#__zefaniabible_zefaniaverseofday`');
 			$query->where("publish=1");
-			$db->setQuery($query,0, 1);
+			$query->where("ordering=".$int_day_diff);
+			$db->setQuery($query,0,1);
 			$data = $db->loadObjectList(); 
 		}
 		catch (JException $e)

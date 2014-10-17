@@ -253,7 +253,7 @@ class ZefaniabibleControllerZefaniabiblebooknames extends ZefaniabibleController
 		if (!$this->can('core.edit.state', JText::_("JTOOLBAR_UNPUBLISH")))
 			return;
 
-		// Check for request forgeries
+		// Check for request forgeries
 		JRequest::checkToken() or JRequest::checkToken('get') or jexit( 'Invalid Token' );
 
         $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );

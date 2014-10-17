@@ -112,6 +112,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->int_player_popup_height 			= $params->get('player_popup_height','300');
 		$item->int_player_popup_width 			= $params->get('player_popup_width','300');		
 		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
+		$item->standard_layout					= $params->get('standard_layout','standard');	
 		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
@@ -124,7 +125,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->int_menu_item_id 	= $jinput->get('Itemid', null, 'INT');
 		$item->str_commentary 		= $jinput->get('com', $item->str_primary_commentary, 'CMD');
 		$item->str_curr_dict 		= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');
-
+		
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
             throw new Exception(implode("\n", $errors));
@@ -148,7 +149,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		{
 			$item->arr_references = $mdl_default->_buildQuery_References($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		}
-		
+
 		if($item->flg_show_audio_player)
 		{
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');

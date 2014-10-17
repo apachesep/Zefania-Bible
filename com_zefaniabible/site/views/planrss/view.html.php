@@ -86,15 +86,16 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->int_start_item 					= 	$jinput->get('start', $item->str_limit_start, 'INT');	
 		$item->int_number_of_items				= 	$jinput->get('items', $mainframe->getCfg('feed_limit'), 'INT');	
 		$item->flg_use_sef						= 	JFactory::getApplication()->getRouter()->getMode();
+		$item->str_variant		 				= 	$jinput->get('variant', 'default', 'CMD');
 		
 		header('HTTP/1.1 301 Moved Permanently');
 		if($item->flg_use_sef)
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items).'?format=raw');
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items.'&variant='.$item->str_variant).'?format=raw');
 		}
 		else
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items.'&format=raw', false));			
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$item->str_reading_plan.'&bible='.$item->str_Bible_Version.'&start='.$item->int_start_item.'&items='.$item->int_number_of_items.'&variant='.$item->str_variant.'&format=raw', false));			
 		}
 		parent::display($tpl);
 	}

@@ -6,7 +6,7 @@
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
-	<version><![CDATA[3.0.0]]></version>
+	<version><![CDATA[3.1.1]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description>ZEFANIABIBLE_INSTALL_INTRO_TEXT</description>
 	<scriptfile>script.php</scriptfile>
@@ -15,8 +15,7 @@
 		<folder>images</folder>
 		<folder>models</folder>
 		<folder>helpers</folder>	
-		<folder>language</folder>	
-		<folder>id3</folder>	
+		<folder>language</folder>		
 		<folder>views</folder>
 		<filename>index.html</filename>
 		<filename>router.php</filename>
@@ -82,6 +81,6 @@
 		</schemas>
 	</update>
 	<updateservers>
-		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=9</server>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=1</server>
 	</updateservers>
 </extension>

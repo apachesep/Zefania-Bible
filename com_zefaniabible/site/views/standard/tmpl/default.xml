@@ -92,6 +92,7 @@
 						<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 				</field>
 				<field name="int_front_start_chapter" type="text" size="3" default="1" label="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_CHAPTER_FRONTEND_DESC" />									
+				<field name="standard_layout" type="filelist" default="standard" label="COM_ZEFANIABIBLE_LAYOUT" description="COM_ZEFANIABIBLE_LAYOUT_DESC" directory="components/com_zefaniabible/views/standard/tmpl" filter="php" exclude="default.php" stripext="true"  />
 		</fieldset>
 		<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
 			<field name="show_references" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
