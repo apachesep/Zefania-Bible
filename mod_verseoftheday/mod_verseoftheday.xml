@@ -14,7 +14,6 @@
 		<filename>mod_verseoftheday.xml</filename>
 		<filename>index.html</filename>
 		<folder>language</folder>
-		<folder>tmpl</folder>
 		<folder>css</folder> 
 	</files>
 	<config>
