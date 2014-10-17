@@ -550,6 +550,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->select('book_name, chapter_number, begin_verse, end_verse');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');
 			$query->where("publish=1");
+			$query->where("ordering=".$int_day_diff);
 			$db->setQuery($query,0,1);
 			$data = $db->loadObjectList(); 
 		}
