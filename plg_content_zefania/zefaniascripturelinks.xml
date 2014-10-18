@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>3.0.0</version>
+	<version>3.1.2</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.

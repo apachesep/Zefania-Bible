@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>3.0.0</version>
+	<version>3.1.2</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module allows users to subscibe to the reading plan daily email and verse of the day email which is sent out daily.</description>
 	<files>
