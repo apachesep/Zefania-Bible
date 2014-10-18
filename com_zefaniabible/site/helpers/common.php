@@ -377,7 +377,7 @@ class ZefaniabibleCommonHelper
 			{
 				$obj_Book_Dropdown .= '<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;				
 			}
-			if($x == 40)
+			if($x == 39)
 			{
 				$obj_Book_Dropdown .= '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
 			}
