@@ -102,6 +102,7 @@ function resetFilters()
 					?>
                         <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
 							<option value=""><?php echo JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" );?></option>	
+                            <optgroup id="oldTest" label="<?php echo JText::_('ZEFANIABIBLE_BIBLE_OLD_TEST');?>">
                             <?php 
 								for($x = 1; $x<=66; $x++)
 								{
@@ -113,8 +114,13 @@ function resetFilters()
 									{
 										echo '<option value="'.$x.'">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
 									}
+									if($x == 39)
+									{
+										echo '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
+									}									
 								}
 							?>
+                            </optgroup>
 						</select>
                     <?php
 						$arr_bible_chapter = array();
