@@ -28,12 +28,12 @@ class ZefaniabibleCommonHelper
 	{
 		// make english strings
 		$jlang = JFactory::getLanguage();
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('com_zefaniabible', JPATH_BASE."/components/com_zefaniabible/", 'en-GB', true);
 		for($i = 1; $i <=66; $i++)
 		{
 			$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
 		}
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+		$jlang->load('com_zefaniabible', JPATH_BASE."/components/com_zefaniabible/", null, true);
 		return $arr_english_book_names;
 	}
 	public function fnc_redirect_last_day($item)
