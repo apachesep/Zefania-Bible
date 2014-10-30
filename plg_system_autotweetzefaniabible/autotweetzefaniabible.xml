@@ -11,9 +11,7 @@
 
 	<version>3.2.0</version>
 
-	<description>ZefaniaBible will update social networks via AutoTweet NG (it
-		must be installed).
-	</description>
+	<description>ZefaniaBible will update social networks via AutoTweet NG (it must be installed).</description>
 
 	<files>
 		<filename plugin="autotweetzefaniabible">autotweetzefaniabible.php</filename>
@@ -21,7 +19,7 @@
 	</files>
 	<languages folder="language">
 			<language tag="en-GB">en-GB.plg_system_autotweetzefaniabible.ini</language>
-	</languages>
+	</languages>	
 	<config>
 		<fields name="params">
 

@@ -21,7 +21,7 @@
 		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
 		<filename>index.html</filename>
 		<folder>css</folder>
-	</files>	
+	</files>
 	<languages folder="language">
 			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.ini</language>
 			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.sys.ini</language>			
