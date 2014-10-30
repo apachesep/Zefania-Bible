@@ -7,13 +7,15 @@
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>3.1.2</version>
+	<version>3.2.0</version>
 	<description>PLG_ZEFANIABIBLE_EMAIL_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniaemail">zefaniaemail.php</filename>
-		<folder>language</folder>
 		<filename>index.html</filename>
-	</files> 		
+	</files>
+	<languages folder="language">
+			<language tag="en-GB">en-GB.plg_system_zefaniaemail.ini</language>
+	</languages>	
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>3.1.2</version>
+	<version>3.2.0</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -17,12 +17,15 @@
 	{zefaniabible label='some text' asv}Genesis 1:30-2:3{/zefaniabible} - This will create a link to the modal box with text being anything between quotes in lable field.
 	{zefaniabible tooltip asv}Genesis 1:30-2:3{/zefaniabible} - This will create a tooltip over the scripture.
 	</description>
-  <files>
+	<files>
 		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
 		<filename>index.html</filename>
-		<folder>language</folder>
 		<folder>css</folder>
 	</files>	
+	<languages folder="language">
+			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.ini</language>
+			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.sys.ini</language>			
+	</languages>	
 	<config>		
 		<fields name="params">
 			<fieldset name="basic">

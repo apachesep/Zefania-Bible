@@ -21,6 +21,7 @@
 * -------------\ (----) /----------------------------------------------------------- +
 *               \_)  (_/
 */
+
 defined('_JEXEC') or die('Restricted access');
 if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
 {
@@ -35,12 +36,12 @@ class zefSubscibe
 	public function __construct($params)
 	{
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));	
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', '/language', null, true);
 		$jlang = JFactory::getLanguage();
 		$config = JFactory::getConfig();
 				
-		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", 'en-GB', true);
-		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/modules/mod_zefaniasubscribe", null, true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/language", 'en-GB', true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/language", null, true);
 				
 		require_once('components/com_zefaniabible/helpers/common.php');	
 		$mdl_common 	= new ZefaniabibleCommonHelper;
@@ -138,11 +139,9 @@ class zefSubscibe
 		$mdl_common 	= new ZefaniabibleCommonHelper;
 				
 		echo '<form action="'. JFactory::getURI()->toString().'" method="post" id="zefania_subscribe" name="zefania_subscribe">';
-		
 		echo '<div><div class="zef_bible_label">'.JText::_('ZEFANIABIBLE_USER_NAME_LABEL').'</div>';
 		echo '<div><input type="text" name="mod_zef_subs_name" id="mod_zef_subs_name" size="25" maxlength="50" value="'.$item->str_user_name.'"></div></div>';
-         
-		
+
 		echo '<div><div class="zef_bible_label">'.JText::_('ZEFANIABIBLE_EMAIL_LABEL').'</div>';
         echo '<div><input type="text" name="mod_zef_subs_email" id="mod_zef_subs_email" maxlength="50" size="25" value="'. $item->str_email .'"></div></div>';
 		echo '<div style="clear:both"></div>';
@@ -171,6 +170,7 @@ class zefSubscibe
         echo '<div class="mod_zefsend_verse">';
         echo '<select name="mod_zef_sub_flg_send_verse" id="zef_subs_send_verse" class="inputbox">';
         echo ' <option value="0" >'.JText::_('JNO').'</option>';
+
        	echo ' <option value="1" >'.JText::_('JYES').'</option>';
 		echo '</select></div></div>';
 		echo '<div style="clear:both"></div>';
@@ -187,4 +187,6 @@ class zefSubscibe
 	}
 }
 ?>
+
+
 

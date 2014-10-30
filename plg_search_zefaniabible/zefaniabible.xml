@@ -7,13 +7,16 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.1.2</version>
+	<version>3.2.0</version>
 	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
-		<folder>language</folder>
 		<filename>index.html</filename>
-	</files>		
+	</files>
+	<languages folder="language">
+			<language tag="en-GB">en-GB.plg_search_zefaniabible.ini</language>
+			<language tag="en-GB">en-GB.plg_search_zefaniabible.sys.ini</language>
+	</languages>	
 	<config>
 		<fields name="params">
 			<fieldset name="basic">	

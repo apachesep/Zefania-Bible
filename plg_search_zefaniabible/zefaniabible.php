@@ -126,14 +126,14 @@ class plgSearchZefaniaBible extends JPlugin
 		$arr_result = array();
 		
 		$jlang = JFactory::getLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', 'en-GB', true);
-		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", 'en-GB', true);		
+		JFactory::getLanguage()->load('com_zefaniabible', 'language', 'en-GB', true);
+		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/language", 'en-GB', true);		
 		for($i = 1; $i <=66; $i++)
 		{
 			$this->arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
 		}
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/plugins/search/zefaniabible", null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', 'language', null, true);
+		$jlang->load('plg_search_zefaniabible', JPATH_BASE."/language", null, true);
 			
 		$this->params_zefania_comp = JComponentHelper::getParams( 'com_zefaniabible' );
 		$biblePath = $this->params_zefania_comp->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');

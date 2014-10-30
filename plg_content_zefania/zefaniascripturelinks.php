@@ -96,14 +96,14 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 
 		$this->loadLanguage();
 		$jlang = JFactory::getLanguage();		
-		$jlang->load('plg_content_zefaniascripturelinks', JPATH_BASE."/plugins/content/zefaniascripturelinks/", 'en-GB', true);
+		$jlang->load('plg_content_zefaniascripturelinks', JPATH_BASE."/language/", 'en-GB', true);
 		//english will be used by Biblegateway
 		for($h = 1; $h <= 66; $h ++)
 		{
 			$arr_english_text = explode('|',mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$h,'UTF-8')));
 			$this->arr_Bible_books_english[$h] = $arr_english_text[0];
 		}
-		$jlang->load('plg_content_zefaniascripturelinks', JPATH_BASE."/plugins/content/zefaniascripturelinks/", null, true);
+		$jlang->load('plg_content_zefaniascripturelinks', JPATH_BASE."/language/", null, true);
 		$document->addStyleSheet('/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
 		
 		if($this->flg_only_css)
@@ -160,7 +160,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 	
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', 'language', null, true);
 		$document = JFactory::getDocument();
 		$docType = $document->getType();			
 
@@ -610,6 +610,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					{
 						if(($obj_verses->verse_id == $obj_multi_query[0])and($x==1))
 						{
+
 							$verse .= '<div class="zef_content_scripture">';
 							$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_passages;
 							if($flg_add_title)
@@ -784,6 +785,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					break;	
 				//multi verse query
 				case (count($arr_multi_query>1)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse)and(!$flg_use_multi_query)):
+
 					foreach($arr_multi_query as $obj_query)
 					{
 						print_r($obj_query);
