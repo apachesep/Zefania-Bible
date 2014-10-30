@@ -21,14 +21,17 @@
 		<filename>zefaniabible.php</filename>
 		<filename>controller.php</filename>
 	</files>
-	<languages folder="admin/language">
-			<language tag="en-GB">en-GB.com_zefaniabible.ini</language>
-			<language tag="en-GB">en-GB.com_zefaniabible.sys.ini</language>
-	</languages>
 	<languages folder="site/language">
         <language tag="en-GB">en-GB.com_zefaniabible.ini</language>
+		<language tag="en-GB">en-GB.plg_system_autotweetzefaniabible.ini</language>
+		<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.ini</language>
+		<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.sys.ini</language>			
+		<language tag="en-GB">en-GB.plg_editors-xtd_zefaniabible.ini</language>
+		<language tag="en-GB">en-GB.plg_editors-xtd_zefaniabible.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_search_zefaniabible.ini</language>
+		<language tag="en-GB">en-GB.plg_search_zefaniabible.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_system_zefaniaemail.ini</language>			
     </languages>
-		
 	<media folder="media" destination="com_zefaniabible">
 		<folder>bibles</folder>
 		<folder>player</folder>
@@ -40,6 +43,10 @@
 	</media>	
 
 	<administration>
+		<languages folder="admin/language">
+				<language tag="en-GB">en-GB.com_zefaniabible.ini</language>
+				<language tag="en-GB">en-GB.com_zefaniabible.sys.ini</language>					
+		</languages>
 		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
 		<submenu>		
 			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
