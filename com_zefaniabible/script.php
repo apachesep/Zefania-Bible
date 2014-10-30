@@ -152,25 +152,25 @@ class com_zefaniabibleInstallerScript
 		{
 			$app = JFactory::getApplication();
 			jimport( 'joomla.filesystem.folder' );
-			$arr_folder_paths[0] = 'components/com_zefaniabible/language';
-			$arr_folder_paths[1] = 'administrator/components/com_zefaniabible/language';
-			$arr_folder_paths[2] = 'modules/mod_readingplan/language';
-			$arr_folder_paths[3] = 'modules/mod_verseoftheday/language';
-			$arr_folder_paths[4] = 'modules/mod_zefaniasubscribe/language';
-			$arr_folder_paths[5] = 'plugins/content/zefaniascripturelinks/language';
-			$arr_folder_paths[6] = 'plugins/search/zefaniabible/language';
-			$arr_folder_paths[7] = 'plugins/editors-xtd/zefaniabible/language';
-			$arr_folder_paths[8] = 'plugins/system/zefaniaemail/language';
-			$arr_folder_paths[9] = 'plugins/system/autotweetzefaniabible/language';									
+			$arr_folder_paths[0] = JPATH_SITE.'/components/com_zefaniabible/language';
+			$arr_folder_paths[1] = JPATH_SITE.'/administrator/components/com_zefaniabible/language';
+			$arr_folder_paths[2] = JPATH_SITE.'/modules/mod_readingplan/language';
+			$arr_folder_paths[3] = JPATH_SITE.'/modules/mod_verseoftheday/language';
+			$arr_folder_paths[4] = JPATH_SITE.'/modules/mod_zefaniasubscribe/language';
+			$arr_folder_paths[5] = JPATH_SITE.'/plugins/content/zefaniascripturelinks/language';
+			$arr_folder_paths[6] = JPATH_SITE.'/plugins/search/zefaniabible/language';
+			$arr_folder_paths[7] = JPATH_SITE.'/plugins/editors-xtd/zefaniabible/language';
+			$arr_folder_paths[8] = JPATH_SITE.'/plugins/system/zefaniaemail/language';
+			$arr_folder_paths[9] = JPATH_SITE.'/plugins/system/autotweetzefaniabible/language';									
 			
-			$arr_file_paths[0] = 'language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.ini';
-			$arr_file_paths[1] = 'language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.sys.ini';
-			$arr_file_paths[2] = 'language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.ini';
-			$arr_file_paths[3] = 'language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.sys.ini';
-			$arr_file_paths[4] = 'language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.ini';
-			$arr_file_paths[5] = 'language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.sys.ini';
-			$arr_file_paths[6] = 'language/{lang-ID}/{lang-ID}.plg_system_autotweetzefaniabible.ini';
-			$arr_file_paths[7] = 'language/{lang-ID}/{lang-ID}.plg_system_zefaniaemail.ini';
+			$arr_file_paths[0] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.ini';
+			$arr_file_paths[1] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.sys.ini';
+			$arr_file_paths[2] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.ini';
+			$arr_file_paths[3] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.sys.ini';
+			$arr_file_paths[4] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.ini';
+			$arr_file_paths[5] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.sys.ini';
+			$arr_file_paths[6] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_autotweetzefaniabible.ini';
+			$arr_file_paths[7] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_zefaniaemail.ini';
 			
 			// remove folders
 			foreach ($arr_folder_paths as $str_path )
@@ -189,7 +189,7 @@ class com_zefaniabibleInstallerScript
 					$str_path_replaced = str_replace('{lang-ID}', $arr_system_lang['tag'], $str_path);
 					if(JFile::exists($str_path_replaced) == true)
 					{
-						if(JFolder::exists('administrator/language/'.$arr_system_lang['tag'] ) == true)
+						if(JFolder::exists(JPATH_ADMINISTRATOR.'/language/'.$arr_system_lang['tag'] ) == true)
 						{
 							$app->enqueueMessage(JText::sprintf('%s has been moved to administrator/langauge folder.', $str_path_replaced));
 							//JFile::move($str_path_replaced, 'administrator/'.$str_path_replaced);
