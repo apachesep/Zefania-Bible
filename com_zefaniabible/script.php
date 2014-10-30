@@ -79,7 +79,6 @@ class com_zefaniabibleInstallerScript
 //		$txtComponent = JText::_('ZefaniaBible');
 //		$app->enqueueMessage(JText::sprintf('%s %s was successfull.', $txtAction, $txtComponent));
 	}
-
 	/**
 	* Called before any type of action
 	*
@@ -138,7 +137,41 @@ class com_zefaniabibleInstallerScript
 	{
 		$adapter->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
 	}
-
+	private function fnc_remove_langauge_folders()
+	{
+		// get zefaniaBible version
+		$xmlFile = str_replace("com_", "", $option).'.xml';
+		$xmlElement = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$option.'/'.$xmlFile);
+		if($xmlElement)
+		{
+			$str_version = (string) $xmlElement->version;
+		}	
+		// remove langauge folder for less than 3.1.3 version.
+		if($str_version <= "3.1.3")
+		{
+			$app = JFactory::getApplication();
+			jimport( 'joomla.filesystem.folder' );
+			$arr_paths[0] = 'components/com_zefaniabible/language';
+			$arr_paths[1] = 'administrator/components/com_zefaniabible/language';
+			$arr_paths[2] = 'modules/mod_readingplan/language';
+			$arr_paths[3] = 'modules/mod_verseoftheday/language';
+			$arr_paths[4] = 'modules/mod_zefaniasubscribe/language';
+			$arr_paths[5] = 'plugins/content/zefaniascripturelinks/language';
+			$arr_paths[6] = 'plugins/search/zefaniabible/language';
+			$arr_paths[7] = 'plugins/editors-xtd/zefaniabible/language';
+			$arr_paths[8] = 'plugins/system/zefaniaemail/language';
+			$arr_paths[9] = 'plugins/system/autotweetzefaniabible/language';									
+			
+			foreach ($arr_paths as $str_path )
+			{
+				if(JFolder::exists($str_path) == true)
+				{
+					$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path));
+					JFolder::delete($str_path);
+				}
+			}
+		}
+	}
 
 }
 
