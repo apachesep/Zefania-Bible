@@ -19,9 +19,6 @@
 		<filename plugin="autotweetzefaniabible">autotweetzefaniabible.php</filename>
 		<filename>index.html</filename>
 	</files>
-	<languages folder="language">
-			<language tag="en-GB">en-GB.plg_system_autotweetzefaniabible.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 

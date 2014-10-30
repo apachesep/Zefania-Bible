@@ -84,10 +84,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		if($docType != 'html') return; 
 			
 		$this->loadLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', 'language', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('zefaniabible', 'language', 'en-GB', true);
-		$jlang->load('zefaniabible', 'language', null, true); 
+		$jlang->load('zefaniabible', JPATH_BASE, 'en-GB', true);
+		$jlang->load('zefaniabible', JPATH_BASE, null, true); 
 				
 		$config = JFactory::getConfig();
 		$this->params_zefania_comp 			= JComponentHelper::getParams( 'com_zefaniabible' );
