@@ -36,12 +36,12 @@ class zefSubscibe
 	public function __construct($params)
 	{
 		$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));	
-		JFactory::getLanguage()->load('com_zefaniabible', '/language', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
 		$jlang = JFactory::getLanguage();
 		$config = JFactory::getConfig();
 				
-		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/language", 'en-GB', true);
-		$jlang->load('mod_zefaniasubscribe', JPATH_BASE."/language", null, true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE, 'en-GB', true);
+		$jlang->load('mod_zefaniasubscribe', JPATH_BASE, null, true);
 				
 		require_once('components/com_zefaniabible/helpers/common.php');	
 		$mdl_common 	= new ZefaniabibleCommonHelper;
