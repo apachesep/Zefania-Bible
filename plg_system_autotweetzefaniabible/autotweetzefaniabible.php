@@ -112,10 +112,10 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		
 			
 		$this->loadLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', 'language', null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('zefaniabible', JPATH_BASE, 'en-GB', true);
-		$jlang->load('zefaniabible', JPATH_BASE, null, true);	
+		$jlang->load('zefaniabible', 'language', 'en-GB', true);
+		$jlang->load('zefaniabible', 'language', null, true);	
 		
 		// Joomla event specific params
 		$pluginParams = $this->pluginParams;
