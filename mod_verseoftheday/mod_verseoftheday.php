@@ -50,6 +50,7 @@ JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/');
 	$item->str_custom_html 			= $params->get('str_custom_html');
 	$item->str_start_date 			= $params->get('start_date');	
 	$user 							= JFactory::getUser();
+	$item->str_verse = '';
 	
 	// don't call this code for Biblegateway
 	if($item->flg_use_biblegateway == 0)
