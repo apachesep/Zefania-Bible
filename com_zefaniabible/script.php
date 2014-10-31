@@ -172,7 +172,7 @@ class com_zefaniabibleInstallerScript
 			$arr_file_paths[6] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_autotweetzefaniabible.ini';
 			$arr_file_paths[7] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_zefaniaemail.ini';
 			
-			// remove folders
+			// remove folders from component, module, plugin folders.
 			foreach ($arr_folder_paths as $str_path )
 			{
 				if(JFolder::exists($str_path) == true)
@@ -181,7 +181,7 @@ class com_zefaniabibleInstallerScript
 					JFolder::delete($str_path);
 				}
 			}
-			// delete files.
+			// delete plugin files from front end langauge folder.
 			foreach(JLanguage::getKnownLanguages() as $arr_system_lang)
 			{
 				foreach ($arr_file_paths as $str_path )
@@ -189,16 +189,16 @@ class com_zefaniabibleInstallerScript
 					$str_path_replaced = str_replace('{lang-ID}', $arr_system_lang['tag'], $str_path);
 					if(JFile::exists($str_path_replaced) == true)
 					{
-						if(JFolder::exists(JPATH_ADMINISTRATOR.'/language/'.$arr_system_lang['tag'] ) == true)
+			/*			if(JFolder::exists(JPATH_ADMINISTRATOR.'/language/'.$arr_system_lang['tag'] ) == true)
 						{
 							$app->enqueueMessage(JText::sprintf('%s has been moved to administrator/langauge folder.', $str_path_replaced));
 							JFile::move($str_path_replaced, JPATH_ADMINISTRATOR.$str_path_replaced);
 						}
 						else
-						{
+						{*/
 							$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path_replaced));
 							JFile::delete($str_path_replaced);
-						}
+						//}
 					}
 				}
 			}
