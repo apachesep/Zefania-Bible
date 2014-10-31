@@ -192,12 +192,12 @@ class com_zefaniabibleInstallerScript
 						if(JFolder::exists(JPATH_ADMINISTRATOR.'/language/'.$arr_system_lang['tag'] ) == true)
 						{
 							$app->enqueueMessage(JText::sprintf('%s has been moved to administrator/langauge folder.', $str_path_replaced));
-							//JFile::move($str_path_replaced, 'administrator/'.$str_path_replaced);
+							JFile::move($str_path_replaced, JPATH_ADMINISTRATOR.$str_path_replaced);
 						}
 						else
 						{
 							$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path_replaced));
-							//JFile::delete($str_path_replaced);
+							JFile::delete($str_path_replaced);
 						}
 					}
 				}
