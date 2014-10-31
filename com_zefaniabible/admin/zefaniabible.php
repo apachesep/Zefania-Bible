@@ -41,8 +41,8 @@ JTable::addIncludePath(JPATH_ADMIN_ZEFANIABIBLE . DIRECTORY_SEPARATOR . 'tables'
 
 // Load languages and merge with fallbacks
 $jlang = JFactory::getLanguage();
-$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+$jlang->load('com_zefaniabible', JPATH_ADMINISTRATOR, 'en-GB', true);
+$jlang->load('com_zefaniabible', JPATH_ADMINISTRATOR, null, true);
 
 //Document title
 $document	= JFactory::getDocument();
