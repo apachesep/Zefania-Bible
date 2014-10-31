@@ -55,7 +55,7 @@ class cls_button_scripture {
 		$jlang = JFactory::getLanguage();
 		if($item->str_lang != "en-GB")
 		{
-			$jlang->load('com_zefaniabible', JPATH_COMPONENT, $item->str_lang, true);				
+			$jlang->load('com_zefaniabible', JPATH_BASE, $item->str_lang, true);				
 		}
 		$flg_add_title = 0;
 		$str_link = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".$item->str_begin_chap; 

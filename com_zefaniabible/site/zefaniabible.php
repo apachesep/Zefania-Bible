@@ -36,8 +36,8 @@ JHTML::_('behavior.modal');
 JHTML::stylesheet('components/com_zefaniabible/css/zefaniabible.css');
 // Load languages and merge with fallbacks
 $jlang = JFactory::getLanguage();
-$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+$jlang->load('com_zefaniabible', JPATH_BASE, 'en-GB', true);
+$jlang->load('com_zefaniabible', JPATH_BASE, null, true);
 
 $controller	= JControllerLegacy::getInstance('Zefaniabible');
 $controller->execute(JFactory::getApplication()->input->get('task'));
