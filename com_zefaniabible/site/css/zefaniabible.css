@@ -267,3 +267,21 @@
 {
 	float:left;	
 }
+.zef_books_column
+{
+	width:50%;
+	float:left;
+}
+.zef_book
+{
+	width:100%;	
+}
+.zef_book_chapters
+{
+	float:left;
+	margin-left:5px;	
+}
+.zef_books_accross_names
+{
+	width:20%;	
+}
