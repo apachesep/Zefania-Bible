@@ -84,7 +84,7 @@ class BibleBooksAccordionView
 			echo JHtml::_('bootstrap.endSlide');		
 		}
 		echo JHtml::_('bootstrap.endAccordion');
-		echo '</div>';
+		echo '</div></div>';
 		echo '<div style="clear:both"></div>';		
 		
 			
