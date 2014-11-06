@@ -85,7 +85,6 @@
 						<option value="1">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TEXT</option>
 						<option value="2">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LABEL</option>
 						<option value="3">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP</option>
-						<option value="4">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_POPOVER</option>
 				</field>
 			</fieldset>				
 			<fieldset name="link" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LINK">				
@@ -214,7 +213,15 @@
 				<field name="modal_box_width" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
 				<field name="modal_box_height" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />
 			</fieldset>
-			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">			
+			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">
+				<field name="flg_use_new_tooltip" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>			
+				<field name="flg_jquery_no_conflict" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>			
 				<field name="int_tooltip_width" type="text" size="50" default="700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH_DESC" />
 				<field name="int_tooltip_height" type="text" size="50" default="500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT_DESC" />				
 				<field name="int_tooltip_duration" type="text" size="50" default="1000" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION_DESC" />								
