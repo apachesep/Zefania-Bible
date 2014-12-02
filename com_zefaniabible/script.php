@@ -79,7 +79,6 @@ class com_zefaniabibleInstallerScript
 //		$txtComponent = JText::_('ZefaniaBible');
 //		$app->enqueueMessage(JText::sprintf('%s %s was successfull.', $txtAction, $txtComponent));
 	}
-
 	/**
 	* Called before any type of action
 	*
@@ -136,9 +135,76 @@ class com_zefaniabibleInstallerScript
 	*/
 	public function update(JAdapterInstance $adapter)
 	{
+		$this->fnc_remove_langauge_folders();
 		$adapter->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
 	}
+	private function fnc_remove_langauge_folders()
+	{
+		// get zefaniaBible version
+		$xmlFile = str_replace("com_", "", $option).'.xml';
+		$xmlElement = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$option.'/'.$xmlFile);
+		if($xmlElement)
+		{
+			$str_version = (string) $xmlElement->version;
+		}	
+		// remove langauge folder for less than 3.1.3 version.
+		if($str_version <= "3.1.3")
+		{
+			$app = JFactory::getApplication();
+			jimport( 'joomla.filesystem.folder' );
+			$arr_folder_paths[0] = JPATH_SITE.'/components/com_zefaniabible/language';
+			$arr_folder_paths[1] = JPATH_SITE.'/administrator/components/com_zefaniabible/language';
+			$arr_folder_paths[2] = JPATH_SITE.'/modules/mod_readingplan/language';
+			$arr_folder_paths[3] = JPATH_SITE.'/modules/mod_verseoftheday/language';
+			$arr_folder_paths[4] = JPATH_SITE.'/modules/mod_zefaniasubscribe/language';
+			$arr_folder_paths[5] = JPATH_SITE.'/plugins/content/zefaniascripturelinks/language';
+			$arr_folder_paths[6] = JPATH_SITE.'/plugins/search/zefaniabible/language';
+			$arr_folder_paths[7] = JPATH_SITE.'/plugins/editors-xtd/zefaniabible/language';
+			$arr_folder_paths[8] = JPATH_SITE.'/plugins/system/zefaniaemail/language';
+			$arr_folder_paths[9] = JPATH_SITE.'/plugins/system/autotweetzefaniabible/language';									
+			
+			$arr_file_paths[0] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.ini';
+			$arr_file_paths[1] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_content_zefaniascripturelinks.sys.ini';
+			$arr_file_paths[2] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.ini';
+			$arr_file_paths[3] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_editors-xtd_zefaniabible.sys.ini';
+			$arr_file_paths[4] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.ini';
+			$arr_file_paths[5] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_search_zefaniabible.sys.ini';
+			$arr_file_paths[6] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_autotweetzefaniabible.ini';
+			$arr_file_paths[7] = JPATH_SITE.'/language/{lang-ID}/{lang-ID}.plg_system_zefaniaemail.ini';
+			
+			// remove folders from component, module, plugin folders.
+			foreach ($arr_folder_paths as $str_path )
+			{
+				if(JFolder::exists($str_path) == true)
+				{
+					$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path));
+					JFolder::delete($str_path);
+				}
+			}
+			// delete plugin files from front end langauge folder.
+			foreach(JLanguage::getKnownLanguages() as $arr_system_lang)
+			{
+				foreach ($arr_file_paths as $str_path )
+				{
+					$str_path_replaced = str_replace('{lang-ID}', $arr_system_lang['tag'], $str_path);
+					if(JFile::exists($str_path_replaced) == true)
+					{
+			/*			if(JFolder::exists(JPATH_ADMINISTRATOR.'/language/'.$arr_system_lang['tag'] ) == true)
+						{
+							$app->enqueueMessage(JText::sprintf('%s has been moved to administrator/langauge folder.', $str_path_replaced));
+							JFile::move($str_path_replaced, JPATH_ADMINISTRATOR.$str_path_replaced);
+						}
+						else
+						{*/
+							$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path_replaced));
+							JFile::delete($str_path_replaced);
+						//}
+					}
+				}
+			}
 
+		}
+	}
 
 }
 

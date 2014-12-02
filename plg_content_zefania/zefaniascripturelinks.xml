@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>3.0.0</version>
+	<version>3.2.0</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -17,12 +17,57 @@
 	{zefaniabible label='some text' asv}Genesis 1:30-2:3{/zefaniabible} - This will create a link to the modal box with text being anything between quotes in lable field.
 	{zefaniabible tooltip asv}Genesis 1:30-2:3{/zefaniabible} - This will create a tooltip over the scripture.
 	</description>
-  <files>
+	<files>
 		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
 		<filename>index.html</filename>
-		<folder>language</folder>
 		<folder>css</folder>
-	</files>	
+	</files>
+	<languages folder="language">
+			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.ini</language>
+			<language tag="en-GB">en-GB.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='ar-AA'>ar-AA.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='ar-AA'>ar-AA.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='bg-BG'>bg-BG.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='bg-BG'>bg-BG.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='cs-CZ'>cs-CZ.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='cs-CZ'>cs-CZ.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='da-DK'>da-DK.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='da-DK'>da-DK.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='de-DE'>de-DE.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='de-DE'>de-DE.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='es-CO'>es-CO.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='es-CO'>es-CO.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='es-ES'>es-ES.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='es-ES'>es-ES.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='et-EE'>et-EE.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='et-EE'>et-EE.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='fr-FR'>fr-FR.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='fr-FR'>fr-FR.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='he-IL'>he-IL.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='he-IL'>he-IL.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='hu-HU'>hu-HU.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='hu-HU'>hu-HU.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='it-IT'>it-IT.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='it-IT'>it-IT.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='nl-NL'>nl-NL.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='nl-NL'>nl-NL.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='pl-PL'>pl-PL.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='pl-PL'>pl-PL.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='pt-BR'>pt-BR.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='pt-BR'>pt-BR.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='ro-RO'>ro-RO.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='ro-RO'>ro-RO.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='ru-RU'>ru-RU.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='ru-RU'>ru-RU.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='sk-SK'>sk-SK.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='sk-SK'>sk-SK.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='sv-SE'>sv-SE.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='sv-SE'>sv-SE.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='zh-CN'>zh-CN.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='zh-CN'>zh-CN.plg_content_zefaniascripturelinks.sys.ini</language>
+			<language tag='zh-TW'>zh-TW.plg_content_zefaniascripturelinks.ini</language>
+			<language tag='zh-TW'>zh-TW.plg_content_zefaniascripturelinks.sys.ini</language>
+	</languages>	
 	<config>		
 		<fields name="params">
 			<fieldset name="basic">
@@ -40,6 +85,7 @@
 						<option value="1">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TEXT</option>
 						<option value="2">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LABEL</option>
 						<option value="3">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP</option>
+						<option value="4">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_POPOVER</option>
 				</field>
 			</fieldset>				
 			<fieldset name="link" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LINK">				
@@ -168,15 +214,7 @@
 				<field name="modal_box_width" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
 				<field name="modal_box_height" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />
 			</fieldset>
-			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">
-				<field name="flg_use_new_tooltip" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_USETOOLTIP_DESC">
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-				</field>			
-				<field name="flg_jquery_no_conflict" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_NOCONFLICT_DESC">
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-				</field>			
+			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">			
 				<field name="int_tooltip_width" type="text" size="50" default="700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH_DESC" />
 				<field name="int_tooltip_height" type="text" size="50" default="500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT_DESC" />				
 				<field name="int_tooltip_duration" type="text" size="50" default="1000" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION_DESC" />								

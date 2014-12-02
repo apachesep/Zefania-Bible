@@ -63,7 +63,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_READING_PLAN", 'a.send_reading_plan_email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 
-			<th width="5%" style="text-align:center">
+			<th width="5%" style="text-align:center">
 				<?php echo JHTML::_('grid.sort',  "ZEFANIABIBLE_FIELD_VERSE_OF_DAY", 'a.send_verse_of_day_email', $this->state->get('list.direction'), $this->state->get('list.ordering') ); ?>
 			</th>
 

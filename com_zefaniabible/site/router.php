@@ -98,7 +98,7 @@ function ZefaniabibleBuildRoute(&$query){
 			}
 			if(isset($query['book']))
 			{						
-				$segments[] = $query['book'];
+				$segments[] = $query['book'];
 				unset( $query['book'] );				
 			}				
 			if(isset($query['chapter']))

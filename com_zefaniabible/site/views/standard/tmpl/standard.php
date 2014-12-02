@@ -26,10 +26,6 @@ defined('_JEXEC') or die('Restricted access');
 class StandardView {
 	public function __construct($item, $obj_player)
 	{	
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start = $time;	
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_common 	= new ZefaniabibleCommonHelper;	
 	?>
@@ -218,13 +214,7 @@ $start = $time;
                 echo '<!--';
                 print_r($item);
                 echo '-->';			
-            }
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$finish = $time;
-$total_time = round(($finish - $start), 4);
-echo 'Page generated in '.$total_time.' seconds.'; 				
+            } 				
         ?>        
 <?php	
 	}

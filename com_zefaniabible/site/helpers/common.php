@@ -28,12 +28,12 @@ class ZefaniabibleCommonHelper
 	{
 		// make english strings
 		$jlang = JFactory::getLanguage();
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, 'en-GB', true);
+		$jlang->load('com_zefaniabible', JPATH_BASE, 'en-GB', true);
 		for($i = 1; $i <=66; $i++)
 		{
 			$arr_english_book_names[$i] = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$i);
 		}
-		$jlang->load('com_zefaniabible', JPATH_COMPONENT, null, true);
+		$jlang->load('com_zefaniabible', JPATH_BASE, null, true);
 		return $arr_english_book_names;
 	}
 	public function fnc_redirect_last_day($item)
@@ -377,7 +377,7 @@ class ZefaniabibleCommonHelper
 			{
 				$obj_Book_Dropdown .= '<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;				
 			}
-			if($x == 40)
+			if($x == 39)
 			{
 				$obj_Book_Dropdown .= '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
 			}

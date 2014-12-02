@@ -84,10 +84,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		if($docType != 'html') return; 
 			
 		$this->loadLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('zefaniabible', JPATH_COMPONENT, 'en-GB', true);
-		$jlang->load('zefaniabible', JPATH_COMPONENT, null, true);
+		$jlang->load('zefaniabible', JPATH_BASE, 'en-GB', true);
+		$jlang->load('zefaniabible', JPATH_BASE, null, true); 
 				
 		$config = JFactory::getConfig();
 		$this->params_zefania_comp 			= JComponentHelper::getParams( 'com_zefaniabible' );
@@ -187,6 +187,7 @@ class plgSystemZefaniaEmail extends JPlugin
 				$arr_book_info = $this->fnc_Get_Book_Info($arr_subscriber->bible_version);
 				if($arr_book_info)
 				{	
+
 					$arr_reading_info = $this->fnc_Find_Plan_Name($this->int_reading_plan_id);
 					foreach($arr_book_info as $arr_info)
 					{

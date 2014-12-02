@@ -112,10 +112,10 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		
 			
 		$this->loadLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
 		$jlang = JFactory::getLanguage();
-		$jlang->load('zefaniabible', 'components/com_zefaniabible', 'en-GB', true);
-		$jlang->load('zefaniabible', 'components/com_zefaniabible', null, true);	
+		$jlang->load('zefaniabible', JPATH_BASE, 'en-GB', true);
+		$jlang->load('zefaniabible', JPATH_BASE, null, true);	
 		
 		// Joomla event specific params
 		$pluginParams = $this->pluginParams;
@@ -200,6 +200,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$this->fnc_make_reading_plan();
 			$item->reading_title 	= $this->str_reading_title;
 			$item->reading_link 	= $this->str_reading_link;
+
 			$item->reading_image 	= $this->str_reading_plan_image;
 			$item->reading_text 	= $this->str_reading_body;
 			$item->reading_prepend 	= $this->str_reading_prepend;

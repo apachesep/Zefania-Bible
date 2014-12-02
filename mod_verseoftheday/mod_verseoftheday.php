@@ -50,6 +50,7 @@ JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/');
 	$item->str_custom_html 			= $params->get('str_custom_html');
 	$item->str_start_date 			= $params->get('start_date');	
 	$user 							= JFactory::getUser();
+	$item->str_verse = '';
 	
 	// don't call this code for Biblegateway
 	if($item->flg_use_biblegateway == 0)
@@ -57,8 +58,8 @@ JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/');
 		// load langauges
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$jlang = JFactory::getLanguage();
-		$jlang->load('mod_verseoftheday', JPATH_BASE."/modules/mod_verseoftheday", 'en-GB', true);
-		$jlang->load('mod_verseoftheday', JPATH_BASE."/modules/mod_verseoftheday", null, true);
+		$jlang->load('mod_verseoftheday', JPATH_BASE, 'en-GB', true);
+		$jlang->load('mod_verseoftheday', JPATH_BASE, null, true);
 					 
 		// get Bible version for user
 		if(($user->id > 0)and($item->flg_import_user_data))

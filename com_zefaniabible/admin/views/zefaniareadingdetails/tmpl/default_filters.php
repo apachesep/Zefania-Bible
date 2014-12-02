@@ -75,19 +75,29 @@ function resetFilters()
 						?>
                         <select name="filter_plan_name" id="filter_plan_name" class="inputbox" onchange="this.form.submit()">
 	                        <?php echo JHtml::_('select.options', $arr_plan, 'value', 'text', $this->state->get('filter.plan_name'));?>						
-						</select>    
-        				<?php
-							$choices = array();
-							$choices[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" ));
-							for($x = 1; $x< 66; $x++)
-							{
-								$choices[] = array("value" => $x, 'text'=>JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x));
-	
-							}
-						?>
-                        <select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
-	                        <?php echo JHtml::_('select.options', $choices, 'value', 'text', $this->state->get('filter.book_id'));?>						
 						</select>
+						<select name="filter_book_id" id="filter_book_id" class="inputbox" onchange="this.form.submit()">
+							<option value=""><?php echo JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" );?></option>	
+                            <optgroup id="oldTest" label="<?php echo JText::_('ZEFANIABIBLE_BIBLE_OLD_TEST');?>">
+                            <?php 
+								for($x = 1; $x<=66; $x++)
+								{
+									if(($this->state->get('filter.book_id') == $x)or(($int_primary_backend_book == $x)and($this->state->get('filter.book_id') == '')))
+									{
+										echo '<option value="'.$x.'" selected="selected">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+									}
+									else
+									{
+										echo '<option value="'.$x.'">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>';
+									}
+									if($x == 39)
+									{
+										echo '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
+									}									
+								}
+							?>
+                            </optgroup>
+						</select>                                               
         				<?php
 							$arr_day = array();
 							$arr_day[] = array("value" => null, 'text'=>JText::_( "ZEFANIABIBLE_FILTER_NULL_SELECT_DAY" ));

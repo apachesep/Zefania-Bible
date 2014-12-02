@@ -33,9 +33,9 @@ defined('_JEXEC') or die('Restricted access');
 
 		// load languages
 		$jlang = JFactory::getLanguage();
-		JFactory::getLanguage()->load('com_zefaniabible', 'components/com_zefaniabible', null, true);
-		$jlang->load('mod_readingplan', JPATH_BASE."/modules/mod_readingplan", 'en-GB', true);
-		$jlang->load('mod_readingplan', JPATH_BASE."/modules/mod_readingplan", null, true);
+		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
+		$jlang->load('mod_readingplan', JPATH_BASE, 'en-GB', true);
+		$jlang->load('mod_readingplan', JPATH_BASE, null, true);
 		
 		// import component classes
 		require_once('components/com_zefaniabible/models/default.php');

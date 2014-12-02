@@ -446,7 +446,7 @@ class JDom extends JObject
 			$name = $parts[0];
 			if (!$name)
 				$name = 'html'; 	//Fallback
-
+
 
 		}
 		else

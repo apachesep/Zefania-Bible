@@ -288,7 +288,27 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
-
+	function _buildQuery_Max_Bible_Chapters($alias)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$alias_clean =	$db->quote($alias);
+			$query  = $db->getQuery(true);
+			$query->select('a.book_id, Max(a.chapter_id) AS max_chapter');
+			$query->from('`#__zefaniabible_bible_text` AS a');
+			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
+			$query->where("b.alias=".$alias_clean);		
+			$query->group('a.book_id');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();			
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}
 	function _buildQuery_Max_Chapter($int_Bible_Book_ID)
 	{
 		try 
