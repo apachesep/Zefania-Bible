@@ -67,6 +67,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			return;
 		}
+		require_once('components/com_zefaniabible/models/default.php');
+		require_once('components/com_zefaniabible/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;		
 		
 		$params_content = JComponentHelper::getParams( 'com_content' );
 		$this->int_featured_articles = $params_content->get('num_intro_articles')+1;
@@ -82,12 +86,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 
 		$this->str_tooltip_effect = 	$this->params->get('str_tooltip_effect', 'blind');
 		$this->str_tmpl 		= 		JRequest::getCmd('tmpl');
-		$this->flg_use_new_tooltip = 	$this->params->get('flg_use_new_tooltip', 0);
 		$this->int_BibleGateway_id  = 	$this->params->get('bible_gateway_version', '51');
 		$this->int_modal_box_height  = 	$this->params->get('modal_box_height', '500');
 		$this->int_modal_box_width  = 	$this->params->get('modal_box_width', '700'); 
-		$this->flg_link_use  = 			$this->params->get('flg_link_use', '0');
-		$this->flg_jquery_no_conflict = $this->params->get('flg_jquery_no_conflict', 0);	
+		$this->flg_link_use  = 			$this->params->get('flg_link_use', '0');	
 		$this->flg_auto_replace = 		$this->params->get('flg_automatic_scripture_detection', '0');
 		$this->flg_only_css  = 			$this->params->get('flg_only_css', '0');	
 		$this->str_default_alias = 		$this->params->get('content_Bible_alias' );
@@ -131,20 +133,16 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					
 		JHTML::_('behavior.modal');
 		
-		if($this->flg_use_new_tooltip)
-		{
-
-		}else{
-			$arr_toolTipArray = array('className'=>'zefania-tip', 
-			'fixed'=>true,
-			'showDelay'=>'500',
-			'hideDelay'=>'5000'
-			);						
-			JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
-		}
+		$arr_toolTipArray = array('className'=>'zefania-tip', 
+		'fixed'=>true,
+		'showDelay'=>'500',
+		'hideDelay'=>'5000'
+		);						
+		JHTML::_('behavior.tooltip', '.hasTip-zefania', $arr_toolTipArray);
+		
 		if($this->str_default_alias == '')
 		{
-			$this->str_default_alias = $this->fnc_get_first_bible_record();
+			$this->str_default_alias = $mdl_default->_buildQuery_first_record();
 		}
 		for($z = 1; $z <= 66; $z ++)
 		{
@@ -249,6 +247,9 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				case 3:
 					$flg_insert_method = 3;		
 					break;
+				case 4:
+					$flg_insert_method = 4;		
+					break;					
 				default:
 					$flg_insert_method = 0;
 					break;
@@ -274,6 +275,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_new_alias = trim(preg_replace( '#tooltip#', '', $arr_matches[2] ));			
 				$flg_insert_method = 3;			
 				break;
+			// mouseover tooltip flag				
+			case preg_match('#{zefaniabible\spopover*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]):
+				$str_new_alias = trim(preg_replace( '#popover#', '', $arr_matches[2] ));			
+				$flg_insert_method = 4;			
+				break;				
 			// zefania bible regular flag				
 			case preg_match('#{zefaniabible*(.*?)}(.*?){/zefaniabible}#',$arr_matches[0]):
 				$str_new_alias = trim($arr_matches[2]);
@@ -489,16 +495,12 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					$str_scripture_verse .= $str_spacer. $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias, $str_label,$flg_use_multi_query,$str_passages);
 					break;
 				case 3:
-					if($this->flg_use_new_tooltip)
-					{
-						$str_scripture_tmp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title, $arr_multi_query,$flg_use_multi_query,$str_passages,0 );				
-						$str_scripture_verse .= $str_spacer. $this->fnc_make_dialog_box($str_scripture,$str_scripture_tmp);		
-					}
-					else
-					{
-						$str_scripture_temp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title,$arr_multi_query,$flg_use_multi_query,$str_passages,1 );
-						$str_scripture_verse .= $str_spacer. JHTML::tooltip($str_scripture_temp,'', '', $str_scripture, '', false,'hasTip-zefania');		
-					}
+					$str_scripture_temp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title,$arr_multi_query,$flg_use_multi_query,$str_passages,1 );
+					$str_scripture_verse .= $str_spacer. JHTML::tooltip($str_scripture_temp,'', '', $str_scripture, '', false,'hasTip-zefania');	
+					break;
+				case 4:
+					$str_scripture_tmp = $this->fnc_create_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title, $arr_multi_query,$flg_use_multi_query,$str_passages,0 );				
+					$str_scripture_verse .= $str_spacer. $this->fnc_make_dialog_box($str_scripture,$str_scripture_tmp);				
 					break;
 				default:
 					$str_scripture_verse .= $str_spacer. $this->fnc_create_link($str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $str_alias,'',$flg_use_multi_query,$str_passages );
@@ -1002,29 +1004,10 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		
 		return $flg_return;
 	}
-	protected function fnc_get_first_bible_record()
-	{
-		try 
-		{
-			$db = JFactory::getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('alias');
-			$query->from('`#__zefaniabible_bible_names`');	
-			$query->where("publish = 1");
-			$query->order('id');		
-			$db->setQuery($query,0, 1);
-			$data = $db->loadResult();
-		}
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}
-		return $data;			
-	}
 	protected function fnc_make_dialog_box($str_matches, $str_scripture_tmp)
 	{
 		JHtml::_('bootstrap.popover');
-		$str_scripture = '<small id="zef-scripture-popover" class="hasPopover" data-placement="top" title="'.$str_matches.'" data-content="'.htmlentities($str_scripture_tmp).'">'.$str_matches.'</small>';
+		$str_scripture = '<a id="zef-scripture-popover" class="hasPopover" data-placement="top" title="'.$str_matches.'" data-content="'.htmlentities($str_scripture_tmp).'">'.$str_matches.'</a>';
 		return 	$str_scripture;
 	}
 }
