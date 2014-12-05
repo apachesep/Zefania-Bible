@@ -20,6 +20,7 @@
 	<files>
 		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
 		<filename>index.html</filename>
+		<filename>zefaniascripturelinks.js</filename>
 		<folder>css</folder>
 	</files>
 	<languages folder="language">
@@ -72,10 +73,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="content_Bible_alias" type="sql" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE publish = 1" key_field="alias" value_field = "bible_name" />
-				<field name="flg_only_css" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_ONLY_CSS" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_ONLY_CSS_DESC"> 
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>				
-				</field>
 				<field name="flg_automatic_scripture_detection" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC_DESC">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
@@ -86,13 +83,11 @@
 						<option value="2">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LABEL</option>
 						<option value="3">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP</option>
 						<option value="4">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_POPOVER</option>
+						<option value="5">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DIALOG</option>
+						<option value="6">PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY</option>
 				</field>
 			</fieldset>				
 			<fieldset name="link" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LINK">				
-				<field name="flg_link_use" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK_USE_DESC">
-						<option value="0">Zefania Bible</option>
-						<option value="1">BibleGateway</option>					
-				</field>
 				<field name="bible_gateway_version" type="list" default="51" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
 				  <option value="69">	1550 Stephanus New Testament (NT)	</option>
 				  <option value="68">	1881 Westcott-Hort New Testament (NT)	</option>
@@ -213,29 +208,6 @@
 				</field>
 				<field name="modal_box_width" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
 				<field name="modal_box_height" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />
-			</fieldset>
-			<fieldset name="tooltip" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_TOOLTIP">			
-				<field name="int_tooltip_width" type="text" size="50" default="700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_WIDTH_DESC" />
-				<field name="int_tooltip_height" type="text" size="50" default="500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_HEIGHT_DESC" />				
-				<field name="int_tooltip_duration" type="text" size="50" default="1000" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DURATION_DESC" />								
-				<field name="str_tooltip_effect" type="list" default="blind" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_TOOLTIP_EFFECT_DESC">
-					<option value='blind'>Blind</option>
-					<option value='bounce'>Bounce</option>
-					<option value='clip '>Clip </option>
-					<option value='drop'>Drop</option>
-					<option value='easings'>Easings</option>
-					<option value='explode'>Explode</option>
-					<option value='fade'>Fade</option>
-					<option value='fold'>Fold</option>
-					<option value='highlight'>Highlight</option>
-					<option value='puff'>Puff</option>
-					<option value='pulsate'>Pulsate</option>
-					<option value='scale'>Scale</option>
-					<option value='shake'>Shake</option>
-					<option value='size'>Size</option>
-					<option value='slide'>Slide</option>
-					<option value='transfer'>Transfer</option>
-				</field>
 			</fieldset>
 			<fieldset name="label" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LABEL">
 				<field name="str_label_default" type="text"  size="50" default="Scripture Reference" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT_DESC" />			
