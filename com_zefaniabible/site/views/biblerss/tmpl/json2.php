@@ -32,13 +32,13 @@ class BibleJSON {
 		echo '[{'.PHP_EOL;
 
 		echo '	"type":"chapter",'.PHP_EOL;
-		echo '	"alias:":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
-		echo '	"biblename:":"'.$item->str_bible_name.'",'.PHP_EOL;
-		echo '	"maxchapter:":"'.$item->int_max_chapter.'",'.PHP_EOL;
-		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
-		echo '	"maxverse:":"'.$item->int_max_verse.'",'.PHP_EOL;
+		echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
+		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+		echo '	"maxchapter":"'.$item->int_max_chapter.'",'.PHP_EOL;
+		echo '	"maxverse":"'.$item->int_max_verse.'",'.PHP_EOL;
+		echo '	"maxverse":"'.$item->int_max_verse.'",'.PHP_EOL;
 		
-		echo '	"booknameenglish:":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;		
+		echo '	"booknameenglish":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;		
 		echo '	"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID).'",'.PHP_EOL;
 		echo '	"book_nr":'.$item->int_Bible_Book_ID.','.PHP_EOL;			
 		echo '	"chapter_nr":"'.$item->int_Bible_Chapter.'",'.PHP_EOL;	
