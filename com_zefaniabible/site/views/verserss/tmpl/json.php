@@ -37,7 +37,7 @@ class ClsVerseJSON
 			echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;			
 			echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
 			echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;
-			echo '	"booknameenglish:":"'.$item->arr_english_book_names[$obj_arr_verse_info->book_name].'",'.PHP_EOL;		
+			echo '	"booknameenglish":"'.$item->arr_english_book_names[$obj_arr_verse_info->book_name].'",'.PHP_EOL;		
 			
 			echo '	"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_arr_verse_info->book_name).'",'.PHP_EOL;
 			echo '	"book_nr":"'.$obj_arr_verse_info->book_name.'",'.PHP_EOL;			
