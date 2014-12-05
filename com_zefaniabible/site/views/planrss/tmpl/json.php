@@ -50,7 +50,7 @@ class PlanJSON
 			echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;					
 			echo '	"day":"'.$obj_reading->day_number.'",'.PHP_EOL;	
 			echo '	"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_reading->book_id).'",'.PHP_EOL;
-			echo '	"booknameenglish:":"'.$item->arr_english_book_names[$obj_reading->book_id].'",'.PHP_EOL;	
+			echo '	"booknameenglish":"'.$item->arr_english_book_names[$obj_reading->book_id].'",'.PHP_EOL;	
 			echo '	"chapter_begin":"'.$obj_reading->begin_chapter.'",'.PHP_EOL;	
 			echo '	"chapter_end":"'.$obj_reading->end_chapter.'",'.PHP_EOL;
 			echo '	"verse_begin":"'.$obj_reading->begin_verse.'",'.PHP_EOL;
