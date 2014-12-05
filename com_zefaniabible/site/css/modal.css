@@ -31,12 +31,6 @@ body
 {
 	width:95%;	
 }
-.zef_scripture_modal .zef_content_verse, .zef_reference_modal .zef_reference
-{
-	border: 1px dotted #D6D6D6;
-	border-radius:25px;
-	overflow:hidden;
-}
 .zef_reference_modal .zef_reference
 {
 	padding:10px; 
