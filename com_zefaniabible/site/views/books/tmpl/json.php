@@ -24,44 +24,37 @@
 */
 defined('_JEXEC') or die('Restricted access');
 
-$cls_bible_reading_plan = new BooksViewDefault($this->item);
-
-class BooksViewDefault
+class BibleBooksJSON 
 {
 	public function __construct($item)
-	{
-		switch($item->str_variant)
+	{	
+		//print_r($item);
+		echo '['.PHP_EOL;
+		echo '	{'.PHP_EOL;
+		echo '		"type":"bible",'.PHP_EOL;
+		echo '		"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+		echo '		"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
+		echo '		"maxbooks":"66",'.PHP_EOL;
+		echo '		"book":{'.PHP_EOL;
+		for($x = 1; $x <= 66; $x++)
 		{
-			case 'accordion':
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/accordion.php');	
-				$mdl_view 	= new BibleBooksAccordionView($item);				
-				break;
-
-			case 'across':
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/across.php');	
-				$mdl_view 	= new BibleBooksAcrossView($item);			
-				break;
-				
-			case 'chapters':
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/chapters.php');	
-				$mdl_view 	= new BibleBooksChaptersView($item);
-				break;
-				
-			case 'groups':
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/groups.php');	
-				$mdl_view 	= new BibleBooksGroupsView($item);			
-				break;
-				
-			case 'json':
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/json.php');	
-				$mdl_view 	= new BibleBooksJSON($item);				
-				break;
-				
-			default: 
-				require_once(JPATH_COMPONENT_SITE.'/views/books/tmpl/list.php');	
-				$mdl_view 	= new BibleBooksListView($item);
-				break;	
-		}	
+			echo '			"'.$x.'":{'.PHP_EOL;
+			echo '				"booknameenglish":"'.$item->arr_english_book_names[$x].'",'.PHP_EOL;
+			echo '				"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'",'.PHP_EOL;
+			echo '				"book_nr":"'.$x.'",'.PHP_EOL;
+			echo '				"maxchapter":"'.$item->arr_max_chapters[($x-1)]->max_chapter.'"'.PHP_EOL;
+			if($x == 66)
+			{
+				echo '			}'.PHP_EOL;
+			}
+			else
+			{
+				echo '			},'.PHP_EOL;
+			}
+		}
+		echo '		}'.PHP_EOL;
+		echo '	}'.PHP_EOL;
+		echo ']'.PHP_EOL;
 	}
 }
 ?>
