@@ -150,6 +150,10 @@ class ZefaniabibleCommonHelper
 		$doc_page->setMetaData( 'og:image', JURI::root().$item->str_default_image );	
 		$doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );	
+		if($item->str_tmpl == "component")
+		{
+			$doc_page->addCustomTag( '<meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />');	
+		}		
 	}
 	public function fnc_Pagination_Buttons($item)
 	{	

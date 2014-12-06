@@ -103,7 +103,7 @@ class ZefaniabibleViewSubscribe extends JViewLegacy
 		{
 			$item->flg_date_valid				= 	$mdl_common->fnc_validate_date($item->str_start_date);
 		}
-		if($item->flg_use_catcha)
+		if(($item->flg_use_catcha)and(($item->flg_send_reading)or($item->flg_send_verse)))
 		{
 			$item->flg_catcha_correct 			= 	$mdl_common->fnc_check_catcha($item->str_view);
 		}

@@ -56,7 +56,8 @@ class ClsVerseHTML
 			$this->doc_page->setMetaData( 'og:type', "article" );	
 			$this->doc_page->setMetaData( 'og:image', JURI::root().$item->str_default_image );	
 			$this->doc_page->setMetaData( 'og:description', JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY') );
-			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );				
+			$this->doc_page->setMetaData( 'og:site_name', $mainframe->getCfg('sitename') );	
+			$this->doc_page->addCustomTag( '<meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />');				
 			echo '<div id="zef_Bible_Main_verse_tmpl_comp">';
 			echo '<div class="zef_bible_Header_Label">'.$str_title.'</div>';
 			echo '<div style="clear:both"></div>';

@@ -70,25 +70,14 @@ class ZefaniabibleViewBooks extends JViewLegacy
 		$item->str_primary_bible 			= 	$params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->str_menuItem					=	$mdl_default->_buildQuery_get_menu_id('standard');
 		$item->arr_max_chapters 			=	$mdl_default->_buildQuery_Max_Bible_Chapters($item->str_primary_bible);
+		
 		$jinput = JFactory::getApplication()->input;
-		$item->str_variant		 	= $jinput->get('variant', 'list', 'CMD');
-		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
-		$item->flg_use_sef			= JFactory::getApplication()->getRouter()->getMode();
-		
-		
-		if($item->str_variant == 'json')
-		{		
-			header('HTTP/1.1 301 Moved Permanently');
-			if($item->flg_use_sef)
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=books&bible='.$item->str_primary_bible.'&variant='.$item->str_variant).'?format=raw');				
-			}
-			else
-			{
-				header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=books&bible='.$item->str_primary_bible.'&format=raw&variant='.$item->str_variant, false));	
-			}
-		}
-		
+		$item->str_variant		 			= 	$jinput->get('variant', 'list', 'CMD');
+		$item->str_Bible_Version 			= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
+		$item->arr_Bibles 					= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->str_bible_name				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+				
+		$this->document->setMimeEncoding('application/json');
 		//Filters
 		$this->assignRef('item', 		$item);
 		parent::display($tpl);

@@ -1,4 +1,4 @@
-<?php
+
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -6,7 +6,7 @@
 * --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
 * @version		1.6
 * @package		ZefaniaBible
-* @subpackage	Zefaniabible
+* @subpackage	Search Plugin
 * @copyright	Missionary Church of Grace
 * @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
@@ -22,38 +22,42 @@
 *               \_)  (_/
 */
 
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php 
-
-class BibleJSON {
-
-	public function __construct($item)
-	{	
-		echo '['.PHP_EOL;
-		foreach($item->arr_Chapter as $obj_chapter)
-		{			
-			echo '{'.PHP_EOL;
-			echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
-			echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
-			echo '	"maxchapter":"'.$item->int_max_chapter.'",'.PHP_EOL;
-			echo '	"maxverse":"'.$item->int_max_verse.'",'.PHP_EOL;
-			echo '	"maxverse":"'.$item->int_max_verse.'",'.PHP_EOL;
-			echo '	"booknameenglish":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;
-			
-			echo '	"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID).'",'.PHP_EOL;
-			echo '	"chapter":"'.$item->int_Bible_Chapter.'",'.PHP_EOL;	
-			echo '	"verse":"'.$obj_chapter->verse_id.'",'.PHP_EOL;
-			echo '	"text":"'.strip_tags($obj_chapter->verse).'"'.PHP_EOL;
-			if($obj_chapter->verse_id >= count($item->arr_Chapter))
-			{
-				echo '}'.PHP_EOL;
-			}
-			else
-			{
-				echo '},'.PHP_EOL;
-			}
-		}
-		echo ']'.PHP_EOL;				
+function fnc_scripture(obj)
+{
+	var url = "index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&tmpl=component";	
+	switch(obj.type)
+	{			
+		case "dialog":
+			fnc_dialog(url, obj);
+			break;
+		case "tooltip":
+			fnc_tooltip(url, obj);
+			break;		
+		default:
+			fnc_popover(url, obj);
+			break;
 	}
 }
-?>
+function fnc_popover(url, obj)
+{
+	jQuery.get( url, function( data ) 
+	{
+		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
+	});
+}
+
+function fnc_tooltip(url, obj)
+{
+	jQuery.get( url, function( data ) 
+	{
+		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
+	});
+}
+
+function fnc_dialog(url, obj)
+{
+	jQuery.get( url, function( data ) 
+	{
+		jQuery( ".modal-body-"+obj.unique_id).html(data);
+	});
+}

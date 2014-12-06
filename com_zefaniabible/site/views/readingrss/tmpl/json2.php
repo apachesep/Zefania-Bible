@@ -84,7 +84,7 @@ class BibleReadingPlanJSON
 				}
 				echo '					"'.$obj_verse->verse_id.'":'.PHP_EOL;			
 				echo '					{'.PHP_EOL;
-				echo '						"booknameenglish:":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
+				echo '						"booknameenglish":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
 				echo '						"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
 				echo '						"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
 				echo '						"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
