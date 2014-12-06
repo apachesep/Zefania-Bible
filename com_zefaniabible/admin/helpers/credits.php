@@ -51,7 +51,7 @@ class ZefaniabibleCredits
 		echo "					<br>";
 		echo '					<a href="https://www.facebook.com/ZefaniaBible" target="blank">Follow Us on Facebook</a>';
 		echo "					<br>";
-		echo '					<a href="http://www.zefaniabible.com/forum2.html?utm_campaign=admin_forum&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="blank">Support Forums on ZefaniaBible</a>';
+		echo '					<a href="http://www.zefaniabible.com/forum.html?utm_campaign=admin_forum&utm_medium=referral&utm_source='.str_replace('/administrator','',substr(JURI::base(),7,-1)).'" target="blank">Support Forums on ZefaniaBible</a>';
 		echo "					<br>";
 		echo '				</td> ';       
 		echo '			</tr>';
