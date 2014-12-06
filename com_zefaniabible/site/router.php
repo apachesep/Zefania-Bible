@@ -44,6 +44,19 @@ function ZefaniabibleBuildRoute(&$query){
 	}
 	switch($view)
 	{			
+		case "books":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}	
+			if(isset($query['variant']))
+			{
+				$segments[] = $query['variant'];
+				unset( $query['variant'] );		
+			}
+			break;
+								
 		case "biblerss":	
 			if(isset($query['bible']))
 			{
@@ -98,7 +111,8 @@ function ZefaniabibleBuildRoute(&$query){
 			}
 			if(isset($query['book']))
 			{						
-				$segments[] = $query['book'];
+				$segments[] = $query['book'];
+
 				unset( $query['book'] );				
 			}				
 			if(isset($query['chapter']))
@@ -323,6 +337,19 @@ function ZefaniabibleParseRoute($segments)
 
 	switch($segments[0])
 	{			
+		case "books":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['variant'] = $segments[$nextPos];
+				$nextPos++;			
+			}				
+			break;
+			
 		case "biblerss":	
 			if (isset($segments[$nextPos]))
 			{		
