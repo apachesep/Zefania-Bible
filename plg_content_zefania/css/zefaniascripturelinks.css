@@ -125,3 +125,34 @@
 {
 	display:inline !important;
 }
+.popover {
+  max-width: 600px !important;
+  width: auto !important;
+}
+#div-zef-scripture-tooltip .zef-even
+{
+   background:none;	
+}
+#div-zef-scripture-tooltip .zef_content_verse, #div-zef-scripture-tooltip .zef-even, #div-zef-scripture-tooltip .zef-odd
+{
+	border:none;
+}
+#div-zef-scripture-tooltip .zef_content_verse_id
+{
+	color:#FFFFFF;	
+}
+div.modal 
+{
+	max-height:80%;
+	max-width:75%;
+	min-width:50%;
+	overflow:auto;
+}
+.modal-backdrop
+{
+	background:none !important;	
+}
+#zef-scripture-dialog, #zef-scripture-tooltip, #zef-scripture-popover-link
+{
+	cursor:pointer;	
+}
