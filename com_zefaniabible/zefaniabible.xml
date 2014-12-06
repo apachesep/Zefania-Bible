@@ -6,7 +6,7 @@
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
-	<version><![CDATA[3.2.0]]></version>
+	<version><![CDATA[3.3.0]]></version>
 	<license><![CDATA[GNU/GPL]]></license>
 	<description>ZEFANIABIBLE_INSTALL_INTRO_TEXT</description>
 	<scriptfile>script.php</scriptfile>
