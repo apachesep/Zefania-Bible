@@ -56,16 +56,8 @@ function fnc_tooltip(url, obj)
 
 function fnc_dialog(url, obj)
 {
-	if (jQuery(".div-"+obj.unique_id+" p").is(":empty")) 
-	{ 
-		jQuery.get( url, function( data ) 
-		{
-			jQuery( ".div-"+obj.unique_id).dialog({ width: obj.width, maxHeight: obj.height });
-			jQuery( ".div-"+obj.unique_id+" p" ).html(data);
-		});
-	}
-	else
+	jQuery.get( url, function( data ) 
 	{
-		jQuery( ".div-"+obj.unique_id ).dialog({ width: obj.width, maxHeight: obj.height });
-	}
+		jQuery( ".modal-body-"+obj.unique_id).html(data);
+	});
 }
