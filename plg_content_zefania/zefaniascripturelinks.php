@@ -576,11 +576,21 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				case 6:
 					$str_link = urlencode(str_replace(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id) ,$this->arr_Bible_books_english[$str_Bible_book_id], $str_scripture_name));
 					$str_url = 'http://classic.biblegateway.com/passage/index.php?search='.$str_link.';&version='.$this->int_BibleGateway_id.';&interface=print';		
-					$str_scripture_verse .= '<a href="'.$str_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_box_width.',y:'.$this->int_modal_box_height.'}}" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" target="blank" id="zef-scripture-link">'.$str_scripture_name .'</a>'.PHP_EOL; 
+					if(((JRequest::getCmd('option') == 'com_zefaniabible')and((JRequest::getCmd('view') == 'strong')or(JRequest::getCmd('view') == 'commentary'))and($this->str_tmpl == "component")))
+					{	
+						$str_scripture_verse .= '<a href="'.$str_url.'" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" id="zef-scripture-link">'.$str_scripture_name .'</a>'.PHP_EOL; 					
+					}else{					
+						$str_scripture_verse .= '<a href="'.$str_url.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_box_width.',y:'.$this->int_modal_box_height.'}}" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" target="blank" id="zef-scripture-link">'.$str_scripture_name .'</a>'.PHP_EOL; 
+					}
 					break;
 				// defaut = regular link with modal box				
 				default: 
-					$str_scripture_verse .= '<a href="index.php?view=scripture&option=com_zefaniabible&tmpl=component'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_box_width.',y:'.$this->int_modal_box_height.'}}" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" target="blank" id="zef-scripture-link">'.$str_scripture_name .'</a>'.PHP_EOL; 
+					if(((JRequest::getCmd('option') == 'com_zefaniabible')and((JRequest::getCmd('view') == 'strong')or(JRequest::getCmd('view') == 'commentary'))and($this->str_tmpl == "component")))
+					{
+						$str_pre_link = '<a id="zef-scripture-link" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" href="index.php?view=scripture&option=com_zefaniabible&tmpl=component&'.$temp.'">';						
+					}else{				
+						$str_scripture_verse .= '<a href="index.php?view=scripture&option=com_zefaniabible&tmpl=component'.$temp.'" class="modal" rel="{handler: \'iframe\', size: {x:'.$this->int_modal_box_width.',y:'.$this->int_modal_box_height.'}}" title="'. JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK')." ".$str_scripture_name.'" target="blank" id="zef-scripture-link">'.$str_scripture_name .'</a>'.PHP_EOL; 
+					}
 					break;				
 			}
 			$w++;
