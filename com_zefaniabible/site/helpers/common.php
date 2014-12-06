@@ -568,7 +568,7 @@ class ZefaniabibleCommonHelper
 				}
 				else
 				{
-					$arr_verse->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse->verse);
+					$arr_verse2->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse2->verse);
 				}	
 			}
 			$temp2[$b] = '<div class="zef_compare_bibles">'.'<div class="zef_verse_number">'.$arr_verse2->verse_id.'</div><div class="zef_verse">'.$arr_verse2->verse.'</div></div>';
