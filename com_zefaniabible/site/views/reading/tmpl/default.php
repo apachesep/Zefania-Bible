@@ -92,7 +92,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
 	                                <input type='hidden' value='0' name='strong'>
-                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if($this->item->flg_use_strong == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
 								</div>
 							</div>
 	                    <?php } ?>

@@ -96,6 +96,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->str_primary_commentary 			= $params->get('primaryCommentary');				
 		$item->flg_show_pagination_type 		= $params->get('show_pagination_type','0');
 		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
+		$item->flg_show_strong			 		= $params->get('flg_show_strong','0');
 		
 		$item->flg_show_page_top 				= $params->get('show_pagination_top', '1');
 		$item->flg_show_page_bot 				= $params->get('show_pagination_bot', '1');	
@@ -118,7 +119,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');			
 		$item->str_view 			= $jinput->get('view', 'standard', 'CMD');
-		$item->flg_use_strong		= $jinput->get('strong', null, 'INT');
+		$item->flg_use_strong		= $jinput->get('strong', $item->flg_show_strong, 'INT');
 		$item->str_com 				= $jinput->get('com', null, 'CMD'); 		
 		$item->str_tmpl 			= $jinput->get('tmpl',null,'CMD');
 		$item->str_option			= $jinput->get('option', null, 'CMD');

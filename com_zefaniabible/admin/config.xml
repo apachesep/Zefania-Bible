@@ -154,6 +154,10 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
+		<field name="flg_show_strong" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS" description="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>		
 		<field name="str_default_image" type="media" label="COM_ZEFANIABIBLE_DEFAULT_IMAGE" description="COM_ZEFANIABIBLE_DEFAULT_IMAGE_DESC" />
 		<field name="str_scripture_default_image" type="media" label="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE" description="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE_DESC" />
 		<field type="spacer" name="myspacer2" hr="true" />	

@@ -23,6 +23,10 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 			</field>
+			<field name="flg_show_strong" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS" description="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS_DESC">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+			</field>				
 			<field name="primary_book_frontend" type="list" default="1" label="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND" description="COM_ZEFANIABIBLE_PRIMARY_BOOK_FRONTEND_DESC">
 						<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
 						<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>

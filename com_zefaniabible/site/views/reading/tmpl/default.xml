@@ -28,6 +28,10 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>						
+			<field name="flg_show_strong" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS" description="COM_ZEFANIABIBLE_SHOW_STRONG_NUMBERS_DESC">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+			</field>			
 		</fieldset>
 		<fieldset name="references" label="COM_ZEFANIABIBLE_REFERENCE_LABEL" description="COM_ZEFANIABIBLE_REFERENCE_LABEL_DESC">
 			<field name="show_references" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_REFERENCE" description="COM_ZEFANIABIBLE_REFERENCE_DESC">
