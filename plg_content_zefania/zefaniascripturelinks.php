@@ -334,7 +334,26 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_passages = preg_replace( '#\.#', '', $str_passages ); // remove period
 				
 				switch (true)
-				{				
+				{			
+					case preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/',$str_passages):		//Gen 1-4		 
+					case preg_match('/^([0-9]{1,3})$/',$str_passages):					// Gen 1
+					 	$arr_split_verses = preg_split('#[-]#',$str_passages); 			// split on hyphen
+						if(count($arr_split_verses) == 2)
+						{
+							list($arr_verses_info[0]['begin_chapter'],$arr_verses_info[0]['end_chapter']) = $arr_split_verses;
+						}
+						else
+						{
+							list($arr_verses_info[0]['begin_chapter']) = $arr_split_verses;
+							$arr_verses_info[0]['end_chapter'] = '0';
+						}
+						$arr_verses_info[0]['begin_verse'] = '0';
+						$arr_verses_info[0]['end_verse'] = '0';
+						break;				
+					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3}):([0-9]{1,3})$/',$str_passages):	// Gen 2:3-3:3
+					 	$arr_split_verses = preg_split('#[:-]+#',$str_passages);								// split on colon and hyphen 
+						list($arr_verses_info[0]['begin_chapter'],$arr_verses_info[0]['begin_verse'],$arr_verses_info[0]['end_chapter'],$arr_verses_info[0]['end_verse']) = $arr_split_verses;
+				  		break;					
 					case preg_match('/(?=\S)(([0-9]{1,3})([;])(\s)?([0-9]{1,3}))?/iu',$str_passages): 	// Gen 1:2-3, 10; 2:20
 						$arr_split_chapters = preg_split('#[;]#',$str_passages);
 						$o = 0;	
@@ -382,21 +401,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 							$m++;
 						}
 						break;					
-					case preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/',$str_passages):		//Gen 1-4		 
-					case preg_match('/^([0-9]{1,3})$/',$str_passages):					// Gen 1
-					 	$arr_split_verses = preg_split('#[-]#',$str_passages); 			// split on hyphen
-						if(count($arr_split_verses) == 2)
-						{
-							list($arr_verses_info[0]['begin_chapter'],$arr_verses_info[0]['end_chapter']) = $arr_split_verses;
-						}
-						else
-						{
-							list($arr_verses_info[0]['begin_chapter']) = $arr_split_verses;
-							$arr_verses_info[0]['end_chapter'] = '0';
-						}
-						$arr_verses_info[0]['begin_verse'] = '0';
-						$arr_verses_info[0]['end_verse'] = '0';
-						break;
 						
 					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})$/',$str_passages):   				// Gen 1:1
 					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3})$/',$str_passages): 	// Gen 1:1-4
@@ -412,12 +416,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 						}
 						$arr_verses_info[0]['end_chapter'] = '0';							
 						break;	
-						
-					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3}):([0-9]{1,3})$/',$str_passages):	// Gen 2:3-3:3
-					 	$arr_split_verses = preg_split('#[:-]+#',$str_passages);								// split on colon and hyphen 
-						list($arr_verses_info[0]['begin_chapter'],$arr_verses_info[0]['begin_verse'],$arr_verses_info[0]['end_chapter'],$arr_verses_info[0]['end_verse']) = $arr_split_verses;
-				  		break;
-						
+												
 					case preg_match('/^([0-9]{1,3})([:])([0-9]{1,3})(([-])([0-9]{1,3}))?(([,])([0-9]{1,3}))/',$str_passages): 	// Gen 1:1-4,5...
 						$arr_split_verses = preg_split('#[:]#',$str_passages); 													// split on colon
 						list($arr_verses_info[0]['begin_chapter'],$arr_verse_ranges) = $arr_split_verses;
@@ -491,7 +490,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				}
 				break;
 			}
-		}			
+		}		
 		// set new alias 
 		if($str_new_alias != "")
 		{
@@ -586,7 +585,12 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			}
 			$w++;
 		}
-
+		
+		// use this to avoid broken scripture link
+		if(strpos($str_scripture_verse,'ZEFANIABIBLE_BIBLE_BOOK_NAME_')> 1)
+		{
+			return $str_scripture_verse = $arr_matches[0];
+		}	
 		return $str_scripture_verse;
 	}
 	protected function fnc_exclude_plugin()
