@@ -1071,6 +1071,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				}
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
+			
 			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}
