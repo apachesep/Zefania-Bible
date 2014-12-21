@@ -39,7 +39,13 @@ class plgButtonZefaniabible extends JPlugin
 		{
 			$link = 'index.php?option=com_zefaniabible&amp;view=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
 		}
-		JHtml::_('behavior.modal');
+		JHtml::_('jquery.ui');
+		JHTML::_('behavior.modal');
+		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.popover');	
+		$document = JFactory::getDocument();	
+		$document->addStyleSheet(JURI::root().'plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
+		$document->addScript(JURI::root().'plugins/content/zefaniascripturelinks/zefaniascripturelinks.js');
 		$button = new JObject();
 		$button->modal = true;
 		$button->link = $link;
