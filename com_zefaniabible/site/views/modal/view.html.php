@@ -62,19 +62,6 @@ class ZefaniabibleViewModal extends JViewLegacy
 	}
 	function display_default($tpl = null)
 	{
-	/*
-		a = Language 
-		b = Link Type
-		c = set tag flag
-		d = Label
-		e = Alias
-		f = Bible Book
-		g = Begin Chap
-		h = Begin Verse
-		i = End Chap
-		j = End Verse
-	*/
-
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
@@ -85,7 +72,7 @@ class ZefaniabibleViewModal extends JViewLegacy
 				
 		$jinput = JFactory::getApplication()->input;
 		$item = new stdClass();
-				
+									
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
 		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
@@ -94,25 +81,21 @@ class ZefaniabibleViewModal extends JViewLegacy
 		$item->str_bible_gateway_version 		= $params->get('bible_gateway_version', 9); 
 								
 		$item->str_lang				= $jinput->get('lang', 'en-GB', 'CMD');
-		$item->int_link_type		= $jinput->get('type', null, 'INT');
+		$item->str_link_type		= $jinput->get('type', null, 'CMD');
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
-		$item->str_begin_chap 		= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
-		$item->str_begin_verse 		= $jinput->get('verse', '1','INT');
-		$item->str_end_chap			= $jinput->get('endchapter', '0', 'INT');	
-		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
+		$item->int_begin_chap 		= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');		
+		$item->int_begin_verse 		= $jinput->get('verse', '1','INT');
+		$item->int_end_chap			= $jinput->get('endchapter', '0', 'INT');	
+		$item->int_end_verse		= $jinput->get('endverse', '0', 'INT');
 		$item->flg_use_tags 		= $jinput->get('tag', '0', 'BOOL');
-		$item->str_label 			= $jinput->get('label', 'link', 'CMD');						
-								
+		$item->str_label 			= $jinput->get('label', 'link', 'CMD');								
+							
 		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->obj_bible_book_dropdown 	= $mdl_common->fnc_bible_book_dropdown($item); 
 				
-		if(($item->int_link_type == 2)or($item->int_link_type == 3))
-		{
-			$item->arr_bible_verse = $mdl_default->_buildQuery_scripture($item->str_Bible_Version, $item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse);	 		 			 
-		}
 		$this->assignRef('item', $item);
 		parent::display($tpl);
 	}
