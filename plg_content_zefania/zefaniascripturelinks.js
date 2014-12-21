@@ -24,7 +24,7 @@
 
 function fnc_scripture(obj)
 {
-	var url = "index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&tmpl=component";	
+	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&tmpl=component";	
 	switch(obj.type)
 	{			
 		case "dialog":
