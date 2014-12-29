@@ -34,9 +34,10 @@ INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `params`, `name`, `alias`, `
 (3, '', 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1),
 (4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 0),
 (5, '', 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1),
-(6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 0),
+(6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1),
 (7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1),
 (8, '', 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1);
+(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1);
 
 INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `book_id`, `begin_chapter`, `begin_verse`, `end_chapter`, `end_verse`, `day_number`, `description`, `ordering`) VALUES
 (1, '', 8, 1, 1, 0, 3, 0, 1, '', 1),
@@ -2522,6 +2523,7 @@ INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `bo
 (2485, '', 5, 64, 1, 0, 1, 0, 60, '', 2485),
 (2486, '', 5, 65, 1, 0, 1, 0, 61, '', 2486),
 (2487, '', 5, 66, 19, 0, 22, 0, 61, '', 2487),
+
 (2488, '', 6, 1, 1, 0, 3, 0, 1, 'Creation and Fall', 2488),
 (2489, '', 6, 1, 12, 0, 12, 0, 2, 'Abraham, Isaac', 2489),
 (2490, '', 6, 1, 15, 0, 15, 0, 2, 'Abraham, Isaac', 2490),
@@ -2663,4 +2665,36 @@ INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `bo
 (2624, '', 6, 63, 1, 0, 1, 0, 60, 'John&#39;s postcard letters to friends', 2624),
 (2625, '', 6, 64, 1, 0, 1, 0, 60, 'John&#39;s postcard letters to friends', 2625),
 (2626, '', 6, 66, 1, 0, 4, 0, 61, 'Jesus Christ&#39;s Revelation to John', 2626),
-(2627, '', 6, 66, 19, 0, 22, 0, 61, 'Jesus Christ&#39;s Revelation to John', 2627);
+(2627, '', 6, 66, 19, 0, 22, 0, 61, 'Jesus Christ&#39;s Revelation to John', 2627),
+
+(2628, '', 9, 20, 1, 0, 1, 0, 1, '', 2628),
+(2629, '', 9, 20, 2, 0, 2, 0, 2, '', 2629),
+(2630, '', 9, 20, 3, 0, 3, 0, 3, '', 2630),
+(2631, '', 9, 20, 4, 0, 4, 0, 4, '', 2631),
+(2632, '', 9, 20, 5, 0, 5, 0, 5, '', 2632),
+(2633, '', 9, 20, 6, 0, 6, 0, 6, '', 2633),
+(2634, '', 9, 20, 7, 0, 7, 0, 7, '', 2634),
+(2635, '', 9, 20, 8, 0, 8, 0, 8, '', 2635),
+(2636, '', 9, 20, 9, 0, 9, 0, 9, '', 2636),
+(2637, '', 9, 20, 10, 0, 10, 0, 10, '', 2637),
+(2638, '', 9, 20, 11, 0, 11, 0, 11, '', 2638),
+(2639, '', 9, 20, 12, 0, 12, 0, 12, '', 2639),
+(2640, '', 9, 20, 13, 0, 13, 0, 13, '', 2640),
+(2641, '', 9, 20, 14, 0, 14, 0, 14, '', 2641),
+(2642, '', 9, 20, 15, 0, 15, 0, 15, '', 2642),
+(2643, '', 9, 20, 16, 0, 16, 0, 16, '', 2643),
+(2644, '', 9, 20, 17, 0, 17, 0, 17, '', 2644),
+(2645, '', 9, 20, 18, 0, 18, 0, 18, '', 2645),
+(2646, '', 9, 20, 19, 0, 19, 0, 19, '', 2646),
+(2647, '', 9, 20, 20, 0, 20, 0, 20, '', 2647),
+(2648, '', 9, 20, 21, 0, 21, 0, 21, '', 2648),
+(2649, '', 9, 20, 22, 0, 22, 0, 22, '', 2649),
+(2650, '', 9, 20, 23, 0, 23, 0, 23, '', 2650),
+(2651, '', 9, 20, 24, 0, 24, 0, 24, '', 2651),
+(2652, '', 9, 20, 25, 0, 25, 0, 25, '', 2652),
+(2653, '', 9, 20, 26, 0, 26, 0, 26, '', 2653),
+(2654, '', 9, 20, 27, 0, 27, 0, 27, '', 2654),
+(2655, '', 9, 20, 28, 0, 28, 0, 28, '', 2655),
+(2656, '', 9, 20, 29, 0, 29, 0, 29, '', 2656),
+(2657, '', 9, 20, 30, 0, 30, 0, 30, '', 2657),
+(2658, '', 9, 20, 31, 0, 31, 0, 31, '', 2658);
