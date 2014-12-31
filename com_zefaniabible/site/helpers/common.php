@@ -692,6 +692,7 @@ class ZefaniabibleCommonHelper
 			$chap = 0;
 			$x = 1;
 			$y = 1;		
+			$z = 0;
 			$str_chapter = '';
 			$int_chap_cnt = 1;
 			
@@ -704,7 +705,7 @@ class ZefaniabibleCommonHelper
 				foreach($reading as $plan)
 				{	
 					if (($plan->book_id > $book)or($plan->chapter_id > $chap))
-					{
+					{					
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
 						
@@ -718,20 +719,20 @@ class ZefaniabibleCommonHelper
 						$str_chapter .=  		mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id;
 
 						foreach($item->arr_reading as $arr_list_reading)
-						{
+						{								
 							if(($book == $arr_list_reading->book_id) and ($chap == $arr_list_reading->begin_chapter))
 							{
 								if(($arr_list_reading->begin_verse != 0)and($arr_list_reading->end_verse != 0))
 								{
-									switch(true)
+									if($z != $x)
 									{
-										case (($arr_list_reading->begin_chapter == $arr_list_reading->end_chapter)):
-											$str_chapter .= ":".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
-											break;
-										default:
-											$str_chapter .= ":".$arr_list_reading->begin_verse."-". $arr_list_reading->end_chapter.":".$arr_list_reading->end_verse;
-											break;
+										$str_chapter .= ":".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
 									}
+									else
+									{
+										$str_chapter .= ", ".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
+									}
+									$z = $x;
 								}
 
 							}
