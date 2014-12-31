@@ -694,9 +694,10 @@ class ZefaniabibleCommonHelper
 			$y = 1;		
 			$str_chapter = '';
 			$int_chap_cnt = 1;
+			
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
 			$mdl_audio = new ZefaniaAudioPlayer;
-						
+
 			foreach($item->arr_plan as $reading)
 			{
 				$cnt_verse_count = count($reading);
@@ -706,12 +707,37 @@ class ZefaniabibleCommonHelper
 					{
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
+						
 						if($y > 1)
 						{
 							$str_chapter .=  '</div>';
 						}
-						$str_chapter .=  '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						$str_chapter .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
+						$str_chapter .=  '<div class="zef_bible_Header_Label_Plan">';
+						$str_chapter .=  	'<h1 class="zef_bible_Header_Label_h1">';
+						$str_chapter .=  		'<a name="'.$y.'" id="zef-heading-a"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						$str_chapter .=  		mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id;
+
+						foreach($item->arr_reading as $arr_list_reading)
+						{
+							if(($book == $arr_list_reading->book_id) and ($chap == $arr_list_reading->begin_chapter))
+							{
+								if(($arr_list_reading->begin_verse != 0)and($arr_list_reading->end_verse != 0))
+								{
+									switch(true)
+									{
+										case (($arr_list_reading->begin_chapter == $arr_list_reading->end_chapter)):
+											$str_chapter .= ":".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
+											break;
+										default:
+											$str_chapter .= ":".$arr_list_reading->begin_verse."-". $arr_list_reading->end_chapter.":".$arr_list_reading->end_verse;
+											break;
+									}
+								}
+
+							}
+						}						
+						$str_chapter .=  	'</h1>';
+						$str_chapter .=  '</div>';
 						$str_chapter .=  '<div class="zef_bible_Chapter">';
 						if($item->flg_show_audio_player)
 						{
@@ -818,16 +844,19 @@ class ZefaniabibleCommonHelper
 		$str_page_output = '';
 		$str_page_output .=  '<div class="odd">';
 		$x = 0;
+		$y = 0;
 		foreach($item->arr_reading as $reading)
 		{			
 			if($temp_day != $reading->day_number)
 			{
+				$y = 0;
 				$temp_day = $reading->day_number;
 				if($x != 0)
 				{
 					$str_page_output .=  '<div style="clear:both"></div></div>';
 					if ($reading->day_number % 2)
 					{
+
 						$str_page_output .=  '<div class="odd">';
 					}
 					else
@@ -837,10 +866,11 @@ class ZefaniabibleCommonHelper
 					
 				}
 					$str_page_output .=  '<div class="zef_day_number">'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$reading->day_number."</div>";
-			}			
+			}
+			$y++;		
 			$x++;
 			$str_page_output .=  '<div class="zef_reading">';
-			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number.'&Itemid='.$item->str_view_plan).'" target="_self">';
+			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$y.'" target="_self">';
 			$str_page_output .=  $link.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$reading->book_id)." ";
 			$str_page_output .=  $reading->begin_chapter;
 			if(($reading->begin_verse == 0)and($reading->end_verse == 0))
