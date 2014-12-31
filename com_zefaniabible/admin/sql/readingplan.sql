@@ -32,7 +32,7 @@ INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `params`, `name`, `alias`, `
 (1, '', 'New Testament Reading Plan (83 days)', 'nt83', 'COM_ZEFANIABIBLE_NEW_TEST_MSG', 1, 1),
 (2, '', 'Comprehensive Reading Plan (365 days)', 'nt365', 'COM_ZEFANIABIBLE_COMP_MSG', 2, 1),
 (3, '', 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1),
-(4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 0),
+(4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 1),
 (5, '', 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1),
 (6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1),
 (7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1),
