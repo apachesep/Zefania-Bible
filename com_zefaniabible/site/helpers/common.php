@@ -1303,6 +1303,26 @@ class ZefaniabibleCommonHelper
 		}
 		$verse .= 	'<div style="clear:both"></div>';
 		return $verse;
-	}	
+	}
+	public function fnc_make_scripture_title($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse )
+	{
+		$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id);
+		switch(true)
+		{
+			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter."-".$int_end_chapter;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_chapter.":".$int_end_verse;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
+				break;
+			default;
+				$str_title .= " ".$int_begin_chapter;
+				break;
+		}
+		return $str_title;
+	}
 }
 ?>
