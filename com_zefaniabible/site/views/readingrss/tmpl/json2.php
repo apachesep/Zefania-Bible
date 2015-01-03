@@ -35,6 +35,8 @@ class BibleReadingPlanJSON
 
 	public function __construct($item)
 	{
+		$int_begin_verse = 0;
+		$int_end_verse = 0;
 		echo '[{'.PHP_EOL;
 		$x=1;
 		echo '	"type":"reading",'.PHP_EOL;
@@ -46,70 +48,77 @@ class BibleReadingPlanJSON
 		echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
 		echo '	"day":"'.$item->int_day_number.'",'.PHP_EOL;	
 				
-		echo '	"bookname":{'.PHP_EOL;		
+		echo '	"bookname":'.PHP_EOL;
+		echo '	{'.PHP_EOL;		
 		foreach($item->arr_plan as $obj_chapter)
 		{			
 			$y = 1;
 			$flg_prev_chap = 0;
 			$flg_last_verse = 0;
+			$int_len_reading = count($obj_chapter);
 			foreach ($obj_chapter as $obj_verse)
 			{	
-				if($y != 1)
+				$int_begin_verse = 0;
+				$int_end_verse = 0;
+				foreach($item->arr_reading as $arr_reading)
 				{
-					if($flg_prev_chap != $obj_verse->chapter_id)
+					if(($arr_reading->begin_chapter == $obj_verse->chapter_id)and($arr_reading->book_id == $obj_verse->book_id)and($obj_verse->verse_id == $arr_reading->end_verse))
 					{
-						echo '					}'.PHP_EOL;
-						echo '				}'.PHP_EOL;
+						if((	$arr_reading->begin_verse != 0)and($arr_reading->end_verse !=0))
+						{
+							$int_begin_verse = $arr_reading->begin_verse;
+							$int_end_verse = $arr_reading->end_verse;
+						}
 					}
-					else
-					{
-						echo '					},'.PHP_EOL;
-					}
-				}
+				}					
 				$flg_chapt_change = 0;
 				if($y == 1)
 				{
-					echo '	"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'":{'.PHP_EOL;	
-					echo '		"chapter":{'.PHP_EOL;	
+					echo '		"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'":'.PHP_EOL;
+					echo '		{'.PHP_EOL;	
+					echo '			"chapter":'.PHP_EOL;	
+					echo '			{'.PHP_EOL;	
+					echo '				"'.$obj_verse->chapter_id.'":'.PHP_EOL;
+					echo '				{'.PHP_EOL;					
+					echo '					"verse":'.PHP_EOL;
+					echo '					{'.PHP_EOL;					
 				}
-				if($flg_prev_chap != $obj_verse->chapter_id)
-				{
-					if($flg_prev_chap != 0)
-					{
-						echo '			},'.PHP_EOL;
-					}
-					echo '			"'.$obj_verse->chapter_id.'":{'.PHP_EOL;
-					echo '				"verse":{'.PHP_EOL;
-					$flg_prev_chap = $obj_verse->chapter_id;
-				}
-				echo '					"'.$obj_verse->verse_id.'":'.PHP_EOL;			
-				echo '					{'.PHP_EOL;
-				echo '						"booknameenglish":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
-				echo '						"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
-				echo '						"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
-				echo '						"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
-				echo '						"text":"'.strip_tags($obj_verse->verse).'"'.PHP_EOL;
+				echo '						"'.$obj_verse->verse_id.'":'.PHP_EOL;			
+				echo '						{'.PHP_EOL;
+				echo '							"booknameenglish":"'.$item->arr_english_book_names[$obj_verse->book_id].'",'.PHP_EOL;	
+				echo '							"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
+				echo '							"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
+				echo '							"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
+				echo '							"text":"'.strip_tags($obj_verse->verse).'"'.PHP_EOL;
+
 				
+				if($y >= $int_len_reading)
+				{
+					echo '						}'.PHP_EOL;						
+					echo '					}'.PHP_EOL;					
+					echo '				}'.PHP_EOL;
+					echo '			}'.PHP_EOL;	
+				}	
+				else
+				{					
+					echo '						},'.PHP_EOL;					
+				}
 				$y++;
 			}
 
 			if($x >= count($item->arr_plan))
 			{
-				echo '}'.PHP_EOL;
-				// used to add extra closing brackets for plans that are more than one book.
-				if(count($item->arr_plan) > 1)
-				{
-					echo "}}}}";
-				}				
+				echo "		}".PHP_EOL;
+				echo "	}".PHP_EOL;			
 			}
 			else
 			{
-				echo '},'.PHP_EOL;
+				echo '		},'.PHP_EOL;
 			}
 
 			$x++;			
 		}
-		echo '}}}}}}]'.PHP_EOL;			
+		echo '}]'.PHP_EOL;			
 	}	
 }
 ?>

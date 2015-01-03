@@ -47,7 +47,8 @@ class PlanJSON
 		echo '	"planalias":"'.$item->str_reading_plan.'",'.PHP_EOL;
 		echo '	"maxdays":"'.$item->int_max_days.'",'.PHP_EOL;		
 					
-		echo '	"day":{'.PHP_EOL;		
+		echo '	"day":'.PHP_EOL;
+		echo '	{'.PHP_EOL;		
 		foreach($item->arr_reading as $obj_reading)
 		{			
 			echo '		"'.$obj_reading->day_number.'":'.PHP_EOL;
