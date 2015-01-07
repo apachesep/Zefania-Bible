@@ -46,6 +46,7 @@ class PlanRss
 		$str_url_link = '';	
 		$str_url_escaped = 	str_replace('&', '&amp;',$str_url_link);
 		$str_admin_email = $params->get('adminEmail', 'admin@'.substr(JURI::root(),7,-1));
+		$str_subtitle = '';
 			echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 			echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 			echo '<channel>'.PHP_EOL;
@@ -64,15 +65,13 @@ class PlanRss
 			echo 		$item->str_description;
 			echo '</description>'.PHP_EOL;
 			$x = 0;
-			
+			print_r($item->arr_reading);
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
-				
 				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan, false);
 				$str_url_escaped = 	str_replace('&', '&amp;',$str_link);
-				//echo $item->arr_reading[$x]->day_number."<br>";
 				$str_subtitle .= $mdl_common->fnc_make_scripture_title($obj_plan_info->book_id, $obj_plan_info->begin_chapter, $obj_plan_info->begin_verse, $obj_plan_info->end_chapter, $obj_plan_info->end_verse);
-				if($item->arr_reading[$x+1]->day_number > $obj_plan_info->day_number)
+				if(($x == (count($item->arr_reading)-1) )or($item->arr_reading[($x+1)]->day_number > $obj_plan_info->day_number))
 				{
 					echo '	<item>'.PHP_EOL;
 					echo '		<title>'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '. $obj_plan_info->day_number.'</title>'.PHP_EOL;			
