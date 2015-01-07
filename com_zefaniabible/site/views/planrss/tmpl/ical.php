@@ -24,39 +24,14 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-$cls_PlanRSSDefault = new PlanRssDefault($this->item); 
-class PlanRssDefault
+class PlanICal
 {
 
 	public function __construct($item)
 	{
-		switch($item->str_variant)
-		{
-			case "atom":
-				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/atom.php');
-				$mdl_atom 	= new PlanAtom($item);			
-				break;
-			case "ical":
-				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/ical.php');
-				$mdl_ical 	= new PlanICal($item);			
-				break;
-								
-			case "json":
-				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/json.php');
-				$mdl_json 	= new PlanJSON($item);					
-				break;
-				
-			case "json2":
-				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/json2.php');
-				$mdl_json 	= new PlanJSON($item);					
-				break;				
-				
-			default:
-				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/rss.php');
-				$mdl_rss 	= new PlanRss($item);					
-				break;	
-		}
 	
-	}
+
+	
+	}	
 }
 ?>
