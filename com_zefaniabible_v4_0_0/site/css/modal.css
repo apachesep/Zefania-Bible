@@ -1,0 +1,52 @@
+.zef_content_verse, .zef_content_verse_id, .zef_content_verse_text
+{
+	float:left;	
+	margin-left:5px;
+}
+.zef_content_verse_id
+{
+	font-size:0.7em;
+	color:#F00;
+}
+.zef_content_title
+{
+	font-weight:bold;	
+	margin-left:35px;
+}
+body
+{
+	font-size:1em;
+}
+.zef_content_verse_link
+{
+	margin-bottom:10px;	
+}
+.even
+{
+	background-color: #FFE;
+	border-top: 1px dotted #D6D6D6;
+	border-bottom: 1px dotted #D6D6D6;
+}
+.zef_content_verse, .zef_content_verse_text
+{
+	width:95%;	
+}
+.zef_reference_modal .zef_reference
+{
+	padding:10px; 
+	float:left;	
+	width:98%;
+} 
+.zef_commentary_image, .zef_reference_image, .zef_scripture_image, .zef_strong_dic_image
+{
+	display:block;
+	margin-left:auto;  
+	margin-right:auto;
+	margin-bottom:5px;
+}
+.zef_credits
+{ 
+	text-align:center !important;
+	margin-left:auto;  
+	margin-right:auto;	
+}
