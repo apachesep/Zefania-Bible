@@ -1,45 +1,54 @@
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
-	`id` int(11) NOT NULL auto_increment,
-	`params` text NOT NULL default '',
-	`name` VARCHAR(255) ,
-	`alias` VARCHAR(255) ,
-	`description` TEXT ,
-	`ordering` INT(11) ,
-	`publish` TINYINT ,
+	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL,
+	`alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+	`description` LONGTEXT NOT NULL,	
+	`ordering` int(11) NOT NULL DEFAULT '0',
+	`published` tinyint(3) NOT NULL DEFAULT '0',
+	`checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+	`checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`created_by` int(11) unsigned NOT NULL DEFAULT '0',
+	`modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`modified_by` int(11) unsigned NOT NULL DEFAULT '0',
+	`access` int(11) unsigned NOT NULL DEFAULT '0',
+	`language` char(7) NOT NULL COMMENT 'The language code for the article.',
+	`metadata` text NOT NULL,
+	`metakey` text NOT NULL,
+	`metadesc` text NOT NULL,
+	PRIMARY KEY (id)
+)
+CHARACTER SET utf8
+COLLATE utf8_general_ci;
 
-	PRIMARY KEY  (`id`)
-	
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `name`, `alias`, `description`, `ordering`, `published`, `checked_out`, `checked_out_time`, `created`, `created_by`, `modified`, `modified_by`, `access`, `language`, `metadata`, `metakey`, `metadesc` ) VALUES
+(1, 'New Testament Reading Plan (83 days)', 'nt83', 'COM_ZEFANIABIBLE_NEW_TEST_MSG', 1, 1),
+(2, 'Comprehensive Reading Plan (365 days)', 'nt365', 'COM_ZEFANIABIBLE_COMP_MSG', 2, 1),
+(3, 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1),
+(4, 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 1),
+(5, 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1),
+(6, 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1),
+(7, 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1),
+(8, 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1),
+(9, 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1);*/
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
-	`id` int(11) NOT NULL auto_increment,
-	`params` text NOT NULL default '',
-	`plan` INT(11) ,
-	`book_id` INT(11) ,
-	`begin_chapter` INT(11) ,
-	`begin_verse` INT(11) ,
-	`end_chapter` INT(11) ,
-	`end_verse` INT(11) ,
-	`day_number` INT(11) ,
-	`description` TEXT ,
-	`ordering` INT(11) ,
+	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`plan` INT(11) NOT NULL,
+	`book_id` INT(11) NOT NULL,
+	`begin_chapter` INT(11) NOT NULL,
+	`begin_verse` INT(11) NOT NULL,
+	`end_chapter` INT(11) NOT NULL,
+	`end_verse` INT(11) NOT NULL,
+	`day_number` INT(11) NOT NULL,
+	`description` TEXT,
+	`ordering` int(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (id)
+)
+CHARACTER SET utf8
+COLLATE utf8_general_ci;
 
-	PRIMARY KEY  (`id`)
-	
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `params`, `name`, `alias`, `description`, `ordering`, `publish`) VALUES
-(1, '', 'New Testament Reading Plan (83 days)', 'nt83', 'COM_ZEFANIABIBLE_NEW_TEST_MSG', 1, 1),
-(2, '', 'Comprehensive Reading Plan (365 days)', 'nt365', 'COM_ZEFANIABIBLE_COMP_MSG', 2, 1),
-(3, '', 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1),
-(4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 1),
-(5, '', 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1),
-(6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1),
-(7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1),
-(8, '', 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1),
-(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1);
-
-INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `book_id`, `begin_chapter`, `begin_verse`, `end_chapter`, `end_verse`, `day_number`, `description`, `ordering`) VALUES
+INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `plan`, `book_id`, `begin_chapter`, `begin_verse`, `end_chapter`, `end_verse`, `day_number`, `description`, `ordering`) VALUES
 (1, '', 8, 1, 1, 0, 3, 0, 1, '', 1),
 (2, '', 8, 1, 4, 0, 6, 0, 2, '', 2),
 (3, '', 8, 1, 7, 0, 9, 0, 3, '', 3),
