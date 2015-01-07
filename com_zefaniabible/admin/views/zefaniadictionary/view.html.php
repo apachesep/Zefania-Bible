@@ -1,137 +1,136 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+defined("_JEXEC") or die("Restricted access");
 
-
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/helpers/zefaniabible.php';
 
 /**
- * HTML View class for the Zefaniabible component
+ * Zefaniadictionary list view class.
  *
- * @static
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Views
  */
 class ZefaniabibleViewZefaniadictionary extends JViewLegacy
 {
-	/*
-	 * Define here the default list limit
-	 */
-	protected $_default_limit = null;
-
-	function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
-		$layout = $this->getLayout();
-
-
-
-		switch($layout)
-		{
-			case 'default':
-
-				$fct = "display_" . $layout;
-				$this->$fct($tpl);
-				break;
-		}
-
-	}
-	function display_default($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-
-		$user 	= JFactory::getUser();
-
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-		$state		= $this->get('State');
-
-		$document	= JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("COM_ZEFANIABIBLE_DICTIONARY") . $document->titleSuffix;
-
-		// Get data from the model
-		$model 		= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'default');
-		$model->active("publish", false);
-
-		$items		= $model->getItems();
-
-		$total		= $this->get( 'Total');
-		$pagination = $this->get( 'Pagination' );
-
-		// table ordering
-		$lists['order'] = $model->getState('list.ordering');
-		$lists['order_Dir'] = $model->getState('list.direction');
-
-		// Toolbar
-		jimport('joomla.html.toolbar');
-		$bar = JToolBar::getInstance('toolbar');
-		if ($access->get('core.create'))
-			$bar->appendButton( 'Standard', "new", "JTOOLBAR_NEW", "new", false);
-		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "edit", "JTOOLBAR_EDIT", "edit", true);
-		if ($access->get('core.delete') || $access->get('core.delete.own'))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
-		if ($access->get('core.admin'))
-			JToolBarHelper::preferences( 'com_zefaniabible' );
-		if ($access->get('core.edit.state'))
-			$bar->appendButton( 'Standard', "publish", "JTOOLBAR_PUBLISH", "publish", true);
-		if ($access->get('core.edit.state'))
-			$bar->appendButton( 'Standard', "unpublish", "JTOOLBAR_UNPUBLISH", "unpublish", true);
-
-		//Filters
-		//Publish
-		$this->filters['publish'] = new stdClass();
-		$this->filters['publish']->value = $model->getState("filter.publish");
-
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+	protected $items;
+	protected $pagination;
+	protected $state;
 	
-		$user = JFactory::getUser();
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('state',		$state);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('config',		$config);
+	public function display($tpl = null)
+	{
+		$this->items = $this->get('Items');
+		$this->state = $this->get('State');
+		$this->pagination = $this->get('Pagination');
+		$this->authors = $this->get('Authors');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
+			return false;
+		}
+		
+		ZefaniabibleHelper::addSubmenu('zefaniadictionary');
+		
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		
 		parent::display($tpl);
 	}
+	
+	/**
+	 *	Method to add a toolbar
+	 */
+	protected function addToolbar()
+	{
+		$state	= $this->get('State');
+		$canDo	= ZefaniabibleHelper::getActions();
+		$user	= JFactory::getUser();
 
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		
+		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_INFO_VIEW_ZEFANIADICTIONARY_TITLE'));
+		
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::addNew('zefaniadictionaryitem.add','JTOOLBAR_NEW');
+		}
 
+		if (($canDo->get('core.edit') || $canDo->get('core.edit.own')) && isset($this->items[0]))
+		{
+			JToolBarHelper::editList('zefaniadictionaryitem.edit','JTOOLBAR_EDIT');
+		}
+		
+		if ($canDo->get('core.edit.state'))
+		{
+            if (isset($this->items[0]->published))
+			{
+			    JToolBarHelper::divider();
+				JToolbarHelper::publish('zefaniadictionary.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolbarHelper::unpublish('zefaniadictionary.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            } 
+			else if (isset($this->items[0]))
+			{
+                // Show a direct delete button
+                JToolBarHelper::deleteList('', 'zefaniadictionary.delete','JTOOLBAR_DELETE');
+            }
 
+            if (isset($this->items[0]->published))
+			{
+			    JToolBarHelper::divider();
+			    JToolBarHelper::archiveList('zefaniadictionary.archive','JTOOLBAR_ARCHIVE');
+            }
+            
+			if (isset($this->items[0]->checked_out))
+			{
+				JToolbarHelper::checkin('zefaniadictionary.checkin');
+            }
+		}
+		
+		// Show trash and delete for components that uses the state field
+        if (isset($this->items[0]->published))
+		{
+		    if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+			    JToolBarHelper::deleteList('', 'zefaniadictionary.delete','JTOOLBAR_EMPTY_TRASH');
+			    JToolBarHelper::divider();
+		    }
+			else if ($state->get('filter.published') != -2 && $canDo->get('core.edit.state'))
+			{
+			    JToolBarHelper::trash('zefaniadictionary.trash','JTOOLBAR_TRASH');
+			    JToolBarHelper::divider();
+		    }
+        }
+		
+		// Add a batch button
+		if (isset($this->items[0]) && $user->authorise('core.create', 'com_contacts') && $user->authorise('core.edit', 'com_contacts') && $user->authorise('core.edit.state', 'com_contacts'))
+		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
 
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
 
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+		
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_zefaniabible');
+		}
+	}
 }
+?>

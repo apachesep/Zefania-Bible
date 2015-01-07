@@ -1,72 +1,71 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.list.php');
-
+defined("_JEXEC") or die("Restricted access");
 
 /**
- * Zefaniabible Component Zefaniabible Model
+ * List Model for zefaniascripture.
  *
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Models
  */
-class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
+class ZefaniabibleModelZefaniascripture extends JModelList
 {
-	var $_name_sing = 'zefaniascriptureitem';
-
-
-
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
-		//Define the sortables fields (in lists)
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
-				'_bible_version_title', '_bible_version_.bible_name',
-				'book_id', 'a.book_id',
-				'chapter_id', 'a.chapter_id',
-				'verse_id', 'a.verse_id',
-				'verse', 'a.verse',
+				'a.bible_id', 'bible_id','ordering', 'state', 'bible_id', 'book_id', 'chapter_id', 'verse_id'
 			);
 		}
-
-		//Define the filterable fields
-		$this->set('filter_vars', array(
-			'select_bible_book' => 'string'
-				));
-
 		parent::__construct($config);
 	}
+	
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 */
+	protected function populateState($ordering = 'bible_id', $direction = 'ASC')
+	{
+		// Get the Application
+		$app = JFactory::getApplication();
+		
+		// Set filter state for search
+        $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
+		// Set filter state for verse_id
+		$verse_id = $this->getUserStateFromRequest($this->context.'.filter.verse_id', 'filter_verse_id', '');
+		$this->setState('filter.verse_id', $verse_id);
+		
 
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_zefaniabible');
+		$this->setState('params', $params);
+
+		// List state information.
+		parent::populateState($ordering, $direction);
+	}
+	
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -74,252 +73,84 @@ class ZefaniabibleModelZefaniascripture extends ZefaniabibleModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
 	 */
-	 
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-
+		$id .= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
 	}
 
-
-
 	/**
-	 * Method to auto-populate the model state.
+	 * Build an SQL query to load the list data.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  JDatabaseQuery
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function getListQuery()
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
-
-		// Load the filter state.
-        $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
-        	//Omit double (white-)spaces and set state
-		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
- 
-		//Filter (dropdown) Bible Version
-        $state = $this->getUserStateFromRequest($this->context.'.filter.bible_name', 'filter_bible_name', '', 'string');
-		$this->setState('filter.bible_name', $state);
- 
-		//Filter (dropdown) Bible Book
-        $state = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '', 'string');
-        $this->setState('filter.book_id', $state);
+		// Get database object
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select('a.*')->from('#__zefaniabible_bible_text AS a');				
 		
-		//Filter (dropdown) Bible Chapter
-        $state = $this->getUserStateFromRequest($this->context.'filter.chapter_id', 'filter_chapter_id', '', 'string');
-        $this->setState('filter.chapter_id', $state);	
+
+		// Filter by search
+		$search = $this->getState('filter.search');
+		$s = $db->quote('%'.$db->escape($search, true).'%');
 		
-		//Filter (dropdown) Bible Chapter
-        $state = $this->getUserStateFromRequest($this->context.'filter.verse_id', 'filter_verse_id', '', 'string');
-        $this->setState('filter.verse_id', $state);			
- 
-		//Takes care of states: list. limit / start / ordering / direction
-        parent::populateState('_bible_version_.bible_name', 'asc');
-	}
-
-
-	/**
-	 * Method to build a the query string for the Zefaniabibleitem
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function _buildQuery_bible_versions()
-	{
-		try 
+		if (!empty($search))
 		{
-			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('b.bible_name');
-			$query->from('`#__zefaniabible_bible_names` AS b');
-			$db->setQuery($query);
-			$data = $db->loadObjectList();				
-		}
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}
-		return $data;		
-	}
-	function  _buildQuery_max_chapters($int_Bible_Book_ID)
-	{
-		try 
-		{
-			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('Max(a.chapter_id)');
-			$query->from('`#__zefaniabible_bible_text` AS a');	
-			if($int_Bible_Book_ID)
+			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.book_id='.$int_Bible_Book_ID);
+				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
 			}
-			$db->setQuery($query);
-			$data = $db->loadResult();			
-		}		
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}
-		return $data;			
-	}
-	function  _buildQuery_max_verse($int_Bible_Book_ID,$int_Bible_Chapter)
-	{
-		try 
-		{
-			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('Max(a.verse_id)');
-			$query->from('`#__zefaniabible_bible_text` AS a');		
-			if($int_Bible_Book_ID)
+			elseif (stripos($search, 'bible_id:') === 0)
 			{
-				$query->where('a.book_id='.$int_Bible_Book_ID);
+				$search = $db->quote('%' . $db->escape(substr($search, strlen('bible_id:')), true) . '%');
+				$query->where('(a.bible_id LIKE ' . $search);
 			}
-			if($int_Bible_Chapter)
+			else
 			{
-				$query->where('a.chapter_id='.$int_Bible_Chapter);
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('a.chapter_id LIKE' . $s . ' OR a.verse_id LIKE' . $s . ' OR a.verse LIKE' . $s );
 			}
-			$db->setQuery($query);
-			$data = $db->loadResult();			
-		}		
-		catch (JException $e)
-		{
-			$this->setError($e);
 		}
-		return $data;			
-	}	
-	 
-	function _buildQuery()
-	{
-
-		if (isset($this->_active['predefined']))
-		switch($this->_active['predefined'])
+		// Filter by verse_id
+		$verse_id = $this->getState('filter.verse_id');
+		if ($verse_id != "")
 		{
-			case 'default': return $this->_buildQuery_default(); break;
-
+			$query->where('a.verse_id = ' . $db->quote($db->escape($verse_id)));
 		}
-		$query = ' SELECT a.*'
-
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_bible_text` AS a '
-
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
-
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;
-		return $query;
-	}	
-	function _buildQuery_default()
-	{
-
-		$query = ' SELECT a.*'
-			.	' , _bible_version_.bible_name AS `_bible_version_title`'
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_bible_text` AS a '
-				.	' LEFT JOIN `#__zefaniabible_bible_names` AS _bible_version_ ON _bible_version_.id = a.bible_id'
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
 
 
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;	
+		// Add list oredring and list direction to SQL query
+		$sort = $this->getState('list.ordering', 'bible_id');
+		$order = $this->getState('list.direction', 'ASC');
+		$query->order($db->escape($sort).' '.$db->escape($order));
+		
 		return $query;
 	}
-	function _buildQueryWhere($where = array())
-	{
-		$app = JFactory::getApplication();
-		$db= JFactory::getDBO();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-		$int_primary_backend_book = $params->get('primary_book_backend');
-						
-		if (isset($this->_active['filter']) && $this->_active['filter'])
-		{
-			$filter_bible_name = $this->getState('filter.bible_name');
-			if ($filter_bible_name != '')		$where[] = "_bible_version_.bible_name = " . $db->Quote($filter_bible_name);			
-			
-			$filter_book_id = $this->getState('filter.book_id');
-			if((($int_primary_backend_book != '')or(int_primary_backend_book != 0))and($filter_book_id == ''))
-			{
-				$filter_book_id = $int_primary_backend_book;
-			}
-			if ($filter_book_id != '')		$where[] = "a.book_id = " . $db->Quote($filter_book_id);
-			
-			$filter_chapter_id = $this->getState('filter.chapter_id');
-			if ($filter_chapter_id != '')		$where[] = "a.chapter_id = " . $db->Quote($filter_chapter_id);
-			
-			$filter_verse_id = $this->getState('filter.verse_id');
-			if ($filter_verse_id != '')		$where[] = "a.verse_id = " . $db->Quote($filter_verse_id);			
-			//search_search : search on  + Chapter Number +  + Book Name > Bible Book Name
-			$search_search = $this->getState('filter.search');
-
-			$this->_addSearch('search', 'a.verse', 'like');
-			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
-				$where[] = $search_search_val;
-
-
-		}
-		return parent::_buildQueryWhere($where);
-	}	
-
-	function _buildQueryOrderBy($order = array(), $pre_order = 'a.book_id, a.chapter_id, a.verse_id')
-	{
-
-		return parent::_buildQueryOrderBy($order, $pre_order);
-	}
+	
 	/**
-	 * Method to Convert the parameter fields into objects.
+	 * Method to get an array of data items.
 	 *
-	 * @access public
-	 * @return void
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
 	 */
-	protected function populateParams()
+	public function getItems()
 	{
-
-		parent::populateParams();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-		if (!isset($this->_data))
-			return;
-
-		// Convert the parameter fields into objects.
-		foreach ($this->_data as &$item)
-		{
-
-			if ($acl->get('core.edit.state')
-				|| (bool)$item->publish)
-				$item->params->set('access-view', true);
-
-			if ($acl->get('core.edit'))
-				$item->params->set('access-edit', true);
-
-			if ($acl->get('core.delete'))
-				$item->params->set('access-delete', true);
-
-
+		if ($items = parent::getItems()) {
+			//Do any procesing on fields here if needed
 		}
 
+		return $items;
 	}
-
 }
+?>

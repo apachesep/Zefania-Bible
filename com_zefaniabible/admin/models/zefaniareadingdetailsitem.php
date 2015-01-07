@@ -1,385 +1,232 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniareadingdetails
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-
-jimport('joomla.application.component.model');
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.item.php');
+defined("_JEXEC") or die("Restricted access");
 
 /**
- * Zefaniabible Component Zefaniareadingdetailsitem Model
+ * Item Model for zefaniareadingdetailsitem.
  *
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Models
  */
-class ZefaniabibleModelZefaniareadingdetailsitem extends ZefaniabibleModelItem
+class ZefaniabibleModelZefaniareadingdetailsitem extends JModelAdmin
 {
-	var $_name_plur = 'zefaniareadingdetails';
-	var $params;
-
-
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_ZEFANIABIBLE';
 
 	/**
-	 * Constructor
+	 * The type alias for this content type.
 	 *
+	 * @var      string
+	 * @since    3.2
 	 */
-	function __construct()
-	{
-		parent::__construct();
-		$this->_modes = array_merge($this->_modes, array(''));
-
-	}
+	public $typeAlias = 'com_zefaniabible.zefaniareadingdetailsitem';
 
 	/**
-	 * Method to initialise the zefaniareadingdetailsitem data
+	 * Method to test whether a record can be deleted.
 	 *
-	 * @access	private
-	 * @return	boolean	True on success
+	 * @param   object    $record    A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
-	function _initData()
+	protected function canDelete($record)
 	{
-		if (empty($this->_data))
+		if (!empty($record->id))
 		{
-			//Default values shown in the form for new item creation
-			$data = new stdClass();
 
-			$data->id = 0;
-			$data->attribs = null;
-			$data->plan = JRequest::getInt('filter_plan', $this->getState('filter.plan'));
-			$data->book_id = JRequest::getInt('filter_book_id', $this->getState('filter.book_id'));
-			$data->begin_chapter = null;
-			$data->begin_verse = null;
-			$data->end_chapter = null;
-			$data->end_verse = null;
-			$data->day_number = null;
-			$data->description = null;
-			$data->ordering = null;
-
-			$this->_data = $data;
-
-			return (boolean) $this->_data;
+			$user = JFactory::getUser();
+			return $user->authorise('core.delete', $this->typeAlias . '.' . (int) $record->id);
 		}
-		return true;
-	}
-
+	}		
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   JTable    A JTable object.
+	 *
+	 * @return  void
+	 * @since   1.6
+	 */
+	protected function prepareTable($table)
+	{
+		// Set the publish date to now
+		$db = $this->getDbo();
+	}
+
+	/**
+	 * Auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function populateState()
+	{
+		$app = JFactory::getApplication('administrator');
+
+		// Load the User state.
+		$pk = $app->input->getInt('id');
+		$this->setState($this->getName() . '.id', $pk);
+
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_zefaniabible');
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to perform batch operations on an item or a set of items.
+	 *
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		// Sanitize ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
+
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
+		{
+			unset($pks[array_search(0, $pks, true)]);
+		}
+
+		if (empty($pks))
+		{
+			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		// Set some needed variables.
+		$this->user = JFactory::getUser();
+		$this->table = $this->getTable();
+		$this->tableClassName = get_class($this->table);
+		$this->contentType = new JUcmType;
+		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		$this->batchSet = true;
+
+		if ($this->type == false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+
+		}
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+	
+	/**
+	 * Alias for JTable::getInstance()
+	 *
+	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $prefix  An optional prefix for the table class name.
+	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 *
+	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
+	 */
+	public function getTable($type = 'Zefaniareadingdetailsitem', $prefix = 'ZefaniabibleTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+	
+	/**
+	 * Method for getting the form from the model.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		JForm::addRulePath(JPATH_COMPONENT_ADMINISTRATOR.'/models/rules');		
+		
+		$options = array('control' => 'jform', 'load_data' => $loadData);
+		$form = $this->loadForm($this->typeAlias, $this->name, $options);
+		
+		if(empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
+	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 */
+	protected function loadFormData()
+	{
+		$app = JFactory::getApplication();
+		$data = $app->getUserState($this->option . '.edit.' . $this->name . '.data', array());
+		
+		if(empty($data))
+		{
+			$data = $this->getItem();
+		}
+		
+		return $data;
+	}
+	
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
 	 * @since	1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	public function getItem($pk = null)
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
+		if (!$item = parent::getItem($pk))
+		{			
+			throw new Exception('Failed to load item');
+		}
 
-		if ($search_search = $app->getUserState($this->context.'.search.search'))
-			$this->setState('search.search', $search_search, null, 'varchar');
-
-
-
-		parent::populateState();
-	}
-
-
-	/**
-	 * Method to build a the query string for the Zefaniareadingdetailsitem
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function _buildQuery()
-	{
-
-		if (isset($this->_active['predefined']))
-		switch($this->_active['predefined'])
+		if (!$item->id)
 		{
-			case 'addreadingdetails': return $this->_buildQuery_addreadingdetails(); break;
-
 		}
-
-
-
-			$query = 'SELECT a.*'
-					. 	$this->_buildQuerySelect()
-
-					.	' FROM `#__zefaniabible_zefaniareadingdetails` AS a'
-					. 	$this->_buildQueryJoin()
-
-					. 	$this->_buildQueryWhere()
-
-					.	'';
-
-		return $query;
+		
+		return $item;
 	}
-
-	function _buildQuery_addreadingdetails()
-	{
-
-			$query = 'SELECT a.*'
-					.	' , _plan_.name AS `_plan_name`'
-					.	' , _plan_.name AS `_plan_name`'
-					.	' , _book_id_.bible_book_name AS `_book_id_bible_book_name`'
-					.	' , _book_id_.bible_book_name AS `_book_id_bible_book_name`'
-					. 	$this->_buildQuerySelect()
-
-					.	' FROM `#__zefaniabible_zefaniareadingdetails` AS a'
-					.	' LEFT JOIN `#__zefaniabible_zefaniareading` AS _plan_ ON _plan_.id = a.plan'
-					.	' LEFT JOIN `#__zefaniabible_zefaniabiblebooknames` AS _book_id_ ON _book_id_.id = a.book_id'
-					. 	$this->_buildQueryJoin()
-
-					. 	$this->_buildQueryWhere()
-
-					.	'';
-
-		return $query;
-	}
-
-
-
-	function _buildQueryWhere($where = array())
-	{
-		$app = JFactory::getApplication();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-		$where[] = 'a.id = '.(int) $this->_id;
-
-
-
-		return parent::_buildQueryWhere($where);
-	}
-
-	/**
-	 * Method to update zefaniareadingdetailsitem in mass
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function update($cids, $data)
-	{
-		foreach($cids as $cid)
-		{
-			if ($cid == 0)
-				continue;
-			$data['id'] = $cid;
-			if (!$this->save($data))
-				return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Method to save the zefaniareadingdetailsitem
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function save($data)
-	{
-
-		$row = $this->getTable();
-
-
-
-		//Convert data from a stdClass
-		if (is_object($data)){
-			if (get_class($data) == 'stdClass')
-				$data = JArrayHelper::fromObject($data);
-		}
-
-		//Current id if unspecified
-		if ($data['id'] != null)
-			$id = $data['id'];
-		else if (($this->_id != null) && ($this->_id > 0))
-			$id = $this->_id;
-
-
-		//Load the current object, in order to process an update
-		if (isset($id))
-			$row->load($id);
-
-
-		// Bind the form fields to the zefaniabible table
-		$ignore = array();
-		if (!$row->bind($data, $ignore)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-
-
-		// Make sure the zefaniabible table is valid
-		if (!$row->check()) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-		// Store the zefaniabible table to the database
-		if (!$row->store())
-        {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-		$this->_id = $row->id;
-		$this->_data = $row;
-
-
-
-		return true;
-	}
-	/**
-	 * Method to delete a zefaniareadingdetailsitem
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function delete($cid = array())
-	{
-		$result = false;
-
-		if (count( $cid ))
-		{
-			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
-
-			$query = 'DELETE FROM `#__zefaniabible_zefaniareadingdetails`'
-				. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				JError::raiseWarning(1000, $this->_db->getErrorMsg());
-				return false;
-			}
-
-
-
-		}
-
-		return true;
-	}
-	/**
-	 * Method to move a zefaniareadingdetailsitem
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function move($direction)
-	{
-		$row = $this->getTable();
-		if (!$row->load($this->_id)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		$condition = "1";
-
-
-		if (!$row->move( $direction,  $condition)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to save the order of the zefaniareadingdetails
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable();
-
-		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
-		{
-			$row->load( (int) $cid[$i] );
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store()) {
-					JError::raiseWarning(1000, $this->_db->getErrorMsg());
-					return false;
-				}
-			}
-		}
-
-		$row->reorder();
-
-
-		return true;
-	}
-	/**
-	 * Method to Convert the parameter fields into objects.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	protected function populateParams()
-	{
-		parent::populateParams();
-
-		if (!isset($this->_data))
-			return;
-
-		$item = $this->_data;
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-		$item->params->set('access-view', true);
-
-		if ($acl->get('core.edit'))
-			$item->params->set('access-edit', true);
-
-		if ($acl->get('core.delete'))
-			$item->params->set('access-delete', true);
-
-
-
-	}
-
-
-
-
 }
+?>

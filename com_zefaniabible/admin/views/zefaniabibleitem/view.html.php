@@ -1,296 +1,84 @@
 <?php
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
+defined("_JEXEC") or die("Restricted access");
 
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/helpers/zefaniabible.php';
 
 /**
- * HTML View class for the Zefaniabible component
+ * Zefaniabibleitem item view class.
  *
- * @static
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Views
  */
 class ZefaniabibleViewZefaniabibleitem extends JViewLegacy
 {
-	function display($tpl = null)
+	protected $item;
+	protected $form;
+	protected $state;
+
+	public function display($tpl = null)
 	{
-		$layout = $this->getLayout();
-		switch($layout)
-		{
-			case 'bibleadd':
-
-				$fct = "display_" . $layout;
-				$this->$fct($tpl);
-				break;
-		}
-	}	
-	function display_bibleadd($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-
-		$user 	= JFactory::getUser();
-
-		//$access = ZefaniabibleHelper::getACL();
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-
-		$model	= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'bibleadd');
-
-		$document	= JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE") . $document->titleSuffix;
-
-
-		//Form validator
-		JHTML::_('behavior.formvalidation');
-
-
-		$lists = array();
-
-		//get the zefaniabibleitem
-		$zefaniabibleitem	= $model->getItem();
-		$isNew		= ($zefaniabibleitem->id < 1);
-
-		//For security, execute here a redirection if not authorized to enter a form
-		if (($isNew && !$access->get('core.create'))
-		|| (!$isNew && !$zefaniabibleitem->params->get('access-edit')))
-		{
-				JError::raiseWarning(403, JText::sprintf( "JERROR_ALERTNOAUTHOR") );
-				ZefaniabibleHelper::redirectBack();
-		}
-
-		//Ordering
-		$orderModel = JModelLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
-		$lists["ordering"] = $orderModel->getItems();
-
-		// Toolbar
-		jimport('joomla.html.toolbar');
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 		
-		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 1', 'http://www.churchsw.org/p/bibles.html');
-		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 2', 'http://sourceforge.net/projects/zefania-sharp/files/Zefania%20XML%20Modules%20%28new%29/');
-		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_BIBLES').' 3', 'http://www.biblesupport.com/e-sword-downloads/category/2-bibles/');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 		
-		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
-		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
-			$bar->appendButton( 'Standard', "save", "JTOOLBAR_SAVE", "save", false);
-		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
-		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
-
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
+			return false;
+		}
 		
-		$str_bibles_path = '/'.$config->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');
-		$str_audio_file_path = '/'.$config->get('xmlAudioPath', 'media/com_zefaniabible/audio/');
-		
-		jimport( 'joomla.filesystem.folder' );
-		$arr_file_list = JFolder::files('..'.$str_bibles_path,'.xml');
-		$arr_audio_file_list = JFolder::files('..'.$str_audio_file_path,'.xml');
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+		}
 
-		JRequest::setVar( 'hidemainmenu', true );
-
-		if(ini_get('max_execution_time') < 30)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_EXECUTION_TIME'));
-		}
-		if(!ini_get('allow_url_fopen'))
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_FOPEN'));
-		}
-		if((substr(ini_get('upload_max_filesize'),0,-1))<10)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_FILE_SIZE'));		
-		}
-		if((substr(ini_get('post_max_size'),0,-1))<10)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_POST_SIZE'));		
-		}
-		$session =  JFactory::getSession();
- 		jimport('joomla.environment.uri' );
-		$document = JFactory::getDocument();
-		$toggle = 'function toggleElement(current, disable) {
-				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
-				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
-				document.getElementById(disable + "_text").disabled = true;
-				document.getElementById(current + "_text").disabled = false;
-		}';
-				
-		if($isNew)
-		{
-			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
-			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
-			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
-			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
-			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
-			
-			$uploader_script = '
-				window.onload = function() 
-				{
-						upload1 = new SWFUpload
-						(
-							{
-								upload_url: "'.$targetURL.'&type=bible",
-								flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
-								file_size_limit : "20MB",
-								file_types : "*.xml",
-								file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC', 'true').'",
-								file_upload_limit : "5",
-								file_queue_limit : "5",
-								button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
-								button_placeholder_id : "btnUpload1",
-								button_width: 61,
-								button_height: 22,
-								button_window_mode: "transparent",
-								debug: false,
-								swfupload_loaded_handler: function() 
-								{
-									document.id("btnCancel1").removeClass("ss-hide");
-									document.id("biblepathinfo").removeClass("ss-hide");
-									if(document.id("upload-noflash")){
-										document.id("upload-noflash").destroy();
-										document.id("loading").destroy();
-									}
-								},
-								file_dialog_start_handler : fileDialogStart,
-								file_queued_handler : fileQueued,
-								file_queue_error_handler : fileQueueError,
-								file_dialog_complete_handler : fileDialogComplete,
-								upload_start_handler : uploadStart,
-								upload_progress_handler : uploadProgress,
-								upload_error_handler : uploadError,
-								upload_success_handler : function uploadSuccess(file, serverData) 
-								{
-									try 
-									{
-										var progress = new FileProgress(file, this.customSettings.progressTarget);
-										var data = JSON.decode(serverData);
-										if (data.status == "1") 
-										{
-											progress.setComplete();
-											progress.setStatus(data.error);
-											document.id("xml_file_url_text").value = data.path;
-										} else 
-										{
-											progress.setError();
-											progress.setStatus(data.error);
-										}
-										progress.toggleCancel(false);
-									} catch (ex) 
-									{
-										this.debug(ex);
-									}
-								},
-								upload_complete_handler : uploadComplete,
-								custom_settings : 
-								{
-									progressTarget : "infoUpload1",
-									cancelButtonId : "btnCancel1"
-								}
-							}
-						);
-						upload2 = new SWFUpload({
-							upload_url: "'.$targetURL.'&type=audio",
-							flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
-							file_size_limit : "10MB",
-							file_types : "*.xml",
-							file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_AUDIO', 'true').'",
-							file_upload_limit : "0",
-							file_queue_limit : "0",
-							button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
-							button_placeholder_id : "btnUpload2",
-							button_width: 61,
-							button_height: 22,
-							button_window_mode: "transparent",
-							debug: false,
-							swfupload_loaded_handler: function() {
-								document.id("btnCancel2").removeClass("ss-hide");
-								document.id("audiopathinfo").removeClass("ss-hide");
-								if(document.id("upload-noflash")){
-									document.id("upload-noflash").destroy();
-									document.id("loading").destroy();
-								}
-							},
-							file_dialog_start_handler : fileDialogStart,
-							file_queued_handler : fileQueued,
-							file_queue_error_handler : fileQueueError,
-							file_dialog_complete_handler : fileDialogComplete,
-							upload_start_handler : uploadStart,
-							upload_progress_handler : uploadProgress,
-							upload_error_handler : uploadError,
-							upload_success_handler : function uploadSuccess(file, serverData) {
-								try {
-									var progress = new FileProgress(file, this.customSettings.progressTarget);
-									var data = JSON.decode(serverData);
-									if (data.status == "1") {
-										progress.setComplete();
-										progress.setStatus(data.error);
-										document.id("xml_audio_url_text").value = data.path;
-									} else {
-										progress.setError();
-										progress.setStatus(data.error);
-									}
-									progress.toggleCancel(false);
-								} catch (ex) {
-									this.debug(ex);
-								}
-							},
-							upload_complete_handler : uploadComplete,
-							custom_settings : {
-								progressTarget : "infoUpload2",
-								cancelButtonId : "btnCancel2"
-							}
-						});
-			}';				
-			 
-			//add the javascript to the head of the html document
-			$document->addScriptDeclaration($uploader_script);
-
-		}
-		$document->addScriptDeclaration($toggle);
-		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
-		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
-		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
-		$document->addScriptDeclaration($str_lang);		
-
-		$user = JFactory::getUser();
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('zefaniabibleitem',		$zefaniabibleitem);
-		$this->assignRef('config',		$config);
-		$this->assignRef('isNew',		$isNew);
-		$this->assignRef('arr_file_list', $arr_file_list);
-		$this->assignRef('arr_audio_file_list', $arr_audio_file_list);
+		$this->addToolbar();
 		parent::display($tpl);
 	}
+	
+	protected function addToolbar()
+	{
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= ZefaniabibleHelper::getActions();
+		
+		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_VIEW_ZEFANIABIBLEITEM_TITLE'));
+
+		if (isset($this->item->checked_out)) {
+		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+        } else {
+            $checkedOut = false;
+        }
+		
+		// If not checked out, can save the item.
+		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create'))))
+		{
+
+			JToolBarHelper::apply('zefaniabibleitem.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('zefaniabibleitem.save', 'JTOOLBAR_SAVE');
+		}
+		if (!$checkedOut && ($canDo->get('core.create'))){
+			JToolBarHelper::custom('zefaniabibleitem.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('zefaniabibleitem.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+		}
+		if (empty($this->item->id)) {
+			JToolBarHelper::cancel('zefaniabibleitem.cancel', 'JTOOLBAR_CANCEL');
+		}
+		else {
+			JToolBarHelper::cancel('zefaniabibleitem.cancel', 'JTOOLBAR_CLOSE');
+		}
+	}
 }
+?>
