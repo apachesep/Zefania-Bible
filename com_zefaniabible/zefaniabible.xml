@@ -61,68 +61,21 @@
 		<languages folder="admin/language">
 				<language tag="en-GB">en-GB.com_zefaniabible.ini</language>
 				<language tag="en-GB">en-GB.com_zefaniabible.sys.ini</language>
-				<language tag='ar-AA'>ar-AA.com_zefaniabible.ini</language>
-				<language tag='ar-AA'>ar-AA.com_zefaniabible.sys.ini</language>
-				<language tag='bg-BG'>bg-BG.com_zefaniabible.ini</language>
-				<language tag='bg-BG'>bg-BG.com_zefaniabible.sys.ini</language>
-				<language tag='cs-CZ'>cs-CZ.com_zefaniabible.ini</language>
-				<language tag='cs-CZ'>cs-CZ.com_zefaniabible.sys.ini</language>
-				<language tag='da-DK'>da-DK.com_zefaniabible.ini</language>
-				<language tag='da-DK'>da-DK.com_zefaniabible.sys.ini</language>
-				<language tag='de-DE'>de-DE.com_zefaniabible.ini</language>
-				<language tag='de-DE'>de-DE.com_zefaniabible.sys.ini</language>
-				<language tag='es-CO'>es-CO.com_zefaniabible.ini</language>
-				<language tag='es-CO'>es-CO.com_zefaniabible.sys.ini</language>
-				<language tag='es-ES'>es-ES.com_zefaniabible.ini</language>
-				<language tag='es-ES'>es-ES.com_zefaniabible.sys.ini</language>
-				<language tag='et-EE'>et-EE.com_zefaniabible.ini</language>
-				<language tag='et-EE'>et-EE.com_zefaniabible.sys.ini</language>
-				<language tag='fr-FR'>fr-FR.com_zefaniabible.ini</language>
-				<language tag='fr-FR'>fr-FR.com_zefaniabible.sys.ini</language>
-				<language tag='he-IL'>he-IL.com_zefaniabible.ini</language>
-				<language tag='he-IL'>he-IL.com_zefaniabible.sys.ini</language>
-				<language tag='hu-HU'>hu-HU.com_zefaniabible.ini</language>
-				<language tag='hu-HU'>hu-HU.com_zefaniabible.sys.ini</language>
-				<language tag='it-IT'>it-IT.com_zefaniabible.ini</language>
-				<language tag='it-IT'>it-IT.com_zefaniabible.sys.ini</language>
-				<language tag='nl-NL'>nl-NL.com_zefaniabible.ini</language>
-				<language tag='nl-NL'>nl-NL.com_zefaniabible.sys.ini</language>
-				<language tag='pl-PL'>pl-PL.com_zefaniabible.ini</language>
-				<language tag='pl-PL'>pl-PL.com_zefaniabible.sys.ini</language>
-				<language tag='pt-BR'>pt-BR.com_zefaniabible.ini</language>
-				<language tag='pt-BR'>pt-BR.com_zefaniabible.sys.ini</language>
-				<language tag='ro-RO'>ro-RO.com_zefaniabible.ini</language>
-				<language tag='ro-RO'>ro-RO.com_zefaniabible.sys.ini</language>
-				<language tag='ru-RU'>ru-RU.com_zefaniabible.ini</language>
-				<language tag='ru-RU'>ru-RU.com_zefaniabible.sys.ini</language>
-				<language tag='sk-SK'>sk-SK.com_zefaniabible.ini</language>
-				<language tag='sk-SK'>sk-SK.com_zefaniabible.sys.ini</language>
-				<language tag='sv-SE'>sv-SE.com_zefaniabible.ini</language>
-				<language tag='sv-SE'>sv-SE.com_zefaniabible.sys.ini</language>
-				<language tag='zh-CN'>zh-CN.com_zefaniabible.ini</language>
-				<language tag='zh-CN'>zh-CN.com_zefaniabible.sys.ini</language>
-				<language tag='zh-TW'>zh-TW.com_zefaniabible.ini</language>
-				<language tag='zh-TW'>zh-TW.com_zefaniabible.sys.ini</language>
 		</languages>
 		<menu img="components/com_zefaniabible/images/icon-16-zefaniabible.png">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
 		<submenu>		
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniacomment.png" link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniabible.png" link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURES</menu>	
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareading.png" link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniareadingdetails.png" link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniauser.png" link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zefaniaverseofday.png" link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
-			<menu img="components/com_zefaniabible/images/icon-16-zefaniabible_zephdictionary.png" link="option=com_zefaniabible&amp;view=zefaniadictionary">ZEFANIABIBLE_MENU_DICTIONARY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURES</menu>	
+			<menu link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniadictionary">ZEFANIABIBLE_MENU_DICTIONARY</menu>
 		</submenu>
 		<files folder="admin"> 
-			<folder>classes</folder>
 			<folder>controllers</folder>
-			<folder>css</folder>
-			<folder>dom</folder>
 			<folder>helpers</folder>
-			<folder>images</folder>
-			<folder>js</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
@@ -138,7 +91,7 @@
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
 			<file driver="mysql" charset="utf8">sql/verseofday.mysql.sql</file>
-			<file driver="mysql" charset="utf8">sql/readingplan.sql</file>
+			<!--<file driver="mysql" charset="utf8">sql/readingplan.sql</file>-->
 		</sql>
 	</install>
 	<uninstall>
