@@ -121,6 +121,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->flg_show_pagination_type 		= $params->get('show_pagination_type','0');		
 		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$item->flg_enable_debug					= $params->get('flg_enable_debug','0');	
+		$item->flg_show_strong			 		= $params->get('flg_show_strong','0');
 		
 		$item->str_Main_Bible_Version 		= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->str_Second_Bible_Version 	= $jinput->get('bible2', $item->str_secondary_bible, 'CMD');
@@ -130,7 +131,7 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->str_tmpl 					= $jinput->get('tmpl',null,'CMD');
 		$item->str_option					= $jinput->get('option', null, 'CMD');
 		$item->int_menu_item_id 			= $jinput->get('Itemid', null, 'INT');	
-		$item->flg_use_strong				= $jinput->get('strong', null, 'INT');
+		$item->flg_use_strong				= $jinput->get('strong', $item->flg_show_strong, 'INT');
 		$item->str_view 					= $jinput->get('view', 'standard', 'CMD');
 		$item->str_commentary 				= $jinput->get('com', $item->str_primary_commentary, 'CMD');
 		$item->str_curr_dict 				= $jinput->get('dict', $item->str_primary_dictionary, 'CMD');

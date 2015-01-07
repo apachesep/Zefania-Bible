@@ -568,7 +568,7 @@ class ZefaniabibleCommonHelper
 				}
 				else
 				{
-					$arr_verse->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse->verse);
+					$arr_verse2->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$arr_verse2->verse);
 				}	
 			}
 			$temp2[$b] = '<div class="zef_compare_bibles">'.'<div class="zef_verse_number">'.$arr_verse2->verse_id.'</div><div class="zef_verse">'.$arr_verse2->verse.'</div></div>';
@@ -692,26 +692,53 @@ class ZefaniabibleCommonHelper
 			$chap = 0;
 			$x = 1;
 			$y = 1;		
+			$z = 0;
 			$str_chapter = '';
 			$int_chap_cnt = 1;
+			
 			require_once(JPATH_COMPONENT_SITE.'/helpers/audioplayer.php');
 			$mdl_audio = new ZefaniaAudioPlayer;
-						
+
 			foreach($item->arr_plan as $reading)
 			{
 				$cnt_verse_count = count($reading);
 				foreach($reading as $plan)
 				{	
 					if (($plan->book_id > $book)or($plan->chapter_id > $chap))
-					{
+					{					
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
+						
 						if($y > 1)
 						{
 							$str_chapter .=  '</div>';
 						}
-						$str_chapter .=  '<div class="zef_bible_Header_Label_Plan"><h1 class="zef_bible_Header_Label_h1"><a name="'.$y.'" id="'.$y.'"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						$str_chapter .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id.'</h1></div>';
+						$str_chapter .=  '<div class="zef_bible_Header_Label_Plan">';
+						$str_chapter .=  	'<h1 class="zef_bible_Header_Label_h1">';
+						$str_chapter .=  		'<a name="'.$y.'" id="zef-heading-a"></a>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
+						$str_chapter .=  		mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id;
+
+						foreach($item->arr_reading as $arr_list_reading)
+						{								
+							if(($book == $arr_list_reading->book_id) and ($chap == $arr_list_reading->begin_chapter))
+							{
+								if(($arr_list_reading->begin_verse != 0)and($arr_list_reading->end_verse != 0))
+								{
+									if($z != $x)
+									{
+										$str_chapter .= ":".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
+									}
+									else
+									{
+										$str_chapter .= ", ".$arr_list_reading->begin_verse."-".$arr_list_reading->end_verse;
+									}
+									$z = $x;
+								}
+
+							}
+						}						
+						$str_chapter .=  	'</h1>';
+						$str_chapter .=  '</div>';
 						$str_chapter .=  '<div class="zef_bible_Chapter">';
 						if($item->flg_show_audio_player)
 						{
@@ -818,16 +845,19 @@ class ZefaniabibleCommonHelper
 		$str_page_output = '';
 		$str_page_output .=  '<div class="odd">';
 		$x = 0;
+		$y = 0;
 		foreach($item->arr_reading as $reading)
 		{			
 			if($temp_day != $reading->day_number)
 			{
+				$y = 0;
 				$temp_day = $reading->day_number;
 				if($x != 0)
 				{
 					$str_page_output .=  '<div style="clear:both"></div></div>';
 					if ($reading->day_number % 2)
 					{
+
 						$str_page_output .=  '<div class="odd">';
 					}
 					else
@@ -837,10 +867,11 @@ class ZefaniabibleCommonHelper
 					
 				}
 					$str_page_output .=  '<div class="zef_day_number">'.JText::_('ZEFANIABIBLE_READING_PLAN_DAY')." ".$reading->day_number."</div>";
-			}			
+			}
+			$y++;		
 			$x++;
 			$str_page_output .=  '<div class="zef_reading">';
-			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number.'&Itemid='.$item->str_view_plan).'" target="_self">';
+			$link = '<a title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$y.'" target="_self">';
 			$str_page_output .=  $link.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$reading->book_id)." ";
 			$str_page_output .=  $reading->begin_chapter;
 			if(($reading->begin_verse == 0)and($reading->end_verse == 0))
@@ -1016,6 +1047,282 @@ class ZefaniabibleCommonHelper
 		$JDate = JFactory::getDate('today', new DateTimeZone($config->get('offset')));
 		$str_today = $JDate->format(DATE_RFC822, true);
 		return 	$str_today;		
+	} 
+	public function fnc_scripture_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title, $arr_multi_query,$flg_use_multi_query,$str_passages, $flg_add_title = 0)
+	{
+		$verse = '';
+		$x = 1;
+		$int_verse_cnt = count($arr_verses);
+
+		foreach($arr_verses as $obj_verses)
+		{	
+			switch(true)
+			{
+				//multi verse query
+				case (($flg_use_multi_query)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse)):
+					foreach($arr_multi_query as $obj_multi_query)
+					{
+						if(($obj_verses->verse_id == $obj_multi_query[0])and($x==1))
+						{
+
+							$verse .= '<div class="zef_content_scripture">';
+							if($flg_add_title)
+							{
+								$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_passages;
+								if($flg_add_bible_title)
+								{
+									$verse .= ' - '.$obj_verses->bible_name;
+								}
+								$verse .= '</div>';
+							}
+							$verse .= '<div class="zef_content_verse" >';
+						}
+					}
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+					}
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';
+					if($x == $int_verse_cnt)
+					{
+						$verse .= '</div></div>';
+					}
+					$x++;					
+					break;									
+				// Genesis 1:1
+				case (($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and(!$str_end_verse)and(!$flg_use_multi_query)):
+					$verse = 		'<div class="zef_content_scripture">';
+					if($flg_add_title)
+					{
+						$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse;
+						if($flg_add_bible_title)
+						{
+							$verse .= ' - '.$obj_verses->bible_name;
+						}
+						$verse .= 	'</div>';
+					}
+					$verse .= 	'<div class="zef_content_verse"><div class="odd">'.$obj_verses->verse.'</div></div>';
+					$verse .= '</div>';					
+					break;
+					
+				// Genesis 1:1-3
+				case (($str_begin_chap)and(!$str_end_chap)and($str_begin_verse)and($str_end_verse)and(!$flg_use_multi_query)):
+					if($obj_verses->verse_id == $str_begin_verse)
+					{
+						$verse .= '<div class="zef_content_scripture">';
+						if($flg_add_title)
+						{
+							$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_verse;
+							if($flg_add_bible_title)
+							{
+								$verse .= ' - '.$obj_verses->bible_name;
+							}
+							$verse .= 	'</div>';
+						}
+						$verse .= 	'<div class="zef_content_verse" >';
+					}
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+					}
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';
+					if($x == $int_verse_cnt)
+					{
+						$verse .= '</div></div>';
+					}
+					$x++;	
+					break;	
+						
+				// Genesis 1		
+				case (($str_begin_chap)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse)and(!$flg_use_multi_query)):
+					if($obj_verses->verse_id == '1')
+					{
+						$verse .= '<div class="zef_content_scripture">';
+						if($flg_add_title)
+						{
+							$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap;
+							if($flg_add_bible_title)
+							{
+								$verse .= ' - '.$obj_verses->bible_name;
+							}
+							$verse .= 	'</div>';
+						}
+						$verse .= 	'<div class="zef_content_verse" >';
+
+					}
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+					}
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';
+					if($x == $int_verse_cnt)
+					{	
+						$verse .= '</div></div>';
+					}
+					$x++;					
+					break;
+					
+				// Genesis 1-2
+				case (($str_begin_chap)and($str_end_chap)and(!$str_begin_verse)and(!$str_end_verse)and(!$flg_use_multi_query)):
+					if(($obj_verses->verse_id == '1')and($str_begin_chap == $obj_verses->chapter_id))
+					{
+						$verse .= '<div class="zef_content_scripture">';
+						if($flg_add_title)
+						{
+							$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.'-'.$str_end_chap;
+							if($flg_add_bible_title)
+							{
+								$verse .= ' - '.$obj_verses->bible_name;
+							}
+							$verse .= 	'</div>';
+						}
+						$verse .= 	'<div class="zef_content_verse" >';
+					}		
+					if(($obj_verses->verse_id == '1')and($str_begin_chap != $obj_verses->chapter_id))
+					{
+						$verse .=  '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$obj_verses->chapter_id.'</div>';
+					}
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+					}
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';		
+					if($x == $int_verse_cnt)
+					{	
+						$verse .= '</div></div>';	
+					}	
+					$x++;				
+					break;
+					
+				// Genesis 1:30-2:3
+				case (($str_begin_chap)and($str_end_chap)and($str_begin_verse)and($str_end_verse)and(!$flg_use_multi_query)):
+					if(($obj_verses->verse_id == $str_begin_verse)and($str_begin_chap == $obj_verses->chapter_id))
+					{
+						$title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_begin_chap.':'.$str_begin_verse.'-'.$str_end_chap.':'.$str_end_verse;
+						if($flg_add_bible_title)
+						{
+							$title .= ' - '.$obj_verses->bible_name;
+						}
+						$verse .= '<div class="zef_content_scripture">';
+						if($flg_add_title)
+						{
+							$verse .= 	'<div class="zef_content_title">'.$title.'</div>';
+						}
+						$verse .= 	'<div class="zef_content_verse" >';							
+					}
+					if(($obj_verses->verse_id == '1')and($str_begin_chap != $obj_verses->chapter_id))
+					{
+						$verse .=  '<hr class="zef_content_subtitle_hr"><div class="zef_content_subtitle">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$obj_verses->chapter_id.'</div>';
+					}							
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+
+					}		
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';	
+					if($x == $int_verse_cnt)
+					{	
+						$verse .= '</div></div>';			
+					}
+					$x++;				
+					break;	
+				//multi verse query
+				case (count($arr_multi_query>1)and(!$str_end_chap)and(!$str_begin_verse)and(!$str_end_verse)and(!$flg_use_multi_query)):
+
+					if($obj_verses->verse_id == $arr_multi_query[0][0])
+					{
+						$verse .= '<div class="zef_content_scripture">';
+						if($flg_add_title)
+						{
+							$verse .= 	'<div class="zef_content_title">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$str_Bible_book_id).' '.$str_passages;
+							if($flg_add_bible_title)
+							{
+								$verse .= ' - '.$obj_verses->bible_name;
+							}
+							$verse .= 	'</div>';
+						}
+						$verse .= 	'<div class="zef_content_verse" >';
+					}
+					if ($x % 2 )
+					{
+						$verse .= '<div class="odd">';
+					}
+					else
+					{
+						$verse .= '<div class="even">';
+					}
+					$verse .= 	'<div class="zef_content_verse_id" >'.$obj_verses->verse_id.'</div>';
+					$verse .= 	'<div class="zef_content_verse_text">'.$obj_verses->verse.'</div>';
+					$verse .= 	'<div style="clear:both"></div>';
+					$verse .= '</div>';
+					if($x == $int_verse_cnt)
+					{
+					//	$verse .= '</div></div>';
+					}
+					$x++;					
+					break;					
+				default:
+					break;	
+			}
+		}
+		$verse .= 	'<div style="clear:both"></div>';
+		return $verse;
+	}
+	public function fnc_make_scripture_title($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse )
+	{
+		$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id);
+		switch(true)
+		{
+			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter."-".$int_end_chapter;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_chapter.":".$int_end_verse;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
+				break;
+			default;
+				$str_title .= " ".$int_begin_chapter;
+				break;
+		}
+		return $str_title;
 	}
 }
 ?>

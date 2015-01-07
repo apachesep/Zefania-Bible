@@ -39,7 +39,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 					if(($this->item->flg_reading_rss_button)and($this->item->str_tmpl != "component")){
 				?>
 					<div class="zef_reading_rss">
-                    	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version.'&day='.$this->item->int_day_diff);?>" target="_blank" >
+                    	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version.'&day='.$this->item->int_day_number);?>" target="_blank" >
                 			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
 						</a>
 					</div>                
@@ -92,7 +92,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
                             	<div class="zef_dictionary_strong_label"><?php echo JText::_('COM_ZEFANIABIBLE_HIDE_STRONG');?></div>
 								<div class="zef_dictionary_strong_input">
 	                                <input type='hidden' value='0' name='strong'>
-                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if(JRequest::getCmd('strong') == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
+                                	<input type='checkbox' name='strong' value="1" id='zef_hide_strong' <?php if($this->item->flg_use_strong == 1){ echo 'checked="checked"';}?> onchange="this.form.submit()" />
 								</div>
 							</div>
 	                    <?php } ?>

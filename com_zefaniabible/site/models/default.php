@@ -485,6 +485,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("b.day_number=".$int_day_number);
 			$query->order('b.plan');
 			$query->order('b.book_id');
+			$query->order('b.begin_chapter');
+			$query->order('b.begin_verse');
 			$db->setQuery($query);
 			$data = $db->loadObjectList();
 		}
@@ -1071,6 +1073,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				}
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
+			
 			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}

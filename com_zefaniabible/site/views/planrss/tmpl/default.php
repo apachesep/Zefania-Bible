@@ -36,7 +36,11 @@ class PlanRssDefault
 				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/atom.php');
 				$mdl_atom 	= new PlanAtom($item);			
 				break;
-				
+			case "ical":
+				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/ical.php');
+				$mdl_ical 	= new PlanICal($item);			
+				break;
+								
 			case "json":
 				require_once(JPATH_COMPONENT_SITE.'/views/planrss/tmpl/json.php');
 				$mdl_json 	= new PlanJSON($item);					

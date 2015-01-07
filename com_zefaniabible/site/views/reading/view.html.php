@@ -112,8 +112,9 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
 		$item->str_dictionary_height 			= 	$params->get('str_dictionary_height','500');
 		$item->str_dictionary_width 			= 	$params->get('str_dictionary_width','800');
-				
-		$item->flg_use_strong					= 	$jinput->get('strong', null, 'INT');
+		$item->flg_show_strong			 		= 	$params->get('flg_show_strong','0');
+		
+		$item->flg_use_strong					= 	$jinput->get('strong', $item->flg_show_strong, 'INT');
 		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
 		$item->str_tmpl 						= 	$jinput->get('tmpl',null,'CMD');
 		$item->str_option						= 	$jinput->get('option', null, 'CMD');

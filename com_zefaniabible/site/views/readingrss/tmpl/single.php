@@ -36,13 +36,18 @@ class BibleReadingPlanSingle
 	{
 		$book = 0;
 		$chap = 0;
+		$int_end_verse = 0;
+		$int_begin_verse = 0;		
 		$str_title = '';
 		$str_desc = '';
 		$y = 1;
 		$int_len = 0;
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();
-		
+
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+				
 		echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
 		echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'.PHP_EOL;
 		echo '	<channel>'.PHP_EOL;
@@ -63,15 +68,34 @@ class BibleReadingPlanSingle
 			$x= 1;
 			$int_len_reading = count($reading);
 			foreach($reading as $plan)
-			{					
-				if (($plan->book_id > $book)or($plan->chapter_id > $chap))
+			{				
+				// add blank line when chapters/reading restarts
+				if($x == 1)
 				{
-					$str_desc = $str_desc. PHP_EOL;
+					$str_desc .= PHP_EOL;
+				}			
+				
+				$int_begin_verse = 0;
+				$int_end_verse = 0;						
+				if($x >= $int_len_reading)
+				{						
 					$book = $plan->book_id;
 					$chap = $plan->chapter_id;
-					$str_title = $str_title. JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id. ", ";
+					// loop over particular days reading and get verse begin and end values
+					foreach($item->arr_reading as $arr_reading)
+					{
+						if(($arr_reading->begin_chapter == $chap)and($arr_reading->book_id == $book)and($plan->verse_id == $arr_reading->end_verse))
+						{
+							if(($arr_reading->begin_verse != 0)and($arr_reading->end_verse !=0))
+							{
+								$int_begin_verse =$arr_reading->begin_verse;
+								$int_end_verse = $arr_reading->end_verse;
+							}
+						}
+					}						
+					$str_title .= $mdl_common->fnc_make_scripture_title($book, $chap, $int_begin_verse, $chap, $int_end_verse).", ";
 				}
-				$str_desc = $str_desc. "		 ".strip_tags($plan->verse). PHP_EOL;
+				$str_desc .= "		 ".strip_tags($plan->verse). PHP_EOL;
 				$x++;
 			}
 		}

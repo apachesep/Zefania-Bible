@@ -85,6 +85,7 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		if($item->str_variant == 'json')
 		{
 			$this->document->setMimeEncoding('application/json');
+			JResponse::setHeader('Content-Disposition','attachment;filename=verse.json');
 		}
 		else
 		{

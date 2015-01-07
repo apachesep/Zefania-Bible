@@ -1,4 +1,4 @@
-
+<?php
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -6,7 +6,7 @@
 * --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
 * @version		1.6
 * @package		ZefaniaBible
-* @subpackage	Search Plugin
+* @subpackage	Zefaniabible
 * @copyright	Missionary Church of Grace
 * @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
 * @license		GNU/GPL
@@ -22,42 +22,16 @@
 *               \_)  (_/
 */
 
-function fnc_scripture(obj)
+defined('_JEXEC') or die('Restricted access'); ?>
+<?php 
+class PlanICal
 {
-	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&tmpl=component";	
-	switch(obj.type)
-	{			
-		case "dialog":
-			fnc_dialog(url, obj);
-			break;
-		case "tooltip":
-			fnc_tooltip(url, obj);
-			break;		
-		default:
-			fnc_popover(url, obj);
-			break;
-	}
-}
-function fnc_popover(url, obj)
-{
-	jQuery.get( url, function( data ) 
-	{
-		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
-	});
-}
 
-function fnc_tooltip(url, obj)
-{
-	jQuery.get( url, function( data ) 
+	public function __construct($item)
 	{
-		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
-	});
-}
+	
 
-function fnc_dialog(url, obj)
-{
-	jQuery.get( url, function( data ) 
-	{
-		jQuery( ".modal-body-"+obj.unique_id).html(data);
-	});
+	
+	}	
 }
+?>

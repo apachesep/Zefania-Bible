@@ -89,7 +89,6 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 		$item->flg_redirect_request 			= 	$jinput->get('type', '1', 'INT');
 		$item->flg_use_sef						= 	JFactory::getApplication()->getRouter()->getMode();
 		
-
 		header('HTTP/1.1 301 Moved Permanently');
 		if($item->flg_use_sef)
 		{

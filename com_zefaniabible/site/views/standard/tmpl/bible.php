@@ -136,10 +136,10 @@ class BibleView {
                                 $str_match_fuction = "/(?=\S)([HG](\d{1,4}))/iu";
                                 if($item->flg_use_strong == 1)
                                 {
-                                    $arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);
-                                    $arr_verse->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$arr_verse->verse);
-                                    $arr_verse->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$arr_verse->verse);
-                                    $arr_verse->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$arr_verse->verse);
+                                   // $arr_verse->verse = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $arr_verse->verse);
+                                  //  $arr_verse->verse = preg_replace('/{dict-alias}/iu',$item->str_curr_dict,$arr_verse->verse);
+                                  //  $arr_verse->verse = preg_replace('/{dict-width}/iu',$item->str_dictionary_width,$arr_verse->verse);
+                                  //  $arr_verse->verse = preg_replace('/{dict-height}/iu',$item->str_dictionary_height,$arr_verse->verse);
                                 }
                                 else
                                 {
@@ -316,6 +316,7 @@ class BibleView {
 			for($x = 1; $x <= 66; $x++)
 			{
 				if(preg_match('/\b('.$arr_orig_ref[$x].')\b/',$obj_single_ref))
+
 				{
 					$int_Bible_Book_ID = $x;
 					$str_bible_book_abr = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_ABR_'.$int_Bible_Book_ID);
