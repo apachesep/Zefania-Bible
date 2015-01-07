@@ -2,8 +2,8 @@
 <config>
 	<fieldset name="bible" label="COM_ZEFANIABIBLE_BIBLE_LABEL" description="COM_ZEFANIABIBLE_BIBLE_LABEL_DESC" >
 		<field type="spacer" name="myspacer" hr="true" />
-		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
-		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+		<field name="secondaryBible" type="sql" label="COM_ZEFANIABIBLE_SECONDARY_BIBLE" description="COM_ZEFANIABIBLE_SECONDARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
 		<field name="int_limit_query" type="list" default="500" label="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY" description="COM_ZEFANIABIBLE_SEARCH_LIMIT_QUERY_DESC">
 			<option value='100' >100</option>
 			<option value='250' >250</option>
@@ -163,7 +163,7 @@
 		<field type="spacer" name="myspacer2" hr="true" />	
 		
 		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y"  filter="server_utc" />					
-		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />
 		<field name="flg_use_year_date" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
