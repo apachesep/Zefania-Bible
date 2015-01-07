@@ -108,28 +108,6 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_comment_text` (
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
-
-CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniaverseofday` (
-	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`book_name` INT(11) NOT NULL,
-	`chapter_number` INT(11) NOT NULL,
-	`begin_verse` INT(11) NOT NULL,
-	`end_verse` INT(11) NOT NULL,
-	`ordering` int(11) NOT NULL DEFAULT '0',
-	`published` tinyint(3) NOT NULL DEFAULT '0',
-	`checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-	`checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`created_by` int(11) unsigned NOT NULL DEFAULT '0',
-	`modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`modified_by` int(11) unsigned NOT NULL DEFAULT '0',
-	`access` int(11) unsigned NOT NULL DEFAULT '0',
-	PRIMARY KEY (id)
-)
-CHARACTER SET utf8
-COLLATE utf8_general_ci;
-
-
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
@@ -169,21 +147,6 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
 )
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
-
-
-CREATE TABLE IF NOT EXISTS `#__zefaniabible_crossref` (
-	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`book_id` INT(11) NOT NULL,
-	`chapter_id` INT(11) NOT NULL,
-	`verse_id` INT(11) NOT NULL,
-	`sort_order` INT(11) NOT NULL,
-	`word` LONGTEXT NOT NULL,
-	`reference` LONGTEXT NOT NULL,
-	PRIMARY KEY (id)
-)
-CHARACTER SET utf8
-COLLATE utf8_general_ci;
-
 
 CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniauser` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
