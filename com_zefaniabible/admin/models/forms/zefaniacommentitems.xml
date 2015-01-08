@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
-		<field 
-			name="id"
-			type="text"
-			label="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_ID_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_ID_DESC"
-			maxlength="10"
-			filter="INTEGER"
-			class="readonly"
-			readonly="true"
-		/>
-		<field name="title" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_DESC"
-			type="text"
-			maxlength="255"
-			class="input-xxlarge input-large-text"
-		/>
-		<field name="full_name" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_DESC"
-			type="text"
-			maxlength="255"
-		/>
-		<field name="file_location" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FILE_LOCATION_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FILE_LOCATION_DESC"
-			type="file"
-			maxlength="255"
-		/>
+		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
+		<field name="title" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" class="input-xxlarge input-large-text" />
+		<field name="full_name" label="ZEFANIABIBLE_FIELD_FULL_NAME" description="" type="text" maxlength="255" />
+		<field name="file_location" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="file" maxlength="255" />
 		<field
 			name="alias"
 			type="text"
