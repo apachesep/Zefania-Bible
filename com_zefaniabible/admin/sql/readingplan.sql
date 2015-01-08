@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 	`name` VARCHAR(255) NOT NULL,
 	`alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
 	`description` LONGTEXT NOT NULL,	
-	`ordering` int(11) NOT NULL DEFAULT '0',
-	`published` tinyint(3) NOT NULL DEFAULT '0',
+	`ordering` int(11) DEFAULT '0',
+	`published` tinyint(3) DEFAULT '0',
 	`checked_out` int(11) unsigned NOT NULL DEFAULT '0',
 	`checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareading` (
 	`modified_by` int(11) unsigned NOT NULL DEFAULT '0',
 	`access` int(11) unsigned NOT NULL DEFAULT '0',
 	`language` char(7) NOT NULL COMMENT 'The language code for the article.',
-	`metadata` text NOT NULL,
-	`metakey` text NOT NULL,
-	`metadesc` text NOT NULL,
+	`metadata` text,
+	`metakey` text,
+	`metadesc` text,
 	PRIMARY KEY (id)
 )
 CHARACTER SET utf8
@@ -37,12 +37,12 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
 	`plan` INT(11) NOT NULL,
 	`book_id` INT(11) NOT NULL,
 	`begin_chapter` INT(11) NOT NULL,
-	`begin_verse` INT(11) NOT NULL,
-	`end_chapter` INT(11) NOT NULL,
-	`end_verse` INT(11) NOT NULL,
+	`begin_verse` INT(11),
+	`end_chapter` INT(11),
+	`end_verse` INT(11),
 	`day_number` INT(11) NOT NULL,
 	`description` TEXT,
-	`ordering` int(11) NOT NULL DEFAULT '0',
+	`ordering` int(11) DEFAULT '0',
 	PRIMARY KEY (id)
 )
 CHARACTER SET utf8

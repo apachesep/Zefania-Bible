@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniaverseofday` (
 	`book_name` INT(11) NOT NULL,
 	`chapter_number` INT(11) NOT NULL,
 	`begin_verse` INT(11) NOT NULL,
-	`end_verse` INT(11) NOT NULL,
+	`end_verse` INT(11),
 	`published` tinyint(3) NOT NULL DEFAULT '0',
 	`ordering` int(11) NOT NULL DEFAULT '0',	
 	`checked_out` int(11) unsigned NOT NULL DEFAULT '0',
@@ -18,9 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniaverseofday` (
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
-INSERT INTO `#__zefaniabible_zefaniaverseofday` (`id`, book_name`, `chapter_number`, `begin_verse`, `end_verse`, `published`, `ordering`, 
-`checked_out`, `checked_out_time`, `created`, `created_by`, `modified`, `modified_by`, `access`) VALUES
-
+INSERT INTO `#__zefaniabible_zefaniaverseofday` (`id`, book_name`, `chapter_number`, `begin_verse`, `end_verse`, `published`, `ordering`, `checked_out`, `checked_out_time`, `created`, `created_by`, `modified`, `modified_by`, `access`) VALUES
 (1, 47, 5, 17, 0, 1, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, 0),
 (2, 19, 90, 12, 0, 1, 2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, 0),
 (3, 56, 2, 11, 12, 1, 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, 0),
