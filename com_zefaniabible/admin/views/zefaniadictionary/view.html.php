@@ -61,7 +61,7 @@ class ZefaniabibleViewZefaniadictionary extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_INFO_VIEW_ZEFANIADICTIONARY_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_MENU_DICTIONARY'));
 		
 		if ($canDo->get('core.create'))
 		{

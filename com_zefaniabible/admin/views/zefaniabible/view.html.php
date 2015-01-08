@@ -61,7 +61,7 @@ class ZefaniabibleViewZefaniabible extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_VIEW_ZEFANIABIBLE_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_BIBLES'));
 		
 		if ($canDo->get('core.create'))
 		{

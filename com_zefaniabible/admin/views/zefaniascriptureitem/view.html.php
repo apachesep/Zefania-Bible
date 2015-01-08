@@ -50,7 +50,7 @@ class ZefaniabibleViewZefaniascriptureitem extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$canDo		= ZefaniabibleHelper::getActions();
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_VIEW_ZEFANIASCRIPTUREITEM_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE'));
 
 		if (isset($this->item->checked_out)) {
 		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));

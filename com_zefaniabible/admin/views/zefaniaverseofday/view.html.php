@@ -61,7 +61,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_VIEW_ZEFANIAVERSEOFDAY_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_FIELD_VERSE_OF_DAY'));
 		
 		if ($canDo->get('core.create'))
 		{

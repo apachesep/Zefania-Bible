@@ -51,8 +51,7 @@ class ZefaniabibleViewZefaniareadingitem extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$canDo		= ZefaniabibleHelper::getActions();
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_VIEW_ZEFANIAREADINGITEM_TITLE'));
-
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_ADD_READING_PLAN'));
 		if (isset($this->item->checked_out)) {
 		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
         } else {
