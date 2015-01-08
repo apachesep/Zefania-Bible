@@ -78,20 +78,20 @@
 	</media>	
 	
 	<administration>
-		<menu link="index.php?option=com_zefaniabible">Zefaniabible</menu>
+		<menu link="index.php?option=com_zefaniabible">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
 		<submenu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniabible">zefaniabible</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniascripture">zefaniascripture</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniadictionary">zefaniadictionary</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniabibledictdetail">zefaniabibleDictDetail</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniacomment">zefaniacomment</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURE</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniadictionary">ZEFANIABIBLE_MENU_DICTIONARY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
+<!--		<menu link="option=com_zefaniabible&amp;view=zefaniabibledictdetail">zefaniabibleDictDetail</menu>			
 			<menu link="option=com_zefaniabible&amp;view=zefaniacommentdetail">zefaniacommentdetail</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniaverseofday">zefaniaverseofday</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniareading">zefaniareading</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniareadingdetails">zefaniareadingdetails</menu>
 			<menu link="option=com_zefaniabible&amp;view=zefaniacrossref">zefaniacrossref</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniauser">zefaniauser</menu>
-			<menu link="option=com_zefaniabible&amp;view=zefaniapublish">zefaniapublish</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniapublish">zefaniapublish</menu>-->
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
