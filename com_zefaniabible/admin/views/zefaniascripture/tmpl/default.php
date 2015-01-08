@@ -72,22 +72,22 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_BIBLE_ID_LABEL', 'bible_id'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME', 'bible_id'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_BOOK_ID_LABEL'), 'a.book_id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_BOOK_NAME'), 'a.book_id', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_CHAPTER_ID_LABEL'), 'a.chapter_id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_CHAPTER_NUMBER'), 'a.chapter_id', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_VERSE_ID_LABEL'), 'a.verse_id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE_NUMBER'), 'a.verse_id', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_VERSE_LABEL'), 'a.verse', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE'), 'a.verse', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_TEXT_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -130,7 +130,7 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->book_id); ?></td>
+				<td class="left"><?php echo $this->escape(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->book_id)); ?></td>
 				<td class="left"><?php echo $this->escape($item->chapter_id); ?></td>
 				<td class="left"><?php echo $this->escape($item->verse_id); ?></td>
 				<td class="left"><?php echo $this->escape($item->verse); ?></td>

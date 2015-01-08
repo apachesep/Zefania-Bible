@@ -21,6 +21,9 @@ $listDirn = $this->state->get('list.direction');
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareadingdetails.ordering&tmpl=component';
@@ -87,31 +90,14 @@ if ($saveOrder)
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_PLAN_LABEL', 'plan'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_READING_LAYOUT', 'plan'), $listDirn, $listOrder) ?>
+				</th>
+				
+				<th class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.day_number', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_BOOK_ID_LABEL'), 'a.book_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_BEGIN_CHAPTER_LABEL'), 'a.begin_chapter', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_BEGIN_VERSE_LABEL'), 'a.begin_verse', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_END_CHAPTER_LABEL'), 'a.end_chapter', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_END_VERSE_LABEL'), 'a.end_verse', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_DAY_NUMBER_LABEL'), 'a.day_number', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_DESCRIPTION_LABEL'), 'a.description', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -155,11 +141,14 @@ if ($saveOrder)
 				<!-- item main field -->
 				<td class="nowrap has-context">
 						<div class="pull-left">
+							<?php 
+                                $str_scripture = $mdl_common->fnc_make_scripture_title($item->book_id, $item->begin_chapter, $item->begin_verse, $item->end_chapter, $item->end_verse);
+                            ?>                        
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniareadingdetailsitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->plan); ?></a>
+								<?php echo $this->escape($str_scripture); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->plan); ?>
+								<?php echo $this->escape($str_scripture); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">
@@ -176,13 +165,8 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->book_id); ?></td>
-				<td class="left"><?php echo $this->escape($item->begin_chapter); ?></td>
-				<td class="left"><?php echo $this->escape($item->begin_verse); ?></td>
-				<td class="left"><?php echo $this->escape($item->end_chapter); ?></td>
-				<td class="left"><?php echo $this->escape($item->end_verse); ?></td>
+
 				<td class="left"><?php echo $this->escape($item->day_number); ?></td>
-				<td class="left"><?php echo $this->escape($item->description); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
 		<?php endforeach ?>

@@ -96,16 +96,13 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_FIELD_NAME_LABEL', 'name'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_PLAN', 'name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_FIELD_DESCRIPTION_LABEL'), 'a.description', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_DESCRIPTION'), 'a.description', $listDirn, $listOrder) ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -114,7 +111,7 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -209,19 +206,9 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->description); ?></td>
+				<td class="left"><?php echo $this->escape(JText::_($item->description)); ?></td>
 				<td class="left">
 					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td class="small hidden-phone">
-					<?php if (isset($item->created_by_alias)) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-						<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
-					<?php else : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-					<?php endif; ?>
 				</td>
 				<td class="small hidden-phone">
 					<?php if ($item->language == '*'):?>

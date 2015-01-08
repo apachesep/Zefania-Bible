@@ -96,13 +96,13 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_BIBLE_NAME_LABEL', 'bible_name'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'bible_name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_BIBLE_XML_FILE_LABEL'), 'a.bible_xml_file', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION'), 'a.bible_xml_file', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_XML_AUDIO_URL_LABEL'), 'a.xml_audio_url', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION'), 'a.xml_audio_url', $listDirn, $listOrder) ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -117,7 +117,7 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>

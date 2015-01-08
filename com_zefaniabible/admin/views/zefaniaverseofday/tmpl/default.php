@@ -23,6 +23,9 @@ $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniaverseofday.ordering&tmpl=component';
@@ -96,28 +99,10 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_FIELD_BOOK_NAME_LABEL', 'book_name'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE', 'book_name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_FIELD_CHAPTER_NUMBER_LABEL'), 'a.chapter_number', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_FIELD_BEGIN_VERSE_LABEL'), 'a.begin_verse', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_FIELD_END_VERSE_LABEL'), 'a.end_verse', $listDirn, $listOrder) ?>
-				</th>
-				<th width="5%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAVERSEOFDAY_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -168,14 +153,17 @@ if ($saveOrder)
 				<!-- item main field -->
 				<td class="nowrap has-context">
 						<div class="pull-left">
+                        	<?php 
+								$str_scripture = $mdl_common->fnc_make_scripture_title($item->book_name, $item->chapter_number, $item->begin_verse, $item->chapter_number, $item->end_verse);
+							?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, null, $item->checked_out_time, 'zefaniaverseofday.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniaverseofdayitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->book_name); ?></a>
+								<?php echo  $this->escape($str_scripture); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->book_name); ?>
+								<?php echo $this->escape($str_scripture); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">
@@ -211,25 +199,6 @@ if ($saveOrder)
 								echo JHtml::_('dropdown.render');
 							?>
 						</div>
-				</td>
-				<td class="left"><?php echo $this->escape($item->chapter_number); ?></td>
-				<td class="left"><?php echo $this->escape($item->begin_verse); ?></td>
-				<td class="left"><?php echo $this->escape($item->end_verse); ?></td>
-				<td class="left">
-					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td class="small hidden-phone">
-					<?php if (isset($item->created_by_alias)) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-						<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
-					<?php else : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-					<?php endif; ?>
-				</td>
-				<td class="nowrap small hidden-phone">
-					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
