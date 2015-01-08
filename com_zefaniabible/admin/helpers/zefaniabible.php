@@ -18,65 +18,66 @@ class ZefaniabibleHelper
 	public static function addSubmenu($vName)
 	{
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_BIBLE_NAMES'), 
+			JText::_('ZEFANIABIBLE_LAYOUT_BIBLES'), 
 			'index.php?option=com_zefaniabible&view=zefaniabible', 
 			$vName == 'zefaniabible'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_BIBLE_TEXT'), 
+			JText::_('ZEFANIABIBLE_MENU_SCRIPTURES'), 
 			'index.php?option=com_zefaniabible&view=zefaniascripture', 
 			$vName == 'zefaniascripture'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_DICTIONARY_INFO'), 
+			JText::_('ZEFANIABIBLE_MENU_DICTIONARY'), 
 			'index.php?option=com_zefaniabible&view=zefaniadictionary', 
 			$vName == 'zefaniadictionary'
 		);
+
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_DICTIONARY_DETAIL'), 
-			'index.php?option=com_zefaniabible&view=zefaniabibledictdetail', 
-			$vName == 'zefaniabibledictdetail'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIACOMMENT'), 
+			JText::_('ZEFANIABIBLE_LAYOUT_COMMENTARIES'), 
 			'index.php?option=com_zefaniabible&view=zefaniacomment', 
 			$vName == 'zefaniacomment'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_COMMENT_TEXT'), 
-			'index.php?option=com_zefaniabible&view=zefaniacommentdetail', 
-			$vName == 'zefaniacommentdetail'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAVERSEOFDAY'), 
+			JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'), 
 			'index.php?option=com_zefaniabible&view=zefaniaverseofday', 
 			$vName == 'zefaniaverseofday'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAREADING'), 
+			JText::_('ZEFANIABIBLE_VIEW_READING_PLAN'), 
 			'index.php?option=com_zefaniabible&view=zefaniareading', 
 			$vName == 'zefaniareading'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAREADINGDETAILS'), 
+			JText::_('ZEFANIABIBLE_VIEW_READING_PLAN_DETAILS'), 
 			'index.php?option=com_zefaniabible&view=zefaniareadingdetails', 
 			$vName == 'zefaniareadingdetails'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_CROSSREF'), 
-			'index.php?option=com_zefaniabible&view=zefaniacrossref', 
-			$vName == 'zefaniacrossref'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAUSER'), 
+			JText::_('ZEFANIABIBLE_VIEW_USERS'), 
 			'index.php?option=com_zefaniabible&view=zefaniauser', 
 			$vName == 'zefaniauser'
 		);
+		/*JHtmlSidebar::addEntry(
+			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_DICTIONARY_DETAIL'), 
+			'index.php?option=com_zefaniabible&view=zefaniabibledictdetail', 
+			$vName == 'zefaniabibledictdetail'
+		);		
+		JHtmlSidebar::addEntry(
+			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_COMMENT_TEXT'), 
+			'index.php?option=com_zefaniabible&view=zefaniacommentdetail', 
+			$vName == 'zefaniacommentdetail'
+		);		
+		JHtmlSidebar::addEntry(
+			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_CROSSREF'), 
+			'index.php?option=com_zefaniabible&view=zefaniacrossref', 
+			$vName == 'zefaniacrossref'
+		);		
 		JHtmlSidebar::addEntry(
 			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAPUBLISH'), 
 			'index.php?option=com_zefaniabible&view=zefaniapublish', 
 			$vName == 'zefaniapublish'
-		);
+		);*/
 
 	}
 	
