@@ -39,7 +39,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="form-horizontal">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', 'Zefaniacommentitems', $this->item->id, true); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('ZEFANIABIBLE_LAYOUT_DETAILS'), $this->item->id, true); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">			
