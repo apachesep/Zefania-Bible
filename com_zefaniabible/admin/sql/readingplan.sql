@@ -40,15 +40,15 @@ CREATE TABLE IF NOT EXISTS `#__zefaniabible_zefaniareadingdetails` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `params`, `name`, `alias`, `description`, `ordering`, `published`, `checked_out`, `checked_out_time`, `created`, `created_by`, `modified`, `modified_by`, `access`, `language`, `metadata`, `metakey`, `metadesc`) VALUES
-(1, '', 'New Testament Reading Plan (83 days)', 'nt83', 'COM_ZEFANIABIBLE_NEW_TEST_MSG', 1, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(2, '', 'Comprehensive Reading Plan (365 days)', 'nt365', 'COM_ZEFANIABIBLE_COMP_MSG', 2, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(3, '', 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(5, '', 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(8, '', 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', ''),
-(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1, 0, 0, 0, 0, 0, 0, 0, 'en-GB', '', '', '');
+(1, '', 'New Testament Reading Plan (83 days)', 'nt83', 'COM_ZEFANIABIBLE_NEW_TEST_MSG', 1, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(2, '', 'Comprehensive Reading Plan (365 days)', 'nt365', 'COM_ZEFANIABIBLE_COMP_MSG', 2, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(3, '', 'Through-the-Bible Reading Plan (365 days)', 'ttb', 'COM_ZEFANIABIBLE_THRU_MSG', 3, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(4, '', 'Biographical Reading Plan (121 days)', 'bio121', 'COM_ZEFANIABIBLE_BIO_MSG', 4, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(5, '', 'Survey Reading Plan (61 days)', 's61', 'COM_ZEFANIABIBLE_SURV_MSG', 5, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(8, '', 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', ''),
+(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1, 0, 0, 0, 0, 0, 0, 0, '*', '', '', '');
 
 INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `book_id`, `begin_chapter`, `begin_verse`, `end_chapter`, `end_verse`, `day_number`, `description`, `ordering`) VALUES
 (1, '', 8, 1, 1, 0, 3, 0, 1, '', 1),
