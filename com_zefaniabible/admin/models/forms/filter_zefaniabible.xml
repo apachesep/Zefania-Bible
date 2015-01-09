@@ -56,7 +56,7 @@
 			onchange="this.form.submit();"
 			required="1"
 			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_BIBLE_NAME_FILTER</option>
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION</option>
 		</field>					
 	</fields>
 	<fields name="list">
