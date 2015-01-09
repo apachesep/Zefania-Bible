@@ -28,6 +28,7 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 				'a.book_name', 'book_name',
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
+				'achapter_number', 'chapter_number',
 				'a.published', 'published',
 				'a.access', 'access', 'access_level',
 				'a.created', 'created',
@@ -65,10 +66,14 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		// Set filter state for author
-		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$this->setState('filter.author_id', $authorId);
+		// Set filter state for book_name
+		$book_name = $this->getUserStateFromRequest($this->context.'.filter.book_name', 'filter_book_name', '');
+		$this->setState('filter.book_name', $book_name);	
 
+		// Set filter state for chapter_number
+		$chapter_number = $this->getUserStateFromRequest($this->context.'.filter.chapter_number', 'filter_chapter_number', '');
+		$this->setState('filter.chapter_number', $chapter_number);
+		
 		// Set filter state for publish state
         $published = $app->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string');
         $this->setState('filter.published', $published);
@@ -161,7 +166,7 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 				
 			}
 		}
-		
+				
 		// Filter by published state.
 		$published = $this->getState('filter.published');
 		if (is_numeric($published))
@@ -173,15 +178,19 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 			// Only show items with state 'published' / 'unpublished'
 			$query->where('(a.published IN (0, 1))');
 		}
-		
-		// Filter by author
-		$authorId = $this->getState('filter.author_id');
-		if (is_numeric($authorId))
+		// Filter by book_name
+		$book_name = $this->getState('filter.book_name');
+		if ($book_name != "")
 		{
-			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
-			$query->where('a.created_by ' . $type . (int) $authorId);
+			$query->where('a.book_name = ' . $db->quote($db->escape($book_name)));
 		}
 		
+		// Filter by chapter_number
+		$chapter_number = $this->getState('filter.chapter_number');
+		if ($chapter_number != "")
+		{
+			$query->where('a.chapter_number = ' . $db->quote($db->escape($chapter_number)));
+		}					
 		// Filter by access level.
 		$access = $this->getState('filter.access');
 		if (!empty($access))

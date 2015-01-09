@@ -53,10 +53,22 @@ class ZefaniabibleModelZefaniascripture extends JModelList
 		// Set filter state for search
         $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
+		
+		// Set filter state for bible_id
+		$bible_id = $this->getUserStateFromRequest($this->context.'.filter.bible_id', 'filter_bible_id', '');
+		$this->setState('filter.bible_id', $bible_id);			
+		
+		// Set filter state for book_id
+		$book_id = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '');
+		$this->setState('filter.book_id', $book_id);	
+
+		// Set filter state for chapter_id
+		$chapter_id = $this->getUserStateFromRequest($this->context.'.filter.chapter_id', 'filter_chapter_id', '');
+		$this->setState('filter.chapter_id', $chapter_id);
+		
 		// Set filter state for verse_id
 		$verse_id = $this->getUserStateFromRequest($this->context.'.filter.verse_id', 'filter_verse_id', '');
 		$this->setState('filter.verse_id', $verse_id);
-		
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_zefaniabible');
@@ -121,6 +133,25 @@ class ZefaniabibleModelZefaniascripture extends JModelList
 				$query->where('a.chapter_id LIKE' . $s . ' OR a.verse_id LIKE' . $s . ' OR a.verse LIKE' . $s );
 			}
 		}
+		
+		// Filter by book_id
+		$bible_id = $this->getState('filter.bible_id');
+		if ($bible_id != "")
+		{
+			$query->where('a.bible_id = ' . $db->quote($db->escape($bible_id)));
+		}		
+		// Filter by book_id
+		$book_id = $this->getState('filter.book_id');
+		if ($book_id != "")
+		{
+			$query->where('a.book_id = ' . $db->quote($db->escape($book_id)));
+		}
+		// Filter by chapter_id
+		$chapter_id = $this->getState('filter.chapter_id');
+		if ($chapter_id != "")
+		{
+			$query->where('a.chapter_id = ' . $db->quote($db->escape($chapter_id)));
+		}			
 		// Filter by verse_id
 		$verse_id = $this->getState('filter.verse_id');
 		if ($verse_id != "")

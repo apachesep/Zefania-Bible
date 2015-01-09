@@ -26,6 +26,11 @@ class ZefaniabibleModelZefaniareadingdetails extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'a.plan', 'plan',
+				'a.plan','plan_name',
+				'a.book_id','book_id',
+				'a.day_number','day_number',
+				'a.begin_chapter','begin_chapter',
+				'a.end_chapter','end_chapter',
 				'a.ordering', 'ordering','ordering', 'state', 'begin_chapter'
 			);
 		}
@@ -54,11 +59,27 @@ class ZefaniabibleModelZefaniareadingdetails extends JModelList
 		// Set filter state for search
         $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
+		
 		// Set filter state for day_number
 		$day_number = $this->getUserStateFromRequest($this->context.'.filter.day_number', 'filter_day_number', '');
 		$this->setState('filter.day_number', $day_number);
-		
 
+		// Set filter state for plan_name
+		$plan_name = $this->getUserStateFromRequest($this->context.'.filter.plan_name', 'filter_plan_name', '');
+		$this->setState('filter.plan_name', $plan_name);	
+
+		// Set filter state for book_id
+		$book_id = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '');
+		$this->setState('filter.book_id', $book_id);			
+	
+		// Set filter state for begin_chapter
+		$begin_chapter = $this->getUserStateFromRequest($this->context.'.filter.begin_chapter', 'filter_begin_chapter', '');
+		$this->setState('filter.begin_chapter', $begin_chapter);
+
+		// Set filter state for end_chapter
+		$end_chapter = $this->getUserStateFromRequest($this->context.'.filter.end_chapter', 'filter_end_chapter', '');
+		$this->setState('filter.end_chapter', $end_chapter);	
+						
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_zefaniabible');
 		$this->setState('params', $params);
@@ -129,6 +150,33 @@ class ZefaniabibleModelZefaniareadingdetails extends JModelList
 			$query->where('a.day_number = ' . $db->quote($db->escape($day_number)));
 		}
 
+		// Filter by plan_name
+		$plan_name = $this->getState('filter.plan_name');
+		if ($plan_name != "")
+		{
+			$query->where('a.plan = ' . $db->quote($db->escape($plan_name)));
+		}	
+				
+		// Filter by book_id
+		$book_id = $this->getState('filter.book_id');
+		if ($book_id != "")
+		{
+			$query->where('a.book_id = ' . $db->quote($db->escape($book_id)));
+		}		
+		
+		// Filter by begin_chapter
+		$begin_chapter = $this->getState('filter.begin_chapter');
+		if ($begin_chapter != "")
+		{
+			$query->where('a.begin_chapter = ' . $db->quote($db->escape($begin_chapter)));
+		}		
+		
+		// Filter by end_chapter
+		$end_chapter = $this->getState('filter.end_chapter');
+		if ($end_chapter != "")
+		{
+			$query->where('a.end_chapter = ' . $db->quote($db->escape($end_chapter)));
+		}
 
 		// Add list oredring and list direction to SQL query
 		$sort = $this->getState('list.ordering', 'plan');

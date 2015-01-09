@@ -25,6 +25,8 @@ class ZefaniabibleModelZefaniauser extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'a.plan','plan',
+				'a.bible_version', 'bible_version',
 				'a.user_name', 'user_name','ordering', 'state', 'user_name', 'user_id', 'email', 'send_reading_plan_email', 'send_verse_of_day_email', 'reading_start_date'
 			);
 		}
@@ -63,6 +65,12 @@ class ZefaniabibleModelZefaniauser extends JModelList
 		$reading_start_date = $this->getUserStateFromRequest($this->context.'.filter.reading_start_date', 'filter_reading_start_date', '');
 		$this->setState('filter.reading_start_date', $reading_start_date);
 		
+				// Set filter state for plan
+		$plan = $this->getUserStateFromRequest($this->context.'.filter.plan', 'filter_plan', '');
+		$this->setState('filter.plan', $plan);
+				// Set filter state for bible_version
+		$bible_version = $this->getUserStateFromRequest($this->context.'.filter.bible_version', 'filter_bible_version', '');
+		$this->setState('filter.bible_version', $bible_version);			
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_zefaniabible');
@@ -140,7 +148,18 @@ class ZefaniabibleModelZefaniauser extends JModelList
 		{
 			$query->where('a.send_verse_of_day_email = ' . $db->quote($db->escape($send_verse_of_day_email)));
 		}
-
+		// Filter by plan
+		$plan = $this->getState('filter.plan');
+		if ($plan != "")
+		{
+			$query->where('a.plan = ' . $db->quote($db->escape($plan)));
+		}
+		// Filter by bible_version
+		$bible_version = $this->getState('filter.bible_version');
+		if ($bible_version != "")
+		{
+			$query->where('a.bible_version = ' . $db->quote($db->escape($bible_version)));
+		}
 		// Filter by reading_start_date
 		$reading_start_date = $this->getState('filter.reading_start_date');
 		if ($reading_start_date != "")
