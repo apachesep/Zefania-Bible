@@ -21,9 +21,11 @@ $listDirn = $this->state->get('list.direction');
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
 $mdl_common 	= new ZefaniabibleCommonHelper;
-
+$arr_plan_list = $mdl_default->_buildQuery_reading_plan_list_All();
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareadingdetails.ordering&tmpl=component';
@@ -90,9 +92,11 @@ if ($saveOrder)
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_READING_LAYOUT', 'plan'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_READING_LAYOUT', 'book_id'), $listDirn, $listOrder) ?>
 				</th>
-				
+				<th class="nowrap left">
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_READING_PLAN', 'plan'), $listDirn, $listOrder) ?>
+				</th>				
 				<th class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.day_number', $listDirn, $listOrder) ?>
 				</th>
@@ -165,7 +169,17 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
-
+                <?php 
+					$str_plan_name = '';
+					foreach ($arr_plan_list as $arr_plan)
+					{
+						if($arr_plan->id == $item->plan)
+						{
+							$str_plan_name = $arr_plan->name;
+						}
+					}
+				?>
+				<td class="left"><?php echo $this->escape($str_plan_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->day_number); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>

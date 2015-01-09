@@ -18,7 +18,12 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));?>
+$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
+
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
+?>
 
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -71,10 +76,10 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				
-				<th class="nowrap left">
+				<th width="15%" class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME', 'bible_id'), $listDirn, $listOrder) ?>
 				</th>
-				<th class="nowrap left">
+				<th  width="15%" class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_BOOK_NAME'), 'a.book_id', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
@@ -83,7 +88,7 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				<th class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE_NUMBER'), 'a.verse_id', $listDirn, $listOrder) ?>
 				</th>
-				<th class="nowrap left">
+				<th  width="60%" class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE'), 'a.verse', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
@@ -109,11 +114,21 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				<!-- item main field -->
 				<td class="nowrap has-context">
 						<div class="pull-left">
+                        	<?php 
+								$str_bible_name = '';
+								foreach ($arr_bible_list as $arr_bible)
+								{
+									if($arr_bible->id == $item->bible_id)
+									{
+										$str_bible_name = $arr_bible->bible_name;
+									}
+								}
+							?>
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniascriptureitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->bible_id); ?></a>
+								<?php echo $this->escape($str_bible_name); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->bible_id); ?>
+								<?php echo $this->escape($str_bible_name); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">

@@ -23,8 +23,11 @@ $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
 $mdl_common 	= new ZefaniabibleCommonHelper;
+$arr_plan_list = $mdl_default->_buildQuery_reading_plan_list_All();
 
 if ($saveOrder)
 {
@@ -101,6 +104,9 @@ if ($saveOrder)
 				<th class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE', 'book_name'), $listDirn, $listOrder) ?>
 				</th>
+				<th class="nowrap left">
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'day', $listDirn, $listOrder) ?>
+				</th>                
 				<th class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
@@ -200,6 +206,7 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
+                <td class="left"><?php echo $this->escape($item->ordering); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
 		<?php endforeach ?>

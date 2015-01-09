@@ -18,7 +18,15 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));?>
+$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+$arr_plan_list = $mdl_default->_buildQuery_reading_plan_list_All();
+$arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
+
+?>
 
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -139,12 +147,42 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->plan); ?></td>
-				<td class="left"><?php echo $this->escape($item->bible_version); ?></td>
+				<?php 
+					$str_plan_name = '';
+					foreach ($arr_plan_list as $arr_plan)
+					{
+						if($arr_plan->id == $item->plan)
+						{
+							$str_plan_name = $arr_plan->name;
+						}
+					}
+					$str_bible_name = '';
+					foreach ($arr_bible_list as $arr_bible)
+					{
+						if($arr_bible->id == $item->bible_version)
+						{
+							$str_bible_name = $arr_bible->bible_name;
+						}
+					}					
+				?>
+				<td class="left"><?php echo $this->escape($str_plan_name); ?></td>
+				<td class="left"><?php echo $this->escape($str_bible_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->user_id); ?></td>
 				<td class="left"><?php echo $this->escape($item->email); ?></td>
-				<td class="left"><?php echo $this->escape($item->send_reading_plan_email); ?></td>
-				<td class="left"><?php echo $this->escape($item->send_verse_of_day_email); ?></td>
+				<td class="left" style="text-align:center">
+                	<?php if($item->send_reading_plan_email == 1){?>
+    	                <i class="icon-publish"></i>
+					<?php }else{?>
+						<i class="icon-unpublish"></i>
+					<?php	} ?>
+				</td>
+				<td class="left" style="text-align:center">
+	                <?php if($item->send_verse_of_day_email == 1){?>
+						<i class="icon-publish"></i>
+					<?php }else{?>
+						<i class="icon-unpublish"></i>
+					<?php	} ?>
+                </td>
 				<td class="left"><?php echo $this->escape($item->reading_start_date); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
