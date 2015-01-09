@@ -121,7 +121,7 @@ class ZefaniabibleModelDefault extends JModelItem
 				$query->where("a.verse_id >= ".$str_start_verse);
 				$query->where("a.verse_id <= ".$str_end_verse);
 			}
-			$query->where("b.publish=1");
+			$query->where("b.published=1");
 			$db->setQuery($query);
 			$data = $db->loadObjectList();	
 		}
@@ -186,7 +186,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('title,alias');
 			$query->from('`#__zefaniabible_zefaniacomment`');
-			$query->where('publish=1');
+			$query->where('published=1');
 			$query->order('title');
 			$db->setQuery($query);
 			$data = $db->loadObjectList();
@@ -221,6 +221,24 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;	
+	}
+	function _buildQuery_Bibles_Names_All()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('alias, bible_name, id');
+			$query->from('`#__zefaniabible_bible_names`');
+			$query->order('bible_name');			
+			$db->setQuery($query);
+			$data = $db->loadObjectList();			
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
 	}		
 	function _buildQuery_Bibles_Names()
 	{
@@ -230,7 +248,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('alias, bible_name');
 			$query->from('`#__zefaniabible_bible_names`');	
-			$query->where("publish = 1");
+			$query->where("published=1");
 			$query->order('bible_name');			
 			$db->setQuery($query);
 			$data = $db->loadObjectList();			
@@ -256,7 +274,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("a.chapter_id=".$int_Bible_Chapter);
 			$query->where("a.book_id=".$int_Bible_Book_ID);
 			$query->where("b.alias=".$str_Bible_Version);
-			$query->where("b.publish=1");
+			$query->where("b.published=1");
 			$query->order('a.verse_id ASC');			
 			$db->setQuery($query);
 			$data = $db->loadObjectList();			
@@ -357,7 +375,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('Max(ordering)');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');	
-			$query->where("publish=1");
+			$query->where("published=1");
 			$db->setQuery($query);
 			$data = $db->loadResult();	
 			
@@ -377,7 +395,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('alias');
 			$query->from('`#__zefaniabible_bible_names`');	
-			$query->where("publish = 1");
+			$query->where("published=1");
 			$query->order('id');		
 			$db->setQuery($query,0, 1);
 			$data = $db->loadResult();
@@ -396,7 +414,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('alias');
 			$query->from('`#__zefaniabible_zefaniareading`');	
-			$query->where("publish = 1");
+			$query->where("published=1");
 			$query->order('id');		
 			$db->setQuery($query,0, 1);
 			$data = $db->loadResult();
@@ -415,7 +433,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('name,alias');
 			$query->from('`#__zefaniabible_dictionary_info`');	
-			$query->where("publish = 1");
+			$query->where("published=1");
 			$query->order('name');		
 			$db->setQuery($query);
 			$data = $db->loadObjectList();
@@ -481,7 +499,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->from('`#__zefaniabible_zefaniareading` AS a');
 			$query->innerJoin("`#__zefaniabible_zefaniareadingdetails` AS b ON a.id = b.plan");
 			$query->where("a.alias=".$str_reading_plan);
-			$query->where("a.publish=1");
+			$query->where("a.published=1");
 			$query->where("b.day_number=".$int_day_number);
 			$query->order('b.plan');
 			$query->order('b.book_id');
@@ -496,6 +514,24 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}
+	function _buildQuery_reading_plan_list_All()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('name, alias, description, id');
+			$query->from('`#__zefaniabible_zefaniareading`');
+			$query->order('name');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;
+	}	
 	function _buildQuery_reading_plan_list()
 	{
 		try 
@@ -504,7 +540,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('name, alias, description');
 			$query->from('`#__zefaniabible_zefaniareading`');
-			$query->where("publish=1");
+			$query->where("published=1");
 			$query->order('name');
 			$db->setQuery($query);
 			$data = $db->loadObjectList();	
@@ -551,7 +587,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where('a.book_id='.$int_Bible_Book_ID);
 			$query->where('a.chapter_id='.$int_Bible_Chapter);
 			$query->where('a.verse_id='.$int_Bible_Verse);
-			$query->where('b.publish=1');
+			$query->where('b.published=1');
 			$db->setQuery($query);
 			$data = $db->loadResult();
 		}
@@ -571,7 +607,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);	
 			$query->select('book_name, chapter_number, begin_verse, end_verse');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');
-			$query->where("publish=1");
+			$query->where("published=1");
 			$query->where("ordering=".$int_day_diff);
 			$db->setQuery($query,0,1);
 			$data = $db->loadObjectList(); 
@@ -601,7 +637,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->from('`#__zefaniabible_bible_text` AS a');
 			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
 			$query->where("b.alias=".$str_Bible_Version);
-			$query->where("b.publish=1");
+			$query->where("b.published=1");
 			$query->where("a.book_id=".$int_book_name);
 			$query->where("a.chapter_id=".$int_chapter_number);
 			if($int_end_verse_raw == '0')
@@ -654,7 +690,7 @@ class ZefaniabibleModelDefault extends JModelItem
 					$query->where("a.verse_id<=".$int_end_verse);
 				}
 				$query->where("b.alias=".$str_Bible_Version_clean);
-				$query->where("b.publish=1");
+				$query->where("b.published=1");
 				$query->order('a.book_id ASC');
 				$query->order('a.chapter_id ASC');
 				$query->order('a.verse_id ASC');
@@ -684,7 +720,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('Max(ordering)');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');	
-			$query->where("publish=1");
+			$query->where("published=1");
 			$db->setQuery($query);
 			$data = new JPagination( $db->loadResult(), $lim0, $lim );
 		}
@@ -729,7 +765,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->select('Max(details.day_number)');
 			$query->from('`#__zefaniabible_zefaniareadingdetails` AS details');	
 			$query->innerJoin("`#__zefaniabible_zefaniareading` AS plan ON details.plan = plan.id");
-			$query->where("plan.publish=1");
+			$query->where("plan.published=1");
 			$query->where("plan.alias=".$alias);
 						
 			$db->setQuery($query);
@@ -796,7 +832,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query  = $db->getQuery(true);
 			$query->select('a.book_name, a.chapter_number, a.begin_verse, a.end_verse');
 			$query->from('`#__zefaniabible_zefaniaverseofday` AS a');
-			$query->where("a.publish=1");
+			$query->where("a.published=1");
 			$query->order('a.ordering');
 			
 			$db->setQuery($query, $pagination->limitstart, $pagination->limit);
@@ -889,7 +925,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$str_Bible_Alias = 	$db->quote($str_Bible_Alias);
 			$query->select('alias, bible_name, xml_audio_url');
 			$query->from('`#__zefaniabible_bible_names`');		
-			$query->where("publish = 1");
+			$query->where("published= 1");
 			$query->where("alias=".$str_Bible_Alias);
 			$query->order('bible_name');	
 			
@@ -1020,7 +1056,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');
 			$query->where('a.book_id='.$int_Bible_book_id_clean);
 			$query->where('b.alias='.$str_alias_clean);
-			$query->where('b.publish=1');
+			$query->where('b.published=1');
 			// Genesis 1
 			if(($int_begin_chap)and(!$int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
 			{
