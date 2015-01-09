@@ -1318,6 +1318,9 @@ class ZefaniabibleCommonHelper
 			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
 				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
 				break;
+			case (($int_begin_verse != 0)and($int_end_verse == 0)and($int_begin_chapter == $int_end_chapter)):				
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse;
+				break;
 			default;
 				$str_title .= " ".$int_begin_chapter;
 				break;
