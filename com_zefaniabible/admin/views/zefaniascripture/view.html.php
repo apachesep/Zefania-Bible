@@ -76,20 +76,7 @@ class ZefaniabibleViewZefaniascripture extends JViewLegacy
 		{
             JToolBarHelper::deleteList('', 'zefaniascripture.delete','JTOOLBAR_DELETE');
 		}
-		
-		// Add a batch button
-		if (isset($this->items[0]) && $user->authorise('core.create', 'com_contacts') && $user->authorise('core.edit', 'com_contacts'))
-		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
-			$title = JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
-		}
-		
+				
 		if ($canDo->get('core.admin'))
 		{
 			JToolBarHelper::preferences('com_zefaniabible');
