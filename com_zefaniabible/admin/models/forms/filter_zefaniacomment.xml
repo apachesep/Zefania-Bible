@@ -26,15 +26,6 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
-			name="author_id"
-			type="author"
-			label="COM_ZEFANIABIBLE_FILTER_AUTHOR"
-			description="COM_ZEFANIABIBLE_FILTER_AUTHOR_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
-		</field>
-		<field
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
@@ -56,22 +47,8 @@
 			onchange="this.form.submit();"
 			required="1"
 			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_FILTER</option>
-		</field>					
-		<field 
-			name="full_name"
-			type="sql"
-			label="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_DESC"
-			default=""
-			query="SELECT DISTINCT full_name FROM #__zefaniabible_zefaniacomment"
-			key_field="full_name"
-			value_field="full_name"
-			onchange="this.form.submit();"
-			required="1"
-			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_FILTER</option>
-		</field>					
+			<option value="">ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY</option>
+		</field>									
 	</fields>
 	<fields name="list">
 		<field
