@@ -96,19 +96,16 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_LABEL', 'title'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'title'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FULL_NAME_LABEL'), 'a.full_name', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_FULL_NAME'), 'a.full_name', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_FILE_LOCATION_LABEL'), 'a.file_location', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION'), 'a.file_location', $listDirn, $listOrder) ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -117,7 +114,7 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -216,16 +213,6 @@ if ($saveOrder)
 				<td class="left"><?php echo $this->escape($item->file_location); ?></td>
 				<td class="left">
 					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td class="small hidden-phone">
-					<?php if (isset($item->created_by_alias)) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-						<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
-					<?php else : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-						<?php echo $this->escape($item->author_name); ?></a>
-					<?php endif; ?>
 				</td>
 				<td class="small hidden-phone">
 					<?php if ($item->language == '*'):?>
