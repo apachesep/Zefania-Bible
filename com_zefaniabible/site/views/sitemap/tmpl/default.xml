@@ -5,7 +5,7 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request">
-			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />		
+			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />		
 		</fieldset>	
 	</fields>
 	<!-- Add fields to the parameters object for the layout. -->
