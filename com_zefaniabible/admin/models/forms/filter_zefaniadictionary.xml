@@ -26,15 +26,6 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
-			name="author_id"
-			type="author"
-			label="COM_ZEFANIABIBLE_FILTER_AUTHOR"
-			description="COM_ZEFANIABIBLE_FILTER_AUTHOR_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
-		</field>
-		<field
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
@@ -56,7 +47,7 @@
 			onchange="this.form.submit();"
 			required="1"
 			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_INFO_FIELD_NAME_FILTER</option>
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_DICTIONARY</option>
 		</field>					
 	</fields>
 	<fields name="list">
