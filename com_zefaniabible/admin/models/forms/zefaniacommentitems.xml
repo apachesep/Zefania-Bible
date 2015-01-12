@@ -2,9 +2,10 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
-		<field name="title" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" class="input-xxlarge input-large-text" />
-		<field name="full_name" label="ZEFANIABIBLE_FIELD_FULL_NAME" description="" type="text" maxlength="255" />
-		<field name="file_location" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="file" maxlength="255" />
+		<field name="title" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" class="input-xxlarge input-large-text" required="1" />
+		<field name="full_name" label="ZEFANIABIBLE_FIELD_FULL_NAME" description="" type="text" maxlength="255" required="1" />
+		<field name="file_location" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="text" disabled="true" />
+		<field name="file_location_list" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="text" />		
 		<field
 			name="alias"
 			type="text"
@@ -12,6 +13,7 @@
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox" size="40"
+			required="1"
 		/>
 		<field
 			name="published"

@@ -108,7 +108,7 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE', 'book_name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE_VERSE', 'begin_verse'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE', 'begin_verse'), $listDirn, $listOrder) ?>
 				</th>                
 				<th class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'day', $listDirn, $listOrder) ?>

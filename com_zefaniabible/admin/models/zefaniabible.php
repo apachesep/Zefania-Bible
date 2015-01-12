@@ -130,6 +130,7 @@ class ZefaniabibleModelZefaniabible extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 */
+	 
 	protected function getListQuery()
 	{
 		// Get database object

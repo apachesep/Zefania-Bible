@@ -14,9 +14,9 @@ defined("_JEXEC") or die("Restricted access");
  * @subpackage  Helpers
  */
 class ZefaniabibleHelper
-{
+{ 
 	public static function addSubmenu($vName)
-	{
+	{ 
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_LAYOUT_BIBLES'), 
 			'index.php?option=com_zefaniabible&view=zefaniabible', 
@@ -39,22 +39,22 @@ class ZefaniabibleHelper
 			$vName == 'zefaniacomment'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_VIEW_VERSE_OF_DAY'), 
+			JText::_('ZEFANIABIBLE_FIELD_VERSE_OF_DAY'), 
 			'index.php?option=com_zefaniabible&view=zefaniaverseofday', 
 			$vName == 'zefaniaverseofday'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_VIEW_READING_PLAN'), 
+			JText::_('ZEFANIABIBLE_FIELD_READING_PLAN'), 
 			'index.php?option=com_zefaniabible&view=zefaniareading', 
 			$vName == 'zefaniareading'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_VIEW_READING_PLAN_DETAILS'), 
+			JText::_('ZEFANIABIBLE_LAYOUT_READING_PLAN_DETAILS'), 
 			'index.php?option=com_zefaniabible&view=zefaniareadingdetails', 
 			$vName == 'zefaniareadingdetails'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_VIEW_USERS'), 
+			JText::_('ZEFANIABIBLE_LAYOUT_USERS'), 
 			'index.php?option=com_zefaniabible&view=zefaniauser', 
 			$vName == 'zefaniauser'
 		);

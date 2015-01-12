@@ -3,7 +3,7 @@
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
 		<field name="user_name" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" class="input-xxlarge input-large-text" validate="username" filter="USERNAME" />
-		<field name="plan" type="sql" label="ZEFANIABIBLE_LAYOUT_READING_PLAN" description="" query="SELECT name, alias, id FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="id" value_field = "name" />
+		<field name="plan" type="sql" label="ZEFANIABIBLE_FIELD_READING_PLAN" description="" query="SELECT name, alias, id FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="id" value_field = "name" />
 		<field name="bible_version" type="sql" label="COM_ZEFANIABIBLE_BIBLE_LABEL" description="" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="id" value_field = "bible_name" />
 		<field name="user_id" label="ZEFANIABIBLE_FIELD_USER_ID" description="" type="text" maxlength="11" 	/>
 		<field name="email" label="ZEFANIABIBLE_FIELD_EMAIL" description="" type="email" maxlength="255" validate="email" />

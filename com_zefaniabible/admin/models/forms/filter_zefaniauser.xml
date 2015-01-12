@@ -5,7 +5,7 @@
 		<field name="plan" type="sql" label="ZEFANIABIBLE_JSEARCH_SELECT_PLAN" description="" default="" query="SELECT DISTINCT name, id FROM #__zefaniabible_zefaniareading" key_field="id" value_field="name" onchange="this.form.submit();" required="1" >
 			<option value="">ZEFANIABIBLE_JSEARCH_SELECT_PLAN</option>
 		</field>
-		<field name="bible_version" type="sql" label="ZEFANIABIBLE_VIEW_SCRIPTURE_VERSE" description="" default="" query="SELECT DISTINCT id, bible_name FROM #__zefaniabible_bible_names" key_field="id" value_field="bible_name" onchange="this.form.submit();" required="1" >
+		<field name="bible_version" type="sql" label="ZEFANIABIBLE_FIELD_VERSE" description="" default="" query="SELECT DISTINCT id, bible_name FROM #__zefaniabible_bible_names" key_field="id" value_field="bible_name" onchange="this.form.submit();" required="1" >
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION</option>
 		</field>		
 		<field name="send_reading_plan_email" type="list" label="COM_ZEFANIABIBLE_ZEFANIAUSER_FIELD_SEND_READING_PLAN_EMAIL_LABEL" description="" default="" onchange="this.form.submit();" required="1" >

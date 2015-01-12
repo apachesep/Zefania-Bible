@@ -77,7 +77,7 @@
 			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 		</field>
-		<field name="chapter_number" type="sql" label="ZEFANIABIBLE_VIEW_SCRIPTURE_VERSE" description="" default="" query="SELECT DISTINCT chapter_number FROM #__zefaniabible_zefaniaverseofday WHERE chapter_number > 0  ORDER BY chapter_number ASC" key_field="chapter_number" value_field="chapter_number" onchange="this.form.submit();" required="1" >
+		<field name="chapter_number" type="sql" label="ZEFANIABIBLE_FIELD_VERSE" description="" default="" query="SELECT DISTINCT chapter_number FROM #__zefaniabible_zefaniaverseofday WHERE chapter_number > 0  ORDER BY chapter_number ASC" key_field="chapter_number" value_field="chapter_number" onchange="this.form.submit();" required="1" >
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER</option>
 		</field>
 	</fields>
