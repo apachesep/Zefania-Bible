@@ -27,7 +27,10 @@ require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 $mdl_default 	= new ZefaniabibleModelDefault;
 $mdl_common 	= new ZefaniabibleCommonHelper;
-$arr_plan_list = $mdl_default->_buildQuery_reading_plan_list_All();
+$arr_plan_list 		= $mdl_default->_buildQuery_reading_plan_list_All();
+
+$params = JComponentHelper::getParams( 'com_zefaniabible' );
+$str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 
 if ($saveOrder)
 {
@@ -105,6 +108,9 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE', 'book_name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE_VERSE', 'begin_verse'), $listDirn, $listOrder) ?>
+				</th>                
+				<th class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'day', $listDirn, $listOrder) ?>
 				</th>                
 				<th class="nowrap left">
@@ -161,6 +167,12 @@ if ($saveOrder)
 						<div class="pull-left">
                         	<?php 
 								$str_scripture = $mdl_common->fnc_make_scripture_title($item->book_name, $item->chapter_number, $item->begin_verse, $item->chapter_number, $item->end_verse);
+								$arr_verse = $mdl_default->fnc_make_verse($str_primary_bible,$item->book_name,$item->chapter_number,$item->begin_verse,$item->end_verse);
+								$str_verse = '';
+								foreach ($arr_verse as $verse)
+								{
+									$str_verse .= $verse->verse;
+								}
 							?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, null, $item->checked_out_time, 'zefaniaverseofday.', $canCheckin); ?>
@@ -172,6 +184,7 @@ if ($saveOrder)
 								<?php echo $this->escape($str_scripture); ?>
 							<?php endif; ?>
 						</div>
+                        <td class="left"><?php echo $this->escape($str_verse); ?></td>
 						<div class="pull-left">
 							<?php
 								// Create dropdown items
