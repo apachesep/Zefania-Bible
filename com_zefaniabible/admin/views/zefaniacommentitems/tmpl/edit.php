@@ -11,6 +11,13 @@ defined("_JEXEC") or die("Restricted access");
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+jimport( 'joomla.filesystem.folder' );
+//get the zefaniabibleitem
+$model	= $this->getModel();
+$mld_commentary	= $model->getItem();
+$isNew		= ($mld_commentary->id < 1);
+$params	= JComponentHelper::getParams( 'com_zefaniabible' );
+
 ?>
 
 <script type="text/javascript">
@@ -49,7 +56,37 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>			
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('file_location'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('file_location'); ?></div>
+				<div class="controls"><?php if($isNew){?>
+						<?php 
+							$str_commentary_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+							$arr_file_list_bible = JFolder::files(JPATH_SITE.'/'.$str_commentary_path,'.xml');
+							$str_file_list = '';
+							
+							for($x = 0; $x < count($arr_file_list_bible); $x++)
+							{
+								$str_file_list .= '<option value="'.$arr_file_list_bible[$x].'">'.$arr_file_list_bible[$x].'</option>'.PHP_EOL;
+							}
+                        ?>
+                        <div class="input-prepend input-append">
+                            <div id="jform_file_location_icon" class="btn add-on icon-checkmark" onclick="toggleElement('jform_file_location','jform_file_location_list');"> </div>
+                                <input name="jform[file_location]" id="jform_file_location" class="bible_input" value="<?php echo $this->item->file_location; ?>" type="text">
+                        </div>
+                        <br />
+                        <div class="input-prepend input-append">
+                                <div id="jform_file_location_list_icon" class="btn add-on icon-cancel" onclick="toggleElement('jform_file_location_list','jform_file_location');"> </div>
+                                <select name="jform[file_location_list]" id="jform_file_location_list" class="bible_input" ><?php echo $str_file_list; ?></select>
+                        </div>
+                        <div id="infoUpload1" class="intend">
+                            <span id="btnUpload1"></span>
+                            <button id="btnCancel1" type="button" onclick="cancelQueue(upload1);" class="ss-hide upload_button" disabled="disabled">Cancel</button>
+                            <span id="biblepathinfo" class="pathinfo ss-hide hasTip" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO_TOOLTIP'); ?>">
+                                    <?php echo JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UPLOADINFO').' /'.trim($str_commentary_path, '/').'/'; ?>
+                            </span>
+                        </div>
+					<?php }else{?>
+                    	<?php echo $this->form->getInput('file_location'); ?>
+                    <?php }?>
+				</div>
 			</div>
 				</div>
 			</div>

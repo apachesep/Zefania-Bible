@@ -50,7 +50,11 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$canDo		= ZefaniabibleHelper::getActions();
-		
+		$bar 		= JToolBar::getInstance('toolbar');
+		$uploader_script = '';
+		//get the zefaniabibleitem
+		$model	= $this->getModel();
+				
 		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_ADD_DICTIONARY'));
 
 		if (isset($this->item->checked_out)) {
@@ -79,6 +83,99 @@ class ZefaniabibleViewZefaniacommentitems extends JViewLegacy
 		else {
 			JToolBarHelper::cancel('zefaniacommentitems.cancel', 'JTOOLBAR_CLOSE');
 		}
+		JToolBarHelper::divider();
+		
+		$bar->appendButton( 'Link', 'link', JText::_('ZEFANIABIBLE_FIELD_GET_COMMENTARY')." 1", 'http://www.biblesupport.com/e-sword-downloads/category/3-commentaries/');
+		$bar->appendButton( 'Link', 'link', JText::_('ZEFANIABIBLE_FIELD_GET_COMMENTARY')." 2", 'http://www.zefaniabible.com/download/commentaries.html');			
+		
+		$session =  JFactory::getSession();
+ 		jimport('joomla.environment.uri' );
+		$document = JFactory::getDocument();		
+		$toggle = 'function toggleElement(current, disable) {
+				document.getElementById(disable).disabled = true;
+				document.getElementById(current).disabled = false;			
+				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
+				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
+
+		}';		
+		if($isNew)
+		{
+			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/swfupload.queue.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/fileprogress.js');
+			$document->addScript(JURI::root().'media/com_zefaniabible/swfupload/handlers.js');
+			
+			$uploader_script = '
+				window.onload = function() 
+				{
+						upload1 = new SWFUpload
+						(
+							{
+								upload_url: "'.$targetURL.'&type=commentary",
+								flash_url : "'.JURI::root().'media/com_zefaniabible/swfupload/swfupload.swf",
+								file_size_limit : "70MB",
+								file_types : "*.xml",
+								file_types_description : "'.JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_FILE_DESC_COMMENTARY', 'true').'",
+								file_upload_limit : "1",
+								file_queue_limit : "1",
+								button_image_url : "'.JURI::root().'media/com_zefaniabible/swfupload/XPButtonUploadText_61x22.png",
+								button_placeholder_id : "btnUpload1",
+								button_width: 61,
+								button_height: 22,
+								button_window_mode: "transparent",
+								debug: false,
+								swfupload_loaded_handler: function() 
+								{
+									document.id("btnCancel1").removeClass("ss-hide");
+									document.id("biblepathinfo").removeClass("ss-hide");
+									if(document.id("upload-noflash")){
+										document.id("upload-noflash").destroy();
+										document.id("loading").destroy();
+									}
+								},
+								file_dialog_start_handler : fileDialogStart,
+								file_queued_handler : fileQueued,
+								file_queue_error_handler : fileQueueError,
+								file_dialog_complete_handler : fileDialogComplete,
+								upload_start_handler : uploadStart,
+								upload_progress_handler : uploadProgress,
+								upload_error_handler : uploadError,
+								upload_success_handler : function uploadSuccess(file, serverData) 
+								{
+									try 
+									{
+										var progress = new FileProgress(file, this.customSettings.progressTarget);
+										var data = JSON.decode(serverData);
+										if (data.status == "1") 
+										{
+											progress.setComplete();
+											progress.setStatus(data.error);
+											document.id("jform_file_location").value = data.path;
+										} else 
+										{
+											progress.setError();
+											progress.setStatus(data.error);
+										}
+										progress.toggleCancel(false);
+									} catch (ex) 
+									{
+										this.debug(ex);
+									}
+								},
+								upload_complete_handler : uploadComplete,
+								custom_settings : 
+								{
+									progressTarget : "infoUpload1",
+									cancelButtonId : "btnCancel1"
+								}
+							}
+						);
+			}';	
+		}
+			//add the javascript to the head of the html document
+			$document->addScriptDeclaration($toggle);
+			$document->addScriptDeclaration($uploader_script);				
 	}
 }
 ?>
