@@ -11,6 +11,30 @@ defined("_JEXEC") or die("Restricted access");
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
+$params = JComponentHelper::getParams( 'com_zefaniabible' );
+$str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
+$arr_verse = $mdl_default->fnc_make_verse($str_primary_bible,$this->item->book_name,$this->item->chapter_number,$this->item->begin_verse,$this->item->end_verse);
+$str_verse = '';
+$x = 1;
+
+foreach ($arr_verse as $verse)
+{	
+	if($x%2)
+	{
+		$str_verse .= '<div class="row0">'.$verse->verse_id." ".$verse->verse.'<br ></div>'.PHP_EOL;
+	}
+	else
+	{
+		$str_verse .= '<div class="row1">'.$verse->verse_id." ".$verse->verse.'<br ></div>'.PHP_EOL;	
+	}
+	$x++;
+}
 ?>
 
 <script type="text/javascript">
@@ -51,6 +75,9 @@ JHtml::_('formbehavior.chosen', 'select');
 				<div class="control-label"><?php echo $this->form->getLabel('end_verse'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('end_verse'); ?></div>
 			</div>
+            <div class="control-group">        
+            	<?php echo $str_verse;?>
+            </div>
 				</div>
 			</div>
 			<div class="span3">
