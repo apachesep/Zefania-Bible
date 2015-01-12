@@ -41,17 +41,34 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 	{
 		if (!empty($record->id))
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-			
-
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', $this->typeAlias . '.' . (int) $record->id);
 		}
+	}
+	function delete(&$pks)
+	{
+		$result = false;
+		foreach($pks as $pk)
+		{
+			try
+			{
+				$db = $this->getDbo();
+				$pk_clean 	= $db->quote($pk);							
+							
+				$query = 'DELETE FROM `#__zefaniabible_bible_text` '
+				. ' WHERE bible_id = '.$pk_clean;	
+				
+				$db->setQuery($query);
+				$result = $db->execute();
+			}
+			catch (JException $e)
+			{
+				print_r($this->setError($e));
+			}
+		}
+		parent::delete($pks);
+		return true;
 	}		
-
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
@@ -226,12 +243,92 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 		
 		if(empty($data))
 		{
+
 			$data = $this->getItem();
 		}
 		
 		return $data;
 	}
+	function save($data)
+	{
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$row = $this->getTable();
+
+		$str_bible_xml_file_list = $data['bible_xml_file_list'];
+		$str_xml_audio_url_list = $data['xml_audio_url_list'];
 	
+		if($data['bible_xml_file'] == "")
+		{
+			$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');			
+			$data['bible_xml_file'] = '/'.$str_bibles_path.$str_bible_xml_file_list;				
+		}
+		if($data['xml_audio_url'] == "")
+		{
+			$str_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/bibles/');
+			$data['xml_audio_url'] = '/'.$str_audio_path.$str_xml_audio_url_list;
+		}
+					
+		//Convert data from a stdClass
+		if (is_object($data)){
+			if (get_class($data) == 'stdClass')
+				$data = JArrayHelper::fromObject($data);
+		}
+
+		//Current id if unspecified
+		if ($data['id'] != null)
+			$id = $data['id'];
+		else if (($this->_id != null) && ($this->_id > 0))
+			$id = $this->_id;
+
+
+		//Load the current object, in order to process an update
+		if (isset($id))
+			$row->load($id);
+
+		//Secure the published tag if not allowed to change
+		if (isset($data['publish']) && !$acl->get('core.edit.state'))
+			unset($data['publish']);
+
+
+		// Bind the form fields to the zefaniabible table
+		$ignore = array();
+		if (!$row->bind($data, $ignore)) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Make sure the zefaniabible table is valid
+		if (!$row->check()) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Store the zefaniabible table to the database
+		if (!$row->store())
+        {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		$this->_id = $row->id;
+		$this->_data = $row;
+
+		if(!$id)
+		{	
+			$int_max_ids = $this->fnc_Find_Last_Row_Names();		
+			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($data['bible_xml_file'], $int_max_ids);
+			$app = JFactory::getApplication();
+			if($int_rows_inserted > 1)
+			{
+				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+			}
+			else
+			{
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
+			}	
+		}
+		return true;
+	}		
 	/**
 	 * Method to get a single record.
 	 *
@@ -251,9 +348,90 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 		{
 			$item->created_by = JFactory::getUser()->get('id');
 			$item->modified_by = JFactory::getUser()->get('id');
-		}
-		
+		}		
 		return $item;
 	}
+	protected function fnc_Find_Last_Row_Names()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();			
+			$query_max = "SELECT Max(id) FROM `#__zefaniabible_bible_names`";	
+			$db->setQuery($query_max);	
+			$int_max_ids = $db->loadResult();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return 	$int_max_ids;
+	}	
+	protected function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
+	{
+		$x = 1;
+		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
+		
+		// check if file exists
+		if(!get_headers($str_xml_bibles_path))
+		{
+			JError::raiseWarning('',str_replace('%s',$str_xml_bibles_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
+		}
+		
+		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
+		try
+		{
+			$t = 0;
+			foreach($arr_xml_bible->BIBLEBOOK as $arr_bible_book)
+			{
+				foreach($arr_bible_book->CHAPTER as $arr_bible_chapter)
+				{
+					foreach($arr_bible_chapter->VERS as $arr_bible_verse)
+					{
+						$this->fnc_Update_Bible_Verses(
+							$int_max_ids, 
+							$arr_bible_book['bnumber'],
+							$arr_bible_chapter['cnumber'],
+							$arr_bible_verse['vnumber'],
+							strip_tags($arr_bible_verse->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
+							);
+							$x++;
+					}
+				}
+				$t++;
+			}
+			if($t > 66)
+			{
+				JError::raiseWarning('',str_replace('%s',$t,JText::_('ZEFANIABIBLE_EXTRA_BOOKS_DETECTED')));
+			}
+			if($x ==1)
+			{
+				$this->fnc_Update_Bible_Verses($int_max_ids,1,1,1 ,'Failed to load Bible');
+			}
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}
+		return $x;	
+	}
+	protected function fnc_Update_Bible_Verses($int_bible_id = 1,$int_book_id =1,$int_chapter_id = 1,$int_verse_id = 1 ,$str_verse = '')
+	{
+		$app = JFactory::getApplication();		
+		try
+		{
+			$db = JFactory::getDBO();
+			$arr_row->bible_id		= (int)$int_bible_id;
+			$arr_row->book_id 		= (int)$int_book_id;
+			$arr_row->chapter_id 	= (int)$int_chapter_id;
+			$arr_row->verse_id 		= (int)$int_verse_id;
+			$arr_row->verse 		= (string)$str_verse;
+			$db->insertObject("#__zefaniabible_bible_text", $arr_row, 'id');
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}			
+	}		
 }
 ?>
