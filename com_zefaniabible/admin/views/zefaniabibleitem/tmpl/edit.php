@@ -18,6 +18,10 @@ $model	= $this->getModel();
 $zefaniabibleitem	= $model->getItem();
 $isNew		= ($zefaniabibleitem->id < 1);
 $params	= JComponentHelper::getParams( 'com_zefaniabible' );
+
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_BIBLE_INSTALL'));
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_BIBLE_INSTALL_LONG_DURATION'));
+
 ?>
 
 <script type="text/javascript">
@@ -101,13 +105,13 @@ $params	= JComponentHelper::getParams( 'com_zefaniabible' );
 				
 						?>                    
                         <div class="input-prepend input-append">
-                            <div id="jform_xml_audio_url_icon" class="btn add-on icon-checkmark" onclick="toggleElement('jform_xml_audio_url','xml_audio_folder');"> </div>
+                            <div id="jform_xml_audio_url_icon" class="btn add-on icon-checkmark" onclick="toggleElement('jform_xml_audio_url','jform_xml_audio_url_list');"> </div>
                                 <input name="jform[xml_audio_url]" id="jform_xml_audio_url" class="bible_input" value="<?php echo $this->item->xml_audio_url; ?>" type="text">
                         </div>
                         <br />
                             <div class="input-prepend input-append">
-                                <div id="xml_audio_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('xml_audio_folder','jform_xml_audio_url');"> </div>
-                                <select name="xml_audio_folder" id="xml_audio_folder" class="bible_input" ><?php echo $str_file_list_audio; ?></select>
+                                <div id="xml_audio_folder_icon" class="btn add-on icon-cancel" onclick="toggleElement('jform_xml_audio_url_list','jform_xml_audio_url');"> </div>
+                                <select name="jform[xml_audio_url_list]" id="jform_xml_audio_url_list" class="bible_input" ><?php echo $str_file_list_audio; ?></select>
                             </div>
                             <div id="infoUpload2" class="intend">
                                 <span id="btnUpload2"></span>
