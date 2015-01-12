@@ -23,11 +23,17 @@ $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniabible.ordering&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'zefaniabible_bible_namesList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 ?>
 
 <script type="text/javascript">
@@ -98,6 +104,9 @@ if ($saveOrder)
 				<th class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'bible_name'), $listDirn, $listOrder) ?>
 				</th>
+				<th class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_STATUS'), '', $listDirn, $listOrder) ?>
+				</th>                
 				<th class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION'), 'a.bible_xml_file', $listDirn, $listOrder) ?>
 				</th>
@@ -194,24 +203,28 @@ if ($saveOrder)
 									JHtml::_('dropdown.publish', 'cb' . $i, 'zefaniabible.');
 								endif;
 
-								JHtml::_('dropdown.divider');
-								if ($item->published != 2) :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'zefaniabible.');
-								endif;
-
 								if ($item->checked_out) :
 									JHtml::_('dropdown.checkin', 'cb' . $i, 'zefaniabible.');
 								endif;
 
-								if ($item->published != -2 && $this->state->get('filter.published') != -2) :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'zefaniabible.');
-								endif;
 
 								// render dropdown list
 								echo JHtml::_('dropdown.render');
 							?>
 						</div>
 				</td>
+                <?php 
+				  $int_verses = 0;
+	              $int_verses = $mdl_default->fnc_count_bible_verses($item->id);
+				  $max_aprox_verses = 31103;
+				  $dbl_percentage = number_format(($int_verses / $max_aprox_verses), 2)*100;
+				?>
+
+                <td class="left" width="20%"><?php echo number_format($this->escape($int_verses)); ?> / <?php echo number_format($max_aprox_verses);?>
+                    <div class="progress">
+                    	<div class="bar" style="width: <?php echo $dbl_percentage;?>%;"><?php echo $dbl_percentage;?>%</div>
+                    </div>                    
+                </td>
 				<td class="left"><?php echo $this->escape($item->bible_xml_file); ?></td>
 				<td class="left"><?php echo $this->escape($item->xml_audio_url); ?></td>
 				<td class="left">
