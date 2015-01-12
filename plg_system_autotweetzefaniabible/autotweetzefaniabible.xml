@@ -28,7 +28,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="str_Bible" type="sql" label="PLG_AUTOTWEET_ZEFANIA_BIBLE" description="PLG_AUTOTWEET_ZEFANIA_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE publish=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
+				<field name="str_Bible" type="sql" label="PLG_AUTOTWEET_ZEFANIA_BIBLE" description="PLG_AUTOTWEET_ZEFANIA_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />
 				<field name="interval" type="text" default="120" label="PLG_AUTOTWEET_ZEFANIA_PARAM_INTERVAL_LABEL" description="PLG_AUTOTWEET_ZEFANIA_PARAM_INTERVAL_LABEL_DESC" />
 			</fieldset>
 			<fieldset name="verse" label="PLG_AUTOTWEET_PARAM_VERSE_LABEL" description="PLG_AUTOTWEET_PARAM_VERSE_LABEL_DESC">				
