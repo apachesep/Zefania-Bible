@@ -58,26 +58,26 @@ class ZefaniabibleHelper
 			'index.php?option=com_zefaniabible&view=zefaniauser', 
 			$vName == 'zefaniauser'
 		);
-		/*JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_DICTIONARY_DETAIL'), 
+		JHtmlSidebar::addEntry(
+			JText::_('ZEFANIABIBLE_MENU_Dictionary_EDIT'), 
 			'index.php?option=com_zefaniabible&view=zefaniabibledictdetail', 
 			$vName == 'zefaniabibledictdetail'
 		);		
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_COMMENT_TEXT'), 
+			JText::_('ZEFANIABIBLE_MENU_COMMENTARY_EDIT'), 
 			'index.php?option=com_zefaniabible&view=zefaniacommentdetail', 
 			$vName == 'zefaniacommentdetail'
 		);		
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_CROSSREF'), 
+			JText::_('ZEFANIABIBLE_MENU_CROSS_REF_EDIT'), 
 			'index.php?option=com_zefaniabible&view=zefaniacrossref', 
 			$vName == 'zefaniacrossref'
 		);		
 		JHtmlSidebar::addEntry(
-			JText::_('COM_ZEFANIABIBLE_SUBMENU_ZEFANIABIBLE_ZEFANIAPUBLISH'), 
+			JText::_('ZEFANIABIBLE_MENU_PUBLISH_EDIT'), 
 			'index.php?option=com_zefaniabible&view=zefaniapublish', 
 			$vName == 'zefaniapublish'
-		);*/
+		);
 
 	}
 	
