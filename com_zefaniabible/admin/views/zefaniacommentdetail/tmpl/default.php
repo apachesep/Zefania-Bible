@@ -18,7 +18,15 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));?>
+$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
+
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+$arr_comment_list = $mdl_default->_buildQuery_Commentary_Names_All();
+
+?>
 
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -70,24 +78,15 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				<th width="1%" class="hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
-				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_BIBLE_ID_LABEL', 'bible_id'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE'), 'a.book_id', $listDirn, $listOrder) ?>
+				</th>				
+				<th class="nowrap left">
+					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_COMMENTARY_LABEL', 'bible_id'), $listDirn, $listOrder) ?>
 				</th>
+
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_BOOK_ID_LABEL'), 'a.book_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_CHAPTER_ID_LABEL'), 'a.chapter_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_VERSE_ID_LABEL'), 'a.verse_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_VERSE_LABEL'), 'a.verse', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -109,11 +108,14 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				<!-- item main field -->
 				<td class="nowrap has-context">
 						<div class="pull-left">
+                <?php 
+					$str_scripture = $mdl_common->fnc_make_scripture_title($item->book_id, $item->chapter_id, $item->verse_id, $item->chapter_id, 0);
+				?>                        
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniacommentdetailitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->bible_id); ?></a>
+								<?php echo $this->escape($str_scripture); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->bible_id); ?>
+								<?php echo $this->escape($str_scripture); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">
@@ -130,10 +132,17 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->book_id); ?></td>
-				<td class="left"><?php echo $this->escape($item->chapter_id); ?></td>
-				<td class="left"><?php echo $this->escape($item->verse_id); ?></td>
-				<td class="left"><?php echo $this->escape($item->verse); ?></td>
+				<?php 
+					$str_comment_name = ''; 
+					foreach ($arr_comment_list as $arr_comment)
+					{
+						if($arr_comment->id == $item->bible_id)
+						{
+							$str_comment_name = $arr_comment->title;
+						}
+					}				
+				?>
+				<td class="left"><?php echo $this->escape($str_comment_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
 		<?php endforeach ?>
