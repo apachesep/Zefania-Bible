@@ -26,19 +26,19 @@ JHtml::_('formbehavior.chosen', 'select');
 <form action="<?php JRoute::_('index.php?option=com_zefaniabible&id=' . (int)$this->item->id); ?>" method="post" name="adminForm" id="zefaniapublishitem-form" class="form-validate">
 	
 	<div class="form-inline form-inline-header">
-		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('title'); ?></div>
-		</div>
 	</div>
 
 	<div class="form-horizontal">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', 'ZefaniapublishItem', $this->item->id, true); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('ZEFANIABIBLE_LAYOUT_DETAILS'), $this->item->id, true); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">			
+            <div class="control-group">
+                <div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
+                <div class="controls"><?php echo $this->form->getInput('title'); ?></div>
+            </div>                
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('last_send_date'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('last_send_date'); ?></div>
