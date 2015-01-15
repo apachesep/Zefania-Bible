@@ -25,6 +25,9 @@ class ZefaniabibleModelZefaniacrossref extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+			'a.book_id', 'book_id',
+			'a.chapter_id', 'chapter_id',
+			'a.verse_id', 'verse_id',
 				'a.book_id', 'book_id','ordering', 'state'
 			);
 		}
@@ -54,7 +57,18 @@ class ZefaniabibleModelZefaniacrossref extends JModelList
         $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
-
+		// Set filter state for book_id
+		$book_id = $this->getUserStateFromRequest($this->context.'.filter.book_id', 'filter_book_id', '');
+		$this->setState('filter.book_id', $book_id);
+				
+		// Set filter state for chapter_id
+		$chapter_id = $this->getUserStateFromRequest($this->context.'.filter.chapter_id', 'filter_chapter_id', '');
+		$this->setState('filter.chapter_id', $chapter_id);	
+		
+		// Set filter state for verse_id
+		$verse_id = $this->getUserStateFromRequest($this->context.'.filter.verse_id', 'filter_verse_id', '');
+		$this->setState('filter.verse_id', $verse_id);
+				
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_zefaniabible');
 		$this->setState('params', $params);
@@ -118,7 +132,27 @@ class ZefaniabibleModelZefaniacrossref extends JModelList
 				
 			}
 		}
-
+		// Filter by chapter_id
+		$book_id = $this->getState('filter.book_id');
+		if ($book_id != "")
+		{
+			$query->where('a.book_id = ' . $db->quote($db->escape($book_id)));
+		}
+				
+		// Filter by chapter_id
+		$chapter_id = $this->getState('filter.chapter_id');
+		if ($chapter_id != "")
+		{
+			$query->where('a.chapter_id = ' . $db->quote($db->escape($chapter_id)));
+		}
+		
+		// Filter by verse_id
+		$verse_id = $this->getState('filter.verse_id');
+		if ($verse_id != "")
+		{
+			$query->where('a.verse_id = ' . $db->quote($db->escape($verse_id)));
+		}
+		
 		// Add list oredring and list direction to SQL query
 		$sort = $this->getState('list.ordering', 'book_id');
 		$order = $this->getState('list.direction', 'ASC');
