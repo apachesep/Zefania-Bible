@@ -86,46 +86,17 @@ class ZefaniabibleViewZefaniacomment extends JViewLegacy
                 // Show a direct delete button
                 JToolBarHelper::deleteList('', 'zefaniacomment.delete','JTOOLBAR_DELETE');
             }
-
-            if (isset($this->items[0]->published))
-			{
-			    JToolBarHelper::divider();
-			    JToolBarHelper::archiveList('zefaniacomment.archive','JTOOLBAR_ARCHIVE');
-            }
             
 			if (isset($this->items[0]->checked_out))
 			{
 				JToolbarHelper::checkin('zefaniacomment.checkin');
             }
-		}
-		
-		// Show trash and delete for components that uses the state field
-        if (isset($this->items[0]->published))
-		{
-		    if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			if ($canDo->get('core.delete') && isset($this->items[0]))
 			{
-			    JToolBarHelper::deleteList('', 'zefaniacomment.delete','JTOOLBAR_EMPTY_TRASH');
-			    JToolBarHelper::divider();
-		    }
-			else if ($state->get('filter.published') != -2 && $canDo->get('core.edit.state'))
-			{
-			    JToolBarHelper::trash('zefaniacomment.trash','JTOOLBAR_TRASH');
-			    JToolBarHelper::divider();
-		    }
-        }
-		
-		// Add a batch button
-		if (isset($this->items[0]) && $user->authorise('core.create', 'com_contacts') && $user->authorise('core.edit', 'com_contacts') && $user->authorise('core.edit.state', 'com_contacts'))
-		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
-			$title = JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+				JToolBarHelper::deleteList('', 'zefaniacomment.delete','JTOOLBAR_DELETE');
+			}
 		}
+				
 		
 		if ($canDo->get('core.admin'))
 		{
