@@ -170,7 +170,30 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 
 		return true;
 	}
-	
+	function delete(&$pks)
+	{
+		$result = false;
+		foreach($pks as $pk)
+		{
+			try
+			{
+				$db = $this->getDbo();
+				$pk_clean 	= $db->quote($pk);							
+							
+				$query = 'DELETE FROM `#__zefaniabible_comment_text` '
+				. ' WHERE bible_id = '.$pk_clean;	
+				
+				$db->setQuery($query);
+				$result = $db->execute();
+			}
+			catch (JException $e)
+			{
+				print_r($this->setError($e));
+			}
+		}
+		parent::delete($pks);
+		return true;
+	}			
 	/**
 	 * Alias for JTable::getInstance()
 	 *
