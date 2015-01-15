@@ -72,13 +72,13 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAPUBLISH_FIELD_TITLE_LABEL', 'title'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'title'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAPUBLISH_FIELD_LAST_SEND_DATE_LABEL'), 'a.last_send_date', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_LAYOUT_LAST_SEND_DATE'), 'a.last_send_date', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAPUBLISH_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
