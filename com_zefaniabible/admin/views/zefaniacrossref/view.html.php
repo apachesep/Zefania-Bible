@@ -60,7 +60,7 @@ class ZefaniabibleViewZefaniacrossref extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_CROSSREF_VIEW_ZEFANIACROSSREF_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_MENU_CROSS_REF_EDIT'));
 		
 		if ($canDo->get('core.create'))
 		{

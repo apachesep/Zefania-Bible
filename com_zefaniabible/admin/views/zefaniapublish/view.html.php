@@ -60,7 +60,7 @@ class ZefaniabibleViewZefaniapublish extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAPUBLISH_VIEW_ZEFANIAPUBLISH_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_MENU_PUBLISH_EDIT'));
 		
 		if ($canDo->get('core.create'))
 		{

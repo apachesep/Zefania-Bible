@@ -50,7 +50,7 @@ class ZefaniabibleViewZefaniacrossrefItem extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$canDo		= ZefaniabibleHelper::getActions();
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_CROSSREF_VIEW_ZEFANIACROSSREFITEM_TITLE'));
+		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_LAYOUT_CROSS_REFERENCE_DETAILS'));
 
 		if (isset($this->item->checked_out)) {
 		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));

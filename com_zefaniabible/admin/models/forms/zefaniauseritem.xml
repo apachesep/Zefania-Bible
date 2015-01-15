@@ -15,7 +15,7 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>		
-		<field name="reading_start_date" label="COM_ZEFANIABIBLE_READING_START_DATE" description="" type="calendar" maxlength="20" filter="STRING" />
+		<field name="reading_start_date" label="ZEFANIABIBLE_FIELD_READING_START_DATE" description="" type="calendar" maxlength="20" filter="STRING" />
 	</fieldset>
 	<fields name="params">
 		<fieldset name="params">

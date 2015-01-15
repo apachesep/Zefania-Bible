@@ -60,7 +60,7 @@ class ZefaniabibleViewZefaniacommentdetail extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolBarHelper::title(JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_COMMENT_TEXT_VIEW_ZEFANIACOMMENTDETAIL_TITLE'));
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_MENU_COMMENTARY_EDIT'));
 		
 		if ($canDo->get('core.create'))
 		{
