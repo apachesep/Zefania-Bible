@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
-		<field 
-			name="id"
-			type="text"
-			label="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ID_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ID_DESC"
-			maxlength="10"
-			filter="INTEGER"
-			class="readonly"
-			readonly="true"
-		/>
-		<field name="dict_id" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DICT_ID_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DICT_ID_DESC"
-			type="combo"
-			maxlength="11"
-			class="input-xxlarge input-large-text"
-		/>
-		<field name="item" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ITEM_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ITEM_DESC"
-			type="text"
-			maxlength="255"
-		/>
-		<field name="description" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DESCRIPTION_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DESCRIPTION_DESC"
-			type="editor"
-			maxlength="5000"
-		/>
+		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
+		<field name="dict_id" label="ZEFANIABIBLE_MENU_DICTIONARY" description="" type="sql" query="SELECT id, name FROM #__zefaniabible_dictionary_info" key_field="id" value_field = "name" />				
+		<field name="item" label="ZEFANIABIBLE_MENU_DICTIONARY_STRONG_NUMBER" description="" type="text" maxlength="255" />
+		<field name="description" label="ZEFANIABIBLE_MENU_NOTES" description="" type="editor" maxlength="5000" />
 	</fieldset>
 	<fields name="params">
 		<fieldset name="params">
