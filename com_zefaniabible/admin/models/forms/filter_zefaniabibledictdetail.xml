@@ -7,33 +7,11 @@
 			label="COM_ZEFANIABIBLE_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
-		<field 
-			name="dict_id"
-			type="sql"
-			label="COM_ZEFANIABIBLE_ZEFANIABIBLEDICTDETAIL_FIELD_DICT_ID_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIABIBLEDICTDETAIL_FIELD_DICT_ID_DESC"
-			default=""
-			query="SELECT DISTINCT dict_id FROM #__zefaniabible_dictionary_detail"
-			key_field="dict_id"
-			value_field="dict_id"
-			onchange="this.form.submit();"
-			required="1"
-			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DICT_ID_FILTER</option>
+		<field name="dict_id" type="sql" label="ZEFANIABIBLE_FILTER_NULL_SELECT_DICTIONARY" description="" default="" query="SELECT DISTINCT id, name FROM #__zefaniabible_dictionary_info" key_field="id" value_field="name" onchange="this.form.submit();" required="1" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_DICTIONARY</option>
 		</field>					
-		<field 
-			name="item"
-			type="sql"
-			label="COM_ZEFANIABIBLE_ZEFANIABIBLEDICTDETAIL_FIELD_ITEM_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIABIBLEDICTDETAIL_FIELD_ITEM_DESC"
-			default=""
-			query="SELECT DISTINCT item FROM #__zefaniabible_dictionary_detail"
-			key_field="item"
-			value_field="item"
-			onchange="this.form.submit();"
-			required="1"
-			>
-			<option value="">COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ITEM_FILTER</option>
+		<field name="item" type="sql" label="ZEFANIABIBLE_MENU_DICTIONARY_STRONG_NUMBER" description="" default="" query="SELECT DISTINCT item FROM #__zefaniabible_dictionary_detail" key_field="item" value_field="item" onchange="this.form.submit();" required="1" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_STRONG</option>
 		</field>					
 	</fields>
 	<fields name="list">
