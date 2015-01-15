@@ -40,13 +40,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 	protected function canDelete($record)
 	{
 		if (!empty($record->id))
-		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-			
-
+		{	
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', $this->typeAlias . '.' . (int) $record->id);
 		}
@@ -87,7 +81,104 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 		$params = JComponentHelper::getParams('com_zefaniabible');
 		$this->setState('params', $params);
 	}
+	function save($data)
+	{
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$row = $this->getTable();
+		$str_folder_file = $data['xml_file_url_list'];
+		
+		if($data['xml_file_url'] == "")
+		{
+			$str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+			$data['xml_file_url'] = '/'.$str_dict_path.$str_folder_file;
+		}		
+		
+		//Convert data from a stdClass
+		if (is_object($data)){
+			if (get_class($data) == 'stdClass')
+				$data = JArrayHelper::fromObject($data);
+		}
 
+		//Current id if unspecified
+		if ($data['id'] != null)
+			$id = $data['id'];
+		else if (($this->_id != null) && ($this->_id > 0))
+			$id = $this->_id;
+
+
+		//Load the current object, in order to process an update
+		if (isset($id))
+			$row->load($id);
+
+		//Secure the published tag if not allowed to change
+		if (isset($data['publish']) && !$acl->get('core.edit.state'))
+			unset($data['publish']);
+
+
+		// Bind the form fields to the zefaniabible table
+		$ignore = array();
+		if (!$row->bind($data, $ignore)) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Make sure the zefaniabible table is valid
+		if (!$row->check()) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Store the zefaniabible table to the database
+		if (!$row->store())
+        {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
+
+		$this->_id = $row->id;
+		$this->_data = $row;
+
+		if(!$id)
+		{	
+	        
+			$int_max_ids = $this->fnc_Find_Last_Row_Names();
+			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->xml_file_url, $int_max_ids);
+			$app = JFactory::getApplication();
+			if($int_rows_inserted > 1)
+			{
+				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+			}
+			else
+			{
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
+			}	
+		}
+		return true;
+	}	
+	function delete(&$pks)
+	{
+		$result = false;
+		foreach($pks as $pk)
+		{
+			try
+			{
+				$db = $this->getDbo();
+				$pk_clean 	= $db->quote($pk);							
+							
+				$query = 'DELETE FROM `#__zefaniabible_dictionary_detail` '
+				. ' WHERE dict_id = '.$pk_clean;	
+				
+				$db->setQuery($query);
+				$result = $db->execute();
+			}
+			catch (JException $e)
+			{
+				print_r($this->setError($e));
+			}
+		}
+		parent::delete($pks);
+		return true;
+	}	
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
@@ -255,5 +346,83 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 		
 		return $item;
 	}
+	protected function fnc_Find_Last_Row_Names()
+	{
+		try 
+		{
+			$db = JFactory::getDBO();			
+			$query_max = "SELECT Max(id) FROM `#__zefaniabible_dictionary_info`";	
+			$db->setQuery($query_max);	
+			$int_max_ids = $db->loadResult();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return 	$int_max_ids;
+	}
+	protected function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
+	{
+		$x = 1;
+		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
+		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
+		
+		// check if file exists
+		if(!get_headers($str_xml_bibles_path))
+		{
+			JError::raiseWarning('',str_replace('%s',$str_xml_bibles_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
+		}
+		
+		$arr_xml_bible = simplexml_load_file($str_xml_bibles_path);	
+	
+		try
+		{
+			$t = 0;
+			foreach($arr_xml_bible->dictionary as $arr_dictionary)
+			{
+				foreach($arr_dictionary->item as $arr_dictionary_item)
+				{
+					foreach($arr_dictionary_item->description as $obj_description)
+					{
+
+						$this->fnc_Update_Bible_Verses(
+							$int_max_ids,
+							$arr_dictionary_item['id'],
+							strip_tags($obj_description->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
+							);
+							$x++;
+					}
+				}
+				$t++;
+			}
+
+			if($x ==1)
+			{
+				$this->fnc_Update_Bible_Verses($int_max_ids,'','Failed to load Bible');
+			}
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}
+		return $x;	
+	}
+	protected function fnc_Update_Bible_Verses($int_dict_id = 1,$str_item = '',$str_desc = '')
+	{
+		$app = JFactory::getApplication();		
+		try
+		{
+			$db = JFactory::getDBO();
+			$arr_row->dict_id		= (int)$int_dict_id;
+			$arr_row->item 		= (string)$str_item;
+			$arr_row->description 	= (string)$str_desc;
+			$db->insertObject("#__zefaniabible_dictionary_detail", $arr_row, 'id');
+
+		}
+		catch (JException $e)
+		{
+			print_r($this->setError($e));
+		}			
+	}		
 }
 ?>
