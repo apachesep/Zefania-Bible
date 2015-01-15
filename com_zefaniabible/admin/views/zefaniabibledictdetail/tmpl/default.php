@@ -18,8 +18,15 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));?>
+$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
+$arr_dict_list = $mdl_default->_buildQuery_Dictionary_Names_All();
+?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
 	{
@@ -70,18 +77,19 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				<th width="1%" class="hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
-				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DICT_ID_LABEL', 'dict_id'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_MENU_DICTIONARY_STRONG_NUMBER'), 'a.item', $listDirn, $listOrder) ?>
+				</th>
+                				
+				<th class="nowrap left">
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_MENU_DICTIONARY', 'dict_id'), $listDirn, $listOrder) ?>
+				</th>
+
+				<th class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_LAYOUT_DETAILS'), 'a.description', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ITEM_LABEL'), 'a.item', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_DESCRIPTION_LABEL'), 'a.description', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_ZEFANIABIBLE_DICTIONARY_DETAIL_FIELD_ID_LABEL'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
@@ -102,12 +110,22 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 				
 				<!-- item main field -->
 				<td class="nowrap has-context">
+						<?php 
+								$str_dict_name = '';
+								foreach ($arr_dict_list as $arr_bible)
+								{
+									if($arr_bible->id == $item->dict_id)
+									{
+										$str_dict_name = $arr_bible->name;
+									}
+								}
+						?>
 						<div class="pull-left">
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniabibledictdetailitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->dict_id); ?></a>
+								<?php echo $this->escape($item->item); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->dict_id); ?>
+								<?php echo $this->escape($item->item); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">
@@ -124,7 +142,7 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape($item->item); ?></td>
+				<td class="left"><?php echo $this->escape($str_dict_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->description); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
