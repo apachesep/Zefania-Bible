@@ -191,17 +191,8 @@ if ($saveOrder)
 									JHtml::_('dropdown.publish', 'cb' . $i, 'zefaniacomment.');
 								endif;
 
-								JHtml::_('dropdown.divider');
-								if ($item->published != 2) :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'zefaniacomment.');
-								endif;
-
 								if ($item->checked_out) :
 									JHtml::_('dropdown.checkin', 'cb' . $i, 'zefaniacomment.');
-								endif;
-
-								if ($item->published != -2 && $this->state->get('filter.published') != -2) :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'zefaniacomment.');
 								endif;
 
 								// render dropdown list
