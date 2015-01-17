@@ -162,7 +162,7 @@
 		<field name="str_scripture_default_image" type="media" label="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE" description="COM_ZEFANIABIBLE_SCRIPTURE_DEFAULT_IMAGE_DESC" />
 		<field type="spacer" name="myspacer2" hr="true" />	
 		
-		<field name="reading_start_date" type="calendar" label="COM_ZEFANIABIBLE_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y"  filter="server_utc" />					
+		<field name="reading_start_date" type="calendar" label="ZEFANIABIBLE_FIELD_READING_START_DATE" description="COM_ZEFANIABIBLE_READING_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y"  filter="server_utc" />					
 		<field name="primaryReading" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />
 		<field name="flg_use_year_date" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_YEAR_DATE" description="COM_ZEFANIABIBLE_YEAR_DATE_DESC">
 				<option value="0">JNO</option>
@@ -191,7 +191,7 @@
 	<fieldset name="layouts" label="COM_ZEFANIABIBLE_LAYOUT_LABEL" description="COM_ZEFANIABIBLE_LAYOUT_DESC">
 		<field name="standard_layout" type="filelist" default="standard" label="COM_ZEFANIABIBLE_STANDARD_LAYOUT" description="COM_ZEFANIABIBLE_STANDARD_LAYOUT_DESC" directory="components/com_zefaniabible/views/standard/tmpl" filter="php" exclude="default.php" stripext="true"  />
 		<field name="compare_layout" type="filelist" default="compare" label="COM_ZEFANIABIBLE_COMPARE_LAYOUT" description="COM_ZEFANIABIBLE_COMPARE_LAYOUT_DESC" directory="components/com_zefaniabible/views/compare/tmpl" filter="php" exclude="default.php" stripext="true"  />
-		<field name="plan_layout" type="filelist" default="plan" label="COM_ZEFANIABIBLE_PLAN_LAYOUT" description="COM_ZEFANIABIBLE_PLAN_LAYOUT_DESC" directory="components/com_zefaniabible/views/plan/tmpl" filter="php" exclude="default.php" stripext="true"  />
+		<field name="plan_layout" type="filelist" default="plan" label="ZEFANIABIBLE_FIELD_PLAN" description="COM_ZEFANIABIBLE_PLAN_LAYOUT_DESC" directory="components/com_zefaniabible/views/plan/tmpl" filter="php" exclude="default.php" stripext="true"  />
 		<field name="reading_layout" type="filelist" default="reading" label="COM_ZEFANIABIBLE_READING_LAYOUT" description="COM_ZEFANIABIBLE_READING_LAYOUT_DESC" directory="components/com_zefaniabible/views/reading/tmpl" filter="php" exclude="default.php" stripext="true"  />		
 	</fieldset>
 	
