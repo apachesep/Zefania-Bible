@@ -91,7 +91,7 @@ class ZefaniabibleModelDefault extends JModelItem
 		{
 			$this->setError($e);
 		}
-		return $data;			
+		return $data;
 	}
 	public function fnc_make_verse($str_Bible_Version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse)
 	{
@@ -222,6 +222,42 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;	
 	}
+	function _buildQuery_Dictionary_Names_All()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('alias, name, id');
+			$query->from('`#__zefaniabible_dictionary_info`');
+			$query->order('name');			
+			$db->setQuery($query);
+			$data = $db->loadObjectList();			
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
+	function _buildQuery_Commentary_Names_All()
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('alias, title, id');
+			$query->from('`#__zefaniabible_zefaniacomment`');
+			$query->order('title');			
+			$db->setQuery($query);
+			$data = $db->loadObjectList();			
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}		
 	function _buildQuery_Bibles_Names_All()
 	{
 		try 
@@ -306,6 +342,25 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
+	public function fnc_count_bible_verses($id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_Bible_Book_ID 	=	$db->quote($id);
+			$query  = $db->getQuery(true);
+			$query->select('count(1)');			
+			$query->from('`#__zefaniabible_bible_text`');
+			$query->where("bible_id=".$int_Bible_Book_ID);			
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
 	function _buildQuery_Max_Bible_Chapters($alias)
 	{
 		try 
