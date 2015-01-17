@@ -20,6 +20,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 $params = JComponentHelper::getParams( 'com_zefaniabible' );
 $str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 $arr_verse = $mdl_default->fnc_make_verse($str_primary_bible,$this->item->book_name,$this->item->chapter_number,$this->item->begin_verse,$this->item->end_verse);
+$str_scripture = $mdl_common->fnc_make_scripture_title($this->item->book_name, $this->item->chapter_number, $this->item->begin_verse, $this->item->chapter_number, $this->item->end_verse);
 $str_verse = '';
 $x = 1;
 
@@ -59,25 +60,27 @@ foreach ($arr_verse as $verse)
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">		
-            <div class="control-group">
-                <div class="control-label"><?php echo $this->form->getLabel('book_name'); ?></div>
-                <div class="controls"><?php echo $this->form->getInput('book_name'); ?></div>
-            </div>                	
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('chapter_number'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('chapter_number'); ?></div>
-			</div>			
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('begin_verse'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('begin_verse'); ?></div>
-			</div>			
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('end_verse'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('end_verse'); ?></div>
-			</div>
-            <div class="control-group">        
-            	<?php echo $str_verse;?>
-            </div>
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('book_name'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('book_name'); ?></div>
+                    </div>                	
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('chapter_number'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('chapter_number'); ?></div>
+                    </div>			
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('begin_verse'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('begin_verse'); ?></div>
+                    </div>			
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('end_verse'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('end_verse'); ?></div>
+                    </div>
+                    <?php if($this->item->id > 0){?>
+                        <div class="control-group">    
+                            <div class="well well-lg"><b><?php echo $str_scripture;?></b><br/><?php echo $str_verse;?></div>
+                        </div>
+                    <?php }?>
 				</div>
 			</div>
 			<div class="span3">
