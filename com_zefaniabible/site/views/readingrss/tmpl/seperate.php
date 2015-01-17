@@ -38,6 +38,7 @@ class BibleReadingPlanSeperate
 		$chap = 0;
 		$int_end_verse = 0;
 		$int_begin_verse = 0;
+		$str_verse = "";
 		$y = 1;
 		$doc = JFactory::getDocument();
 		$mainframe = JFactory::getApplication();	
@@ -60,7 +61,6 @@ class BibleReadingPlanSeperate
 		echo '	<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 		echo '	<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
 		echo '	<description>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE_DESC').' "'.$item->str_reading_plan_name.'" '. JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '. $item->int_day_number. ". ".JText::_($item->str_description).'</description>'.PHP_EOL;		
-		//print_r($item->arr_reading);
 		foreach($item->arr_plan as $reading)
 		{
 			$x= 1;
