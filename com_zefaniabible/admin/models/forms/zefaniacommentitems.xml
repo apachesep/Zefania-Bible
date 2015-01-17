@@ -6,15 +6,7 @@
 		<field name="full_name" label="ZEFANIABIBLE_FIELD_FULL_NAME" description="" type="text" maxlength="255" required="1" />
 		<field name="file_location" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="text" disabled="true" />
 		<field name="file_location_list" label="ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION" description="" type="text" />		
-		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox" size="40"
-			required="1"
-		/>
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="40" maxlength="5" required="1" filter="word" />
 		<field
 			name="published"
 			type="list"

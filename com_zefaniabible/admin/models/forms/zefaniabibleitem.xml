@@ -8,15 +8,7 @@
 		<field name="bible_xml_file_list" label="ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" description="" type="list" />
 		<field name="xml_audio_url_list" label="ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION" description="" type="list" />
 
-		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox" size="40"
-			required="1"
-		/>
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="40" maxlength="5" required="1" filter="word" />
 		<field
 			name="published"
 			type="list"

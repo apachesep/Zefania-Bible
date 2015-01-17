@@ -14,20 +14,13 @@
 		<field name="name" label="ZEFANIABIBLE_FIELD_PLAN" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_FIELD_NAME_DESC"
 			type="text"
 			maxlength="255"
-			class="input-xxlarge input-large-text"
+			required="1"
 		/>
 		<field name="description" label="ZEFANIABIBLE_FIELD_DESCRIPTION" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_ZEFANIAREADING_FIELD_DESCRIPTION_DESC"
 			type="text"
 			maxlength="1000"
 		/>
-		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox" size="40"
-		/>
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="40" maxlength="5" filter="string" required="1" />
 		<field
 			name="published"
 			type="list"
