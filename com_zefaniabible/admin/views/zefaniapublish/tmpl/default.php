@@ -18,7 +18,9 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));?>
+$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_MODIFY'));
+?>
 
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -139,4 +141,9 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>    
 </div>
