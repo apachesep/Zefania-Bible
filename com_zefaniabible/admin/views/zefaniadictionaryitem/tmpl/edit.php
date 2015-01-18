@@ -18,6 +18,9 @@ $model			= $this->getModel();
 $mld_dictionary	= $model->getItem();
 $isNew			= ($mld_dictionary->id < 1);
 $params	= JComponentHelper::getParams( 'com_zefaniabible' );
+
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_DICTIONARY_INSTALL'));
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_DICTIONARY_INSTALL_LONG_DURATION'));
 ?>
 
 <script type="text/javascript">

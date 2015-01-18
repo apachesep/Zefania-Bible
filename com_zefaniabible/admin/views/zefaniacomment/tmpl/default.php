@@ -23,6 +23,11 @@ $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniacomment.ordering&tmpl=component';
@@ -99,6 +104,9 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'title'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_STATUS'), '', $listDirn, $listOrder) ?>
+				</th>                                 
+				<th class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_FULL_NAME'), 'a.full_name', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
@@ -163,6 +171,10 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<!-- item main field -->
+                <?php 
+				  $int_verses = 0;
+	              $int_verses = $mdl_default->fnc_count_comment_verses($item->id);				
+				?>
 				<td class="nowrap has-context">
 						<div class="pull-left">
 							<?php if ($item->checked_out) : ?>
@@ -200,6 +212,7 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
+                <td class="left"><?php echo $int_verses; ?></td>
 				<td class="left"><?php echo $this->escape($item->full_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->file_location); ?></td>
 				<td class="left">
@@ -232,4 +245,9 @@ if ($saveOrder)
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>    
 </div>

@@ -23,6 +23,11 @@ $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
 $saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
 
+require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+$mdl_default 	= new ZefaniabibleModelDefault;
+$mdl_common 	= new ZefaniabibleCommonHelper;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniadictionary.ordering&tmpl=component';
@@ -99,6 +104,9 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'name'), $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_STATUS'), '', $listDirn, $listOrder) ?>
+				</th>                
+				<th class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION'), 'a.xml_file_url', $listDirn, $listOrder) ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
@@ -165,6 +173,10 @@ if ($saveOrder)
 				<!-- item main field -->
 				<td class="nowrap has-context">
 						<div class="pull-left">
+                        <?php
+							  $int_verses = 0;
+							  $int_verses =  number_format($mdl_default->fnc_count_dict_verses($item->id));						
+						?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, null, $item->checked_out_time, 'zefaniadictionary.', $canCheckin); ?>
 							<?php endif; ?>
@@ -201,6 +213,7 @@ if ($saveOrder)
 							?>
 						</div>
 				</td>
+                <td class="left"><?php echo $int_verses; ?></td>
 				<td class="left"><?php echo $this->escape($item->xml_file_url); ?></td>
 				<td class="left">
 					<?php echo $this->escape($item->access_level); ?>
@@ -242,4 +255,9 @@ if ($saveOrder)
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>    
 </div>

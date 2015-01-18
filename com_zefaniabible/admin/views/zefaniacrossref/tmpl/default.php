@@ -24,6 +24,7 @@ require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 $mdl_default 	= new ZefaniabibleModelDefault;
 $mdl_common 	= new ZefaniabibleCommonHelper;
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_MODIFY'));
 ?>
 
 <script type="text/javascript">
@@ -156,4 +157,9 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>    
 </div>

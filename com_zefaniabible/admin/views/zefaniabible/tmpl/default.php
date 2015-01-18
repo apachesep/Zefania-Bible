@@ -216,7 +216,7 @@ if ($saveOrder)
                 <?php 
 				  $int_verses = 0;
 	              $int_verses = $mdl_default->fnc_count_bible_verses($item->id);
-				  $max_aprox_verses = 31103;
+				  $max_aprox_verses = 31102;
 				  $dbl_percentage = number_format(($int_verses / $max_aprox_verses), 2)*100;
 				?>
 
@@ -267,4 +267,9 @@ if ($saveOrder)
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>
 </div>

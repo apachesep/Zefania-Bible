@@ -18,6 +18,8 @@ $mld_commentary	= $model->getItem();
 $isNew		= ($mld_commentary->id < 1);
 $params	= JComponentHelper::getParams( 'com_zefaniabible' );
 
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_COMMENTARY_INSTALL'));
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_COMMENTARIES_INSTALL_LONG_DURATION'));
 ?>
 
 <script type="text/javascript">

@@ -23,6 +23,7 @@ $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->ite
 require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 $mdl_default 	= new ZefaniabibleModelDefault;
 $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
+JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_MODIFY'));
 ?>
 
 <script type="text/javascript">
@@ -75,20 +76,14 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 				<th width="1%" class="hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
-				
+				<th  width="10%" class="nowrap left">
+					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE'), 'a.book_id', $listDirn, $listOrder) ?>
+				</th>				
 				<th width="15%" class="nowrap left">
 					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME', 'bible_id'), $listDirn, $listOrder) ?>
 				</th>
-				<th  width="15%" class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_BOOK_NAME'), 'a.book_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_CHAPTER_NUMBER'), 'a.chapter_id', $listDirn, $listOrder) ?>
-				</th>
-				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE_NUMBER'), 'a.verse_id', $listDirn, $listOrder) ?>
-				</th>
-				<th  width="60%" class="nowrap left">
+
+				<th  width="75%" class="nowrap left">
 					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE'), 'a.verse', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
@@ -113,6 +108,7 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 				
 				<!-- item main field -->
 				<td class="nowrap has-context">
+                <?php $scripture = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->book_id)." ".$item->chapter_id.":".$item->verse_id ?>
 						<div class="pull-left">
                         	<?php 
 								$str_bible_name = '';
@@ -126,9 +122,9 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 							?>
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_zefaniabible&task=zefaniascriptureitem.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($str_bible_name); ?></a>
+								<?php echo $this->escape($scripture); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($str_bible_name); ?>
+								<?php echo $this->escape($scripture); ?>
 							<?php endif; ?>
 						</div>
 						<div class="pull-left">
@@ -145,9 +141,7 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 							?>
 						</div>
 				</td>
-				<td class="left"><?php echo $this->escape(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->book_id)); ?></td>
-				<td class="left"><?php echo $this->escape($item->chapter_id); ?></td>
-				<td class="left"><?php echo $this->escape($item->verse_id); ?></td>
+                <td class="left"><?php echo $this->escape($str_bible_name); ?></td>
 				<td class="left"><?php echo $this->escape($item->verse); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
 			</tr>
@@ -166,4 +160,9 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 	</div>
 
 	</form>
+    <?php 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/credits.php');
+			$mdl_credits = new ZefaniabibleCredits;
+			$obj_player_one = $mdl_credits->fnc_credits();	
+	?>    
 </div>
