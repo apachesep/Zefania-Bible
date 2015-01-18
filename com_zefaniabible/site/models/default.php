@@ -342,6 +342,73 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
+	public function fnc_count_publications($str_table)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('count(1)');			
+			switch($str_table)
+			{
+				case "comment":
+					$query->from('`#__zefaniabible_zefaniacomment`');
+					break;
+				case "dict":
+					$query->from('`#__zefaniabible_dictionary_info`');
+					break;
+				default:
+					$query->from('`#__zefaniabible_bible_names`');
+					break;
+			}
+
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}		
+	public function fnc_count_comment_verses($id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_ID 	=	$db->quote($id);
+			$query  = $db->getQuery(true);
+			$query->select('count(1)');			
+			$query->from('`#__zefaniabible_comment_text`');
+			$query->where("bible_id=".$int_ID);			
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}		
+	public function fnc_count_dict_verses($id)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$int_ID 	=	$db->quote($id);
+			$query  = $db->getQuery(true);
+			$query->select('count(1)');			
+			$query->from('`#__zefaniabible_dictionary_detail`');
+			$query->where("dict_id=".$int_ID);			
+			$db->setQuery($query);
+			$data = $db->loadResult();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}		
 	public function fnc_count_bible_verses($id)
 	{
 		try 
