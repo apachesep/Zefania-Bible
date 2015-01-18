@@ -17,26 +17,28 @@ class ZefaniabibleHelper
 { 
 	public static function addSubmenu($vName)
 	{ 
+		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
+		$mdl_default 	= new ZefaniabibleModelDefault;
+		$mdl_common 	= new ZefaniabibleCommonHelper;	
+		$cnt_comment 	= $mdl_default->fnc_count_publications('comment');
+		$cnt_bibles 	= $mdl_default->fnc_count_publications('bible');
+		$cnt_dict 		= $mdl_default->fnc_count_publications('dict');
+
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_LAYOUT_BIBLES'), 
 			'index.php?option=com_zefaniabible&view=zefaniabible', 
 			$vName == 'zefaniabible'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_MENU_SCRIPTURES'), 
-			'index.php?option=com_zefaniabible&view=zefaniascripture', 
-			$vName == 'zefaniascripture'
-		);
+			JText::_('ZEFANIABIBLE_LAYOUT_COMMENTARIES'), 
+			'index.php?option=com_zefaniabible&view=zefaniacomment', 
+			$vName == 'zefaniacomment'
+		);		
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_MENU_DICTIONARY'), 
 			'index.php?option=com_zefaniabible&view=zefaniadictionary', 
 			$vName == 'zefaniadictionary'
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_LAYOUT_COMMENTARIES'), 
-			'index.php?option=com_zefaniabible&view=zefaniacomment', 
-			$vName == 'zefaniacomment'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_FIELD_VERSE_OF_DAY'), 
@@ -58,16 +60,30 @@ class ZefaniabibleHelper
 			'index.php?option=com_zefaniabible&view=zefaniauser', 
 			$vName == 'zefaniauser'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_MENU_Dictionary_EDIT'), 
-			'index.php?option=com_zefaniabible&view=zefaniabibledictdetail', 
-			$vName == 'zefaniabibledictdetail'
-		);		
-		JHtmlSidebar::addEntry(
-			JText::_('ZEFANIABIBLE_MENU_COMMENTARY_EDIT'), 
-			'index.php?option=com_zefaniabible&view=zefaniacommentdetail', 
-			$vName == 'zefaniacommentdetail'
-		);		
+		if($cnt_bibles >=1)
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('ZEFANIABIBLE_MENU_SCRIPTURES'), 
+				'index.php?option=com_zefaniabible&view=zefaniascripture', 
+				$vName == 'zefaniascripture'
+			);		
+		}
+		if($cnt_comment >= 1)
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('ZEFANIABIBLE_MENU_COMMENTARY_EDIT'), 
+				'index.php?option=com_zefaniabible&view=zefaniacommentdetail', 
+				$vName == 'zefaniacommentdetail'
+			);
+		}
+		if($cnt_dict >= 1)
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('ZEFANIABIBLE_MENU_Dictionary_EDIT'), 
+				'index.php?option=com_zefaniabible&view=zefaniabibledictdetail', 
+				$vName == 'zefaniabibledictdetail'
+			);
+		}
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_MENU_CROSS_REF_EDIT'), 
 			'index.php?option=com_zefaniabible&view=zefaniacrossref', 
