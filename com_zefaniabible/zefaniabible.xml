@@ -78,7 +78,7 @@
 	</media>	
 	
 	<administration>
-		<menu link="index.php?option=com_zefaniabible">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
+		<menu link="index.php?option=com_zefaniabible&amp;view=cpanel">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
 		<submenu>
 			<menu link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
 			<menu link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
@@ -99,7 +99,7 @@
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<filename>zefaniabible.php</filename>
-			<folder>controllers</folder>
+			<folder>css</folder>
 			<folder>images</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
