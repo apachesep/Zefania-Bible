@@ -24,7 +24,11 @@ class ZefaniabibleHelper
 		$cnt_comment 	= $mdl_default->fnc_count_publications('comment');
 		$cnt_bibles 	= $mdl_default->fnc_count_publications('bible');
 		$cnt_dict 		= $mdl_default->fnc_count_publications('dict');
-
+		JHtmlSidebar::addEntry(
+			JText::_('ZEFANIABIBLE_MENU_CPANEL'), 
+			'index.php?option=com_zefaniabible&view=cpanel', 
+			$vName == 'cpanel'
+		);
 		JHtmlSidebar::addEntry(
 			JText::_('ZEFANIABIBLE_LAYOUT_BIBLES'), 
 			'index.php?option=com_zefaniabible&view=zefaniabible', 
