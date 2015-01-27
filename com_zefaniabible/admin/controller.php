@@ -44,7 +44,7 @@ class ZefaniabibleController extends JControllerLegacy
 	{
         // Get the document object.
 		$document	= JFactory::getDocument();
-
+		$document->addStyleSheet('/administrator/components/com_zefaniabible/css/zefaniabible.css');
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->getCmd('view', 'zefaniabible');
 		$vFormat = $document->getType();
