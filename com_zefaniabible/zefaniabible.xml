@@ -9,7 +9,7 @@
 	<license><![CDATA[GNU/GPL]]></license>
 	<version><![CDATA[4.0.0]]></version>
 	<description>COM_ZEFANIABIBLE_XML_DESCRIPTION</description>
-	
+	<scriptfile>script.php</scriptfile>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
