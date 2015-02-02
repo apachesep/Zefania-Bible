@@ -1,6 +1,6 @@
 ALTER TABLE `#__zefaniabible_bible_names`
 	CHANGE `publish` `published` tinyint(3),
-	CHANGE `bible_xml_file` `xml_file_url` text,
+	CHANGE `xml_file_url` `bible_xml_file` text,
 	ADD `checked_out` int(11) ,
 	ADD `checked_out_time` datetime  ,
 	ADD `created` datetime  ,
