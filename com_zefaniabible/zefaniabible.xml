@@ -100,6 +100,7 @@
 			<filename>index.html</filename>
 			<filename>zefaniabible.php</filename>
 			<folder>css</folder>
+			<folder>controllers</folder>
 			<folder>images</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
