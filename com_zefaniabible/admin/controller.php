@@ -15,7 +15,7 @@ class ZefaniabibleController extends JControllerLegacy
 	 * @var    string
 	 * @since  12.2
 	 */
-	protected $default_view = 'zefaniabible';
+	protected $default_view = 'cpanel';
 	
 	/**
 	 * Checks whether a user can see this view.
@@ -46,7 +46,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$document	= JFactory::getDocument();
 		$document->addStyleSheet('/administrator/components/com_zefaniabible/css/zefaniabible.css');
 		// Set the default view name and format from the Request.
-		$vName   = $this->input->getCmd('view', 'zefaniabible');
+		$vName   = $this->input->getCmd('view', 'cpanel');
 		$vFormat = $document->getType();
 		$lName   = $this->input->getCmd('layout', 'default');
 		
