@@ -76,6 +76,10 @@ foreach ($arr_verse as $verse)
                         <div class="control-label"><?php echo $this->form->getLabel('end_verse'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('end_verse'); ?></div>
                     </div>
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
+                        <div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
+                    </div>                    
                     <?php if($this->item->id > 0){?>
                         <div class="control-group">    
                             <div class="well well-lg"><b><?php echo $str_scripture;?></b><br/><?php echo $str_verse;?></div>
