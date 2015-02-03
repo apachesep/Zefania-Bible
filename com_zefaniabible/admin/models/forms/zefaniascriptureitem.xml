@@ -71,7 +71,7 @@
 			<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
 			<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 		</field>			
-		<field name="chapter_id" label="ZEFANIABIBLE_FIELD_CHAPTER_NUMBER" description="" type="text" maxlength="3" />
+		<field name="chapter_id" label="ZEFANIABIBLE_FIELD_CHAPTER_NUMBER" description="" filter="INTEGER" type="text" maxlength="3" />
 		<field name="verse_id" label="ZEFANIABIBLE_FIELD_VERSE_NUMBER" description="" type="text" maxlength="3" filter="INTEGER" />
 		<field name="verse" label="ZEFANIABIBLE_FIELD_VERSE" description="" type="editor" maxlength="1000" />
 	</fieldset>
