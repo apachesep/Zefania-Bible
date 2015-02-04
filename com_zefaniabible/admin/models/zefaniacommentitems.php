@@ -278,13 +278,6 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 
-		$str_folder_file = $data['file_location_list'];
-		
-		if($data['file_location'] == "")
-		{
-			$str_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/audio/');
-			$data['file_location'] = '/'.$str_path.$str_folder_file;				
-		}
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -337,6 +330,13 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 		$this->_data = $row;
 		if(!$id)
 		{	
+			$str_folder_file = $data['file_location_list'];
+			
+			if($data['file_location'] == "")
+			{
+				$str_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+				$data['file_location'] = '/'.$str_path.$str_folder_file;				
+			}		
 			$app = JFactory::getApplication();
 			
 			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->file_location, $row->id);

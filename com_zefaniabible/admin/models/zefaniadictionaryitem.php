@@ -86,12 +86,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 		$str_folder_file = $data['xml_file_url_list'];
-		
-		if($data['xml_file_url'] == "")
-		{
-			$str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
-			$data['xml_file_url'] = '/'.$str_dict_path.$str_folder_file;
-		}		
+			
 		
 		//Convert data from a stdClass
 		if (is_object($data)){
@@ -140,7 +135,11 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 
 		if(!$id)
 		{	
-	        
+			if($data['xml_file_url'] == "")
+			{
+				$str_dict_path = $params->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
+				$data['xml_file_url'] = '/'.$str_dict_path.$str_folder_file;
+			}		        
 			$int_max_ids = $this->fnc_Find_Last_Row_Names();
 			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->xml_file_url, $int_max_ids);
 			$app = JFactory::getApplication();

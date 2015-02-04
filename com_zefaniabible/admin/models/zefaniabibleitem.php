@@ -253,21 +253,13 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 	{
 		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
-
-		$str_bible_xml_file_list = $data['bible_xml_file_list'];
+		
 		$str_xml_audio_url_list = $data['xml_audio_url_list'];
-	
-		if($data['bible_xml_file'] == "")
-		{
-			$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');			
-			$data['bible_xml_file'] = '/'.$str_bibles_path.$str_bible_xml_file_list;				
-		}
 		if($data['xml_audio_url'] == "")
 		{
 			$str_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/bibles/');
 			$data['xml_audio_url'] = '/'.$str_audio_path.$str_xml_audio_url_list;
-		}
-					
+		}					
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -315,6 +307,14 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 
 		if(!$id)
 		{	
+			$str_bible_xml_file_list = $data['bible_xml_file_list'];
+		
+			if($data['bible_xml_file'] == "")
+			{
+				$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');			
+				$data['bible_xml_file'] = '/'.$str_bibles_path.$str_bible_xml_file_list;				
+			}
+				
 			$int_max_ids = $this->fnc_Find_Last_Row_Names();		
 			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($data['bible_xml_file'], $int_max_ids);
 			$app = JFactory::getApplication();
