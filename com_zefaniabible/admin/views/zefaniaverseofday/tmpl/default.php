@@ -105,16 +105,16 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE', 'book_name'), $listDirn, $listOrder) ?>
+					<?php echo JText::_('ZEFANIABIBLE_VIEW_SCRIPTURE'); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_VERSE', 'begin_verse'), $listDirn, $listOrder) ?>
+					<?php echo JText::_('ZEFANIABIBLE_FIELD_VERSE'); ?>
 				</th>                
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'day', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.ordering', $listDirn, $listOrder); ?>
 				</th>                
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>

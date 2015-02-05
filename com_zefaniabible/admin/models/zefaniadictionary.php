@@ -27,6 +27,8 @@ class ZefaniabibleModelZefaniadictionary extends JModelList
 			$config['filter_fields'] = array(
 				'a.name', 'name',
 				'a.alias', 'alias',
+				'a.id', 'id',
+				'a.xml_file_url', 'xml_file_url',
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
 				'a.published', 'published',

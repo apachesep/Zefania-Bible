@@ -23,15 +23,24 @@
 		</field>					
 	</fields>
 	<fields name="list">
-		<field
-			name="fullordering"
-			type="list"
-			label="COM_ZEFANIABIBLE_LIST_FULL_ORDERING"
-			description="COM_ZEFANIABIBLE_LIST_FULL_ORDERING_DESC"
-			onchange="this.form.submit();"
-			default="a.title ASC"
-			>
+		<field name="fullordering" type="list" label="COM_ZEFANIABIBLE_LIST_FULL_ORDERING" description="COM_ZEFANIABIBLE_LIST_FULL_ORDERING_DESC" onchange="this.form.submit();" default="a.id ASC" >
 			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.user_name ASC">ZEFANIABIBLE_FIELD_USER_ASC</option>
+			<option value="a.user_name DESC">ZEFANIABIBLE_FIELD_USER_DES</option>
+			<option value="a.plan ASC">ZEFANIABIBLE_FIELD_PLAN_ASC</option>
+			<option value="a.plan DESC">ZEFANIABIBLE_FIELD_PLAN_DES</option>
+			<option value="a.bible_version ASC">ZEFANIABIBLE_FIELD_BIBLE_ASC</option>
+			<option value="a.bible_version DESC">ZEFANIABIBLE_FIELD_BIBLE_DES</option>
+			<option value="a.user_id ASC">ZEFANIABIBLE_FIELD_USER_ID_ASC</option>
+			<option value="a.user_id DESC">ZEFANIABIBLE_FIELD_USER_ID_DES</option>
+			<option value="a.email ASC">ZEFANIABIBLE_FIELD_EMAIL_ASC</option>
+			<option value="a.email DESC">ZEFANIABIBLE_FIELD_EMAIL_DES</option>
+			<option value="a.send_reading_plan_email ASC">ZEFANIABIBLE_FIELD_SEND_READING_ASC</option>
+			<option value="a.send_reading_plan_email DESC">ZEFANIABIBLE_FIELD_SEND_READING_DES</option>
+			<option value="a.send_verse_of_day_email ASC">ZEFANIABIBLE_FIELD_SEND_VERSE_ASC</option>
+			<option value="a.send_verse_of_day_email DESC">ZEFANIABIBLE_FIELD_SEND_VERSE_DES</option>
+			<option value="a.reading_start_date ASC">ZEFANIABIBLE_FIELD_START_DATE_ASC</option>
+			<option value="a.reading_start_date DESC">ZEFANIABIBLE_FIELD_START_DATE_DES</option>			
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

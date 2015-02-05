@@ -74,13 +74,13 @@ JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_MODIFY'));
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'title'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('JGLOBAL_TITLE'), 'a.title', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('COM_ZEFANIABIBLE_LAYOUT_LAST_SEND_DATE'), 'a.last_send_date', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_LAYOUT_LAST_SEND_DATE'), 'a.last_send_date', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>

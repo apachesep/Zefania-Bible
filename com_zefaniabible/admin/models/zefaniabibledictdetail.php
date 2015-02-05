@@ -25,7 +25,11 @@ class ZefaniabibleModelZefaniabibleDictDetail extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'a.dict_id', 'dict_id','ordering', 'state', 'item'
+				'a.dict_id', 'dict_id',
+				'a.id', 'id',
+				'a.item', 'item',
+				'a.description', 'description',
+				'ordering', 'state'
 			);
 		}
 		parent::__construct($config);

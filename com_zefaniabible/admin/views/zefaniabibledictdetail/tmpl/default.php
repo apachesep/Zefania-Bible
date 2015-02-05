@@ -79,18 +79,18 @@ JError::raiseNotice('',JText::_('ZEFANIABIBLE_WARNING_MODIFY'));
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_MENU_DICTIONARY_STRONG_NUMBER'), 'a.item', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_MENU_DICTIONARY_STRONG_NUMBER'), 'a.item', $listDirn, $listOrder) ?>
 				</th>
                 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_MENU_DICTIONARY', 'dict_id'), $listDirn, $listOrder) ?>
+					<?php echo JText::_('ZEFANIABIBLE_MENU_DICTIONARY'); ?>
 				</th>
 
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_LAYOUT_DETAILS'), 'a.description', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_LAYOUT_DETAILS'), 'a.description', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>

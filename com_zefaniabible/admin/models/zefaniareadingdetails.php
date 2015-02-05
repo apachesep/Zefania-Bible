@@ -25,8 +25,8 @@ class ZefaniabibleModelZefaniareadingdetails extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'a.plan', 'plan',
-				'a.plan','plan_name',
+				'a.id', 'id',
+				'a.plan', 'plan', 'plan_name',
 				'a.book_id','book_id',
 				'a.day_number','day_number',
 				'a.begin_chapter','begin_chapter',

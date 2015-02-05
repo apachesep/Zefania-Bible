@@ -92,19 +92,19 @@ if ($saveOrder)
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('COM_ZEFANIABIBLE_READING_LAYOUT', 'book_id'), $listDirn, $listOrder) ?>
+					<?php echo JText::_('COM_ZEFANIABIBLE_READING_LAYOUT'); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_READING_PLAN', 'plan'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_READING_PLAN'), 'a.plan', $listDirn, $listOrder) ?>
 				</th>				
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.day_number', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.day_number', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
-		</thead>
+		</thead> 
 				
 		<tbody>
 		

@@ -25,8 +25,11 @@ class ZefaniabibleModelZefaniacomment extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'a.id', 'id',
 				'a.title', 'title',
 				'a.alias', 'alias',
+				'a.full_name', 'full_name',
+				'a.file_location', 'file_location',				
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
 				'a.published', 'published',

@@ -101,13 +101,13 @@ if ($saveOrder)
                 <?php endif; ?>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'name'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME'), 'a.name', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_STATUS'), '', $listDirn, $listOrder) ?>
+					<?php echo JText::_('ZEFANIABIBLE_FIELD_STATUS'); ?>
 				</th>                
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION'), 'a.xml_file_url', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_XML_DICTIONARY_FILE_LOCATION'), 'a.xml_file_url', $listDirn, $listOrder) ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -116,13 +116,13 @@ if ($saveOrder)
 					<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>

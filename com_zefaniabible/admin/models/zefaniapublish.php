@@ -25,7 +25,9 @@ class ZefaniabibleModelZefaniapublish extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'a.title', 'title','ordering', 'state'
+				'a.title', 'title',
+				'a.id', 'id',
+				'a.last_send_date', 'last_send_date'				
 			);
 		}
 		parent::__construct($config);
@@ -119,7 +121,7 @@ class ZefaniabibleModelZefaniapublish extends JModelList
 			}
 		}
 
-		// Add list oredring and list direction to SQL query
+		// Add list oredring and list direction to SQL query				
 		$sort = $this->getState('list.ordering', 'title');
 		$order = $this->getState('list.direction', 'ASC');
 		$query->order($db->escape($sort).' '.$db->escape($order));

@@ -25,7 +25,9 @@ class ZefaniabibleModelZefaniacommentdetail extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'a.bible_id', 'bible_id','ordering', 'state', 'bible_id', 'book_id', 'chapter_id', 'verse_id'
+				'a.bible_id', 'bible_id',
+				'a.id', 'id',
+				'ordering', 'state', 'bible_id', 'book_id', 'chapter_id', 'verse_id'
 			);
 		}
 		parent::__construct($config);

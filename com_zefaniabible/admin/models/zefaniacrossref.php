@@ -26,9 +26,14 @@ class ZefaniabibleModelZefaniacrossref extends JModelList
 		{
 			$config['filter_fields'] = array(
 			'a.book_id', 'book_id',
+			'a.id', 'id',
+			'a.sort_order', 'sort_order',
+			'a.word', 'word',
+			'a.reference', 'reference',
 			'a.chapter_id', 'chapter_id',
 			'a.verse_id', 'verse_id',
-				'a.book_id', 'book_id','ordering', 'state'
+			'a.book_id', 'book_id',
+			'ordering', 'state'
 			);
 		}
 		parent::__construct($config);

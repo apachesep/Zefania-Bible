@@ -25,10 +25,11 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'a.id', 'id', 
 				'a.book_name', 'book_name',
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
-				'achapter_number', 'chapter_number',
+				'a.chapter_number', 'chapter_number',
 				'a.published', 'published',
 				'a.access', 'access', 'access_level',
 				'a.created', 'created',

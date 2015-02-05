@@ -27,6 +27,9 @@ class ZefaniabibleModelZefaniabible extends JModelList
 			$config['filter_fields'] = array(
 				'a.bible_name', 'bible_name',
 				'a.alias', 'alias',
+				'a.id', 'id',
+				'a.bible_xml_file', 'bible_xml_file',
+				'a.xml_audio_url', 'xml_audio_url',
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
 				'a.published', 'published',

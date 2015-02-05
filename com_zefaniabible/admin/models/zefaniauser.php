@@ -25,9 +25,16 @@ class ZefaniabibleModelZefaniauser extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'a.id', 'id',
 				'a.plan','plan',
 				'a.bible_version', 'bible_version',
-				'a.user_name', 'user_name','ordering', 'state', 'user_name', 'user_id', 'email', 'send_reading_plan_email', 'send_verse_of_day_email', 'reading_start_date'
+				'a.user_name', 'user_name',
+				'a.user_id', 'user_id',
+				'a.email', 'email',
+				'a.send_reading_plan_email','send_reading_plan_email', 
+				'a.send_verse_of_day_email','send_verse_of_day_email',		
+				'a.reading_start_date', 'reading_start_date',
+				'ordering', 'state', 'user_name'
 			);
 		}
 		parent::__construct($config);

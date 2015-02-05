@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>com_zefaniabible</name>
+	<creationDate>2012-05-18</creationDate>
+	<author><![CDATA[Andrei Chernyshev]]></author>
+	<authorEmail><![CDATA[andrei.chernyshev1@gmail.com]]></authorEmail>
+	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
+	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
+	<license><![CDATA[GNU/GPL]]></license>
+	<version><![CDATA[4.0.0]]></version>
+	<description>COM_ZEFANIABIBLE_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/crossref.mysql.utf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/verseofday.mysql.sql</file>
+			<file driver="mysql" charset="utf8">sql/readingplan.sql</file>			
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates</schemapath>
+		</schemas>
+	</update>
+	
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>zefaniabible.php</filename>
+		<filename>router.php</filename>
+		<folder>css</folder>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	
+	<languages folder="site/language">
+        <language tag="en-GB">en-GB.com_zefaniabible.ini</language>
+		<language tag='ar-AA'>ar-AA.com_zefaniabible.ini</language>
+		<language tag='bg-BG'>bg-BG.com_zefaniabible.ini</language>
+		<language tag='cs-CZ'>cs-CZ.com_zefaniabible.ini</language>
+		<language tag='da-DK'>da-DK.com_zefaniabible.ini</language>
+		<language tag='de-DE'>de-DE.com_zefaniabible.ini</language>
+		<language tag='es-CO'>es-CO.com_zefaniabible.ini</language>
+		<language tag='es-ES'>es-ES.com_zefaniabible.ini</language>
+		<language tag='et-EE'>et-EE.com_zefaniabible.ini</language>
+		<language tag='fr-FR'>fr-FR.com_zefaniabible.ini</language>
+		<language tag='he-IL'>he-IL.com_zefaniabible.ini</language>
+		<language tag='hu-HU'>hu-HU.com_zefaniabible.ini</language>
+		<language tag='it-IT'>it-IT.com_zefaniabible.ini</language>
+		<language tag='nl-NL'>nl-NL.com_zefaniabible.ini</language>
+		<language tag='pl-PL'>pl-PL.com_zefaniabible.ini</language>
+		<language tag='pt-BR'>pt-BR.com_zefaniabible.ini</language>
+		<language tag='ro-RO'>ro-RO.com_zefaniabible.ini</language>
+		<language tag='ru-RU'>ru-RU.com_zefaniabible.ini</language>
+		<language tag='sk-SK'>sk-SK.com_zefaniabible.ini</language>
+		<language tag='sv-SE'>sv-SE.com_zefaniabible.ini</language>
+		<language tag='zh-CN'>zh-CN.com_zefaniabible.ini</language>
+		<language tag='zh-TW'>zh-TW.com_zefaniabible.ini</language>		
+    </languages>
+	
+	<media folder="media" destination="com_zefaniabible">
+		<folder>bibles</folder>
+		<folder>player</folder>
+		<folder>audio</folder>
+		<folder>images</folder>
+		<folder>swfupload</folder>
+		<folder>dictionary</folder>
+		<folder>commentary</folder>
+		<filename>index.html</filename>
+	</media>	
+	
+	<administration>
+		<menu link="index.php?option=com_zefaniabible&amp;view=cpanel">ZEFANIABIBLE_MENU_ZEFANIABIBLE</menu>
+		<submenu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniabible">ZEFANIABIBLE_MENU_BIBLES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniacomment">ZEFANIABIBLE_MENU_COMMENTARIES</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniadictionary">ZEFANIABIBLE_MENU_DICTIONARY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniaverseofday">ZEFANIABIBLE_MENU_VERSE_OF_DAY</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniareading">ZEFANIABIBLE_MENU_READING_PLAN</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniareadingdetails">ZEFANIABIBLE_MENU_READING_PLAN_DETAILS</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniauser">ZEFANIABIBLE_MENU_USERS</menu>
+<!--		<menu link="option=com_zefaniabible&amp;view=zefaniascripture">ZEFANIABIBLE_MENU_SCRIPTURE</menu>			
+			<menu link="option=com_zefaniabible&amp;view=zefaniabibledictdetail">zefaniabibleDictDetail</menu>			
+			<menu link="option=com_zefaniabible&amp;view=zefaniacommentdetail">zefaniacommentdetail</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniacrossref">zefaniacrossref</menu>
+			<menu link="option=com_zefaniabible&amp;view=zefaniapublish">zefaniapublish</menu>-->
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>zefaniabible.php</filename>
+			<folder>css</folder>
+			<folder>controllers</folder>
+			<folder>images</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>sql</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_zefaniabible.ini</language>
+			<language tag="en-GB">language/en-GB.com_zefaniabible.sys.ini</language>
+		</languages>
+	</administration>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="ZefaniaBible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=1</server>
+	</updateservers>
+</extension>

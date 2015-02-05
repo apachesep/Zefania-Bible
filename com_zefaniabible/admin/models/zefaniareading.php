@@ -25,8 +25,10 @@ class ZefaniabibleModelZefaniareading extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'a.id', 'id',
 				'a.name', 'name',
 				'a.alias', 'alias',
+				'a.description', 'description',
 				'a.checked_out', 'checked_out',
 				'a.checked_out_time', 'checked_out_time',
 				'a.published', 'published',
@@ -34,7 +36,8 @@ class ZefaniabibleModelZefaniareading extends JModelList
 				'a.created', 'created',
 				'a.created_by', 'created_by', 'author_id',
 				'a.ordering', 'ordering',
-				'a.language', 'language','ordering', 'state', 'name'
+				'a.language', 'language',
+				'ordering', 'state', 'name'
 			);
 		}
 		parent::__construct($config);

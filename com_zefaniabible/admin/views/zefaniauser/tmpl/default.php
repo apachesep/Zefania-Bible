@@ -80,31 +80,31 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 				</th>
 				
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME', 'user_name'), $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_NAME'), 'a.user_name', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_READING_PLAN'), 'a.plan', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_READING_PLAN'), 'a.plan', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_BIBLE_VERSION'), 'a.bible_version', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_BIBLE_VERSION'), 'a.bible_version', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_USER_ID'), 'a.user_id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_USER_ID'), 'a.user_id', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_EMAIL'), 'a.email', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_EMAIL'), 'a.email', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_SEND_READING_PLAN_EMAIL'), 'a.send_reading_plan_email', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_SEND_READING_PLAN_EMAIL'), 'a.send_reading_plan_email', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_SEND_VERSE_OF_DAY_EMAIL'), 'a.send_verse_of_day_email', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_SEND_VERSE_OF_DAY_EMAIL'), 'a.send_verse_of_day_email', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('grid.sort', JText::_('ZEFANIABIBLE_FIELD_READING_START_DATE'), 'a.reading_start_date', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_READING_START_DATE'), 'a.reading_start_date', $listDirn, $listOrder) ?>
 				</th>
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'id', $listDirn, $listOrder) ?>
+					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder) ?>
 				</th>
 			</tr>
 		</thead>
