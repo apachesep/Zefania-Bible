@@ -21,7 +21,7 @@ $listDirn = $this->state->get('list.direction');
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
-$saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
+$saveOrder = ($listOrder == 'a.ordering' );
 
 require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
@@ -30,7 +30,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniabible.ordering&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniabible.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'zefaniabible_bible_namesList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 

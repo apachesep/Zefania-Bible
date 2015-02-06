@@ -21,11 +21,11 @@ $listDirn = $this->state->get('list.direction');
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
-$saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
+$saveOrder = ($listOrder == 'a.ordering');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareading.ordering&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareading.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'zefaniabible_zefaniareadingList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 ?>

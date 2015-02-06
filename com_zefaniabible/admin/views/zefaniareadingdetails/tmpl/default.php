@@ -19,7 +19,7 @@ $userId	= $user->get('id');
 $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
-$saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
+$saveOrder = ($listOrder == 'a.ordering');
 
 require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
@@ -28,7 +28,7 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 $arr_plan_list = $mdl_default->_buildQuery_reading_plan_list_All();
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareadingdetails.ordering&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniareadingdetails.saveOrderAjax&tmpl=component'; 
 	JHtml::_('sortablelist.sortable', 'zefaniabible_zefaniareadingdetailsList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 ?>

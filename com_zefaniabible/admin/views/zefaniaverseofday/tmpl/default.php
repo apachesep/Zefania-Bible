@@ -21,7 +21,7 @@ $listDirn = $this->state->get('list.direction');
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
-$saveOrder = ($listOrder == 'ordering' && isset($this->items[0]->ordering));
+$saveOrder	= $listOrder == 'a.ordering';
 
 require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
@@ -34,7 +34,7 @@ $str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_fir
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniaverseofday.ordering&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_zefaniabible&task=zefaniaverseofday.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'zefaniabible_zefaniaverseofdayList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 ?>
@@ -122,6 +122,7 @@ if ($saveOrder)
 		<tbody>
 		
 		<?php foreach ($this->items as $i => $item) :
+		$saveOrder	= $listOrder == 'a.ordering';
 		$canEdit	= $user->authorise('core.edit',       'com_zefaniabible.zefaniabible_zefaniaverseofday.'.$item->id);
 		$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 		$canEditOwn	= $user->authorise('core.edit.own',   'com_zefaniabible.zefaniabible_zefaniaverseofday.'.$item->id) && $item->created_by == $userId;
@@ -233,6 +234,8 @@ if ($saveOrder)
 	<div>
 		<input type="hidden" name="task" value=" " />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />        
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 
