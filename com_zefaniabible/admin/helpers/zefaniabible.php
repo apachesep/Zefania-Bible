@@ -107,6 +107,47 @@ class ZefaniabibleHelper
 	 * @return	JObject
 	 * @since	1.6
 	 */
+	public static function fncParseScritpure($str_search_passage)
+	{
+		$item = new stdClass();			
+		for($z = 1; $z <= 66; $z ++)
+		{
+			$item->int_book_id = 0;
+			$item->int_begin_chapter = 0;
+			$item->int_end_chapter = 0;				
+			$item->int_verse = 0;			
+			$str_Bible_book = mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
+			if(preg_match('/^('.$str_Bible_book.')/', trim(mb_strtolower($str_search_passage,'UTF-8'))))
+			{
+				$item->int_book_id = $z;
+				$str_passage = trim(str_replace($str_Bible_book ,'', mb_strtolower($str_search_passage,'UTF-8')));
+				switch (true)
+				{
+					case preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/',$str_passage):					//Gen 1-4	
+					case preg_match('/^([0-9]{1,3})$/',$str_passage):								// Gen 1
+						$arr_split_verses = preg_split('#[-]#',$str_passage); 						// split on hyphen
+						if(count($arr_split_verses) == 2)
+						{
+							list($item->int_begin_chapter,$item->int_end_chapter) = $arr_split_verses;
+						}
+						else
+						{
+							$item->int_begin_chapter = $str_passage;
+						}
+						break;						
+						
+					case preg_match('/^([0-9]{1,3}):([0-9]{1,3})$/',$str_passage):   				// Gen 1:1
+						$arr_split_verses = preg_split('#[:-]+#',$str_passage);
+						list($item->int_begin_chapter, $item->int_verse) = $arr_split_verses;
+						break;
+					default:
+						break;
+				}
+				break;
+			}
+		}
+		return $item;
+	}
 	public static function getActions()
 	{
 		$user	= JFactory::getUser();
