@@ -170,11 +170,6 @@ class ZefaniabibleModelZefaniabible extends JModelList
 			{
 				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
 			}
-			elseif (stripos($search, 'bible_name:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, strlen('bible_name:')), true) . '%');
-				$query->where('(a.bible_name LIKE ' . $search);
-			}
 			elseif (stripos($search, 'author:') === 0)
 			{
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');

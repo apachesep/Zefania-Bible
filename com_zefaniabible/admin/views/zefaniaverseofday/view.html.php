@@ -48,7 +48,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 		
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 *	Method to add a toolbar
 	 */
@@ -132,5 +132,22 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 			JToolBarHelper::preferences('com_zefaniabible');
 		}
 	}
+	
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.published'        	=> JText::_('COM_ZEFANIABIBLE_FILTER_PUBLISHED'),
+			'a.book_name'     		=> JText::_('ZEFANIABIBLE_FIELD_BOOK_NAME'),
+			'a.access'        		=> JText::_('JOPTION_FILTER_ACCESS'),
+			'a.chapter_number' 		=> JText::_('ZEFANIABIBLE_FIELD_VERSE')
+		);
+	}	
 }
 ?>

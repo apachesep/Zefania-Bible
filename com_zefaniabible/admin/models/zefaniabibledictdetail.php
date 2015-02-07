@@ -125,7 +125,7 @@ class ZefaniabibleModelZefaniabibleDictDetail extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.item LIKE' . $s );
+				$query->where('(a.item LIKE ' . $s . ' OR a.description LIKE ' . $s.')');
 			}
 		}
 		// Filter by dict_id

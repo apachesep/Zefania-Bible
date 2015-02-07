@@ -108,7 +108,6 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.author_id');
-
 		return parent::getStoreId($id);
 	}
 
@@ -124,50 +123,33 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		$query = $db->getQuery(true);
 		$query->select('a.*')->from('#__zefaniabible_zefaniaverseofday AS a');				
 		
-		
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id = a.checked_out');
-		
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-		
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-
-		// Join over the users for the modifier.
-		$query->select('um.name AS modifier_name')
-			->join('LEFT', '#__users AS um ON um.id = a.modified_by');
 
 		// Filter by search
 		$search = $this->getState('filter.search');
-		$s = $db->quote('%'.$db->escape($search, true).'%');
+		//$s = $db->quote('%'.$db->escape($search, true).'%');
 		
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0)
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/zefaniabible.php');
+			$mdl_zefaniabibleHelper = new ZefaniabibleHelper;
+			$item = new stdClass();
+			$item = $mdl_zefaniabibleHelper->fncParseScritpure($search);
+			
+			$item->int_book_id_clean		= $db->quote($item->int_book_id);
+			$item->int_begin_chapter_clean 	= $db->quote($item->int_begin_chapter);
+			$item->int_end_chapter_clean	= $db->quote($item->int_end_chapter);
+			$item->int_verse_clean			= $db->quote($item->int_verse);
+						
+			$query->where("a.book_name=".$item->int_book_id_clean);
+			if($item->int_begin_chapter > 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
+				$query->where("a.chapter_number=".$item->int_begin_chapter_clean);
 			}
-			elseif (stripos($search, 'book_name:') === 0)
+			if($item->int_verse > 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, strlen('book_name:')), true) . '%');
-				$query->where('(a.book_name LIKE ' . $search);
+				$query->where("a.begin_verse=".$item->int_verse_clean);
 			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
-			}
-			else
-			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				
-			}
-		}
-				
+		}	
 		// Filter by published state.
 		$published = $this->getState('filter.published');
 		if (is_numeric($published))
@@ -191,11 +173,13 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		if ($chapter_number != "")
 		{
 			$query->where('a.chapter_number = ' . $db->quote($db->escape($chapter_number)));
-		}					
+		}			
 		// Filter by access level.
 		$access = $this->getState('filter.access');
 		if (!empty($access))
 		{
+
+			
 			$query->where('a.access = ' . (int) $access);
 		}
 		
@@ -211,10 +195,9 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 		$sort = $this->getState('list.ordering', 'book_name');
 		$order = $this->getState('list.direction', 'ASC');
 		$query->order($db->escape($sort).' '.$db->escape($order));
-		
+
 		return $query;
 	}
-	
 	/**
 	 * Build a list of authors
 	 *

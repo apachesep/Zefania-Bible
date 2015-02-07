@@ -118,23 +118,42 @@ class ZefaniabibleModelZefaniacrossref extends JModelList
 
 		// Filter by search
 		$search = $this->getState('filter.search');
-		$s = $db->quote('%'.$db->escape($search, true).'%');
+		//$s = $db->quote('%'.$db->escape($search, true).'%');
 		
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0)
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/zefaniabible.php');
+			$mdl_zefaniabibleHelper = new ZefaniabibleHelper;
+			$item = new stdClass();
+			$item = $mdl_zefaniabibleHelper->fncParseScritpure($search);
+			if($item->int_book_id != 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
-			}
-			elseif (stripos($search, 'book_id:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, strlen('book_id:')), true) . '%');
-				$query->where('(a.book_id LIKE ' . $search);
+				$item->int_book_id_clean		= $db->quote($item->int_book_id);
+				$item->int_begin_chapter_clean 	= $db->quote($item->int_begin_chapter);
+				$item->int_end_chapter_clean	= $db->quote($item->int_end_chapter);
+				$item->int_verse_clean			= $db->quote($item->int_verse);
+				
+				$query->where("a.book_id=".$item->int_book_id_clean);
+				if($item->int_begin_chapter > 0)
+				{				
+					if($item->int_end_chapter == 0)
+					{
+						$query->where("a.chapter_id=".$item->int_begin_chapter_clean);
+						if($item->int_verse > 0)
+						{
+							$query->where("a.verse_id=".$item->int_verse_clean);					
+						}					
+					}
+					else
+					{
+						$query->where("a.chapter_id>=".$item->int_begin_chapter_clean);
+						$query->where("a.chapter_id<=".$item->int_end_chapter);
+					}
+				}
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				
+				$query->where("a.word LIKE ".$db->quote($db->escape('%'.$search.'%')));
 			}
 		}
 		// Filter by chapter_id

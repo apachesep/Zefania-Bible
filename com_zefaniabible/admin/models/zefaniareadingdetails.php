@@ -128,19 +128,20 @@ class ZefaniabibleModelZefaniareadingdetails extends JModelList
 		
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0)
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/zefaniabible.php');
+			$mdl_zefaniabibleHelper = new ZefaniabibleHelper;
+			$item = new stdClass();
+			$item = $mdl_zefaniabibleHelper->fncParseScritpure($search);
+			
+			$item->int_book_id_clean		= $db->quote($item->int_book_id);
+			$item->int_begin_chapter_clean 	= $db->quote($item->int_begin_chapter);
+			$item->int_end_chapter_clean	= $db->quote($item->int_end_chapter);
+			$item->int_verse_clean			= $db->quote($item->int_verse);			
+			
+			$query->where("a.book_id=".$item->int_book_id_clean);
+			if($item->int_begin_chapter > 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
-			}
-			elseif (stripos($search, 'plan:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, strlen('plan:')), true) . '%');
-				$query->where('(a.plan LIKE ' . $search);
-			}
-			else
-			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.day_number LIKE' . $s );
+				$query->where("a.begin_chapter=".$item->int_begin_chapter_clean);
 			}
 		}
 		// Filter by day_number

@@ -20,7 +20,7 @@ $listOrder = $this->state->get('list.ordering');
 $listDirn = $this->state->get('list.direction');
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$canOrder	= ($user->authorise('core.edit.state', 'com_test') && isset($this->items[0]->ordering));
+$canOrder	= ($user->authorise('core.edit.state', 'com_zefaniabible') && isset($this->items[0]->ordering));
 $saveOrder	= $listOrder == 'a.ordering';
 
 require_once(JPATH_COMPONENT_SITE.'/models/default.php');
@@ -73,6 +73,7 @@ if ($saveOrder)
 	<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		
 	?>
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
@@ -111,10 +112,10 @@ if ($saveOrder)
 					<?php echo JText::_('ZEFANIABIBLE_FIELD_VERSE'); ?>
 				</th>                
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_DAY_NUMBER'), 'a.ordering', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('searchtools.sort', 'ZEFANIABIBLE_FIELD_DAY_NUMBER', 'a.ordering', $listDirn, $listOrder); ?>
 				</th>                
 				<th class="nowrap left">
-					<?php echo JHtml::_('searchtools.sort', JText::_('ZEFANIABIBLE_FIELD_ID'), 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('searchtools.sort', 'ZEFANIABIBLE_FIELD_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -233,9 +234,7 @@ if ($saveOrder)
 	
 	<div>
 		<input type="hidden" name="task" value=" " />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />        
+		<input type="hidden" name="boxchecked" value="0" />     
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 
