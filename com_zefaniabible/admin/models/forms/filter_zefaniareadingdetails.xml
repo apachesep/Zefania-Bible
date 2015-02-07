@@ -2,7 +2,7 @@
 <form>
 	<fields name="filter">
 		<field name="search" type="text" label="COM_ZEFANIABIBLE_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER" />
-		<field name="plan_name" type="sql" label="COM_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_DAY_NUMBER_LABEL" description="" default="" query="SELECT DISTINCT name, id FROM #__zefaniabible_zefaniareading" key_field="id" value_field="name" onchange="this.form.submit();" required="1" >
+		<field name="plan_name" type="sql" label="COM_ZEFANIABIBLE_ZEFANIAREADINGDETAILS_FIELD_DAY_NUMBER_LABEL" description="" default="" query="SELECT DISTINCT name, id FROM #__zefaniabible_zefaniareading" key_field="id" value_field="name" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_JSEARCH_SELECT_PLAN</option>
 		</field>		
 		<field name="book_id" type="groupedlist" default="" label="ZEFANIABIBLE_FIELD_BOOK_NAME" description="" onchange="this.form.submit();">
@@ -78,13 +78,13 @@
 				<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 			</group>
 		</field>			
-		<field name="day_number" type="sql" label="" description="" default="" query="SELECT DISTINCT day_number FROM #__zefaniabible_zefaniareadingdetails" key_field="day_number" value_field="day_number" onchange="this.form.submit();" required="1" >
+		<field name="day_number" type="sql" label="" description="" default="" query="SELECT DISTINCT day_number FROM #__zefaniabible_zefaniareadingdetails" key_field="day_number" value_field="day_number" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_DAY</option>
 		</field>
-		<field name="begin_chapter" type="sql" label="" description="" default="" query="SELECT DISTINCT begin_chapter FROM #__zefaniabible_zefaniareadingdetails WHERE begin_chapter>0 ORDER BY begin_chapter ASC" key_field="begin_chapter" value_field="begin_chapter" onchange="this.form.submit();" required="1" >
+		<field name="begin_chapter" type="sql" label="" description="" default="" query="SELECT DISTINCT begin_chapter FROM #__zefaniabible_zefaniareadingdetails WHERE begin_chapter>0 ORDER BY begin_chapter ASC" key_field="begin_chapter" value_field="begin_chapter" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_JSEARCH_SELECT_SELECT_BEGIN_CHAPTER</option>
 		</field>
-		<field name="end_chapter" type="sql" label="" description="" default="" query="SELECT DISTINCT end_chapter FROM #__zefaniabible_zefaniareadingdetails WHERE end_chapter>0 ORDER BY end_chapter ASC" key_field="end_chapter" value_field="end_chapter" onchange="this.form.submit();" required="1" >
+		<field name="end_chapter" type="sql" label="" description="" default="" query="SELECT DISTINCT end_chapter FROM #__zefaniabible_zefaniareadingdetails WHERE end_chapter>0 ORDER BY end_chapter ASC" key_field="end_chapter" value_field="end_chapter" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_JSEARCH_SELECT_SELECT_END_CHAPTER</option>
 		</field>			
 	</fields>

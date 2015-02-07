@@ -7,7 +7,7 @@
 			label="COM_ZEFANIABIBLE_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
-		<field name="bible_id" type="sql" label="ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY" description="" default="" query="SELECT DISTINCT title, id FROM #__zefaniabible_zefaniacomment" key_field="id" value_field="title" onchange="this.form.submit();" required="1" >
+		<field name="bible_id" type="sql" label="ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY" description="" default="" query="SELECT DISTINCT title, id FROM #__zefaniabible_zefaniacomment" key_field="id" value_field="title" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY</option>
 		</field>					
 		<field name="book_id" type="groupedlist" label="ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE" description="">
@@ -83,10 +83,10 @@
 				<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
 			</group>
 		</field>						
-		<field name="chapter_id" type="sql" label="ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER" description="" default="" query="SELECT DISTINCT chapter_id FROM #__zefaniabible_comment_text" key_field="chapter_id" value_field="chapter_id" onchange="this.form.submit();" required="1" >
+		<field name="chapter_id" type="sql" label="ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER" description="" default="" query="SELECT DISTINCT chapter_id FROM #__zefaniabible_comment_text" key_field="chapter_id" value_field="chapter_id" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_CHAPTER </option>
 		</field>					
-		<field name="verse_id" type="sql" label="ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSE" description="" default="" query="SELECT DISTINCT verse_id FROM #__zefaniabible_comment_text" key_field="verse_id" value_field="verse_id" onchange="this.form.submit();" required="1" >
+		<field name="verse_id" type="sql" label="ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSE" description="" default="" query="SELECT DISTINCT verse_id FROM #__zefaniabible_comment_text" key_field="verse_id" value_field="verse_id" onchange="this.form.submit();" >
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSE</option>
 		</field>					
 	</fields>

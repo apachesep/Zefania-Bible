@@ -35,18 +35,7 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-		<field 
-			name="title"
-			type="sql"
-			label="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_DESC"
-			default=""
-			query="SELECT DISTINCT title FROM #__zefaniabible_zefaniacomment"
-			key_field="title"
-			value_field="title"
-			onchange="this.form.submit();"
-			required="1"
-			>
+		<field name="title" type="sql" label="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_LABEL" description="COM_ZEFANIABIBLE_ZEFANIACOMMENT_FIELD_TITLE_DESC" default="" query="SELECT DISTINCT title FROM #__zefaniabible_zefaniacomment" key_field="title" value_field="title" onchange="this.form.submit();">
 			<option value="">ZEFANIABIBLE_FIELD_NULL_SELECT_COMMENTARY</option>
 		</field>									
 	</fields>

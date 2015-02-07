@@ -44,18 +44,7 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-		<field 
-			name="bible_name"
-			type="sql"
-			label="COM_ZEFANIABIBLE_ZEFANIABIBLE_FIELD_BIBLE_NAME_LABEL"
-			description="COM_ZEFANIABIBLE_ZEFANIABIBLE_FIELD_BIBLE_NAME_DESC"
-			default=""
-			query="SELECT DISTINCT bible_name FROM #__zefaniabible_bible_names"
-			key_field="bible_name"
-			value_field="bible_name"
-			onchange="this.form.submit();"
-			required="1"
-			>
+		<field name="bible_name" type="sql" label="COM_ZEFANIABIBLE_ZEFANIABIBLE_FIELD_BIBLE_NAME_LABEL" description="COM_ZEFANIABIBLE_ZEFANIABIBLE_FIELD_BIBLE_NAME_DESC" default="" query="SELECT DISTINCT bible_name FROM #__zefaniabible_bible_names" key_field="bible_name" value_field="bible_name" onchange="this.form.submit();">
 			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION</option>
 		</field>					
 	</fields>
