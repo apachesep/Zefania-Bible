@@ -170,18 +170,10 @@ $arr_bible_list = $mdl_default->_buildQuery_Bibles_Names_All();
 				<td class="left"><?php echo $this->escape($item->user_id); ?></td>
 				<td class="left"><?php echo $this->escape($item->email); ?></td>
 				<td class="left" style="text-align:center">
-                	<?php if($item->send_reading_plan_email == 1){?>
-    	                <i class="icon-publish"></i>
-					<?php }else{?>
-						<i class="icon-unpublish"></i>
-					<?php	} ?>
+	                <?php echo JHtml::_('jgrid.published', $item->send_reading_plan_email, $i, 'zefaniauser.', false); ?>
 				</td>
 				<td class="left" style="text-align:center">
-	                <?php if($item->send_verse_of_day_email == 1){?>
-						<i class="icon-publish"></i>
-					<?php }else{?>
-						<i class="icon-unpublish"></i>
-					<?php	} ?>
+	                <?php echo JHtml::_('jgrid.published', $item->send_verse_of_day_email, $i, 'zefaniauser.', false); ?>
                 </td>
 				<td class="left"><?php echo $this->escape($item->reading_start_date); ?></td>
 				<td class="left"><?php echo $this->escape($item->id); ?></td>
