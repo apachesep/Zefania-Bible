@@ -9,7 +9,7 @@
 	<copyright>All rights reserved.</copyright>
 	<license>GNU/GPLv3 www.gnu.org/licenses/gpl-3.0.html</license>
 
-	<version>3.2.0</version>
+	<version>4.0.0</version>
 
 	<description>ZefaniaBible will update social networks via AutoTweet NG (it must be installed).</description>
 
@@ -50,7 +50,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>				
-				<field name="str_Reading" type="sql" label="PLG_AUTOTWEET_ZEFANIA_READING_PLAN" description="PLG_AUTOTWEET_ZEFANIA_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name" />
+				<field name="str_Reading" type="sql" label="PLG_AUTOTWEET_ZEFANIA_READING_PLAN" description="PLG_AUTOTWEET_ZEFANIA_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />
 				<field name="str_reading_start_date" type="calendar" label="PLG_AUTOTWEET_ZEFANIA_READING_START" description="PLG_AUTOTWEET_ZEFANIA_READING_START_DESC" default="1-1-2012" format="%d-%m-%Y" filter="server_utc" />
 				<field name="str_reading_prepend" type="text" size="50" default="" label="PLG_AUTOTWEET_PARAM_PREPEND_TEXT" description="PLG_AUTOTWEET_PARAM_PREPEND_TEXT_DESC" />
 				<field name="reading_plan_image" type="media" label="PLG_AUTOTWEET_PARAM_IMAGE" description="PLG_AUTOTWEET_PARAM_IMAGE_DESC" />
