@@ -69,14 +69,8 @@
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			description="JGLOBAL_FIELD_MODIFIED_BY_DESC"
 		/>
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_LANGUAGE_DESC"
-			class="inputbox"
-		>
-			<option value="*">JALL</option>
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="JFIELD_LANGUAGE_DESC" class="inputbox" >
+			<option value="all-ALL">JALL</option>
 		</field>
 		<field
 			name="metakey"
