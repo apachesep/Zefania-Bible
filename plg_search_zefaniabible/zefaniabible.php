@@ -224,7 +224,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_bible_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');	
 					$query->where("a.verse LIKE ".$str_text);
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -237,7 +237,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_comment_text` AS a');	
 					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
 					$query->where("a.verse LIKE ".$str_text);
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -250,7 +250,7 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->from('`#__zefaniabible_dictionary_detail` AS a');	
 					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
 					$query->where("a.description LIKE ".$str_text);
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					if($this->flg_search_one_dictionary)
 					{
 						$query->where("b.alias=".$str_primary_dictionary);
@@ -306,7 +306,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -334,7 +334,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -354,7 +354,7 @@ class plgSearchZefaniaBible extends JPlugin
 					{
 						$query->where("b.alias=".$str_primary_dictionary);
 					}
-					$query->where("b.publish=1");
+					$query->where("b.published=1");
 					$query->order('a.dict_id');					
 					break;
 				default:
