@@ -228,5 +228,25 @@ class ZefaniabibleModelZefaniauseritem extends JModelAdmin
 		
 		return $item;
 	}
+	function mdl_reading_publish($ids, $value)
+	{
+		foreach( $ids as $id)
+		{
+			$db = JFactory::getDBO();
+			$query = "UPDATE #__zefaniabible_zefaniauser SET send_reading_plan_email =".$value." WHERE id=".$id;
+			$db->setQuery($query);
+			$db->query();
+		}
+	}
+	function mdl_verse_publish($ids, $value)
+	{
+		foreach( $ids as $id)
+		{
+			$db = JFactory::getDBO();
+			$query = "UPDATE #__zefaniabible_zefaniauser SET send_verse_of_day_email =".$value." WHERE id=".$id;
+			$db->setQuery($query);
+			$db->query();			 
+		}
+	}		
 }
 ?>
