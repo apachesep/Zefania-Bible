@@ -98,7 +98,14 @@ class ZefaniabibleCommonHelper
 		{
 			case 'standard':
 				$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Bible_Version;			
-				$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name );				
+				if($item->str_meta_key == "")
+				{
+					$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name );
+				}
+				else
+				{
+					$doc_page->setMetaData( 'keywords', $item->str_meta_key );
+				}
 				$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter." - ".$item->str_Bible_Version, JFactory::getURI()->toString());
 				$href_rss = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&variant=rss'; 				
 				$href_atom = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&variant=atom'; 
@@ -106,7 +113,14 @@ class ZefaniabibleCommonHelper
 
 			case 'compare':
 				$str_title = JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter.' - '.$item->str_Main_Bible_Version.', '. $item->str_Second_Bible_Version;				
-				$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name_1 .", ".$item->str_bible_name_2);				
+				if($item->str_meta_key == "")
+				{
+					$doc_page->setMetaData( 'keywords', $str_title.",".$item->str_Bible_Version.", ".$item->str_bible_name_1 .", ".$item->str_bible_name_2);				
+				}
+				else
+				{
+					$doc_page->setMetaData( 'keywords', $item->str_meta_key );
+				}
 				$pathway->addItem(JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID)." ".mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$item->int_Bible_Chapter." - ".$item->str_Bible_Version, JFactory::getURI()->toString());
 				$href_rss = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&variant=rss'; 				
 				$href_atom = 'index.php?option=com_zefaniabible&view=biblerss&format=raw&bible='.$item->str_Bible_Version.'&book='.$item->int_Bible_Book_ID.'&chapter='.$item->int_Bible_Chapter.'&variant=atom'; 
@@ -139,8 +153,16 @@ class ZefaniabibleCommonHelper
 		$doc_page->addHeadLink( JRoute::_($href_atom, false), 'alternate', 'rel', $attribs );		
 				
 		$str_descr = trim(mb_substr($item->str_description,0,146))." ..."; 
-
-		$doc_page->setMetaData( 'description', strip_tags($str_descr));
+		if($item->str_meta_desc == "")
+		{
+			$doc_page->setMetaData( 'description', strip_tags($str_descr));
+			$doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
+		}
+		else
+		{
+			$doc_page->setMetaData( 'description', strip_tags($item->str_meta_desc));
+			$doc_page->setMetaData( 'og:description', strip_tags($item->str_meta_desc) );
+		}
 		$doc_page->setTitle($str_title);
 					
 		// Facebook Open Graph
@@ -148,7 +170,6 @@ class ZefaniabibleCommonHelper
 		$doc_page->setMetaData( 'og:url', JFactory::getURI()->toString());		
 		$doc_page->setMetaData( 'og:type', "article" );	
 		$doc_page->setMetaData( 'og:image', JURI::root().$item->str_default_image );	
-		$doc_page->setMetaData( 'og:description', strip_tags($str_descr) );
 		$doc_page->setMetaData( 'og:site_name', $app_site->getCfg('sitename') );	
 		if($item->str_tmpl == "component")
 		{
@@ -656,6 +677,22 @@ class ZefaniabibleCommonHelper
 		$str_verse .= '</a> ';
 		return $str_verse;
 	}
+	public function fnc_make_meta_desc($arr_meta)
+	{
+		foreach ($arr_meta as $meta)
+		{
+			$str_metadesc = trim($meta->metadesc);
+		}	
+		return $str_metadesc;
+	}
+	public function fnc_make_meta_key($arr_meta)
+	{
+		foreach ($arr_meta as $meta)
+		{
+			$str_metakey = trim($meta->metakey);
+		}	
+		return $str_metakey;
+	}	
 	public function fnc_make_description($arr_chapter)
 	{
 		$str_descr = '';
