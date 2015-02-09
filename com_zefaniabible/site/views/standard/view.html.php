@@ -69,7 +69,7 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		*/		
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-						
+													
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_default 	= new ZefaniabibleModelDefault;
@@ -137,7 +137,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
 		$item->str_collation	= 	$mdl_default->_buildQuery_collation();
 		$item->arr_Bibles 		= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter 		= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Bible_Version);
-		
+		$item->arr_meta			= 	$mdl_default->_buildQuery_Bible_meta($item->str_Bible_Version);
+
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->obj_bible_Bible_dropdown	= $mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
@@ -172,6 +173,8 @@ class ZefaniabibleViewStandard extends JViewLegacy
 			$item->flg_strong_dict			= $mdl_common->fnc_check_strong_bible($item->arr_Chapter);
 		}
 		$item->str_description 				= $mdl_common->fnc_make_description($item->arr_Chapter);
+		$item->str_meta_desc				= $mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key					= $mdl_common->fnc_make_meta_key($item->arr_meta);		
 		$item->chapter_output 				= $mdl_common->fnc_output_single_chapter($item);
 		$mdl_common->fnc_meta_data($item); 
 
