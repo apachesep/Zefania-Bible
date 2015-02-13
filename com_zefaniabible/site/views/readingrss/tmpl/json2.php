@@ -75,7 +75,7 @@ class BibleReadingPlanJSON
 				if($y == 1)
 				{
 					echo '		"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'":'.PHP_EOL;
-					echo '		{'.PHP_EOL;	
+					echo '		{'.PHP_EOL;	
 					echo '			"chapter":'.PHP_EOL;	
 					echo '			{'.PHP_EOL;	
 					echo '				"'.$obj_verse->chapter_id.'":'.PHP_EOL;
