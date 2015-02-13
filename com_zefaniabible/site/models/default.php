@@ -403,6 +403,36 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;				
 	}
+	function _buildQuery_meta($str_alias, $str_table)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$str_alias_clean	= 	$db->quote($str_alias);
+			$query->select('metadata, metakey, metadesc');
+			switch($str_table)
+			{
+				case "commentary":
+					$query->from('`#__zefaniabible_zefaniacomment`');
+					break;
+				case "dictionary":
+					$query->from('`#__zefaniabible_dictionary_info`');
+					break;
+				default:
+					$query->from('`#__zefaniabible_bible_names`');
+					break;
+			}
+			$query->where("alias=".$str_alias_clean);
+			$db->setQuery($query);
+			$data = $db->loadObjectList();		
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;				
+	}	
 	function _buildQuery_Max_Verse($int_Bible_Book_ID,$int_Bible_Chapter)
 	{
 		try 

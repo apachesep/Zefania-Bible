@@ -142,6 +142,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->arr_Bibles 					= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->arr_Chapter_1				= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Main_Bible_Version);
 		$item->arr_Chapter_2				= 	$mdl_default->_buildQuery_Chapter($item->int_Bible_Chapter,$item->int_Bible_Book_ID,$item->str_Second_Bible_Version);		
+		$item->arr_meta						= 	$mdl_default->_buildQuery_meta($item->str_Bible_Version, "bible");
+		
 		$item->obj_bible_Bible_dropdown_1	= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Main_Bible_Version);
 		$item->obj_bible_Bible_dropdown_2	= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Second_Bible_Version);		
 		$item->obj_bible_book_dropdown 		= 	$mdl_common->fnc_bible_book_dropdown($item);
@@ -187,6 +189,8 @@ class ZefaniabibleViewCompare extends JViewLegacy
 		$item->str_description 			= 	$mdl_common->fnc_make_description($item->arr_Chapter_1);
 		$item->str_description 			.= 	$mdl_common->fnc_make_description($item->arr_Chapter_2);
 		$item->chapter_output			=	$mdl_common->fnc_output_dual_chapter($item);
+		$item->str_meta_desc				= $mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key					= $mdl_common->fnc_make_meta_key($item->arr_meta);				
 		$mdl_common->fnc_redirect_last_chapter($item);
 		$mdl_common->fnc_meta_data($item); 
 
