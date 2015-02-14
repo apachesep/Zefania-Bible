@@ -72,7 +72,7 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend', 1);
 		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
 		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
@@ -82,7 +82,7 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->str_variant		 	= $jinput->get('variant', 'rss', 'CMD');
 		$item->flg_use_sef			= JFactory::getApplication()->getRouter()->getMode();
 		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');
-			
+
 		header('HTTP/1.1 301 Moved Permanently');
 
 		if($item->flg_use_sef)
