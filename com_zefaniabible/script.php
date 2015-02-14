@@ -136,11 +136,14 @@ class com_zefaniabibleInstallerScript
 	public function update(JAdapterInstance $adapter)
 	{
 		$this->fnc_remove_langauge_folders();
-		$thi->fnc_remove_legacy_models();
+		$this->fnc_remove_legacy_models();
 		$adapter->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
 	}
 	private function fnc_remove_legacy_models()
 	{
+		$app = JFactory::getApplication();
+		jimport( 'joomla.filesystem.folder' );
+					
 		$arr_file_paths[0] = JPATH_SITE.'/components/com_zefaniabible/models/biblerss.php';
 		$arr_file_paths[1] = JPATH_SITE.'/components/com_zefaniabible/models/commentary.php';
 		$arr_file_paths[2] = JPATH_SITE.'/components/com_zefaniabible/models/compare.php';
