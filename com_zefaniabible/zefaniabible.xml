@@ -35,7 +35,6 @@
 		<filename>zefaniabible.php</filename>
 		<filename>router.php</filename>
 		<folder>css</folder>
-		<folder>controllers</folder>
 		<folder>helpers</folder>
 		<folder>models</folder>
 		<folder>views</folder>
