@@ -67,16 +67,13 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create'))))
 		{
 
-			JToolBarHelper::apply('zefaniadictionaryitem.apply', 'JTOOLBAR_APPLY');
+//			JToolBarHelper::apply('zefaniadictionaryitem.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('zefaniadictionaryitem.save', 'JTOOLBAR_SAVE');
 		}
 		if (!$checkedOut && ($canDo->get('core.create'))){
 			JToolBarHelper::custom('zefaniadictionaryitem.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('zefaniadictionaryitem.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
-		}
+
 		if (empty($this->item->id)) {
 			JToolBarHelper::cancel('zefaniadictionaryitem.cancel', 'JTOOLBAR_CANCEL');
 		}
