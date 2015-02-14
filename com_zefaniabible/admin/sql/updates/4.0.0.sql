@@ -66,10 +66,10 @@ ALTER TABLE `#__zefaniabible_zefaniaverseofday`
 	ADD `modified_by` int(11),
 	ADD `access` int(11);
 	
-UPDATE `#__zefaniabible_bible_names` SET access=1, language='all-ALL';	
-UPDATE `#__zefaniabible_dictionary_info` SET access=1, language='all-ALL';	
-UPDATE `#__zefaniabible_zefaniacomment` SET access=1, language='all-ALL';	
-UPDATE `#__zefaniabible_zefaniareading` SET access=1, language='all-ALL';
-UPDATE `#__zefaniabible_zefaniaverseofday` SET access=1;
+UPDATE `#__zefaniabible_bible_names` SET access=1, language='all-ALL', created='2015-02-14 00:00:00';	
+UPDATE `#__zefaniabible_dictionary_info` SET access=1, language='all-ALL', created='2015-02-14 00:00:00';	
+UPDATE `#__zefaniabible_zefaniacomment` SET access=1, language='all-ALL', created='2015-02-14 00:00:00';	
+UPDATE `#__zefaniabible_zefaniareading` SET access=1, language='all-ALL', created='2015-02-14 00:00:00';
+UPDATE `#__zefaniabible_zefaniaverseofday` SET access=1, created='2015-02-14 00:00:00';
 
 
