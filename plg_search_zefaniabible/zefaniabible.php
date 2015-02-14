@@ -67,6 +67,12 @@ class plgSearchZefaniaBible extends JPlugin
 	private $str_primary_dictionary;
 	private $flg_strong;
 	private $arr_english_book_names;
+
+	private $lang;
+	private $str_lang_tag;
+	private $user;
+	private $sql_access_statement;
+		
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -75,6 +81,23 @@ class plgSearchZefaniaBible extends JPlugin
 		$this->flg_search_dictionary 		= $this->params->get('flg_search_dictionary', 0);
 		$this->flg_search_one_dictionary 	= $this->params->get('flg_search_one_dictionary', 0);
 		$this->flg_search_one_commentary 	= $this->params->get('flg_search_one_commentary', 0);
+		
+		$this->lang 				= JFactory::getLanguage();
+		$this->user 				= JFactory::getUser();
+		$this->str_lang_tag 		= $this->lang->getTag();
+		$arr_access_groups 			= array_unique($this->user->getAuthorisedViewLevels());
+		$x = 1;
+
+		foreach ($arr_access_groups as $group)
+		{
+			$this->sql_access_statement .= $group;
+			if($x < count($arr_access_groups) )
+			{
+				$this->sql_access_statement .= ",";
+			}
+			$x++;
+		}		
+		$this->sql_access_statement = "b.access IN (".$this->sql_access_statement.")";	
 		
 		$comp_params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$this->str_primary_commentary = $comp_params->get('primaryCommentary');
@@ -216,6 +239,7 @@ class plgSearchZefaniaBible extends JPlugin
 			$db		= JFactory::getDbo();
 			$query  = $db->getQuery(true);
 			$str_text 	= $db->quote('%'.$str_text.'%');
+			$str_lang_tag 		= $db->quote($this->str_lang_tag);
 			switch($area)
 			{
 				case 'Bible':
@@ -225,6 +249,10 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->innerJoin('`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id');	
 					$query->where("a.verse LIKE ".$str_text);
 					$query->where("b.published=1");
+					
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");	
+					
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -238,6 +266,10 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->innerJoin('`#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id');					
 					$query->where("a.verse LIKE ".$str_text);
 					$query->where("b.published=1");
+					
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");					
+					
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -251,6 +283,10 @@ class plgSearchZefaniaBible extends JPlugin
 					$query->innerJoin('`#__zefaniabible_dictionary_info` AS b ON a.dict_id = b.id');	
 					$query->where("a.description LIKE ".$str_text);
 					$query->where("b.published=1");
+					
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");
+					
 					if($this->flg_search_one_dictionary)
 					{
 						$query->where("b.alias=".$str_primary_dictionary);
@@ -269,6 +305,7 @@ class plgSearchZefaniaBible extends JPlugin
 			{
 				$db->setQuery($query);
 			}
+
 			$data = $db->loadObjectList();	
 		}
 		catch (JException $e)
@@ -283,6 +320,7 @@ class plgSearchZefaniaBible extends JPlugin
 		{
 			$db		= JFactory::getDbo();
 			$query  = $db->getQuery(true);
+			$str_lang_tag 		= $db->quote($this->str_lang_tag);
 			switch ($area)
 			{
 				case 'Bible':
@@ -307,6 +345,10 @@ class plgSearchZefaniaBible extends JPlugin
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
 					$query->where("b.published=1");
+					
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");
+										
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_bible)
 					{
@@ -335,6 +377,10 @@ class plgSearchZefaniaBible extends JPlugin
 						$query->where("a.verse_id=".$str_begin_verse);
 					}
 					$query->where("b.published=1");
+					
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");
+										
 					$query->order('bible_name, a.book_id, a.chapter_id, a.verse_id');		
 					if($this->flg_search_one_commentary)
 					{
@@ -355,6 +401,10 @@ class plgSearchZefaniaBible extends JPlugin
 						$query->where("b.alias=".$str_primary_dictionary);
 					}
 					$query->where("b.published=1");
+
+					$query->where("(b.language=".$str_lang_tag." OR b.language='all-ALL')");					
+					$query->where("(".$this->sql_access_statement.")");					
+					
 					$query->order('a.dict_id');					
 					break;
 				default:
@@ -375,6 +425,7 @@ class plgSearchZefaniaBible extends JPlugin
 		{
 			$this->setError($e);
 		}		
+
 		return $data;
 	}
 	private function fnc_Make_Strong_Scripture(&$arr_matches)
