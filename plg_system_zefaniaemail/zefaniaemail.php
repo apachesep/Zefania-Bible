@@ -348,7 +348,7 @@ class plgSystemZefaniaEmail extends JPlugin
 	{
 		$db = JFactory::getDBO();
 		$query 	= "SELECT * FROM #__zefaniabible_zefaniaverseofday ".
-				  " WHERE publish=1";
+				  " WHERE published=1";
 		$db->setQuery($query);
 		$arr_rows = $db->loadObjectList();	
 		$x = 0;
@@ -384,7 +384,7 @@ class plgSystemZefaniaEmail extends JPlugin
 	private function fnc_Get_Book_Info($int_id)
 	{
 		$db		= JFactory::getDbo();
-		$query	= "SELECT * FROM `#__zefaniabible_bible_names` AS c WHERE c.id='".$int_id."' and c.publish=1";	
+		$query	= "SELECT * FROM `#__zefaniabible_bible_names` AS c WHERE c.id='".$int_id."' and c.published=1";	
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 		return 	$data;
