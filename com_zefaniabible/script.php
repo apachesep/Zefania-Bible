@@ -136,7 +136,42 @@ class com_zefaniabibleInstallerScript
 	public function update(JAdapterInstance $adapter)
 	{
 		$this->fnc_remove_langauge_folders();
+		$this->fnc_remove_legacy_models();
 		$adapter->getParent()->setRedirectURL('index.php?option=com_zefaniabible');
+	}
+	private function fnc_remove_legacy_models()
+	{
+		$app = JFactory::getApplication();
+		jimport( 'joomla.filesystem.folder' );
+					
+		$arr_file_paths[0] = JPATH_SITE.'/components/com_zefaniabible/models/biblerss.php';
+		$arr_file_paths[1] = JPATH_SITE.'/components/com_zefaniabible/models/commentary.php';
+		$arr_file_paths[2] = JPATH_SITE.'/components/com_zefaniabible/models/compare.php';
+		$arr_file_paths[3] = JPATH_SITE.'/components/com_zefaniabible/models/modal.php';
+		$arr_file_paths[4] = JPATH_SITE.'/components/com_zefaniabible/models/plan.php';
+		$arr_file_paths[5] = JPATH_SITE.'/components/com_zefaniabible/models/planrss.php';
+		$arr_file_paths[6] = JPATH_SITE.'/components/com_zefaniabible/models/player.php';
+		$arr_file_paths[7] = JPATH_SITE.'/components/com_zefaniabible/models/reading.php';				
+		$arr_file_paths[8] = JPATH_SITE.'/components/com_zefaniabible/models/readingrss.php';
+		$arr_file_paths[9] = JPATH_SITE.'/components/com_zefaniabible/models/references.php';
+		$arr_file_paths[10] = JPATH_SITE.'/components/com_zefaniabible/models/scripture.php';
+		$arr_file_paths[11] = JPATH_SITE.'/components/com_zefaniabible/models/sitemap.php';
+		$arr_file_paths[12] = JPATH_SITE.'/components/com_zefaniabible/models/standard.php';
+		$arr_file_paths[13] = JPATH_SITE.'/components/com_zefaniabible/models/strong.php';						
+		$arr_file_paths[14] = JPATH_SITE.'/components/com_zefaniabible/models/subscribe.php';
+		$arr_file_paths[15] = JPATH_SITE.'/components/com_zefaniabible/models/verseoftheday.php';
+		$arr_file_paths[16] = JPATH_SITE.'/components/com_zefaniabible/models/verserss.php';						
+		$arr_file_paths[17] = JPATH_SITE.'/components/com_zefaniabible/models/zefaniabible.php';
+		
+		// delete plugin files from front end langauge folder.
+		foreach ($arr_file_paths as $str_path )
+		{
+			if(JFile::exists($str_path) == true)
+			{
+				$app->enqueueMessage(JText::sprintf('%s has been deleted.', $str_path));
+				JFile::delete($str_path);
+			}
+		}			
 	}
 	private function fnc_remove_langauge_folders()
 	{

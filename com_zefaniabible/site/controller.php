@@ -51,12 +51,24 @@ class ZefaniabibleController extends JControllerLegacy
         JFactory::getApplication()->input->set('view', $view);
 		$str_tmpl = JRequest::getCmd('tmpl');
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
-
-		require_once(JPATH_ADMIN_ZEFANIABIBLE.'/helpers/helper.php');
 		
 		$jversion = new JVersion();
-		$str_redirect_url = JRoute::_(ZefaniabibleHelper::urlRequest());
-		$str_requested_url =  JRoute::_(ZefaniabibleHelper::urlRequest());
+		
+		//Contains followers
+		$authorizedInUrl = array('plan','bible','bible2','book','chapter','verse','day','option', 'view', 'layout', 'Itemid', 'tmpl', 'lang','com','dict','strong','start','items','type','number', 'variant');
+		
+		$parts = array();
+		$request = JRequest::get();
+		foreach($request as $key => $value)
+		{
+			if (in_array($key, $authorizedInUrl))
+			{
+				$parts[] = $key . '=' . $value;
+			}
+		}
+		$str_redirect_url = JRoute::_("index.php?" . implode("&", $parts), false);
+		$str_requested_url =  JRoute::_("index.php?" . implode("&", $parts), false);
+		
 		$str_current_url = JURI::root(true).urldecode('/'.str_replace(JURI::root(),'',JURI::getInstance()->toString()));
 		
 		switch ($view) 

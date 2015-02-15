@@ -153,6 +153,7 @@ class ZefaniabibleViewReading extends JViewLegacy
 		$item->arr_plan							= 	$mdl_default->_buildQuery_current_reading($item->arr_reading, $item->str_Bible_Version);
 		$item->cnt_chapters						=	$mdl_common->fnc_count_chapters($item->arr_reading);
 		$item->str_description 					= 	$mdl_common->fnc_make_description($item->arr_plan[0]);
+		$item->arr_meta							= 	$mdl_default->_buildQuery_meta($item->str_Bible_Version, "bible");
 		$mdl_common->fnc_redirect_last_day($item);
 		
 		if($item->flg_show_audio_player)
@@ -197,7 +198,8 @@ class ZefaniabibleViewReading extends JViewLegacy
 				$z++;
 			}
 		}
-
+		$item->str_meta_desc				= $mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key					= $mdl_common->fnc_make_meta_key($item->arr_meta);		
 		$mdl_common->fnc_meta_data($item); 
 		//Filters
 		$this->assignRef('item', $item);

@@ -60,6 +60,7 @@ class ZefaniabibleViewStrong extends JViewLegacy
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
+		$doc_page = JFactory::getDocument();
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
 		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
@@ -85,7 +86,13 @@ class ZefaniabibleViewStrong extends JViewLegacy
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');
 		$item->arr_passage 		= $mdl_default->_buildQuery_strong($item->str_curr_dict,$item->str_strong_id);	 
 		$item->str_dict_name 	= $mdl_default->_buildQuery_dict_name($item->str_curr_dict);
-
+		$item->arr_meta				= 	$mdl_default->_buildQuery_meta($item->str_curr_dict, "dictionary");	
+		$item->str_meta_desc		= 	$mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key			= 	$mdl_common->fnc_make_meta_key($item->arr_meta);	
+		
+		$doc_page->setMetaData( 'keywords', $item->str_meta_key );		
+		$doc_page->setMetaData( 'description', $item->str_meta_desc);
+		$doc_page->addCustomTag( '<meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />');
 		//Filters
 		$this->assignRef('item',				$item);	
 		parent::display($tpl);

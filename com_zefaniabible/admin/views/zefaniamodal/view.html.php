@@ -38,7 +38,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleViewZefaniaModal extends JViewLegacy
+class ZefaniabibleViewZefaniamodal extends JViewLegacy
 {
 	/*
 	 * Define here the default list limit
@@ -48,13 +48,7 @@ class ZefaniabibleViewZefaniaModal extends JViewLegacy
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
-
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
 		$layout = $this->getLayout();
-
-
 
 		switch($layout)
 		{
@@ -80,7 +74,7 @@ class ZefaniabibleViewZefaniaModal extends JViewLegacy
 		$item = new stdClass();
 									
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
-		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend');
+		$item->int_primary_book_front_end 		= $params->get('primary_book_frontend', 1);
 		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);
 		$item->int_modal_width 					= $params->get('int_modal_width',800);
 		$item->int_modal_height 				= $params->get('int_modal_height', 500);

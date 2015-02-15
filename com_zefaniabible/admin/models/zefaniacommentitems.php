@@ -1,157 +1,355 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniacomment
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-
-jimport('joomla.application.component.model');
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.item.php');
+defined("_JEXEC") or die("Restricted access");
 
 /**
- * Zefaniabible Component Zefaniacommentitems Model
+ * Item Model for zefaniacommentitems.
  *
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Models
  */
-class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
+class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 {
-	var $_name_plur = 'zefaniacomment';
-	var $params;
-
-
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_ZEFANIABIBLE';
 
 	/**
-	 * Constructor
+	 * The type alias for this content type.
 	 *
+	 * @var      string
+	 * @since    3.2
 	 */
-	function __construct()
-	{
-		parent::__construct();
-		$this->_modes = array_merge($this->_modes, array(''));
-
-	}
+	public $typeAlias = 'com_zefaniabible.zefaniacommentitems';
 
 	/**
-	 * Method to initialise the zefaniacommentitems data
+	 * Method to test whether a record can be deleted.
 	 *
-	 * @access	private
-	 * @return	boolean	True on success
+	 * @param   object    $record    A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
-	function _initData()
+	protected function canDelete($record)
 	{
-		if (empty($this->_data))
+		if (!empty($record->id))
 		{
-			//Default values shown in the form for new item creation
-			$data = new stdClass();
-
-			$data->id = 0;
-			$data->attribs = null;
-			$data->title = null;
-			$data->alias = null;
-			$data->full_name = null;
-			$data->file_location = null;
-			$data->ordering = null;
-			$data->publish = null;
-			$this->_data = $data;
-
-			return (boolean) $this->_data;
+			$user = JFactory::getUser();
+			return $user->authorise('core.delete', $this->typeAlias . '.' . (int) $record->id);
 		}
-		return true;
-	}
-
+	}		
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   JTable    A JTable object.
+	 *
+	 * @return  void
+	 * @since   1.6
+	 */
+	protected function prepareTable($table)
+	{
+		// Set the publish date to now
+		$db = $this->getDbo();
+	}
+
+	/**
+	 * Auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState()
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
+		$app = JFactory::getApplication('administrator');
 
-		if ($filter_publish = $app->getUserState($this->context.'.filter.publish'))
-			$this->setState('filter.publish', $filter_publish, null, 'cmd');
+		// Load the User state.
+		$pk = $app->input->getInt('id');
+		$this->setState($this->getName() . '.id', $pk);
 
-
-
-		parent::populateState();
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_zefaniabible');
+		$this->setState('params', $params);
 	}
 
-
 	/**
-	 * Method to build a the query string for the Zefaniacommentitems
+	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @access public
-	 * @return integer
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   12.2
 	 */
-	function _buildQuery()
+	public function batch($commands, $pks, $contexts)
 	{
+		// Sanitize ids.
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
 
-		if (isset($this->_active['predefined']))
-		switch($this->_active['predefined'])
+		// Remove any values of zero.
+		if (array_search(0, $pks, true))
 		{
-			case 'commentaryadd': return $this->_buildQuery_commentaryadd(); break;
+			unset($pks[array_search(0, $pks, true)]);
+		}
 
+		if (empty($pks))
+		{
+			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$done = false;
+
+		// Set some needed variables.
+		$this->user = JFactory::getUser();
+		$this->table = $this->getTable();
+		$this->tableClassName = get_class($this->table);
+		$this->contentType = new JUcmType;
+		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		$this->batchSet = true;
+
+		if ($this->type == false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+
+		}
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
+
+		if (!empty($commands['assetgroup_id']))
+		{
+			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!empty($commands['language_id']))
+		{
+			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
+		if (!$done)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			return false;
+		}
+
+		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+	function delete(&$pks)
+	{
+		$result = false;
+		foreach($pks as $pk)
+		{
+			try
+			{
+				$db = $this->getDbo();
+				$pk_clean 	= $db->quote($pk);							
+							
+				$query = 'DELETE FROM `#__zefaniabible_comment_text` '
+				. ' WHERE bible_id = '.$pk_clean;	
+				
+				$db->setQuery($query);
+				$result = $db->execute();
+			}
+			catch (JException $e)
+			{
+				print_r($this->setError($e));
+			}
+		}
+		parent::delete($pks);
+		return true;
+	}			
+	/**
+	 * Alias for JTable::getInstance()
+	 *
+	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
+	 * @param   string  $prefix  An optional prefix for the table class name.
+	 * @param   array   $config  An optional array of configuration values for the JTable object.
+	 *
+	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
+	 */
+	public function getTable($type = 'Zefaniacommentitems', $prefix = 'ZefaniabibleTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+	
+	/**
+	 * Method for getting the form from the model.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		JForm::addRulePath(JPATH_COMPONENT_ADMINISTRATOR.'/models/rules');		
+		
+		$options = array('control' => 'jform', 'load_data' => $loadData);
+		$form = $this->loadForm($this->typeAlias, $this->name, $options);
+		
+		if(empty($form))
+		{
+			return false;
+		}
+
+
+		return $form;
+	}
+	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 */
+	protected function loadFormData()
+	{
+		$app = JFactory::getApplication();
+		$data = $app->getUserState($this->option . '.edit.' . $this->name . '.data', array());
+		
+		if(empty($data))
+		{
+			$data = $this->getItem();
+		}
+		
+		return $data;
+	}
+	
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getItem($pk = null)
+	{
+		if (!$item = parent::getItem($pk))
+		{			
+			throw new Exception('Failed to load item');
+		}
+
+		if (!$item->id)
+		{
+			$item->created_by = JFactory::getUser()->get('id');
+			$item->modified_by = JFactory::getUser()->get('id');
+		}
+		
+		return $item;
+	}
+	function save($data)
+	{
+		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
+		$row = $this->getTable();
+
+		//Convert data from a stdClass
+		if (is_object($data)){
+			if (get_class($data) == 'stdClass')
+				$data = JArrayHelper::fromObject($data);
+		}
+
+		//Current id if unspecified
+		if ($data['id'] != null)
+			$id = $data['id'];
+		else if (($this->_id != null) && ($this->_id > 0))
+			$id = $this->_id;
+
+
+		//Load the current object, in order to process an update
+		if (isset($id))
+			$row->load($id);
+
+		//Secure the published tag if not allowed to change
+		if (isset($data['publish']) && !$acl->get('core.edit.state'))
+			unset($data['publish']);
+
+
+		// Bind the form fields to the zefaniabible table
+		$ignore = array();
+		if (!$row->bind($data, $ignore)) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
 		}
 
 
 
-			$query = 'SELECT a.*'
-					. 	$this->_buildQuerySelect()
 
-					.	' FROM `#__zefaniabible_zefaniacomment` AS a'
-					. 	$this->_buildQueryJoin()
 
-					. 	$this->_buildQueryWhere()
+		// Make sure the zefaniabible table is valid
+		if (!$row->check()) {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
 
-					.	'';
 
-		return $query;
-	}
 
-	function _buildQuery_commentaryadd()
-	{
+		// Store the zefaniabible table to the database
+		if (!$row->store())
+        {
+			JError::raiseWarning(1000, $this->_db->getErrorMsg());
+			return false;
+		}
 
-			$query = 'SELECT a.*'
-					. 	$this->_buildQuerySelect()
-
-					.	' FROM `#__zefaniabible_zefaniacomment` AS a'
-					. 	$this->_buildQueryJoin()
-
-					. 	$this->_buildQueryWhere()
-
-					.	'';
-
-		return $query;
+		$this->_id = $row->id;
+		$this->_data = $row;
+		if(!$id)
+		{	
+			$str_folder_file = $data['file_location_list'];
+			
+			if($data['file_location'] == "")
+			{
+				$str_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
+				$data['file_location'] = '/'.$str_path.$str_folder_file;				
+			}		
+			$app = JFactory::getApplication();
+			
+			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->file_location, $row->id);
+			if($int_rows_inserted > 1)
+			{
+				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
+			}
+			else
+			{
+				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
+			}	
+		}
+		return true;
 	}
 	private function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
 	{ 		
@@ -220,281 +418,5 @@ class ZefaniabibleModelZefaniacommentitems extends ZefaniabibleModelItem
 			print_r($this->setError($e));
 		}			
 	}
-
-	function _buildQueryWhere($where = array())
-	{
-		$app = JFactory::getApplication();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-		$where[] = 'a.id = '.(int) $this->_id;
-
-
-
-		return parent::_buildQueryWhere($where);
-	}
-
-	/**
-	 * Method to update zefaniacommentitems in mass
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function update($cids, $data)
-	{
-		foreach($cids as $cid)
-		{
-			if ($cid == 0)
-				continue;
-			$data['id'] = $cid;
-			if (!$this->save($data))
-				return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Method to save the zefaniacommentitems
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function save($data)
-	{
-		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$row = $this->getTable();
-
-
-		$str_folder_file = JRequest::getCmd('file_location_folder');
-		$arr_file_info = pathinfo($str_folder_file);
-		
-		if(($row->file_location == "")and($arr_file_info['extension'] == 'xml'))
-		{
-			$str_path = $params->get('xmlCommentaryPath', 'media/com_zefaniabible/audio/');
-			$row->file_location = '/'.$str_path.$str_folder_file;				
-		}
-		//Convert data from a stdClass
-		if (is_object($data)){
-			if (get_class($data) == 'stdClass')
-				$data = JArrayHelper::fromObject($data);
-		}
-
-		//Current id if unspecified
-		if ($data['id'] != null)
-			$id = $data['id'];
-		else if (($this->_id != null) && ($this->_id > 0))
-			$id = $this->_id;
-
-
-		//Load the current object, in order to process an update
-		if (isset($id))
-			$row->load($id);
-
-		//Some security checks
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-		//Secure the published tag if not allowed to change
-		if (isset($data['publish']) && !$acl->get('core.edit.state'))
-			unset($data['publish']);
-
-
-		// Bind the form fields to the zefaniabible table
-		$ignore = array();
-		if (!$row->bind($data, $ignore)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-
-
-		// Make sure the zefaniabible table is valid
-		if (!$row->check()) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-		// Store the zefaniabible table to the database
-		if (!$row->store())
-        {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-
-
-		$this->_id = $row->id;
-		$this->_data = $row;
-		if(!$id)
-		{	
-			$app = JFactory::getApplication();
-			
-			$int_rows_inserted = $this->fnc_Loop_Thorugh_File($row->file_location, $row->id);
-			if($int_rows_inserted > 1)
-			{
-				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
-			}
-			else
-			{
-				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
-			}	
-		}
-		return true;
-	}
-	/**
-	 * Method to delete a zefaniacommentitems
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function delete($cid = array())
-	{
-		$result = false;
-
-		if (count( $cid ))
-		{
-			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
-
-			$query = 'DELETE a.*, b.* FROM `#__zefaniabible_comment_text` AS a'
-				. ' INNER JOIN `#__zefaniabible_zefaniacomment` AS b ON a.bible_id = b.id'
-				. ' WHERE b.id = "'.$cids.'"';	
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				JError::raiseWarning(1000, $this->_db->getErrorMsg());
-				return false;
-			}
-
-
-
-		}
-
-		return true;
-	}
-	/**
-	 * Method to move a zefaniacommentitems
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function move($direction)
-	{
-		$row = $this->getTable();
-		if (!$row->load($this->_id)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		$condition = "1";
-
-
-		if (!$row->move( $direction,  $condition)) {
-			JError::raiseWarning(1000, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to save the order of the zefaniacomment
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable();
-
-		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
-		{
-			$row->load( (int) $cid[$i] );
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store()) {
-					JError::raiseWarning(1000, $this->_db->getErrorMsg());
-					return false;
-				}
-			}
-		}
-
-		$row->reorder();
-
-
-		return true;
-	}
-	/**
-	 * Method to (un)publish a zefaniacommentitems
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function publish($cid = array(), $publish = 1)
-	{
-		$user 	= JFactory::getUser();
-
-		if (count( $cid ))
-		{
-			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
-
-			$query = 'UPDATE #__zefaniabible_zefaniacomment'
-				. ' SET `publish` = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-
-
-			;
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				JError::raiseWarning(1000, $this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		return true;
-	}
-	/**
-	 * Method to Convert the parameter fields into objects.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	protected function populateParams()
-	{
-		parent::populateParams();
-
-		if (!isset($this->_data))
-			return;
-
-		$item = $this->_data;
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-		if ($acl->get('core.edit.state')
-			|| (bool)$item->publish)
-			$item->params->set('access-view', true);
-
-		if ($acl->get('core.edit'))
-			$item->params->set('access-edit', true);
-
-		if ($acl->get('core.delete'))
-			$item->params->set('access-delete', true);
-
-
-
-	}
-
-
-
-
 }
+?>

@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>3.2.0</version>
+	<version>4.0.0</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module displays bible reading plan, by pulling it directly from xml files.</description>
 	<files>
@@ -64,8 +64,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="reading_plan" type="sql" label="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN" description="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE publish=1 ORDER BY name" key_field="alias" value_field = "name"/>
-				<field name="bibleAlias" type="sql" label="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE" description="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE publish = 1" key_field="alias" value_field = "bible_name" />					
+				<field name="reading_plan" type="sql" label="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN" description="MOD_ZEFANIABIBLE_READING_PLAN_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name"/>
+				<field name="bibleAlias" type="sql" label="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE" description="MOD_ZEFANIABIBLE_READING_PLAN_BIBLE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE published = 1" key_field="alias" value_field = "bible_name" />					
 				<field name="reading_start_date" type="calendar" label="MOD_ZEFANIABIBLE_READING_PLAN_START_DATE" description="MOD_ZEFANIABIBLE_READING_PLAN_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" filter="server_utc" />						
 				<field name="rp_mo_menuitem" type="menuitem" default="" label="MOD_READINGPLAN_PARAM_MO_MENUITEM" description="MOD_VERSEOFDAY_PARAM_MO_MENUITEM_DESC" state="1" />				
 				<field name="str_custom_html" label ="COM_ZEFANIABIBLE_SCRIPTURE_CUSTOM_CODE" type="editor" width="200" height="75" filter="safehtml"  default="{link}{scripture}{/link}" description="MOD_ZEFANIABIBLE_READING_CUSTOM_CODE_DESC" />

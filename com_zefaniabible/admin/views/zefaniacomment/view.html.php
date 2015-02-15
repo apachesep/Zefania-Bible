@@ -1,151 +1,107 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniacomment
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+defined("_JEXEC") or die("Restricted access");
 
-
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/helpers/zefaniabible.php';
 
 /**
- * HTML View class for the Zefaniabible component
+ * Zefaniacomment list view class.
  *
- * @static
- * @package		Joomla
- * @subpackage	Zefaniacomment
- *
+ * @package     Zefaniabible
+ * @subpackage  Views
  */
 class ZefaniabibleViewZefaniacomment extends JViewLegacy
 {
-	/*
-	 * Define here the default list limit
-	 */
-	protected $_default_limit = null;
-
-	function display($tpl = null)
+	protected $items;
+	protected $pagination;
+	protected $state;
+	
+	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
+		$this->items = $this->get('Items');
+		$this->state = $this->get('State');
+		$this->pagination = $this->get('Pagination');
+		$this->authors = $this->get('Authors');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		$option	= JRequest::getCmd('option');
-		$view	= JRequest::getCmd('view');
-		$layout = $this->getLayout();
-
-
-
-		switch($layout)
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
 		{
-			case 'default':
-
-				$fct = "display_" . $layout;
-				$this->$fct($tpl);
-				break;
+			throw new Exception(implode("\n", $errors));
+			return false;
 		}
-
-	}
-	function display_default($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-
-		$user 	= JFactory::getUser();
-
-		//$access = ZefaniabibleHelper::getACL();
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-		$state		= $this->get('State');
-
-		$document	= JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_COMMENTARIES") . $document->titleSuffix;
-
-		// Get data from the model
-		$model 		= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'default');
-		$model->active("publish", false);
-
-
-
-
-
-		$items		= $model->getItems();
-
-		$total		= $this->get( 'Total');
-		$pagination = $this->get( 'Pagination' );
-
-		// table ordering
-		$lists['order'] = $model->getState('list.ordering');
-		$lists['order_Dir'] = $model->getState('list.direction');
-
-		// Toolbar
-		jimport('joomla.html.toolbar');
-		$bar = JToolBar::getInstance('toolbar');
-		if ($access->get('core.create'))
-			$bar->appendButton( 'Standard', "new", "JTOOLBAR_NEW", "new", false);
-		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "edit", "JTOOLBAR_EDIT", "edit", true);
-		if ($access->get('core.delete') || $access->get('core.delete.own'))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", true);
-		if ($access->get('core.admin'))
-			JToolBarHelper::preferences( 'com_zefaniabible' );
-		if ($access->get('core.edit.state'))
-			$bar->appendButton( 'Standard', "publish", "JTOOLBAR_PUBLISH", "publish", true);
-		if ($access->get('core.edit.state'))
-			$bar->appendButton( 'Standard', "unpublish", "JTOOLBAR_UNPUBLISH", "unpublish", true);
-
-
-
-		//Filters
-		//Publish
-		$this->filters['publish'] = new stdClass();
-		$this->filters['publish']->value = $model->getState("filter.publish");
-
-
-
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_primary_bible = $config->get('primaryBible');
-		if($str_primary_bible == '')
-		{
-			JError::raiseWarning('',JText::_('ZEFANIABIBLE_ERROR_BLANK_PARAMETERS'));
-		}	
 		
-		$user = JFactory::getUser();
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('state',		$state);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('config',		$config);
-
+		ZefaniabibleHelper::addSubmenu('zefaniacomment');
+		
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		
 		parent::display($tpl);
 	}
+	
+	/**
+	 *	Method to add a toolbar
+	 */
+	protected function addToolbar()
+	{
+		$state	= $this->get('State');
+		$canDo	= ZefaniabibleHelper::getActions();
+		$user	= JFactory::getUser();
 
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_COMMENTARIES'));
+		
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::addNew('zefaniacommentitems.add','JTOOLBAR_NEW');
+		}
 
-
-
-
+		if (($canDo->get('core.edit') || $canDo->get('core.edit.own')) && isset($this->items[0]))
+		{
+			JToolBarHelper::editList('zefaniacommentitems.edit','JTOOLBAR_EDIT');
+		}
+		
+		if ($canDo->get('core.edit.state'))
+		{
+            if (isset($this->items[0]->published))
+			{
+			    JToolBarHelper::divider();
+				JToolbarHelper::publish('zefaniacomment.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolbarHelper::unpublish('zefaniacomment.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            } 
+			else if (isset($this->items[0]))
+			{
+                // Show a direct delete button
+                JToolBarHelper::deleteList('', 'zefaniacomment.delete','JTOOLBAR_DELETE');
+            }
+            
+			if (isset($this->items[0]->checked_out))
+			{
+				JToolbarHelper::checkin('zefaniacomment.checkin');
+            }
+			if ($canDo->get('core.delete') && isset($this->items[0]))
+			{
+				JToolBarHelper::deleteList('', 'zefaniacomment.delete','JTOOLBAR_DELETE');
+			}
+		}
+				
+		
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_zefaniabible');
+		}
+	}
 }
+?>

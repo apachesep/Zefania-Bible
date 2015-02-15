@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
+		<field name="bible_name" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" class="input-xxlarge input-large-text" filter="STRING" required="1" />
+		<field name="bible_xml_file" label="ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" description="" type="text" disabled="true" />
+		<field name="xml_audio_url" label="ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION" description="" type="text" />
+		<field name="bible_xml_file_list" label="ZEFANIABIBLE_FIELD_XML_BIBLE_FILE_LOCATION" description="" type="list" />
+		<field name="xml_audio_url_list" label="ZEFANIABIBLE_FIELD_XML_AUDIO_FILE_LOCATION" description="" type="list" />
+
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="40" maxlength="5" required="1" filter="word" />
+		<field
+			name="published"
+			type="list"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="chzn-color-state"
+			size="1"
+			default="1"
+			filter="interval"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+		<field
+			name="checked_out"
+			type="hidden"
+			label="COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_CHECKED_OUT_LABEL"
+			description="COM_ZEFANIABIBLE_ZEFANIABIBLE_BIBLE_NAMES_FIELD_CHECKED_OUT_DESC"
+			filter="UNSET"
+		/>
+		<field
+			name="created"
+			type="calendar"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
+			description="JGLOBAL_FIELD_CREATED_DESC"
+			class="readonly"
+		/>
+		<field
+			name="created_by"
+			type="user"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			description="JGLOBAL_FIELD_CREATED_BY_DESC"
+		/>
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			description="JGLOBAL_FIELD_MODIFIED_LABEL"
+			class="readonly"
+		/>
+		<field
+			name="modified_by"
+			type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			description="JGLOBAL_FIELD_MODIFIED_BY_DESC"
+		/>
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="JFIELD_LANGUAGE_DESC" class="inputbox">
+			<option value="all-ALL">JALL</option>
+		</field>
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="JFIELD_META_KEYWORDS_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+		/>
+		<field
+			name="metadesc"
+			type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			description="JFIELD_META_DESCRIPTION_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+		/>
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			default="1"
+			class="inputbox"
+			size="1"
+		/>
+	</fieldset>
+	<fields name="params">
+		<fieldset name="params">
+		</fieldset>
+	</fields>
+	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+		</fieldset>
+	</fields>
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+			<field
+				name="rights"
+				type="text"
+				label="JFIELD_METADATA_RIGHTS_LABEL"
+				description="JFIELD_METADATA_RIGHTS_DESC"
+				size="20"
+			/>
+		</fieldset>
+	</fields>
+</form>

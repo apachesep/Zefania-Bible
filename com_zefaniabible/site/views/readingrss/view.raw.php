@@ -93,7 +93,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			case "seperate":
 			case "single":
 				$this->document->setMimeEncoding('text/xml');
-				JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.xml');
+				//JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.xml');
 				break;
 				
 			case "json":
@@ -104,7 +104,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 								
 			default:
 				$this->document->setMimeEncoding('text/xml');			
-				JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.xml');	
+				//JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.xml');	
 				break;	
 		}	
 						

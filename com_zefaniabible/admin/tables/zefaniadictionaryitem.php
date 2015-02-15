@@ -1,147 +1,137 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
-
-
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
+defined("_JEXEC") or die("Restricted access");
 
 /**
-* Zefaniabible Table class
-*
-* @package		Joomla
-* @subpackage	Zefaniabible
-*
-*/
-class TableZefaniadictionaryitem extends JTable
+ * Zefaniadictionaryitem table class.
+ *
+ * @package     Zefaniabible
+ * @subpackage  Tables
+ */
+class ZefaniabibleTableZefaniadictionaryitem extends JTable
 {
-
 	/**
-	 * Primary Key
+	 * Constructor
 	 *
-	 * @var int
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 */
-	var $id = null;
-
-	/**
-	 * @var string
-	 */
-	var $attribs = null;
-
-	/**
-	 * @var string
-	 */
-	var $alias = null;
-	/**
-	 * @var bool
-	 */
-	var $publish = null;
-	/**
-	 * @var int
-	 */
-	var $ordering = null;
-
-	var $name = null;
-	var $xml_file_url = null;
-
-	/**
-	* Constructor
-	*
-	* @param object Database connector object
-	*
-	*/
-	function __construct(& $db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__zefaniabible_dictionary_info', 'id', $db);
 	}
 
-
-
-
 	/**
-	* Overloaded bind function
-	*
-	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	*
-	*/
-	function bind($src, $ignore = array())
+     * Overloaded check function
+     */
+    public function check()
 	{
+        //If there is an ordering column and this is a new row then get the next ordering value
+        if (property_exists($this, 'ordering') && $this->id == 0) {
+            $this->ordering = self::getNextOrder();
+        }
 
-		if (isset($src['attribs']) && is_array($src['attribs']))
+		// Check alias
+		if (empty($this->alias))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($src['attribs']);
-			$src['attribs'] = (string) $registry;
+			$this->alias = $this->name;
+		}
+		$this->alias = JApplication::stringURLSafe($this->alias);
+		
+		// Clean up keywords -- eliminate extra spaces between phrases
+		// and cr (\r) and lf (\n) characters from string
+		if (!empty($this->metakey))
+		{
+			// Only process if not empty
+			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
+			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			$clean_keys = array();
+
+			foreach($keys as $key)
+			{
+				if (trim($key)) {  // ignore blank keywords
+					$clean_keys[] = trim($key);
+				}
+			}
+			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
-		return parent::bind($src, $ignore);
-	}
+		// Clean up description -- eliminate quotes and <> brackets
+		if (!empty($this->metadesc))
+		{
+			// Only process if not empty
+			$bad_characters = array("\"", "<", ">");
+			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+		}
+
+        return parent::check();
+    }
 
 	/**
-	 * Overloaded check method to ensure data integrity
+	 * Method to bind an associative array or object to the JTable instance.
 	 *
-	 * @access public
-	 * @return boolean True on success
-	 * @see JTable:check
+	 * @see JTable
 	 */
-	function check()
+	public function bind($array, $ignore = '')
 	{
-		$valid = true;
-
-		$filter = new JFilterInput(array(), array(), 0, 0);
-
-		$this->name = $filter->clean($this->name, 'STRING');
-		$this->alias = $filter->clean($this->alias, 'STRING');
-		$this->xml_file_url = $filter->clean($this->xml_file_url, 'STRING');
-		$this->publish = $filter->clean($this->publish, 'BOOL');
-		$this->ordering = $filter->clean($this->ordering, 'INT');
-
-		if (!empty($this->ordering) && !preg_match("/^(\d|-)?(\d|,)*\.?\d*$/", $this->ordering)){
-			JError::raiseWarning( 1000, JText::sprintf("ZEFANIABIBLE_VALIDATOR_WRONG_VALUE_FOR_PLEASE_RETRY", JText::_("ZEFANIABIBLE_FIELD_ORDERING")) );
-			$valid = false;
-		}
-		//Alias
-		if (!trim($this->alias))
-			$this->alias = JFilterOutput::stringURLSafe($this->title);
-
-		//New row : Ordering : place to the end
-		if ($this->id == 0)
+		
+		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$db= JFactory::getDBO();
-
-			$query = 	'SELECT `ordering` FROM `' . $this->_tbl . '`'
-					. 	' ORDER BY `ordering` DESC LIMIT 1';
-			$db->setQuery($query);
-			$lastOrderObj = $db->loadObject();
-			$this->ordering = (int)$lastOrderObj->ordering + 1;
+			$registry = new JRegistry();
+			$registry->loadArray($array['metadata']);
+			$array['metadata'] = (string) $registry;
 		}
 
-		return $valid;
+		return parent::bind($array, $ignore);
+	}
+	
+	/**
+	 * Overriden JTable::store to set modified data.
+	 *
+	 * @param   boolean	True to update fields even if they are null.
+	 * @return  boolean  True on success.
+	 * @since   1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
+		
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified		= $date->toSql();
+			$this->modified_by	= $user->get('id');
+		}
+		else
+		{
+			// New item. An item created and created_by field can be set by the user,
+			// so we don't touch either of these if they are set.			
+			if (!(int) $this->created)
+			{
+				$this->created = $date->toSql();
+			}
+			
+			if (empty($this->created_by))
+			{
+				$this->created_by = $user->get('id');
+			}
+		}
+		
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Zefaniadictionaryitem', 'ZefaniabibleTable');
+		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('UNIQUE_ALIAS'));
+			return false;
+		}
+		
+		return parent::store($updateNulls);
 	}
 }
+?>

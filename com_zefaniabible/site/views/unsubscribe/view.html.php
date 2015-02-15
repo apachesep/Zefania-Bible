@@ -83,7 +83,7 @@ class ZefaniabibleViewUnsubscribe extends JViewLegacy
 		$item->str_from_email 					= 	$config->get( 'mailfrom' );
     	$item->str_from_email_name				= 	$config->get( 'fromname' );
 		$item->id								=	$user->id;
-		
+		$item->flg_catcha_correct = 0;
 		if($item->str_email)
 		{
 			$item->flg_email_valid 				=	$mdl_common->fnc_validate_email($item->str_email);

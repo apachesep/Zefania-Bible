@@ -50,6 +50,7 @@ defined('_JEXEC') or die('Restricted access');
 		$item->str_start_reading_date 	= 	$params->get('reading_start_date', '1-1-2012');
 		$item->str_custom_html 			= 	$params->get('str_custom_html');
 		$item->flg_import_user_data 	=	$params->get('flg_import_user_data', '0');
+		$item->str_scripture 			=	"";
 		$user 							= 	JFactory::getUser();
 		
 		// use user data

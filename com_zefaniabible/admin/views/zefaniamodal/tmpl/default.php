@@ -250,9 +250,9 @@ class cls_button_scripture {
 		</div>
         <div style="clear:both"></div>
         <div class="zef_alias" id="zef_alias">
-            <label class="zef_scripture_label"><?php echo JText::_('ZEFANIABIBLE_FIELD_ALIAS'); ?></label>
+            <label class="zef_scripture_label"><?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME'); ?></label>
             <select name="bible" id="zef_button_bible_alias" class="inputbox">
-                <option value="" ><?php echo JText::_('ZEFANIABIBLE_JSEARCH_SELECT_BIBLE_VERSION'); ?></option>
+                <option value="" ><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION'); ?></option>
                 <?php 
 					echo $this->item->obj_bible_Bible_dropdown;
                 ?>
@@ -264,7 +264,7 @@ class cls_button_scripture {
             <div>
                 <label><?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE');?></label>
                 <select name="book" id="zef_button_bible_book" class="inputbox" title="<?php echo JText::_('ZEFANIABIBLE_FIELD_BIBLE_BOOK_NAME');?>">
-                    <option value="0" ><?php echo JText::_('ZEFANIABIBLE_JSEARCH_SELECT_BOOK_ID'); ?></option>
+                    <option value="0" ><?php echo JText::_('ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE'); ?></option>
                     <?php 
 						echo $this->item->obj_bible_book_dropdown;
                     ?>

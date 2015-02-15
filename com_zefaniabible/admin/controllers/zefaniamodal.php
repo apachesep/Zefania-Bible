@@ -1,26 +1,9 @@
 <?php
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -33,39 +16,27 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	Zefaniabible
  *
  */
-class ZefaniabibleControllerZefaniamodal extends ZefaniabibleController
+class ZefaniabibleControllerZefaniamodal extends JControllerAdmin
 {
-	var $ctrl = 'zefaniamodal';
-	var $singular = 'zefaniamodalitem';
-
-	function __construct($config = array())
+	/**
+	 * The URL view list variable.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $view_list = 'Zefaniamodal';
+	
+	/**
+	 * Get the admin model and set it to default
+	 *
+	 * @param   string           $name    Name of the model.
+	 * @param   string           $prefix  Prefix of the model.
+	 * @param   array			 $config  The model configuration.
+	 */
+	public function getModel($name = 'Zefaniamodaltem', $prefix='ZefaniamodalModel', $config = array())
 	{
-
-		parent::__construct($config);
-
-		$layout = JRequest::getCmd('layout');
-		$render	= JRequest::getCmd('render');
-
-		$this->context = strtolower('com_' . $this->getName() . '.' . $this->ctrl
-					. ($layout?'.' . $layout:'')
-					. ($render?'.' . $render:'')
-					);
-
-		$app = JFactory::getApplication();
-		$this->registerTask( 'new',  'new_' );
-		$this->registerTask( 'unpublish',  'unpublish' );
-		$this->registerTask( 'apply',  'apply' );
+		$config['ignore_request'] = true;
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
-	function display($cachable = false, $urlparams = false) 
-	{
-		parent::display();
-
-		if (!JRequest::getCmd('option',null, 'get'))
-		{
-			//Kill the post and rebuild the url
-			$this->setRedirect(ZefaniabibleHelper::urlRequest());
-			return;
-		}
-	}
-
 }

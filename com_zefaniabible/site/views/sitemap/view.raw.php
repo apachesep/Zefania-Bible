@@ -63,6 +63,15 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		$jinput = JFactory::getApplication()->input;
 		$item = new stdClass();	
+		
+		// menu item overwrites
+		$menuitemid = JRequest::getInt( 'Itemid' );
+		if ($menuitemid)
+		{
+			$menu = JFactory::getApplication()->getMenu();
+			$menuparams = $menu->getParams( $menuitemid );
+			$params->merge( $menuparams );
+		}
 
 		$item->str_primary_bible 				= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());	
 		$item->flg_only_primary_bible 			= $params->get('flg_only_primary_bible', '1');
@@ -71,7 +80,7 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 				
 		$item->str_Bible_Version 				= $jinput->get('bible', $item->str_primary_bible, 'CMD');					
 		$item->arr_english_book_names 			= $mdl_common->fnc_load_languages();
-		
+				
 		$menuitemid = $params->get('rp_mo_menuitem');
 		
 		if($item->flg_only_primary_bible)
@@ -84,7 +93,6 @@ class ZefaniabibleViewSitemap extends JViewLegacy
 
 		}		
 		$item->str_view_plan			=	$mdl_default->_buildQuery_get_menu_id('standard');
-		
 		//Filters
 		$this->assignRef('item',	$item);
 		parent::display($tpl);

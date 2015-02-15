@@ -63,7 +63,7 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 	function display_default($tpl = null)
 	{
 		$app = JFactory::getApplication();
-
+		$doc_page = JFactory::getDocument();
 		/*
 			a = commentary
 			b = book
@@ -71,8 +71,10 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 			d = verse	
 		*/
 		require_once(JPATH_COMPONENT_SITE.'/models/default.php');
+		require_once(JPATH_COMPONENT_SITE.'/helpers/common.php');
 		$mdl_default 	= new ZefaniabibleModelDefault;
-				
+		$mdl_common 	= new ZefaniabibleCommonHelper;
+		
 		$jinput = JFactory::getApplication()->input;
 		$params = JComponentHelper::getParams( 'com_zefaniabible' );
 		
@@ -85,9 +87,15 @@ class ZefaniabibleViewCommentary extends JViewLegacy
 		$item->int_Bible_Verse	 	= $jinput->get('verse', '1', 'INT');
 				
 		JHTML::stylesheet('components/com_zefaniabible/css/modal.css');			
-		$item->str_commentary_text = $mdl_default->_buildQuery_commentary_verse($item->str_commentary, $item->int_Bible_Book_ID, $item->int_Bible_Chapter, $item->int_Bible_Verse);
-		$item->str_commentary_name = $mdl_default->_buildQuery_commentary_name($item->str_commentary);
-				
+		$item->str_commentary_text 	= 	$mdl_default->_buildQuery_commentary_verse($item->str_commentary, $item->int_Bible_Book_ID, $item->int_Bible_Chapter, $item->int_Bible_Verse);
+		$item->str_commentary_name 	= 	$mdl_default->_buildQuery_commentary_name($item->str_commentary);
+		$item->arr_meta				= 	$mdl_default->_buildQuery_meta($item->str_commentary, "commentary");	
+		$item->str_meta_desc		= 	$mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key			= 	$mdl_common->fnc_make_meta_key($item->arr_meta);	
+
+		$doc_page->setMetaData( 'keywords', $item->str_meta_key );		
+		$doc_page->setMetaData( 'description', $item->str_meta_desc);
+		$doc_page->addCustomTag( '<meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />');
 		//Filters
 		$this->assignRef('item',	$item);
 		parent::display($tpl);

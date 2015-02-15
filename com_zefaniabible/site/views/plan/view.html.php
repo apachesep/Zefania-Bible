@@ -109,13 +109,16 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		$item->arr_reading 						= 	$mdl_default->_buildQuery_readingplan_overview($item->str_reading_plan,$item->arr_pagination);
 		$item->arr_reading_plan_list			= 	$mdl_default->_buildQuery_reading_plan_list($item);
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->arr_meta							= 	$mdl_default->_buildQuery_meta($item->str_Bible_Version, "bible");
 		$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
 		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);
 		$item->str_reading_plan_name			= 	$mdl_common->fnc_find_reading_name($item->arr_reading_plan_list, $item->str_reading_plan);
 
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
 		$item->str_description					=	$mdl_common->fnc_create_reading_desc($item->arr_reading_plan_list,$item->str_reading_plan);
-		$item->chapter_output					=	$mdl_common->fnc_create_plan_list_output($item);	
+		$item->chapter_output					=	$mdl_common->fnc_create_plan_list_output($item);
+		$item->str_meta_desc					= 	$mdl_common->fnc_make_meta_desc($item->arr_meta);
+		$item->str_meta_key						= 	$mdl_common->fnc_make_meta_key($item->arr_meta);	
 		$mdl_common->fnc_meta_data($item); 
 
 		//Filters

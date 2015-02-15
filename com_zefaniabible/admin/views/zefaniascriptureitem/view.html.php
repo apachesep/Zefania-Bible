@@ -1,136 +1,83 @@
 <?php
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
+defined("_JEXEC") or die("Restricted access");
 
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/helpers/zefaniabible.php';
 
 /**
- * HTML View class for the Zefaniabible component
+ * Zefaniascriptureitem item view class.
  *
- * @static
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Views
  */
 class ZefaniabibleViewZefaniascriptureitem extends JViewLegacy
 {
-	function display($tpl = null)
+	protected $item;
+	protected $form;
+	protected $state;
+
+	public function display($tpl = null)
 	{
-		$layout = $this->getLayout();
-		switch($layout)
-		{
-			case 'scriptureadd':
-
-				$fct = "display_" . $layout;
-				$this->$fct($tpl);
-				break;
-		}
-
-	}
-	function display_scriptureadd($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-
-		$user 	= JFactory::getUser();
-
-		//$access = ZefaniabibleHelper::getACL();
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-
-		$model	= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'scriptureadd');
-
-		$document	= JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_BIBLE") . $document->titleSuffix;
-
-
-		//Form validator
-		JHTML::_('behavior.formvalidation');
-
-
-		$lists = array();
-
-		//get the zefaniabibleitem
-		$zefaniascriptureitem	= $model->getItem();
-		$isNew		= ($zefaniascriptureitem->id < 1);
-
-		//For security, execute here a redirection if not authorized to enter a form
-		if (($isNew && !$access->get('core.create'))
-		|| (!$isNew && !$zefaniascriptureitem->params->get('access-edit')))
-		{
-				JError::raiseWarning(403, JText::sprintf( "JERROR_ALERTNOAUTHOR") );
-				ZefaniabibleHelper::redirectBack();
-		}
-
-
-		$model_bible_version = JModelLegacy::getInstance('zefaniabible', 'ZefaniabibleModel');
-		$model_bible_version->addGroupBy("a.ordering");
-		$lists['fk']['bible_id'] = $model_bible_version->getItems();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 		
-		$model_book_id = JModelLegacy::getInstance('zefaniabiblebooknames', 'ZefaniabibleModel');
-		$model_book_id->addGroupBy("a.ordering");
-		$lists['fk']['book_name'] = $model_book_id->getItems();
-		//Ordering
-		$orderModel = JModelLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
-		$lists["ordering"] = $orderModel->getItems();
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
+		
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
+			return false;
+		}
+		
+		if ($this->getLayout() == 'modal')
+		{
+		}
 
-		// Toolbar
-		jimport('joomla.html.toolbar');
-		$bar = JToolBar::getInstance('toolbar');
-		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
-		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
-			$bar->appendButton( 'Standard', "save", "JTOOLBAR_SAVE", "save", false);
-		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
-		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
-
-
-
-
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-
-		JRequest::setVar( 'hidemainmenu', true );
-
-		$user = JFactory::getUser();
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('zefaniascriptureitem',		$zefaniascriptureitem);
-		$this->assignRef('config',		$config);
-		$this->assignRef('isNew',		$isNew);
-
+		$this->addToolbar();
 		parent::display($tpl);
 	}
+	
+	protected function addToolbar()
+	{
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= ZefaniabibleHelper::getActions();
+		
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_FIELD_BIBLE_SCRIPTURE'));
 
+		if (isset($this->item->checked_out)) {
+		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+        } else {
+            $checkedOut = false;
+        }
+		
+		// If not checked out, can save the item.
+		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create'))))
+		{
 
-
-
+			JToolBarHelper::apply('zefaniascriptureitem.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('zefaniascriptureitem.save', 'JTOOLBAR_SAVE');
+		}
+		if (!$checkedOut && ($canDo->get('core.create'))){
+			JToolBarHelper::custom('zefaniascriptureitem.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('zefaniascriptureitem.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+		}
+		if (empty($this->item->id)) {
+			JToolBarHelper::cancel('zefaniascriptureitem.cancel', 'JTOOLBAR_CANCEL');
+		}
+		else {
+			JToolBarHelper::cancel('zefaniascriptureitem.cancel', 'JTOOLBAR_CLOSE');
+		}
+	}
 }
+?>

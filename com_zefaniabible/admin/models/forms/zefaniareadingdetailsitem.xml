@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
+		<field name="plan" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="" type="sql" query="SELECT name, alias, id FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="id" value_field = "name" />
+		<field name="book_id" type="groupedlist" default="1" label="ZEFANIABIBLE_FIELD_BOOK_NAME" description="">
+			<group label="ZEFANIABIBLE_BIBLE_OLD_TEST">		
+				<option value='1' >ZEFANIABIBLE_BIBLE_BOOK_NAME_1</option>
+				<option value='2' >ZEFANIABIBLE_BIBLE_BOOK_NAME_2</option>
+				<option value='3' >ZEFANIABIBLE_BIBLE_BOOK_NAME_3</option>
+				<option value='4' >ZEFANIABIBLE_BIBLE_BOOK_NAME_4</option>
+				<option value='5' >ZEFANIABIBLE_BIBLE_BOOK_NAME_5</option>
+				<option value='6' >ZEFANIABIBLE_BIBLE_BOOK_NAME_6</option>
+				<option value='7' >ZEFANIABIBLE_BIBLE_BOOK_NAME_7</option>
+				<option value='8' >ZEFANIABIBLE_BIBLE_BOOK_NAME_8</option>
+				<option value='9' >ZEFANIABIBLE_BIBLE_BOOK_NAME_9</option>
+				<option value='10' >ZEFANIABIBLE_BIBLE_BOOK_NAME_10</option>
+				<option value='11' >ZEFANIABIBLE_BIBLE_BOOK_NAME_11</option>
+				<option value='12' >ZEFANIABIBLE_BIBLE_BOOK_NAME_12</option>
+				<option value='13' >ZEFANIABIBLE_BIBLE_BOOK_NAME_13</option>
+				<option value='14' >ZEFANIABIBLE_BIBLE_BOOK_NAME_14</option>
+				<option value='15' >ZEFANIABIBLE_BIBLE_BOOK_NAME_15</option>
+				<option value='16' >ZEFANIABIBLE_BIBLE_BOOK_NAME_16</option>
+				<option value='17' >ZEFANIABIBLE_BIBLE_BOOK_NAME_17</option>
+				<option value='18' >ZEFANIABIBLE_BIBLE_BOOK_NAME_18</option>
+				<option value='19' >ZEFANIABIBLE_BIBLE_BOOK_NAME_19</option>
+				<option value='20' >ZEFANIABIBLE_BIBLE_BOOK_NAME_20</option>
+				<option value='21' >ZEFANIABIBLE_BIBLE_BOOK_NAME_21</option>
+				<option value='22' >ZEFANIABIBLE_BIBLE_BOOK_NAME_22</option>
+				<option value='23' >ZEFANIABIBLE_BIBLE_BOOK_NAME_23</option>
+				<option value='24' >ZEFANIABIBLE_BIBLE_BOOK_NAME_24</option>
+				<option value='25' >ZEFANIABIBLE_BIBLE_BOOK_NAME_25</option>
+				<option value='26' >ZEFANIABIBLE_BIBLE_BOOK_NAME_26</option>
+				<option value='27' >ZEFANIABIBLE_BIBLE_BOOK_NAME_27</option>
+				<option value='28' >ZEFANIABIBLE_BIBLE_BOOK_NAME_28</option>
+				<option value='29' >ZEFANIABIBLE_BIBLE_BOOK_NAME_29</option>
+				<option value='30' >ZEFANIABIBLE_BIBLE_BOOK_NAME_30</option>
+				<option value='31' >ZEFANIABIBLE_BIBLE_BOOK_NAME_31</option>
+				<option value='32' >ZEFANIABIBLE_BIBLE_BOOK_NAME_32</option>
+				<option value='33' >ZEFANIABIBLE_BIBLE_BOOK_NAME_33</option>
+				<option value='34' >ZEFANIABIBLE_BIBLE_BOOK_NAME_34</option>
+				<option value='35' >ZEFANIABIBLE_BIBLE_BOOK_NAME_35</option>
+				<option value='36' >ZEFANIABIBLE_BIBLE_BOOK_NAME_36</option>
+				<option value='37' >ZEFANIABIBLE_BIBLE_BOOK_NAME_37</option>
+				<option value='38' >ZEFANIABIBLE_BIBLE_BOOK_NAME_38</option>
+				<option value='39' >ZEFANIABIBLE_BIBLE_BOOK_NAME_39</option>
+			</group>
+			<group label="ZEFANIABIBLE_BIBLE_NEW_TEST">			
+				<option value='40' >ZEFANIABIBLE_BIBLE_BOOK_NAME_40</option>
+				<option value='41' >ZEFANIABIBLE_BIBLE_BOOK_NAME_41</option>
+				<option value='42' >ZEFANIABIBLE_BIBLE_BOOK_NAME_42</option>
+				<option value='43' >ZEFANIABIBLE_BIBLE_BOOK_NAME_43</option>
+				<option value='44' >ZEFANIABIBLE_BIBLE_BOOK_NAME_44</option>
+				<option value='45' >ZEFANIABIBLE_BIBLE_BOOK_NAME_45</option>
+				<option value='46' >ZEFANIABIBLE_BIBLE_BOOK_NAME_46</option>
+				<option value='47' >ZEFANIABIBLE_BIBLE_BOOK_NAME_47</option>
+				<option value='48' >ZEFANIABIBLE_BIBLE_BOOK_NAME_48</option>
+				<option value='49' >ZEFANIABIBLE_BIBLE_BOOK_NAME_49</option>
+				<option value='50' >ZEFANIABIBLE_BIBLE_BOOK_NAME_50</option>
+				<option value='51' >ZEFANIABIBLE_BIBLE_BOOK_NAME_51</option>
+				<option value='52' >ZEFANIABIBLE_BIBLE_BOOK_NAME_52</option>
+				<option value='53' >ZEFANIABIBLE_BIBLE_BOOK_NAME_53</option>
+				<option value='54' >ZEFANIABIBLE_BIBLE_BOOK_NAME_54</option>
+				<option value='55' >ZEFANIABIBLE_BIBLE_BOOK_NAME_55</option>
+				<option value='56' >ZEFANIABIBLE_BIBLE_BOOK_NAME_56</option>
+				<option value='57' >ZEFANIABIBLE_BIBLE_BOOK_NAME_57</option>
+				<option value='58' >ZEFANIABIBLE_BIBLE_BOOK_NAME_58</option>
+				<option value='59' >ZEFANIABIBLE_BIBLE_BOOK_NAME_59</option>
+				<option value='60' >ZEFANIABIBLE_BIBLE_BOOK_NAME_60</option>
+				<option value='61' >ZEFANIABIBLE_BIBLE_BOOK_NAME_61</option>
+				<option value='62' >ZEFANIABIBLE_BIBLE_BOOK_NAME_62</option>
+				<option value='63' >ZEFANIABIBLE_BIBLE_BOOK_NAME_63</option>
+				<option value='64' >ZEFANIABIBLE_BIBLE_BOOK_NAME_64</option>
+				<option value='65' >ZEFANIABIBLE_BIBLE_BOOK_NAME_65</option>
+				<option value='66' >ZEFANIABIBLE_BIBLE_BOOK_NAME_66</option>
+			</group>
+		</field>		
+		<field name="begin_chapter" label="ZEFANIABIBLE_FIELD_BEGIN_CHAPTER" description="" filter="INTEGER" type="text" maxlength="3" />
+		<field name="begin_verse" label="ZEFANIABIBLE_FIELD_BEGIN_VERSE" description="" filter="INTEGER" type="text" maxlength="3" />
+		<field name="end_chapter" label="ZEFANIABIBLE_FIELD_END_CHAPTER" description="" filter="INTEGER" type="text" maxlength="3" />
+		<field name="end_verse" label="ZEFANIABIBLE_FIELD_END_VERSE" description="" filter="INTEGER" type="text" maxlength="3" />
+		<field name="day_number" label="ZEFANIABIBLE_FIELD_DAY_NUMBER" description="" filter="INTEGER" type="text" maxlength="3" />
+		<field name="description" label="ZEFANIABIBLE_FIELD_DESCRIPTION" description="" type="editor" maxlength="1000" />
+	</fieldset>
+	<fields name="params">
+		<fieldset name="params">
+		</fieldset>
+	</fields>
+	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+		</fieldset>
+	</fields>
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		</fieldset>
+	</fields>
+</form>

@@ -46,7 +46,7 @@ class ZefaniabibleCredits
 		echo "					<br>";		
 		echo '					Version: '. $version;		
 		echo '				</td>';
-		echo '				<td style="text-align: right; width: 25%;">';
+		echo '				<td style="text-align: right; width: 25%;padding-right:5px;">';
 		echo '					<a href="http://extensions.joomla.org/extensions/living/religion/20470" target="blank">Leave Feedback on the JED</a>';
 		echo "					<br>";
 		echo '					<a href="https://www.facebook.com/ZefaniaBible" target="blank">Follow Us on Facebook</a>';

@@ -1,88 +1,92 @@
 <?php
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniauser
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-require_once(JPATH_ADMIN_ZEFANIABIBLE .DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'jmodel.list.php');
-
+defined("_JEXEC") or die("Restricted access");
 
 /**
- * Zefaniabible Component Zefaniauser Model
+ * List Model for zefaniauser.
  *
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Models
  */
-class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
+class ZefaniabibleModelZefaniauser extends JModelList
 {
-	var $_name_sing = 'zefaniauseritem';
-
-
-
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
-		//Define the sortables fields (in lists)
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
-				'user_name', 'a.user_name',
-				'_bible_version_title', '_bible_version_.bible_name',
-				'_plan_name', '_plan_.name',
-				'send_reading_plan_email', 'a.send_reading_plan_email',
-				'send_verse_of_day_email', 'a.send_verse_of_day_email',
-				'email', 'a.email',				
-				'reading_start_date', 'a.reading_start_date',
-
+				'a.id', 'id',
+				'a.plan','plan',
+				'a.bible_version', 'bible_version',
+				'a.user_name', 'user_name',
+				'a.user_id', 'user_id',
+				'a.email', 'email',
+				'a.send_reading_plan_email','send_reading_plan_email', 
+				'a.send_verse_of_day_email','send_verse_of_day_email',		
+				'a.reading_start_date', 'reading_start_date',
+				'ordering', 'state', 'user_name'
 			);
 		}
-
-		//Define the filterable fields
-		$this->set('filter_vars', array(
-			'send_reading_plan_email' => 'bool',
-			'reading_start_date' => 'string'
-				));
-
-		//Define the filterable fields
-		$this->set('search_vars', array(
-			'search' => 'varchar'
-				));
-
-
-
 		parent::__construct($config);
-
-
 	}
+	
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 */
+	protected function populateState($ordering = 'user_name', $direction = 'ASC')
+	{
+		// Get the Application
+		$app = JFactory::getApplication();
+		
+		// Set filter state for search
+        $search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
+		// Set filter state for send_reading_plan_email
+		$send_reading_plan_email = $this->getUserStateFromRequest($this->context.'.filter.send_reading_plan_email', 'filter_send_reading_plan_email', '');
+		$this->setState('filter.send_reading_plan_email', $send_reading_plan_email);
+				// Set filter state for send_verse_of_day_email
+		$send_verse_of_day_email = $this->getUserStateFromRequest($this->context.'.filter.send_verse_of_day_email', 'filter_send_verse_of_day_email', '');
+		$this->setState('filter.send_verse_of_day_email', $send_verse_of_day_email);
+				// Set filter state for reading_start_date
+		$reading_start_date = $this->getUserStateFromRequest($this->context.'.filter.reading_start_date', 'filter_reading_start_date', '');
+		$this->setState('filter.reading_start_date', $reading_start_date);
+		
+				// Set filter state for plan
+		$plan = $this->getUserStateFromRequest($this->context.'.filter.plan', 'filter_plan', '');
+		$this->setState('filter.plan', $plan);
+				// Set filter state for bible_version
+		$bible_version = $this->getUserStateFromRequest($this->context.'.filter.bible_version', 'filter_bible_version', '');
+		$this->setState('filter.bible_version', $bible_version);			
 
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_zefaniabible');
+		$this->setState('params', $params);
 
-
-
+		// List state information.
+		parent::populateState($ordering, $direction);
+	}
+	
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -90,229 +94,109 @@ class ZefaniabibleModelZefaniauser extends ZefaniabibleModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-
-
-
+		$id .= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
 	}
 
-
-
 	/**
-	 * Method to auto-populate the model state.
+	 * Build an SQL query to load the list data.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  JDatabaseQuery
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function getListQuery()
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
-		// Filter Dropdown Bible Plans
-        $state = $this->getUserStateFromRequest($this->context.'.filter.plan_name', 'filter_plan_name', '', 'string');
-        $this->setState('filter.plan_name', $state);
+		// Get database object
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select('a.*')->from('#__zefaniabible_zefaniauser AS a');				
 		
-		//Filter (dropdown) Bible Version
-        $state = $this->getUserStateFromRequest($this->context.'.filter.bible_name', 'filter_bible_name', '', 'string');
-		$this->setState('filter.bible_name', $state);
-		// Filter (dropdown) Send Reading Plan
-        $state = $this->getUserStateFromRequest($this->context.'.filter.send_reading_plan_email', 'filter_send_reading_plan_email', '', 'string');
-		$this->setState('filter.send_reading_plan_email', $state);		
+
+		// Filter by search
+		$search = $this->getState('filter.search');
+		$s = $db->quote('%'.$db->escape($search, true).'%');
 		
-		// Filter (dropdown) Send Reading Plan
-        $state = $this->getUserStateFromRequest($this->context.'.filter.send_verse_of_day_email', 'filter_send_verse_of_day_email', '', 'string');
-		$this->setState('filter.send_verse_of_day_email', $state);	
-				
-		parent::populateState();
-	}
-
-
-	/**
-	 * Method to build a the query string for the Zefaniauseritem
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function _buildQuery()
-	{
-
-		if (isset($this->_active['predefined']))
-		switch($this->_active['predefined'])
+		if (!empty($search))
 		{
-			case 'default': return $this->_buildQuery_default(); break;
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, strlen('id:')));
+			}
+			elseif (stripos($search, 'user_name:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, strlen('user_name:')), true) . '%');
+				$query->where('(a.user_name LIKE ' . $search);
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('a.user_id LIKE' . $s . ' OR a.email LIKE' . $s . ' OR a.send_reading_plan_email LIKE' . $s . ' OR a.send_verse_of_day_email LIKE' . $s . ' OR a.reading_start_date LIKE' . $s );
+			}
+		}
+		// Filter by send_reading_plan_email
+		$send_reading_plan_email = $this->getState('filter.send_reading_plan_email');
+		if ($send_reading_plan_email != "")
+		{
+			$query->where('a.send_reading_plan_email = ' . $db->quote($db->escape($send_reading_plan_email)));
+		}
 
+		// Filter by send_verse_of_day_email
+		$send_verse_of_day_email = $this->getState('filter.send_verse_of_day_email');
+		if ($send_verse_of_day_email != "")
+		{
+			$query->where('a.send_verse_of_day_email = ' . $db->quote($db->escape($send_verse_of_day_email)));
+		}
+		// Filter by plan
+		$plan = $this->getState('filter.plan');
+		if ($plan != "")
+		{
+			$query->where('a.plan = ' . $db->quote($db->escape($plan)));
+		}
+		// Filter by bible_version
+		$bible_version = $this->getState('filter.bible_version');
+		if ($bible_version != "")
+		{
+			$query->where('a.bible_version = ' . $db->quote($db->escape($bible_version)));
+		}
+		// Filter by reading_start_date
+		$reading_start_date = $this->getState('filter.reading_start_date');
+		if ($reading_start_date != "")
+		{
+			$query->where('a.reading_start_date = ' . $db->quote($db->escape($reading_start_date)));
 		}
 
 
-
-		$query = ' SELECT a.*'
-
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_zefaniauser` AS a '
-
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
-
-
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;
-
+		// Add list oredring and list direction to SQL query
+		$sort = $this->getState('list.ordering', 'user_name');
+		$order = $this->getState('list.direction', 'ASC');
+		$query->order($db->escape($sort).' '.$db->escape($order));
+		
 		return $query;
 	}
-
-	function _buildQuery_default()
-	{
-
-		$query = ' SELECT a.*'
-					.	' , _bible_version_.bible_name AS `_bible_version_title`'
-					.	' , _plan_.name AS `_plan_name`'
-
-			. $this->_buildQuerySelect()
-
-			. ' FROM `#__zefaniabible_zefaniauser` AS a '
-					.	' LEFT JOIN `#__zefaniabible_bible_names` AS _bible_version_ ON _bible_version_.id = a.bible_version'
-					.	' LEFT JOIN `#__zefaniabible_zefaniareading` AS _plan_ ON _plan_.id = a.plan'
-
-			. $this->_buildQueryJoin() . ' '
-
-			. $this->_buildQueryWhere()
-
-
-			. $this->_buildQueryOrderBy()
-			. $this->_buildQueryExtra()
-		;
-
-		return $query;
-	}
-	function _buildQuery_plans()
-	{
-		try 
-		{
-			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('b.name');
-			$query->from('`#__zefaniabible_zefaniareading` AS b');
-			$query->where('b.publish=1');
-			$db->setQuery($query);
-			$data = $db->loadObjectList();				
-		}
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}
-		return $data;	
-	}
-	function _buildQuery_bible_versions()
-	{
-		try 
-		{
-			$db = $this->getDbo();
-			$query  = $db->getQuery(true);
-			$query->select('b.bible_name');
-			$query->from('`#__zefaniabible_bible_names` AS b');
-			$db->setQuery($query);
-			$data = $db->loadObjectList();				
-		}
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}
-		return $data;		
-	}
-
-	function _buildQueryWhere($where = array())
-	{
-		$app = JFactory::getApplication();
-		$db= JFactory::getDBO();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-
-
-		if (isset($this->_active['filter']) && $this->_active['filter'])
-		{
-			$filter_bible_name = $this->getState('filter.bible_name');
-			if ($filter_bible_name != '')		$where[] = "_bible_version_.bible_name = " . $db->Quote($filter_bible_name);
-						
-			$filter_send_reading_plan_email = $this->getState('filter.send_reading_plan_email');
-			if ($filter_send_reading_plan_email != null)		$where[] = "a.send_reading_plan_email = " . $db->Quote($filter_send_reading_plan_email);
-
-			$filter_reading_start_date = $this->getState('filter.reading_start_date');
-			if ($filter_reading_start_date != '')		$where[] = "a.reading_start_date = " . $db->Quote($filter_reading_start_date);
-
-			$filter_plan_name = $this->getState('filter.plan_name');
-			if ($filter_plan_name != '')		$where[] = "_plan_.name = " . $db->Quote($filter_plan_name);	
-
-			$filter_send_verse_of_day_email = $this->getState('filter.send_verse_of_day_email');
-			if ($filter_send_verse_of_day_email != null)		$where[] = "a.send_verse_of_day_email = " . $db->Quote($filter_send_verse_of_day_email);
-		
-			//search_search : search on User Name + Plan + Bible Version + 
-			$search_search = $this->getState('search.search');
-			$this->_addSearch('search', 'a.user_name', 'like');
-			$this->_addSearch('search', 'a.email', 'like');
-
-			if (($search_search != '') && ($search_search_val = $this->_buildSearch('search', $search_search)))
-				$where[] = $search_search_val;
-
-
-		}
-
-
-		return parent::_buildQueryWhere($where);
-	}
-
-	function _buildQueryOrderBy($order = array(), $pre_order = 'a.user_name')
-	{
-
-		return parent::_buildQueryOrderBy($order, $pre_order);
-	}
-
+	
 	/**
-	 * Method to Convert the parameter fields into objects.
+	 * Method to get an array of data items.
 	 *
-	 * @access public
-	 * @return void
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
 	 */
-	protected function populateParams()
+	public function getItems()
 	{
-
-		parent::populateParams();
-		//$acl = ZefaniabibleHelper::getAcl();
-		$mdl_acl = new ZefaniabibleHelper;
-		$acl = $mdl_acl->getAcl();
-		if (!isset($this->_data))
-			return;
-
-		// Convert the parameter fields into objects.
-		foreach ($this->_data as &$item)
-		{
-
-			$item->params->set('access-view', true);
-
-			if ($acl->get('core.edit'))
-				$item->params->set('access-edit', true);
-
-			if ($acl->get('core.delete'))
-				$item->params->set('access-delete', true);
-
-
+		if ($items = parent::getItems()) {
+			//Do any procesing on fields here if needed
 		}
 
+		return $items;
 	}
-
 }
+?>

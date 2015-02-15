@@ -63,51 +63,43 @@ class BibleReadingPlanSingle
 		echo '		<language>'.$doc->getLanguage().'</language>'.PHP_EOL;
 		echo '		<copyright>'.$mainframe->getCfg('sitename').'</copyright>'.PHP_EOL;
 		echo '		<description>'.JText::_('ZEFANIABIBLE_READING_RSS_TITLE_DESC').' "'.$item->str_reading_plan_name.'" '. JText::_('ZEFANIABIBLE_READING_PLAN_DAY').' '. $item->int_day_number. ". ".JText::_($str_desc).'</description>'.PHP_EOL;		
-		foreach($item->arr_plan as $reading)
+		$cnt_reading = count($item->arr_reading);
+		foreach($item->arr_reading as $reading)
 		{
-			$x= 1;
-			$int_len_reading = count($reading);
-			foreach($reading as $plan)
-			{				
-				// add blank line when chapters/reading restarts
-				if($x == 1)
-				{
-					$str_desc .= PHP_EOL;
-				}			
-				
-				$int_begin_verse = 0;
-				$int_end_verse = 0;						
-				if($x >= $int_len_reading)
-				{						
-					$book = $plan->book_id;
-					$chap = $plan->chapter_id;
-					// loop over particular days reading and get verse begin and end values
-					foreach($item->arr_reading as $arr_reading)
-					{
-						if(($arr_reading->begin_chapter == $chap)and($arr_reading->book_id == $book)and($plan->verse_id == $arr_reading->end_verse))
-						{
-							if(($arr_reading->begin_verse != 0)and($arr_reading->end_verse !=0))
-							{
-								$int_begin_verse =$arr_reading->begin_verse;
-								$int_end_verse = $arr_reading->end_verse;
-							}
-						}
-					}						
-					$str_title .= $mdl_common->fnc_make_scripture_title($book, $chap, $int_begin_verse, $chap, $int_end_verse).", ";
-				}
-				$str_desc .= "		 ".strip_tags($plan->verse). PHP_EOL;
-				$x++;
+			$int_book_id 		= $reading->book_id;		
+			$int_begin_verse 	= $reading->begin_verse;
+			$int_end_verse 		= $reading->end_verse;
+			$int_begin_chap 	= $reading->begin_chapter;
+			$int_end_chap 		= $reading->end_chapter;
+			
+			$str_title .= $mdl_common->fnc_make_scripture_title($int_book_id, $int_begin_chap, $int_begin_verse, $int_end_chap, $int_end_verse);
+			if($y < $cnt_reading)
+			{
+				$str_title .= ", ";
 			}
+			// make description
+			foreach($item->arr_plan as $arr_plan)
+			{
+				foreach($arr_plan as $plan)
+				{
+					if(($int_book_id == $plan->book_id)and(($plan->chapter_id >= $int_begin_chap )and($plan->chapter_id<= $int_end_chap)))
+					{
+						if((($int_begin_verse == 0)and($int_end_verse == 0))or(($plan->verse_id >= $int_begin_verse)and($plan->verse_id <= $int_end_verse)))
+						{
+							$str_verse .= $plan->verse.PHP_EOL;
+						}
+					}
+				}
+			}
+			$y++;
 		}
-		$int_len = mb_strlen($str_title);
-		$str_title = mb_substr($str_title, 0, ($int_len-2),'UTF-8');
 		echo '		<item>'.PHP_EOL;
 		echo '		<title>'.$str_title."</title>".PHP_EOL;		
 		echo '		<link>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</link>'.PHP_EOL;	
 		echo '		<guid>'.substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&amp;view=reading&amp;plan=".$item->str_reading_plan."&amp;bible=".$item->str_Bible_Version."&amp;day=".$item->int_day_number.'&amp;Itemid='.$item->str_view_plan).'?ord='.date("mdy").'</guid>'.PHP_EOL;
 		echo '		<pubDate>'.$item->str_today.'</pubDate>'.PHP_EOL;		
 		echo '		<description>';	
-		echo '		'.$str_desc;
+		echo '		'.$str_verse;
 		echo '		</description>'.PHP_EOL;
 		echo '		</item>'.PHP_EOL;	
 		echo '	</channel>'.PHP_EOL;

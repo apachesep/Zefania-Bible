@@ -31,6 +31,7 @@ class plgButtonZefaniabible extends JPlugin
 		 * Use the built-in element view to select the sermon.
 		 * Currently uses blank class for Jooml 2.5 compatibility.
 		 */
+
 		if((strrpos(JURI::base(),'administrator',0) > 0)or(strrpos(JURI::base(),'administrator',0) !=''))
 		{
 			$link = 'index.php?option=com_zefaniabible&amp;view=zefaniamodal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';		 
@@ -53,6 +54,7 @@ class plgButtonZefaniabible extends JPlugin
 		$button->text = JText::_('PLG_EDITORS-XTD_ZEFANIABIBLE_BUTTON_ZEFANIABIBLE');
 		$button->name = 'file-add';
 		$button->options = "{handler: 'iframe', size: {x: 770, y: 550}}";
+
 		return $button;
 	}
 }

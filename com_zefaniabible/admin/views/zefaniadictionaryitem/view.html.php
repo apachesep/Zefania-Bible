@@ -1,151 +1,95 @@
 <?php
-/**                               ______________________________________________
-*                          o O   |                                              |
-*                 (((((  o      <  Generated with Cook           (100% Vitamin) |
-*                ( o o )         |______________________________________________|
-* --------oOOO-----(_)-----OOOo---------------------------------- www.j-cook.pro --- +
-* @version		1.6
-* @package		ZefaniaBible
-* @subpackage	Zefaniabible
-* @copyright	Missionary Church of Grace
-* @author		Andrei Chernyshev - www.missionarychurchofgrace.org - andrei.chernyshev1@gmail.com
-* @license		GNU/GPL
-*
-* /!\  Joomla! is free software.
-* This version may have been modified pursuant to the GNU General Public License,
-* and as distributed it includes or is derivative of works licensed under the
-* GNU General Public License or other free or open source software licenses.
-*
-*             .oooO  Oooo.     See COPYRIGHT.php for copyright notices and details.
-*             (   )  (   )
-* -------------\ (----) /----------------------------------------------------------- +
-*               \_)  (_/
-*/
+/**
+ * @author		Andrei Chernyshev
+ * @copyright	
+ * @license		GNU General Public License version 2 or later
+ */
 
+defined("_JEXEC") or die("Restricted access");
 
-
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
-
-jimport( 'joomla.application.component.view');
+require_once JPATH_COMPONENT.'/helpers/zefaniabible.php';
 
 /**
- * HTML View class for the Zefaniabible component
+ * Zefaniadictionaryitem item view class.
  *
- * @static
- * @package		Joomla
- * @subpackage	Zefaniabible
- *
+ * @package     Zefaniabible
+ * @subpackage  Views
  */
 class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 {
-	function display($tpl = null)
-	{
-		$layout = $this->getLayout();
-		switch($layout)
-		{
-			case 'dictionaryadd':
+	protected $item;
+	protected $form;
+	protected $state;
 
-				$fct = "display_" . $layout;
-				$this->$fct($tpl);
-				break;
+	public function display($tpl = null)
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
+		
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
+			return false;
+		}
+		
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
 		}
 
+		$this->addToolbar();
+		parent::display($tpl);
 	}
-	function display_dictionaryadd($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$option	= JRequest::getCmd('option');
-
-		$user 	= JFactory::getUser();
-
-		//$access = ZefaniabibleHelper::getACL();
-		$mdl_access =  new ZefaniabibleHelper;
-		$access = $mdl_access->getACL();
-
-		$model	= $this->getModel();
-		$model->activeAll();
-		$model->active('predefined', 'dictionaryadd');
-
-		$document	= JFactory::getDocument();
-		$document->title = $document->titlePrefix . JText::_("ZEFANIABIBLE_LAYOUT_ADD_DICTIONARY") . $document->titleSuffix;
-
-
-		//Form validator
-		JHTML::_('behavior.formvalidation');
-
-
-		$lists = array();
-
-		//get the zefaniabibleitem
-		$zefaniadictionaryitem	= $model->getItem();
-		$isNew		= ($zefaniadictionaryitem->id < 1);
-
-		//For security, execute here a redirection if not authorized to enter a form
-		if (($isNew && !$access->get('core.create'))
-		|| (!$isNew && !$zefaniadictionaryitem->params->get('access-edit')))
-		{
-				JError::raiseWarning(403, JText::sprintf( "JERROR_ALERTNOAUTHOR") );
-				ZefaniabibleHelper::redirectBack();
-		}
-
-		//Ordering
-		$orderModel = JModelLegacy::getInstance('Zefaniabible', 'ZefaniabibleModel');
-		$lists["ordering"] = $orderModel->getItems();
-
-		// Toolbar
-		jimport('joomla.html.toolbar');
-		
-		$bar = JToolBar::getInstance('toolbar');
 	
-		if (!$isNew && ($access->get('core.delete') || $zefaniabibleitem->params->get('access-delete')))
-			$bar->appendButton( 'Standard', "delete", "JTOOLBAR_DELETE", "delete", false);
-		if ($access->get('core.edit') || ($isNew && $access->get('core.create') || $access->get('core.edit.own')))
-			$bar->appendButton( 'Standard', "save", "JTOOLBAR_SAVE", "save", false);
-		if ($access->get('core.edit') || $access->get('core.edit.own'))
-			$bar->appendButton( 'Standard', "apply", "JTOOLBAR_APPLY", "apply", false);
-		$bar->appendButton( 'Standard', "cancel", "JTOOLBAR_CANCEL", "cancel", false, false );
-
-		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton( 'Link', 'export', JText::_('ZEFANIABIBLE_FIELD_GET_DICTIONARIES').' 1', 'http://www.biblesupport.com/e-sword-downloads/category/7-dictionaries/');
-		
-		$config	= JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_file_path = '/'.$config->get('xmlDictionaryPath', 'media/com_zefaniabible/dictionary/');
-		
-		jimport( 'joomla.filesystem.folder' );
-		$arr_file_list = JFolder::files('..'.$str_file_path,'.xml');
-
-
-		JRequest::setVar( 'hidemainmenu', true );
-
-		if(ini_get('max_execution_time') < 30)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_EXECUTION_TIME'));
-		}
-		if(!ini_get('allow_url_fopen'))
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_FOPEN'));
-		}
-		if((substr(ini_get('upload_max_filesize'),0,-1))<10)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_FILE_SIZE'));		
-		}
-		if((substr(ini_get('post_max_size'),0,-1))<10)
-		{
-			JError::raiseWarning(1, JText::_('ZEFANIABIBLE_INSTALL_MAX_POST_SIZE'));		
-		}
-
-		$session =  JFactory::getSession();
+	protected function addToolbar()
+	{
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= ZefaniabibleHelper::getActions();
+		$bar 		= JToolBar::getInstance('toolbar');
+		$session 	= JFactory::getSession();
  		jimport('joomla.environment.uri' );
 		$document = JFactory::getDocument();
+				
+		JToolBarHelper::title(JText::_('ZEFANIABIBLE_LAYOUT_ADD_DICTIONARY'));
+
+		if (isset($this->item->checked_out)) {
+		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+        } else {
+            $checkedOut = false;
+        }
+		
+		// If not checked out, can save the item.
+		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create'))))
+		{
+
+//			JToolBarHelper::apply('zefaniadictionaryitem.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('zefaniadictionaryitem.save', 'JTOOLBAR_SAVE');
+		}
+		if (!$checkedOut && ($canDo->get('core.create'))){
+			JToolBarHelper::custom('zefaniadictionaryitem.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+
+		if (empty($this->item->id)) {
+			JToolBarHelper::cancel('zefaniadictionaryitem.cancel', 'JTOOLBAR_CANCEL');
+		}
+		else {
+			JToolBarHelper::cancel('zefaniadictionaryitem.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		$bar->appendButton( 'Link', 'link', JText::_('ZEFANIABIBLE_FIELD_GET_DICTIONARIES').' 1', 'http://www.biblesupport.com/e-sword-downloads/category/7-dictionaries/');
 		
 		$toggle = 'function toggleElement(current, disable) {
+				document.getElementById(disable).disabled = true;
+				document.getElementById(current).disabled = false;			
 				document.getElementById(current + "_icon").className = "btn add-on icon-checkmark";
 				document.getElementById(disable + "_icon").className = "btn add-on icon-cancel";
-				document.getElementById(disable + "_text").disabled = true;
-				document.getElementById(current + "_text").disabled = false;
-		}';
-				
+
+		}';		
 		if($isNew)
 		{
 			$targetURL 	= JURI::root().'administrator/index.php?option=com_zefaniabible&task=zefaniaupload.upload&'.$session->getName().'='.$session->getId().'&'.JSession::getFormToken().'=1&format=json';
@@ -184,7 +128,8 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 								},
 								file_dialog_start_handler : fileDialogStart,
 								file_queued_handler : fileQueued,
-								file_queue_error_handler : fileQueueError,
+								file_queue_error_handler : fileQueueError,
+
 								file_dialog_complete_handler : fileDialogComplete,
 								upload_start_handler : uploadStart,
 								upload_progress_handler : uploadProgress,
@@ -199,7 +144,7 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 										{
 											progress.setComplete();
 											progress.setStatus(data.error);
-											document.id("xml_file_url_text").value = data.path;
+											document.id("jform_xml_file_url").value = data.path;
 										} else 
 										{
 											progress.setError();
@@ -219,26 +164,14 @@ class ZefaniabibleViewZefaniadictionaryitem extends JViewLegacy
 								}
 							}
 						);
-			}';				
+			}';					
 			 
 			//add the javascript to the head of the html document
+			$document->addScriptDeclaration($toggle);
 			$document->addScriptDeclaration($uploader_script);
-		}
-		$document->addScriptDeclaration($toggle);		
-		$str_lang = 'var str_special_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_CHARACTERS').'";';
-		$str_lang = $str_lang.' var str_spaces_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_SPACES').'";';
-		$str_lang = $str_lang.' var str_blank_char = "'.JText::_('COM_ZEFANIABIBLE_VALIDATION_SPECIAL_BLANK').'";';
-		$document->addScriptDeclaration($str_lang);		
 
-		$user = JFactory::getUser();
-		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('zefaniadictionaryitem',		$zefaniadictionaryitem);
-		$this->assignRef('config',		$config);
-		$this->assignRef('isNew',		$isNew);
-		$this->assignRef('arr_file_list', $arr_file_list);
+		}		
 		
-		parent::display($tpl);
 	}
 }
+?>

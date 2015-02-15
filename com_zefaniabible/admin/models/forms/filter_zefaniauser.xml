@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field name="search" type="text" label="COM_ZEFANIABIBLE_FILTER_SEARCH_DESC" hint="JSEARCH_FILTER" />
+		<field name="plan" type="sql" label="ZEFANIABIBLE_JSEARCH_SELECT_PLAN" description="" default="" query="SELECT DISTINCT name, id FROM #__zefaniabible_zefaniareading" key_field="id" value_field="name" onchange="this.form.submit();" >
+			<option value="">ZEFANIABIBLE_JSEARCH_SELECT_PLAN</option>
+		</field>
+		<field name="bible_version" type="sql" label="ZEFANIABIBLE_FIELD_VERSE" description="" default="" query="SELECT DISTINCT id, bible_name FROM #__zefaniabible_bible_names" key_field="id" value_field="bible_name" onchange="this.form.submit();" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SELECT_BIBLE_VERSION</option>
+		</field>		
+		<field name="send_reading_plan_email" type="list" label="COM_ZEFANIABIBLE_ZEFANIAUSER_FIELD_SEND_READING_PLAN_EMAIL_LABEL" description="" default="" onchange="this.form.submit();" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SEND_READING_PLAN_EMAIL</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>			
+		</field>					
+		<field name="send_verse_of_day_email" type="list" label="COM_ZEFANIABIBLE_ZEFANIAUSER_FIELD_SEND_VERSE_OF_DAY_EMAIL_LABEL" description="" default="" onchange="this.form.submit();" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_SEND_VERSE_OF_DAY_EMAIL</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>			
+		</field>					
+		<field name="reading_start_date" type="sql" label="COM_ZEFANIABIBLE_ZEFANIAUSER_FIELD_READING_START_DATE_LABEL" description="" default="" query="SELECT DISTINCT reading_start_date FROM #__zefaniabible_zefaniauser" key_field="reading_start_date" value_field="reading_start_date" onchange="this.form.submit();" >
+			<option value="">ZEFANIABIBLE_FILTER_NULL_READING_START_DATE</option>
+		</field>					
+	</fields>
+	<fields name="list">
+		<field name="fullordering" type="list" label="COM_ZEFANIABIBLE_LIST_FULL_ORDERING" description="COM_ZEFANIABIBLE_LIST_FULL_ORDERING_DESC" onchange="this.form.submit();" default="a.id ASC" >
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.user_name ASC">ZEFANIABIBLE_FIELD_USER_ASC</option>
+			<option value="a.user_name DESC">ZEFANIABIBLE_FIELD_USER_DES</option>
+			<option value="a.plan ASC">ZEFANIABIBLE_FIELD_PLAN_ASC</option>
+			<option value="a.plan DESC">ZEFANIABIBLE_FIELD_PLAN_DES</option>
+			<option value="a.bible_version ASC">ZEFANIABIBLE_FIELD_BIBLE_ASC</option>
+			<option value="a.bible_version DESC">ZEFANIABIBLE_FIELD_BIBLE_DES</option>
+			<option value="a.user_id ASC">ZEFANIABIBLE_FIELD_USER_ID_ASC</option>
+			<option value="a.user_id DESC">ZEFANIABIBLE_FIELD_USER_ID_DES</option>
+			<option value="a.email ASC">ZEFANIABIBLE_FIELD_EMAIL_ASC</option>
+			<option value="a.email DESC">ZEFANIABIBLE_FIELD_EMAIL_DES</option>
+			<option value="a.send_reading_plan_email ASC">ZEFANIABIBLE_FIELD_SEND_READING_ASC</option>
+			<option value="a.send_reading_plan_email DESC">ZEFANIABIBLE_FIELD_SEND_READING_DES</option>
+			<option value="a.send_verse_of_day_email ASC">ZEFANIABIBLE_FIELD_SEND_VERSE_ASC</option>
+			<option value="a.send_verse_of_day_email DESC">ZEFANIABIBLE_FIELD_SEND_VERSE_DES</option>
+			<option value="a.reading_start_date ASC">ZEFANIABIBLE_FIELD_START_DATE_ASC</option>
+			<option value="a.reading_start_date DESC">ZEFANIABIBLE_FIELD_START_DATE_DES</option>			
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			class="inputbox input-mini"
+			default="25"
+			label="COM_ZEFANIABIBLE_LIST_LIMIT"
+			description="COM_ZEFANIABIBLE_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

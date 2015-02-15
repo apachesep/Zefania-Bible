@@ -22,75 +22,6 @@
 */
 
 
-.required {border-left:3px red solid;}
-.ajax-required select{	border-left:3px red solid;}
-.invalid {border-color:red;}
-.filter_buttons{float:right;}
-
-.grid_wrapper th,
-.grid_wrapper td{	text-align:center;}
-
-
-
-
-
-.fieldsform{	background-color:#fff;}
-.fieldsfly{	background-color:#fff;}
-
-
-fieldset.filters label.filter{	display:block;	font-weigth:bold;	font-style:italic;	color:#333;	border-left:solid 2px #444;	padding-left:5px;	margin:0;}
-
-.flt-left{	float:left;}
-.flt-right{	float:right;}
-
-
-
-
-
-/**
-*	AJAX
-*/
-
-/* Chains direction */
-div.ajaxchain-filter,
-div.ajaxchain-wrapper{
-	float:left;  		/* Horizontal */
-/*	margin-left:10px;       Vertical */
-}
-
-/* Ajax separtator */
-div.ajaxchain-filter div.separator{	padding:0; margin:0;	padding-left:10px;	background-image:url(../images/breadcrumb_separator.png);	background-position:left;	background-repeat:no-repeat;}
-
-
-/**
-*	FILTERS & FIELDS
-*/
-
-
-
-/* calendar picker style */
-img.calendar{	margin-top:0;	margin-bottom:-5px;}
-div.filter.datepicker input{	margin-right:-1px;}
-
-
-
-
-/* Field validator */
-.field_message span.message_info{	color:#006600;	font-style:italic;}
-.field_message span.message_incorrect{	color:#FF0000;	font-style:italic;}
-.field_message span.message_required{	color:#FF0000;	font-style:italic;}
-
-
-.validatoricon{	width:16px;	height:16px;	background-position:center;	background-repeat:no-repeat;}
-.validatoricon_incorrect{	background-image:url(../images/incorrect.png);}
-.validatoricon_valid{	background-image:url(../images/valid.png);}
-
-/* Field validator end */
-
-
-
-
-.group_level_1{	text-align:left;	padding-left:10px;	font-size:18px;	font-weight:bold;	background-color:#BBB;}
 
 
 .zef_modal
@@ -130,7 +61,9 @@ div.filter.datepicker input{	margin-right:-1px;}
 .ico-48-zefaniabible_zefaniauser,
 .ico-48-zefaniabible_zefaniaverseofday,
 .ico-48-zefaniabible_zefaniabibledictionaryinfo,
-.ico-48-zefaniabible_cpanel
+.ico-48-zefaniabible_cpanel,
+.ico-48-zefaniabible_publish,
+.ico-48-zefaniabible_references
 {
 	margin:auto;
 	width:48px;
@@ -141,4 +74,118 @@ div.filter.datepicker input{	margin-right:-1px;}
 	alignment-adjust:central;
 	text-align:center;
 }
- 
+.icon-48-zefaniabible 		{ background-image: url('../images/icon-48-zefaniabible.png'); }
+.icon-48-zefaniabible_zefaniabible 		{ background-image: url('../images/icon-48-zefaniabible_zefaniabible.png'); }
+.icon-48-zefaniabible_zefaniacomment 		{ background-image: url('../images/icon-48-zefaniabible_zefaniacomment.png'); }
+.icon-48-zefaniabible_zefaniareading 		{ background-image: url('../images/icon-48-zefaniabible_zefaniareading.png'); }
+.icon-48-zefaniabible_zefaniareadingdetails 		{ background-image: url('../images/icon-48-zefaniabible_zefaniareadingdetails.png'); }
+.icon-48-zefaniabible_zefaniauser 		{ background-image: url('../images/icon-48-zefaniabible_zefaniauser.png'); }
+.icon-48-zefaniabible_zefaniaverseofday 		{ background-image: url('../images/icon-48-zefaniabible_zefaniaverseofday.png'); }
+.icon-48-zefaniabible_zefaniabiblebooknames 		{ background-image: url('../images/icon-48-zefaniabible_zefaniabiblebooknames.png'); }
+.icon-48-zefaniabible_users 		{ background-image: url('../images/icon-48-zefaniabible_users.png'); }
+.icon-48-zefaniabible_viewlevels 		{ background-image: url('../images/icon-48-zefaniabible_viewlevels.png'); }
+
+.ico-48-zefaniabible, .icon-48-zefaniabible {
+	background-image:url('../images/icon-48-zefaniabible.png');
+}
+.ico-48-zefaniabible_biblenames, .icon-48-zefaniabible_biblenames {
+	background-image:url('../images/icon-48-zefaniabible_zefaniabible.png');
+}
+.ico-48-zefaniabible_zefaniacomment, .icon-48-zefaniabible_zefaniacomment {
+	background-image:url('../images/icon-48-zefaniabible_zefaniacomment.png');
+}
+.ico-48-zefaniabible_zefaniareading, .icon-48-zefaniabible_zefaniareading {
+	background-image:url('../images/icon-48-zefaniabible_zefaniareading.png');
+}
+.ico-48-zefaniabible_zefaniareadingdetails, .icon-48-zefaniabible_zefaniareadingdetails {
+	background-image:url('../images/icon-48-zefaniabible_zefaniareadingdetails.png');
+}
+.ico-48-zefaniabible_zefaniauser, .icon-48-zefaniabible_zefaniauser {
+	background-image:url('../images/icon-48-zefaniabible_zefaniauser.png');
+}
+.ico-48-zefaniabible_zefaniaverseofday, .icon-48-zefaniabible_zefaniaverseofday {
+	background-image:url('../images/icon-48-zefaniabible_zefaniaverseofday.png');
+}
+.ico-48-zefaniabible_zefaniabibledictionaryinfo, .icon-48-zefaniabible_zefaniabibledictionaryinfo {
+	background-image:url('../images/icon-48-zefaniabible_zefaniabibledictionaryinfo.png');
+}
+.ico-48-zefaniabible_cpanel, .icon-48-zefaniabible_cpanel {
+	background-image:url('../images/icon-48-zefaniabible_cpanel.png');
+}
+.ico-48-zefaniabible_references
+{
+	background-image:url('../images/icon-48-zefaniabible_references.png');
+}
+.ico-48-zefaniabible_publish
+{
+	background-image:url('../images/icon-48-zefaniabible_publish.png');
+}
+.cpanel div.button
+{
+	text-align: center;
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 15px;
+}
+.cpanel div.button a
+{
+	background-color: #fff;
+	background-position: -30px;
+	display: block;
+	float: left;
+	color: #565656;
+	vertical-align: middle;
+	text-decoration: none;
+	border: 1px solid #CCC;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition-property:
+		background-position,
+		-webkit-border-bottom-left-radius,
+		-webkit-box-shadow;
+	-moz-transition-property:
+		background-position,
+		-moz-border-radius-bottomleft,
+		-moz-box-shadow;
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+}
+
+.cpanel div.button a:hover,
+.cpanel div.button a:focus,
+.cpanel div.button a:active {
+	background-position: 0;
+	-webkit-border-bottom-left-radius: 50% 20px;
+	-moz-border-radius-bottomleft: 50% 20px;
+	border-bottom-left-radius: 50% 20px;
+	-webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	position: relative;
+	z-index: 10;
+}
+.cpanel img {
+	padding: 10px 0;
+	margin: 0 auto;
+}
+.cpanel span {
+	display: block;
+	text-align: center;
+}
+
+div.cpanel-left {
+	width: 54%;
+	float: left;
+}
+
+div.cpanel-right {
+	width: 45%;
+	float: right;
+}
+.ico-disabled
+{
+	opacity: 0.3;
+    filter: Alpha(opacity=30); /* IE8 and earlier */	
+}
