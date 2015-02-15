@@ -32,8 +32,14 @@ class plgButtonZefaniabible extends JPlugin
 		 * Currently uses blank class for Jooml 2.5 compatibility.
 		 */
 
-		$link = 'index.php?option=com_zefaniabible&amp;view=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
-		
+		if((strrpos(JURI::base(),'administrator',0) > 0)or(strrpos(JURI::base(),'administrator',0) !=''))
+		{
+			$link = 'index.php?option=com_zefaniabible&amp;view=zefaniamodal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';		 
+		}
+		else
+		{
+			$link = 'index.php?option=com_zefaniabible&amp;view=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
+		}
 		JHtml::_('jquery.ui');
 		JHTML::_('behavior.modal');
 		JHtml::_('bootstrap.tooltip');
@@ -48,6 +54,7 @@ class plgButtonZefaniabible extends JPlugin
 		$button->text = JText::_('PLG_EDITORS-XTD_ZEFANIABIBLE_BUTTON_ZEFANIABIBLE');
 		$button->name = 'file-add';
 		$button->options = "{handler: 'iframe', size: {x: 770, y: 550}}";
+
 		return $button;
 	}
 }
