@@ -121,8 +121,10 @@ JHTML::stylesheet('verse.css', 'modules/mod_verseoftheday/css/');
 		$item->str_scripture = stripslashes(strip_tags(trim($str_verse_rss->entry->title)));
 		$item->str_verse = stripslashes(strip_tags(trim($str_verse_rss->entry->content)));
 	}
-	$item->str_title_wrapper = '<div class="zef_verse_of_day_header">'.$item->str_scripture."</div>";
-	$item->str_verse_wrapper = '<div class="zef_verse_of_day_verse">'.trim($item->str_verse).'</div>';
+
+	$item->str_title_wrapper = $item->str_scripture;
+	$item->str_verse_wrapper = trim($item->str_verse);
+
 			
 	$item->str_verse_output = str_replace('{link}','<a href="'.$item->str_url.'" target="_self" rel="nofollow" id="zef_links" title="'.JText::_('MOD_ZEFANIABIBLE_VERSE_OF_THE_DAY_BIBLE_LINK_DESC').'">',$item->str_custom_html);
 	$item->str_verse_output = str_replace('{/link}','</a>',$item->str_verse_output);
