@@ -368,12 +368,15 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 	}	
 	protected function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
 	{
+		$app = JFactory::getApplication();
+		jimport( 'joomla.filesystem.folder' );		
+		
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
-		
+		$str_xml_bibles_path =JPATH_SITE.$str_bible_xml_file_url;	
+
 		// check if file exists
-		if(!get_headers($str_xml_bibles_path))
+		if(JFile::exists($str_xml_bibles_path) != true)
 		{
 			JError::raiseWarning('',str_replace('%s',$str_xml_bibles_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
 		}
