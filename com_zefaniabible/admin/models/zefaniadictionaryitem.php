@@ -364,7 +364,8 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 		jimport( 'joomla.filesystem.folder' );		
-				
+		jimport('joomla.filesystem.file');
+		
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_xml_bibles_path = JPATH_SITE.$str_bible_xml_file_url;	

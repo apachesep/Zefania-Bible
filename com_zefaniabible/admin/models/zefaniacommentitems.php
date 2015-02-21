@@ -355,6 +355,7 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 	{ 		
 		$app = JFactory::getApplication();
 		jimport( 'joomla.filesystem.folder' );		
+		jimport('joomla.filesystem.file');
 		
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_path_commentary_folder	= $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
