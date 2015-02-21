@@ -65,7 +65,7 @@ class PlanRss
 			echo 		$item->str_description;
 			echo '</description>'.PHP_EOL;
 			$x = 0;
-			print_r($item->arr_reading);
+			
 			foreach ($item->arr_reading as $obj_plan_info)
 			{
 				$str_link = substr(JURI::base(),0, -1).JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$obj_plan_info->day_number.'&Itemid='.$item->str_view_plan, false);
