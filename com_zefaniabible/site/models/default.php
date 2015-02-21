@@ -116,6 +116,28 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}
+	public function fnc_next_auto_increment()
+	{
+		try 
+		{		
+			$db = $this->getDbo();
+			//$query  = $db->getQuery(true);
+			 
+			//$query->select('Max(id)');
+			//$query->from('c');	
+			//$query = "SHOW TABLE STATUS LIKE '#__zefaniabible_bible_names'";
+				$query = "SELECT AUTO_INCREMENT AS id FROM information_schema.tables WHERE table_name= `#__zefaniabible_bible_names`";
+			$db->setQuery($query);
+			echo $query;
+			$data = $db->loadResult();
+			echo $data;
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;			
+	}
 	public function fnc_make_verse($str_Bible_Version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse)
 	{
 		// Make a scripture verse, returns an array object
@@ -982,7 +1004,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $arr_data;		
-	}	
+	}
 	function _get_pagination_verseofday()
 	{
 		try 
@@ -1225,7 +1247,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;		
-	}		
+	}
 	function _buildQuery_InsertUser($item)
 	{
 		try 
