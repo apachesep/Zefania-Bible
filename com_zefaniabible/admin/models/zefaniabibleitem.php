@@ -370,6 +370,7 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 		jimport( 'joomla.filesystem.folder' );		
+		jimport('joomla.filesystem.file');
 		
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
