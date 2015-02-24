@@ -96,7 +96,8 @@ class ZefaniabibleViewPlan extends JViewLegacy
 		$item->flg_show_credit 					= 	$params->get('show_credit','0');
 		$item->str_default_image 				= 	$params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
-		
+		$item->flg_show_ical 					= 	$params->get('flg_show_ical', '1');
+
 		$item->str_Bible_Version 				= 	$jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->str_reading_plan 				= 	$jinput->get('plan', $item->str_primary_reading,'CMD');	
 		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');

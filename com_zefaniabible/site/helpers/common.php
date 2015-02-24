@@ -961,7 +961,7 @@ class ZefaniabibleCommonHelper
 	}
 	public function fnc_create_comentary_link($item, $int_book_id, $int_chapter_id, $int_verse_id, $int_cnt_chap)
 	{
-		$str_output = '';
+		$str_output = '';
 		$str_output .=  '<div class="zef_commentary_hash">';
 		foreach ($item->arr_commentary[($int_cnt_chap-1)] as $arr_chapter)
 		{

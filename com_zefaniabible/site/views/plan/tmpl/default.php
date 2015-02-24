@@ -26,9 +26,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
 	<div id="zef_Bible_Main">
     	<div class="zef_legend">
+        	<?php if($this->item->flg_show_ical){?>
+	            <div class="zef_reading_ical">
+					<a title="<?php echo JText::_('ZEFANIABIBLE_ICAL_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version).'?variant=ical';?>" target="_blank" rel="nofollow" >
+                    	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/ical.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_ICAL_BUTTON_TITLE'); ?>" />
+                    </a>                
+                </div>
+            <?php }?>
 			<?php if($this->item->flg_reading_rss_button){?>
 		        <div class="zef_reading_rss">
-                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version.'&start='.$this->pagination->limitstart.'&items='.$this->pagination->limit.'&type=rss');?>" target="_blank" rel="nofollow" >
+                	<a title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=planrss&format=raw&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version.'&start='.$this->pagination->limitstart.'&items='.$this->pagination->limit.'&variant=rss');?>" target="_blank" rel="nofollow" >
                     	<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
                     </a>
 				</div>                
