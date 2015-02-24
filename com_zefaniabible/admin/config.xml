@@ -168,6 +168,10 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
+		<field name="flg_show_ical" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_SHOW_ICAL" description="COM_ZEFANIABIBLE_SHOW_ICAL_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>		
 
 		<field type="spacer" name="myspacer3" hr="true" />				
 		<field name="show_credit" type="radio" class="btn-group" default="1" label="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT" description="COM_ZEFANIABIBLE_FIELD_DEVELOPER_CREDIT_DESC">
