@@ -100,8 +100,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		JHTML::_('behavior.modal');
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('bootstrap.popover');		
-		$this->document->addStyleSheet(JURI::base(true).'plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
-		$this->document->addScript(JURI::base(true).'plugins/content/zefaniascripturelinks/zefaniascripturelinks.js');		
+		$this->document->addStyleSheet(JURI::base(true).'/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
+		$this->document->addScript(JURI::base(true).'/plugins/content/zefaniascripturelinks/zefaniascripturelinks.js');		
 		
 		if($this->str_default_alias == '')
 		{
