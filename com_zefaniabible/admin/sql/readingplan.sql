@@ -48,7 +48,7 @@ INSERT INTO `#__zefaniabible_zefaniareading` (`id`, `params`, `name`, `alias`, `
 (6, '', 'Chronological Reading Plan (61 days)', 'c61', 'COM_ZEFANIABIBLE_CHRON_MSG', 6, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-08 12:29:59', 0, 1, 'all-ALL', '', '', ''),
 (7, '', 'Old/New Testament Plan (365 days)', 'otnt365', 'COM_ZEFANIABIBLE_OLD_NEW_TEST_MSG', 7, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-09 13:07:34', 0, 1, 'all-ALL', '', '', ''),
 (8, '', 'Old Testament Plan (282 days)', 'ot282', 'COM_ZEFANIABIBLE_OLD_TEST_MSG', 8, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-09 13:07:20', 0, 1, 'all-ALL', '', '', ''),
-(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-09 13:07:40', 0, 1, 'all-ALL', '', '', '');
+(9, '', 'Proverbs (31 days)', 'prov31', 'COM_ZEFANIABIBLE_PROV_MSG', 9, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-09 13:07:40', 0, 1, 'all-ALL', '', '', ''),
 (10, '', 'Slavic Youth Congress Reading Plan', 'SYC', 'COM_ZEFANIABIBLE_SYC2015_MSG', 10, 1, 0, '2015-01-01 00:00:00', '2015-01-01 00:00:00', 0, '2015-01-09 13:07:40', 0, 1, 'all-ALL', '', '', '');
 
 INSERT INTO `#__zefaniabible_zefaniareadingdetails` (`id`, `params`, `plan`, `book_id`, `begin_chapter`, `begin_verse`, `end_chapter`, `end_verse`, `day_number`, `description`, `ordering`) VALUES
