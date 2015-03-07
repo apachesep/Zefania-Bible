@@ -391,7 +391,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 						$this->fnc_Update_Bible_Verses(
 							$int_max_ids,
 							$arr_dictionary_item['id'],
-							strip_tags($obj_description->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
+							strip_tags(html_entity_decode($obj_description->asXML()),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
 							);
 							$x++;
 					}
