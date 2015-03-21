@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="ZEFANIABIBLE_LAYOUT_CALENDAR">
+		<message><![CDATA[ZEFANIABIBLE_LAYOUT_CALENDAR_LAYOUT]]></message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field name="bible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name"/>
+			<field name="plan" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN" description="COM_ZEFANIABIBLE_PRIMARY_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name" />			
+		</fieldset>
+	</fields>
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+	
+	</fields>	
+</metadata>
