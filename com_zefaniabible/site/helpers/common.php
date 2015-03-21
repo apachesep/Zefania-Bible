@@ -390,21 +390,21 @@ class ZefaniabibleCommonHelper
 	public function fnc_bible_book_dropdown($item)
 	{
 		$obj_Book_Dropdown = '';
-		$obj_Book_Dropdown .= '<optgroup id="oldTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_OLD_TEST').'">';
+		$obj_Book_Dropdown .= '<optgroup id="oldTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_OLD_TEST').'">'.PHP_EOL;
 		
 		for($x = 1; $x <=66; $x++)
 		{
 			if($item->int_Bible_Book_ID == $x)
 			{
-				$obj_Book_Dropdown .= '<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" selected>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;						
+				$obj_Book_Dropdown .= '		<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" selected>'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;						
 			}
 			else
 			{
-				$obj_Book_Dropdown .= '<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;				
+				$obj_Book_Dropdown .= '		<option value="'.$x."-".strtolower(str_replace(" ","-",$item->arr_english_book_names[$x])).'" >'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$x).'</option>'.PHP_EOL;				
 			}
 			if($x == 39)
 			{
-				$obj_Book_Dropdown .= '</optgroup><optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">';
+				$obj_Book_Dropdown .= '</optgroup>'.PHP_EOL.'<optgroup id="newTest" label="'.JText::_('ZEFANIABIBLE_BIBLE_NEW_TEST').'">'.PHP_EOL;
 			}
 		}
 		$obj_Book_Dropdown .= '</optgroup>';
@@ -417,11 +417,11 @@ class ZefaniabibleCommonHelper
 		{
 			if($x == $item->int_Bible_Chapter)
 			{
-				$obj_Chap_Dropdown .= '<option value="'.$x.'-chapter" selected="selected">'.$x.'</option>'.PHP_EOL;
+				$obj_Chap_Dropdown .= '		<option value="'.$x.'-chapter" selected="selected">'.$x.'</option>'.PHP_EOL;
 			}
 			else
 			{
-				$obj_Chap_Dropdown .= '<option value="'.$x.'-chapter">'.$x.'</option>'.PHP_EOL;
+				$obj_Chap_Dropdown .= '		<option value="'.$x.'-chapter">'.$x.'</option>'.PHP_EOL;
 			}
 		}
 		return $obj_Chap_Dropdown;
@@ -438,11 +438,11 @@ class ZefaniabibleCommonHelper
 			}	
 			if($str_Bible_Version == $obj_Bible->alias)
 			{
-				$obj_Bible_Dropdown .= '<option value="'.$obj_Bible->alias.'" selected>'.$obj_Bible->bible_name.'</option>'.PHP_EOL;
+				$obj_Bible_Dropdown .= '		<option value="'.$obj_Bible->alias.'" selected>'.$obj_Bible->bible_name.'</option>'.PHP_EOL;
 			}
 			else
 			{
-				$obj_Bible_Dropdown .= '<option value="'.$obj_Bible->alias.'" >'.$obj_Bible->bible_name.'</option>'.PHP_EOL;
+				$obj_Bible_Dropdown .= '		<option value="'.$obj_Bible->alias.'" >'.$obj_Bible->bible_name.'</option>'.PHP_EOL;
 			}
 		}	
 		return $obj_Bible_Dropdown;	
@@ -458,11 +458,11 @@ class ZefaniabibleCommonHelper
 			}
 			if($item->str_commentary == $obj_comm_list->alias)
 			{
-				$obj_commentary_dropdown .= '<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>'.PHP_EOL;
+				$obj_commentary_dropdown .= '			<option value="'.$obj_comm_list->alias.'" selected>'.$obj_comm_list->title.'</option>'.PHP_EOL;
 			}
 			else
 			{
-				$obj_commentary_dropdown .= '<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>'.PHP_EOL;
+				$obj_commentary_dropdown .= '			<option value="'.$obj_comm_list->alias.'">'.$obj_comm_list->title.'</option>'.PHP_EOL;
 			}
 		}
 		return $obj_commentary_dropdown;
@@ -474,11 +474,11 @@ class ZefaniabibleCommonHelper
 		{
 			if($item->str_reading_plan == $readingplan->alias)
 			{
-				$str_dropdown .= '<option value="'.$readingplan->alias.'" selected>'.$readingplan->name.'</option>';
+				$str_dropdown .= '			<option value="'.$readingplan->alias.'" selected>'.$readingplan->name.'</option>'.PHP_EOL;
 			}
 			else
 			{
-				$str_dropdown .= '<option value="'.$readingplan->alias.'" >'.$readingplan->name.'</option>';
+				$str_dropdown .= '			<option value="'.$readingplan->alias.'" >'.$readingplan->name.'</option>'.PHP_EOL;
 			}
 		}
 		return $str_dropdown;		
@@ -723,6 +723,22 @@ class ZefaniabibleCommonHelper
 		}
 		return $int_verse_remainder;
 	}
+	public function fnc_calcualte_day_diff_custom($str_start_reading_date, $int_max_days, $int_month, $int_year, $int_day)
+	{
+		// time zone offset.
+ 		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate($int_year.'-'.$int_month.'-'.$int_day, new DateTimeZone($config->get('offset')));
+		$str_today = $JDate->format('Y-m-d', true);
+		$arr_today = new DateTime($str_today);	
+		$arr_start_date = new DateTime($str_start_reading_date);	
+		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
+		$int_verse_remainder = $int_day_diff % $int_max_days;
+		if($int_verse_remainder == 0)
+		{
+			$int_verse_remainder = $int_max_days;
+		}
+		return $int_verse_remainder;
+	}	
 	public function fnc_output_reading_plan($item)
 	{
 			$book = 0;
@@ -961,7 +977,8 @@ class ZefaniabibleCommonHelper
 	}
 	public function fnc_create_comentary_link($item, $int_book_id, $int_chapter_id, $int_verse_id, $int_cnt_chap)
 	{
-		$str_output = '';
+		$str_output = '';
+
 		$str_output .=  '<div class="zef_commentary_hash">';
 		foreach ($item->arr_commentary[($int_cnt_chap-1)] as $arr_chapter)
 		{
@@ -1364,5 +1381,102 @@ class ZefaniabibleCommonHelper
 		}
 		return $str_title;
 	}
+	public function fnc_make_scripture_title_abbrev($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse )
+	{
+		$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_ABR_'.$int_book_id);
+		switch(true)
+		{
+			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter."-".$int_end_chapter;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter != $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_chapter.":".$int_end_verse;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
+				break;
+			case (($int_begin_verse != 0)and($int_end_verse == 0)and($int_begin_chapter == $int_end_chapter)):				
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse;
+				break;
+			default;
+				$str_title .= " ".$int_begin_chapter;
+				break;
+		}
+		return $str_title;
+	}
+	public function fnc_get_month_name($int_month)
+	{
+		switch($int_month)
+		{
+			case 1:
+				$str_month_name = JText::_('JANUARY');
+				break;
+			case 2:
+				$str_month_name = JText::_('FEBRUARY');
+				break;				
+			case 3:
+				$str_month_name = JText::_('MARCH');
+				break;				
+			case 4:
+				$str_month_name = JText::_('APRIL');
+				break;				
+			case 5:
+				$str_month_name = JText::_('MAY');
+				break;				
+			case 6:
+				$str_month_name = JText::_('JUNE');
+				break;
+			case 7:
+				$str_month_name = JText::_('JULY');
+				break;				
+			case 8:
+				$str_month_name = JText::_('AUGUST');
+				break;				
+			case 9:
+				$str_month_name = JText::_('SEPTEMBER');
+				break;				
+			case 10:
+				$str_month_name = JText::_('OCTOBER');
+				break;				
+			case 11:
+				$str_month_name = JText::_('NOVEMBER');
+				break;				
+			case 0:
+			default:
+				$str_month_name = JText::_('DECEMBER');
+				break;	
+		}
+		return $str_month_name;
+	}
+	public function fnc_get_day_name($int_day)
+	{
+		$str_day_name ='';
+		switch($int_day)
+		{
+			case 1:
+				$str_day_name =  JText::_('MONDAY');
+				break;
+			case 2:
+				$str_day_name =  JText::_('TUESDAY');			
+				break;
+			case 3:
+				$str_day_name =  JText::_('WEDNESDAY');			
+				break;
+			case 4:
+				$str_day_name =  JText::_('THURSDAY');			
+				break;
+			case 5:
+				$str_day_name =  JText::_('FRIDAY');			
+				break;
+			case 6:
+				$str_day_name =  JText::_('SATURDAY');			
+				break;
+			case 0:
+			default:			
+				$str_day_name =  JText::_('SUNDAY');
+				break;
+		}
+		return $str_day_name;
+	}	
 }
 ?>
