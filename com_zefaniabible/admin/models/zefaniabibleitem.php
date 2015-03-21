@@ -397,7 +397,7 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 							$arr_bible_book['bnumber'],
 							$arr_bible_chapter['cnumber'],
 							$arr_bible_verse['vnumber'],
-							strip_tags($arr_bible_verse->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
+							strip_tags(html_entity_decode($arr_bible_verse->asXML()),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
 							);
 							$x++;
 					}
