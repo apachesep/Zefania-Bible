@@ -746,6 +746,7 @@ class ZefaniabibleModelDefault extends JModelItem
 		catch (JException $e)
 		{
 			$this->setError($e);
+
 		}
 		return $data;
 	}	
@@ -1080,6 +1081,34 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;
+	}
+	function _buildQuery_readingplan_calendar($alias, $int_start_day, $int_days)
+	{
+		try 
+		{
+			$db = $this->getDbo();
+			$query  = $db->getQuery(true);
+			$alias 			= $db->quote($alias);
+			$limitstart		= $db->quote($int_start_day);
+			$limit 			= $db->quote($int_start_day + $int_days);
+			$query->select('plan.book_id, plan.begin_chapter, plan.begin_verse, plan.end_chapter, plan.end_verse, plan.day_number');
+			$query->from('`#__zefaniabible_zefaniareading` AS reading');
+			$query->innerJoin("`#__zefaniabible_zefaniareadingdetails` AS plan ON reading.id = plan.plan");
+			$query->where("reading.alias=".$alias);
+			$query->where("plan.day_number > ".$limitstart);
+			$query->where("plan.day_number <=".$limit);
+			$query->order('plan.day_number');
+			$query->order('plan.book_id');
+			$query->order('plan.begin_chapter');
+			
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
 	}
 	function _buildQuery_readingplan_overview($alias, $pagination)
 	{
