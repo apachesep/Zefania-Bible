@@ -7,7 +7,7 @@
 	<authorUrl><![CDATA[www.zefaniabible.com]]></authorUrl>
 	<copyright><![CDATA[Missionary Church of Grace]]></copyright>
 	<license><![CDATA[GNU/GPL]]></license>
-	<version><![CDATA[4.0.3]]></version>
+	<version><![CDATA[4.1.0]]></version>
 	<description>COM_ZEFANIABIBLE_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 	<install>
