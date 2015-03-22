@@ -63,21 +63,44 @@ class CalendarViewDefault
 		echo '		</select>'.PHP_EOL;
 		echo '	</div>'.PHP_EOL;
 		echo '	<div style="clear:both"></div>  '.PHP_EOL;
-					
-		echo '	<div class="zef_bible_label">'. JText::_('ZEFANIABIBLE_BIBLE_VERSION').'</div>'.PHP_EOL;
-		echo '	<div class="zef_bible">'.PHP_EOL;
-		echo '		<select name="bible" id="bible" class="inputbox" onchange="this.form.submit()">'.PHP_EOL;
-		echo		$item->obj_bible_Bible_dropdown;
-		echo '		</select>'.PHP_EOL;
-		echo '	</div>'.PHP_EOL;
-		echo '	<div style="clear:both"></div>'.PHP_EOL;
+		if($item->flg_use_bible_selection)
+		{
+			echo '	<div class="zef_bible_label">'. JText::_('ZEFANIABIBLE_BIBLE_VERSION').'</div>'.PHP_EOL;
+			echo '	<div class="zef_bible">'.PHP_EOL;
+			echo '		<select name="bible" id="bible" class="inputbox" onchange="this.form.submit()">'.PHP_EOL;
+			echo		$item->obj_bible_Bible_dropdown;
+			echo '		</select>'.PHP_EOL;
+			echo '	</div>'.PHP_EOL;
+			echo '	<div style="clear:both"></div>'.PHP_EOL;
+		}else{
+			echo '<input type="hidden" name="bible" value="'.$item->str_Bible_Version.'" />';
+		}
 		echo '</div>'.PHP_EOL;
 		
 		echo '<div class="zef_calendar">'.PHP_EOL;
 		echo '	<div class="zef_calendar_month_header">'.PHP_EOL;
-		echo '		<div class="zef_calendar_month_prev"><a href="'.$str_redirect_prev_url.'">'.$mdl_common->fnc_get_month_name($int_month_prev).'</a></div>'.PHP_EOL;
-		echo '		<div class="zef_calendar_month_name">'.$mdl_common->fnc_get_month_name($item->int_month).' '.$item->int_year.'</div>'.PHP_EOL;
-		echo '		<div class="zef_calendar_month_next"><a href="'.$str_redirect_next_url.'">'.$mdl_common->fnc_get_month_name($int_month_next).'</a></div>'.PHP_EOL;	
+		if($item->flg_show_page_top)
+		{
+			if($item->flg_show_pagination_type == 1)
+			{
+				echo '		<div class="zef_calendar_month_prev"><a href="'.$str_redirect_prev_url.'">'.$mdl_common->fnc_get_month_name($int_month_prev).'</a></div>'.PHP_EOL;
+				echo '		<div class="zef_calendar_month_name">'.$mdl_common->fnc_get_month_name($item->int_month).' '.$item->int_year.'</div>'.PHP_EOL;
+				echo '		<div class="zef_calendar_month_next"><a href="'.$str_redirect_next_url.'">'.$mdl_common->fnc_get_month_name($int_month_next).'</a></div>'.PHP_EOL;				
+			}
+			else
+			{
+				$urlPrepend = "document.location.href=('";
+				$urlPostpend = "')";				
+				echo '		<div class="zef_calendar_month_prev"><input title="'.$mdl_common->fnc_get_month_name($int_month_prev).'" type="button" id="zef_Buttons" class="zef_lastChapter" name="lastChapter" onclick="'.$urlPrepend.$str_redirect_prev_url.$urlPostpend.'"  value="'. $mdl_common->fnc_get_month_name($int_month_prev).'" /></div>';
+				echo '		<div class="zef_calendar_month_name">'.$mdl_common->fnc_get_month_name($item->int_month).' '.$item->int_year.'</div>'.PHP_EOL;
+				echo '		<div class="zef_calendar_month_next"><input title="'.$mdl_common->fnc_get_month_name($int_month_next).'" type="button" id="zef_Buttons" class="zef_lastChapter" name="lastChapter" onclick="'.$urlPrepend.$str_redirect_next_url.$urlPostpend.'"  value="'. $mdl_common->fnc_get_month_name($int_month_next).'" /></div>';
+				
+			}
+		}else{
+			echo '		<div class="zef_calendar_month_prev"></div>'.PHP_EOL;			
+			echo '		<div class="zef_calendar_month_name">'.$mdl_common->fnc_get_month_name($item->int_month).' '.$item->int_year.'</div>'.PHP_EOL;
+			echo '		<div class="zef_calendar_month_next"></div>'.PHP_EOL;
+		}
 		echo '		<div style="clear:both"></div>'.PHP_EOL;	
 		echo '	</div>'.PHP_EOL;
 		
@@ -99,18 +122,27 @@ class CalendarViewDefault
 				if(((($z == 0)and($x >= $item->int_month_begin_weekday))or($z > 0))and($y <= $item->int_month_max_days))
 				{
 					$t=1;
-					echo '			<div class="zef_calendar_day">'.$y.'<br><div class="zef_calendar_reading">';
+					echo '			<div class="zef_calendar_day';
+					if($x ==6)
+					{
+						echo ' zef_calendar_sat';	
+					}
+					if($z == $int_calendar_rows -1 )
+					{
+						echo ' zef_calendar_last_row';
+					}					
+					echo '">'.$y.'<br><div class="zef_calendar_reading">';
 					foreach($item->arr_reading as $arr_reading)
 					{
 						if($arr_reading->day_number == ($item->int_day_diff+$y))
 						{
-							echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
-							echo $mdl_common->fnc_make_scripture_title_abbrev(
+							echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
+							echo $mdl_common->fnc_make_scripture_title(
 									$arr_reading->book_id,  
 									$arr_reading->begin_chapter, 
 									$arr_reading->begin_verse, 
 									$arr_reading->end_chapter, 
-									$arr_reading->end_verse );
+									$arr_reading->end_verse, 1 );
 							echo '</a></div>';
 							$t++;
 						}
@@ -122,13 +154,13 @@ class CalendarViewDefault
 						{
 							if($arr_reading->day_number == $y - ($item->int_month_max_days - $int_new_reading_days))
 							{
-								echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
-								echo $mdl_common->fnc_make_scripture_title_abbrev(
+								echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
+								echo $mdl_common->fnc_make_scripture_title(
 										$arr_reading->book_id,  
 										$arr_reading->begin_chapter, 
 										$arr_reading->begin_verse, 
 										$arr_reading->end_chapter, 
-										$arr_reading->end_verse );
+										$arr_reading->end_verse, 1 );
 								echo '</a></div>';
 								$t++;
 							}						
@@ -139,7 +171,16 @@ class CalendarViewDefault
 				}
 				else
 				{
-					echo '<div class="zef_calendar_day_empty"></div>'.PHP_EOL;	
+					echo '			<div class="zef_calendar_day_empty';
+					if($x ==6)
+					{
+						echo ' zef_calendar_sat';	
+					}
+					if($z == $int_calendar_rows -1 )
+					{
+						echo ' zef_calendar_last_row';
+					}
+					echo '" style="background-color:'.$item->str_calendar_emptyday_color.'"></div>'.PHP_EOL;	
 				}
 				
 			}
@@ -157,4 +198,23 @@ class CalendarViewDefault
 	}
 	
 }
-?>             
+?>       
+                <div class="zef_footer">
+                    <div class="zef_bot_pagination">
+                        <?php if(($this->item->flg_show_credit)or($this->item->int_menu_item_id == 0 ))
+                        { 
+                            require_once(JPATH_COMPONENT_SITE.'/helpers/credits.php');
+                            $mdl_credits = new ZefaniabibleCredits;
+                            $obj_player_one = $mdl_credits->fnc_credits();
+                        } ?>      
+                    </div>  
+                </div>
+                        
+        <?php 
+            if($this->item->flg_enable_debug == 1)
+            {
+                echo '<!--';
+                print_r($item);
+                echo '-->';
+            }
+        ?>  
