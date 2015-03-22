@@ -288,7 +288,7 @@
 .zef_calendar_day, .zef_calendar_day_empty
 {
 	float:left;
-	height:150px;
+	height:125px;
 	min-height:75px;
 	width:14%;
 	border-width:1px;
@@ -296,7 +296,6 @@
 	border-color:#000;
 	border-right:none;
 	border-bottom:none;
-	border-top:none;
 }
 .zef_calendar_day_names
 {
@@ -317,37 +316,13 @@
 {
 	width:50%;
 }
-.zef_calendar_week
-{
-	border-width:1px;
-	border-style: solid;
-	border-color:#000;
-	border-left:none;
-	border-bottom:none;
-}
 .zef_calendar_day_names
 {
 	text-align:center;	
 }
-.zef_calendar_graph
-{
-	border-width:1px;
-	border-style: solid;
-	border-color:#000;
-	border-left:none;	
-	border-top:none;	
-}
-.zef_calendar_reading
-{
-	margin-left:10px;	
-}
-.zef_calendar_day_empty
-{
-	background-color:#CCCCCC;
-}
+
 .zef_calendar_link
 {
-	background-color:#00FFCC;
 	border-width:1px;
 	border-style: solid;
 	border-color:#000;
@@ -361,4 +336,14 @@
 .zef_calendar_link_div
 {
 	padding-bottom:7px;	
+	float:left;
+	padding-left:7px;
+}
+.zef_calendar_sat
+{
+	border-right:1px solid;
+}
+.zef_calendar_last_row
+{
+	border-bottom:1px solid;
 }
