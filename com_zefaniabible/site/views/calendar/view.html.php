@@ -99,7 +99,13 @@ class ZefaniabibleViewCalendar extends JViewLegacy
 		$item->str_primary_reading 				= 	$params->get('primaryReading', $mdl_default->_buildQuery_first_plan());
 		$item->flg_show_credit 					= 	$params->get('show_credit','0');
 		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
-		
+		$item->flg_use_bible_selection 			= 	$params->get('flg_use_bible_selection', '1');	
+		$item->str_calendar_link_color			= 	$params->get('str_calendar_color', '#00FFCC');
+		$item->str_calendar_emptyday_color		= 	$params->get('str_calendar_emptyday_color', '#CCCCCC');		
+		$item->flg_show_pagination_type 		= 	$params->get('show_pagination_type','0');
+		$item->flg_show_page_top 				= 	$params->get('show_pagination_top', '1');
+		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
+						
 		$item->int_menu_item_id 				= 	$jinput->get('Itemid', null, 'INT');
 		$item->str_option						= 	$jinput->get('option', null, 'CMD');
 		$item->str_com 							= 	$jinput->get('com', null, 'CMD'); 		
@@ -115,7 +121,7 @@ class ZefaniabibleViewCalendar extends JViewLegacy
 		$item->arr_Bibles 						= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->int_max_days						=  	$mdl_default->_buildQuery_max_reading_days($item->str_reading_plan);
 		
-		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff_custom($item->str_start_reading_date, $item->int_max_days, $item->int_month, $item->int_year, 1);		
+		$item->int_day_diff						= 	$mdl_common->fnc_calcualte_day_diff($item->str_start_reading_date, $item->int_max_days, $item->int_month, $item->int_year, 1);		
 		$item->obj_reading_plan_dropdown		=	$mdl_common->fnc_reading_plan_drop_down($item);
 		$item->obj_bible_Bible_dropdown			= 	$mdl_common->fnc_bible_name_dropdown($item->arr_Bibles,$item->str_Bible_Version);				
 
