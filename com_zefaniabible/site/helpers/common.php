@@ -706,11 +706,16 @@ class ZefaniabibleCommonHelper
 		}
 		return $str_descr;
 	}
-	public function fnc_calcualte_day_diff($str_start_reading_date, $int_max_days)
+	public function fnc_calcualte_day_diff($str_start_reading_date, $int_max_days, $int_month=0, $int_year=0, $int_day=0)
 	{
 		// time zone offset.
  		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		if(($int_year > 2000)and($int_month> 0))
+		{
+			$JDate = JFactory::getDate($int_year.'-'.$int_month.'-'.$int_day, new DateTimeZone($config->get('offset')));	
+		}else{
+			$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		}
 		$str_today = $JDate->format('Y-m-d', true);
 		$arr_today = new DateTime($str_today);	
 		$arr_start_date = new DateTime($str_start_reading_date);	
@@ -723,22 +728,6 @@ class ZefaniabibleCommonHelper
 		}
 		return $int_verse_remainder;
 	}
-	public function fnc_calcualte_day_diff_custom($str_start_reading_date, $int_max_days, $int_month, $int_year, $int_day)
-	{
-		// time zone offset.
- 		$config = JFactory::getConfig();
-		$JDate = JFactory::getDate($int_year.'-'.$int_month.'-'.$int_day, new DateTimeZone($config->get('offset')));
-		$str_today = $JDate->format('Y-m-d', true);
-		$arr_today = new DateTime($str_today);	
-		$arr_start_date = new DateTime($str_start_reading_date);	
-		$int_day_diff = round(abs($arr_today->format('U') - $arr_start_date->format('U')) / (60*60*24))+1;
-		$int_verse_remainder = $int_day_diff % $int_max_days;
-		if($int_verse_remainder == 0)
-		{
-			$int_verse_remainder = $int_max_days;
-		}
-		return $int_verse_remainder;
-	}	
 	public function fnc_output_reading_plan($item)
 	{
 			$book = 0;
@@ -1358,32 +1347,14 @@ class ZefaniabibleCommonHelper
 		$verse .= 	'<div style="clear:both"></div>';
 		return $verse;
 	}
-	public function fnc_make_scripture_title($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse )
+	public function fnc_make_scripture_title($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse, $flg_short=0 )
 	{
-		$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id);
-		switch(true)
+		if($flg_short)
 		{
-			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
-				$str_title .= " ".$int_begin_chapter."-".$int_end_chapter;
-				break;
-			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter != $int_end_chapter)):
-				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_chapter.":".$int_end_verse;
-				break;
-			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
-				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
-				break;
-			case (($int_begin_verse != 0)and($int_end_verse == 0)and($int_begin_chapter == $int_end_chapter)):				
-				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse;
-				break;
-			default;
-				$str_title .= " ".$int_begin_chapter;
-				break;
+			$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_ABR_'.$int_book_id);
+		}else{
+			$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$int_book_id);
 		}
-		return $str_title;
-	}
-	public function fnc_make_scripture_title_abbrev($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse )
-	{
-		$str_title =  JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_ABR_'.$int_book_id);
 		switch(true)
 		{
 			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
