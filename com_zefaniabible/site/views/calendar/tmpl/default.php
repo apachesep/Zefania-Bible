@@ -123,20 +123,33 @@ class CalendarViewDefault
 				{
 					$t=1;
 					echo '			<div class="zef_calendar_day';
+					// add style sheet for saturday's
 					if($x ==6)
 					{
 						echo ' zef_calendar_sat';	
 					}
+					// add style sheet for last week in the month
 					if($z == $int_calendar_rows -1 )
 					{
 						echo ' zef_calendar_last_row';
+					}
+					// add style sheet for today's date
+					if(($y == $item->int_current_day)and($item->int_current_month == $item->int_month)and($item->int_current_year == $item->int_year))
+					{
+						echo ' zef_calendar_today';
+					}
+					echo '" style="border-color:'.$item->str_calendar_border_color.';';
+					// add background color for today's date
+					if(($y == $item->int_current_day)and($item->int_current_month == $item->int_month)and($item->int_current_year == $item->int_year))
+					{
+						echo 'background-color:'.$item->str_calendar_today_color.';';
 					}					
 					echo '">'.$y.'<br><div class="zef_calendar_reading">';
 					foreach($item->arr_reading as $arr_reading)
 					{
 						if($arr_reading->day_number == ($item->int_day_diff+$y))
 						{
-							echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
+							echo '<div class="zef_calendar_link_div" style="border-color:'.$item->str_calendar_border_color.'"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'; border-color:'.$item->str_calendar_border_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
 							echo $mdl_common->fnc_make_scripture_title(
 									$arr_reading->book_id,  
 									$arr_reading->begin_chapter, 
@@ -154,7 +167,7 @@ class CalendarViewDefault
 						{
 							if($arr_reading->day_number == $y - ($item->int_month_max_days - $int_new_reading_days))
 							{
-								echo '<div class="zef_calendar_link_div"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
+								echo '<div class="zef_calendar_link_div" style="border-color:'.$item->str_calendar_border_color.'"><a class="zef_calendar_link" style="background-color:'.$item->str_calendar_link_color.'; border-color:'.$item->str_calendar_border_color.'" title="'.JText::_('ZEFANIABIBLE_VERSE_READING_PLAN_OVERVIEW_CLICK_TITLE').'" href="'.JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_reading_plan."&bible=".$item->str_Bible_Version."&day=".$arr_reading->day_number.'&Itemid='.$item->str_view_plan).'#'.$t.'" target="_self">';
 								echo $mdl_common->fnc_make_scripture_title(
 										$arr_reading->book_id,  
 										$arr_reading->begin_chapter, 
@@ -180,7 +193,7 @@ class CalendarViewDefault
 					{
 						echo ' zef_calendar_last_row';
 					}
-					echo '" style="background-color:'.$item->str_calendar_emptyday_color.'"></div>'.PHP_EOL;	
+					echo '" style="background-color:'.$item->str_calendar_emptyday_color.'; border-color:'.$item->str_calendar_border_color.'"></div>'.PHP_EOL;	
 				}
 				
 			}
