@@ -100,8 +100,11 @@ class ZefaniabibleViewCalendar extends JViewLegacy
 		$item->flg_show_credit 					= 	$params->get('show_credit','0');
 		$item->str_start_reading_date 			= 	$params->get('reading_start_date', '1-1-2012');
 		$item->flg_use_bible_selection 			= 	$params->get('flg_use_bible_selection', '1');	
-		$item->str_calendar_link_color			= 	$params->get('str_calendar_color', '#00FFCC');
-		$item->str_calendar_emptyday_color		= 	$params->get('str_calendar_emptyday_color', '#CCCCCC');		
+		$item->str_calendar_link_color			= 	$params->get('str_calendar_link_color', '#00FFCC');
+		$item->str_calendar_emptyday_color		= 	$params->get('str_calendar_emptyday_color', '#CCCCCC');
+		$item->str_calendar_border_color		= 	$params->get('str_calendar_border_color', '#000');
+		$item->str_calendar_today_color			= 	$params->get('str_calendar_today_color', '#f2f2f2');		
+		
 		$item->flg_show_pagination_type 		= 	$params->get('show_pagination_type','0');
 		$item->flg_show_page_top 				= 	$params->get('show_pagination_top', '1');
 		$item->flg_enable_debug					= 	$params->get('flg_enable_debug','0');	
