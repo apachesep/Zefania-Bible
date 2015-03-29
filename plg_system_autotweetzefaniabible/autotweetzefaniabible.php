@@ -429,7 +429,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 		try 
 		{
 			$db = JFactory::getDBO();
-			$query = "SELECT COUNT(a.ordering) FROM `#__zefaniabible_zefaniaverseofday` AS a WHERE publish=1" ;		
+			$query = "SELECT COUNT(a.ordering) FROM `#__zefaniabible_zefaniaverseofday` AS a WHERE published=1" ;		
 			$db->setQuery($query);
 			$result = $db->loadResult();
 		}
@@ -448,7 +448,7 @@ class PlgSystemAutotweetZefaniaBible  extends plgAutotweetBase
 			$id_clean 	= $db->quote($id);
 			$query->select('id, book_name, chapter_number, begin_verse, end_verse');
 			$query->from('`#__zefaniabible_zefaniaverseofday`');
-			$query->where("publish=1");
+			$query->where("published=1");
 			$query->where("ordering=".$id_clean);			
 			$db->setQuery($query, 0, 1);		
 			

@@ -26,7 +26,7 @@
 	height:24px;
 	border:none;	
 }
-.zef_email_button, .zef_reading_rss
+.zef_email_button, .zef_reading_rss, .zef_reading_ical
 {
 	float:right;
 	margin-top:3px;
@@ -91,7 +91,7 @@
 	margin-left:3px;
 	width:2%;
 }
-.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book, .zef_strong_dic_name 
+.zef_bible_Header_Label, .zef_reading_name, .zef_bible_Header_Label_Plan, .zef_commentary_book, .zef_strong_dic_name, .zef_calendar_month_name
 {
 	text-align:center;
 	line-height:40px;
@@ -284,4 +284,64 @@
 .zef_books_accross_names
 {
 	width:20%;	
+}
+.zef_calendar_day, .zef_calendar_day_empty
+{
+	float:left;
+	height:125px;
+	min-height:75px;
+	width:14%;
+	border-width:1px;
+	border-style: solid;
+	border-right:none;
+	border-bottom:none;
+}
+.zef_calendar_day_names
+{
+	float:left;
+	width:14%;	
+}
+.zef_calendar_month_prev, .zef_calendar_month_name, .zef_calendar_month_next
+{
+	text-align:center;
+	float:left;
+}
+.zef_calendar_month_prev, .zef_calendar_month_next
+{
+	width:25%;
+	padding-top:10px;
+}
+.zef_calendar_month_name
+{
+	width:50%;
+}
+.zef_calendar_day_names
+{
+	text-align:center;	
+}
+
+.zef_calendar_link
+{
+	border-width:1px;
+	border-style: solid;
+	border-radius:3px;
+	padding:3px;
+}
+.zef_calendar_day a:hover
+{
+	text-decoration:none;	
+}
+.zef_calendar_link_div
+{
+	padding-bottom:7px;	
+	float:left;
+	padding-left:7px;
+}
+.zef_calendar_sat
+{
+	border-right:1px solid;
+}
+.zef_calendar_last_row
+{
+	border-bottom:1px solid;
 }

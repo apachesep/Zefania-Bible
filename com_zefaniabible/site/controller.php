@@ -55,7 +55,7 @@ class ZefaniabibleController extends JControllerLegacy
 		$jversion = new JVersion();
 		
 		//Contains followers
-		$authorizedInUrl = array('plan','bible','bible2','book','chapter','verse','day','option', 'view', 'layout', 'Itemid', 'tmpl', 'lang','com','dict','strong','start','items','type','number', 'variant');
+		$authorizedInUrl = array('plan','bible','bible2','book','chapter','verse','day','option', 'view', 'layout', 'Itemid', 'tmpl', 'lang','com','dict','strong','start','items','type','number', 'variant', 'year', 'month');
 		
 		$parts = array();
 		$request = JRequest::get();
@@ -75,7 +75,8 @@ class ZefaniabibleController extends JControllerLegacy
 		{
 			case 'standard':
 			case 'compare':
-			case 'reading':					
+			case 'reading':
+			case 'calendar':
 				if (($str_requested_url != $str_current_url)and($str_tmpl != 'component')and(stripos($str_current_url, 'index.php') <= 0))
 				{
 					header('HTTP/1.1 301 Moved Permanently');

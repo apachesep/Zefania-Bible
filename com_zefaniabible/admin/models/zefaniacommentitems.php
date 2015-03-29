@@ -353,14 +353,18 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 	}
 	private function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
 	{ 		
+		$app = JFactory::getApplication();
+		jimport( 'joomla.filesystem.folder' );		
+		jimport('joomla.filesystem.file');
+		
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
 		$str_path_commentary_folder	= $params->get('xmlCommentaryPath', 'media/com_zefaniabible/commentary/');
 		$str_subfolder_commentary = str_replace($str_path_commentary_folder,'',$str_bible_xml_file_url);
 		$str_subfolder_commentary = substr_replace(str_replace(basename($str_subfolder_commentary),'',$str_subfolder_commentary),'',0,1);
-		$str_commentary_path 		= JURI::root().$str_path_commentary_folder.$str_subfolder_commentary;
+		$str_commentary_path 		= JPATH_SITE.$str_path_commentary_folder.$str_subfolder_commentary;
 		
 		// check if file exists
-		if(!get_headers($str_commentary_path))
+		if(JFile::exists($str_commentary_path) != true)
 		{
 			JError::raiseWarning('',str_replace('%s',$str_commentary_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
 		}

@@ -32,18 +32,25 @@ $mdl_common 	= new ZefaniabibleCommonHelper;
 
 <form action="<?php echo JFactory::getURI()->toString(); ?>" method="post" id="adminForm" name="adminForm">
 	<div id="zef_Bible_Main<?php if($this->item->str_tmpl == "component"){?>_tmpl_comp<?php }?>">
-    	<div class="zef_legend">
-        		<?php if(($this->item->flg_email_button)and($this->item->str_tmpl != "component")){?>
-        		<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?view=subscribe&option=com_zefaniabible&tmpl=component');?>" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" /></a></div>
-                <?php } 
-					if(($this->item->flg_reading_rss_button)and($this->item->str_tmpl != "component")){
-				?>
+    	<div class="zef_legend">   
+				<?php if(($this->item->flg_show_ical)and($this->item->str_tmpl != "component")){?>
+                    <div class="zef_reading_ical">
+                        <a title="<?php echo JText::_('ZEFANIABIBLE_ICAL_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=planrss&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version).'?variant=ical';?>" target="_blank" rel="nofollow" >
+                            <img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/ical.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_ICAL_BUTTON_TITLE'); ?>" />
+                        </a>                
+                    </div>
+                <?php }?>        
+
+				<?php if(($this->item->flg_reading_rss_button)and($this->item->str_tmpl != "component")){?>
 					<div class="zef_reading_rss">
                     	<a rel="nofollow" title="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?option=com_zefaniabible&view=readingrss&format=raw&plan='.$this->item->str_reading_plan.'&bible='.$this->item->str_Bible_Version.'&day='.$this->item->int_day_number);?>" target="_blank" >
                 			<img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/feeds.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_RSS_BUTTON_TITLE'); ?>" />
 						</a>
 					</div>                
-				<?php }?>                
+				<?php }?>       
+        		<?php if(($this->item->flg_email_button)and($this->item->str_tmpl != "component")){?>
+        			<div class="zef_email_button"><a title="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" target="blank" href="<?php echo	JRoute::_('index.php?view=subscribe&option=com_zefaniabible&tmpl=component');?>" class="modal" rel="{handler: 'iframe', size: {x:500,y:400}}" ><img class="zef_email_img" src="<?php echo JURI::root()."media/com_zefaniabible/images/e_mail.png"; ?>" width="24" height="24" alt="<?php echo JText::_('ZEFANIABIBLE_EMAIL_BUTTON_TITLE'); ?>" /></a></div>
+                <?php } ?>                          
                 <div class="zef_reading_label"><?php echo JText::_('ZEFANIABIBLE_READING_PLAN');?></div>
                 <div class="zef_reading_plan">
                     <select name="plan" id="reading" class="inputbox" onchange="this.form.submit()">

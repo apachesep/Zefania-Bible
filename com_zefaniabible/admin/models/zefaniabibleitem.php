@@ -368,12 +368,16 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 	}	
 	protected function fnc_Loop_Thorugh_File($str_bible_xml_file_url, $int_max_ids)
 	{
+		$app = JFactory::getApplication();
+		jimport( 'joomla.filesystem.folder' );		
+		jimport('joomla.filesystem.file');
+		
 		$x = 1;
 		$params = &JComponentHelper::getParams( 'com_zefaniabible' );
-		$str_xml_bibles_path = substr_replace(JURI::root(),"",-1).$str_bible_xml_file_url;	
-		
+		$str_xml_bibles_path =JPATH_SITE.$str_bible_xml_file_url;	
+
 		// check if file exists
-		if(!get_headers($str_xml_bibles_path))
+		if(JFile::exists($str_xml_bibles_path) != true)
 		{
 			JError::raiseWarning('',str_replace('%s',$str_xml_bibles_path,JText::_('ZEFANIABIBLE_UPLOAD_ERROR')));
 		}
@@ -393,7 +397,7 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 							$arr_bible_book['bnumber'],
 							$arr_bible_chapter['cnumber'],
 							$arr_bible_verse['vnumber'],
-							strip_tags($arr_bible_verse->asXML(),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
+							strip_tags(html_entity_decode($arr_bible_verse->asXML()),'<b><em><br><i><span><div><hr><h1><h2><h3><h4><h5><h6><li><ol><ul><table><tr><td><u><th>')
 							);
 							$x++;
 					}

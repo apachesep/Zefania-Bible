@@ -38,7 +38,7 @@ if ($saveOrder)
 <script type="text/javascript">
 	Joomla.orderTable = function()
 	{
-		table = document.getElementById("sortTable");
+		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
 		if (order != '<?php echo $listOrder; ?>')
@@ -218,7 +218,7 @@ if ($saveOrder)
 				<td class="left">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td class="small hidden-phone">
+				<td class="small hidden-phone">
 					<?php if (isset($item->created_by_alias)) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 						<?php echo $this->escape($item->author_name); ?></a>

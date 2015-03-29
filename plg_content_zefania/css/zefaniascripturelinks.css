@@ -156,3 +156,8 @@ div.modal
 {
 	cursor:pointer;	
 }
+#zef-scripture-link 
+{
+    display: inline !important;
+    position: relative !important;
+}

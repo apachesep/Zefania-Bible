@@ -80,6 +80,32 @@ function ZefaniabibleBuildRoute(&$query){
 			}
 			break;	
 			
+		case "calendar":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}	
+			if(isset
+			($query['plan']))
+			{
+				$segments[] = $query['plan'];
+				unset( $query['plan'] );		
+			}
+					
+			if(isset($query['year']))
+			{
+				$segments[] = $query['year'];
+				unset( $query['year'] );		
+			}
+			
+			if(isset($query['month']))
+			{
+				$segments[] = $query['month'];
+				unset( $query['month'] );		
+			}
+			break;				
+						
 		case "compare":
 			if(isset($query['bible']))
 			{
@@ -379,6 +405,29 @@ function ZefaniabibleParseRoute($segments)
 			}			
 			break;	
 			
+		case "calendar":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['plan'] = $segments[$nextPos];
+				$nextPos++;			
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['year'] = $segments[$nextPos];
+				$nextPos++;			
+			}
+			if (isset($segments[$nextPos]))
+			{				
+				$vars['month'] = $segments[$nextPos];
+				$nextPos++;			
+			}
+			break;
+						
 		case "compare":
 			if (isset($segments[$nextPos]))
 			{		
