@@ -1,0 +1,27 @@
+#zef_week_reading, #zef_calendar_icon
+{
+	float:left;	
+}
+#zef_calendar_icon
+{
+	height:34px;
+	width:34px;
+	background:url(../images/calendaralt.png) no-repeat;	
+}
+#zef_week_month
+{
+	color:#FFFFFF;
+	margin-top:-.5em;
+	padding-left:.5em;
+	font-size:10px;
+	font-weight:bold;	
+}
+#zef_week_date
+{
+	padding-left:0.65em;	
+	font-weight:bold;
+	font-size:1em;
+	margin-left:auto;
+	margin-right:auto;	
+	width:auto;
+}
