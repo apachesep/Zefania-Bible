@@ -6,7 +6,7 @@
 	<copyright>(C) 2015</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>4.1.0</version>
+	<version>4.2.0</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module displays Bible weekly reading plan, by pulling it directly from database.</description>
 	<files>
