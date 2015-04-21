@@ -750,17 +750,19 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}	
-	function _buildQuery_reading_plan($str_reading_plan,$int_day_number) 
+	function _buildQuery_reading_plan($str_reading_plan,$int_day_number, $int_number_of_days = 1) 
 	{
 		try 
 		{		
 			
 			$db = $this->getDbo();
+			$int_end_day 		=	$db->quote($int_day_number + $int_number_of_days);
 			$str_lang_tag 		= 	$db->quote($this->str_lang_tag);
 			$str_reading_plan 	=	$db->quote($str_reading_plan);
 			$int_day_number 	=	$db->quote($int_day_number);
+
 			$query  = $db->getQuery(true);
-			$query->select('a.name, a.alias, b.plan, b.book_id, b.begin_chapter, b.begin_verse, b.end_chapter, b.end_verse');
+			$query->select('a.name, a.alias, b.plan, b.book_id, b.begin_chapter, b.begin_verse, b.end_chapter, b.end_verse, b.day_number');
 			$query->from('`#__zefaniabible_zefaniareading` AS a');
 			$query->innerJoin("`#__zefaniabible_zefaniareadingdetails` AS b ON a.id = b.plan");
 			$query->where("a.alias=".$str_reading_plan);
@@ -769,9 +771,16 @@ class ZefaniabibleModelDefault extends JModelItem
 			
 			$sql_access_statement = str_replace("access","a.access",$this->sql_access_statement);	
 			$query->where("(".$sql_access_statement.")");			
-			
-			$query->where("b.day_number=".$int_day_number);			
+			if($int_number_of_days == 1)
+			{
+				$query->where("b.day_number=".$int_day_number);
+			}
+			else
+			{
+				$query->where("b.day_number>=".$int_day_number." and b.day_number <".$int_end_day);
+			}
 			$query->order('b.plan');
+			$query->order('b.day_number');			
 			$query->order('b.book_id');
 			$query->order('b.begin_chapter');
 			$query->order('b.begin_verse');
@@ -1048,7 +1057,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;		
-	}	
+	}
+	
 	function _get_pagination_readingplan_overview($alias)
 	{
 		try 
