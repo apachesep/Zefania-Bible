@@ -49,10 +49,6 @@
 		$item->int_month 						= 	$item->int_current_month;
 		$item->int_year 						= 	$item->int_current_year;
 		$item->int_day							= 	$item->int_current_day;		
-
-		$item->int_month 						= 	1;
-		$item->int_year 						= 	2015;
-		$item->int_day							= 	2;	
 					
 		$item->int_week_begin_weekday			= 	date("w", mktime(0, 0, 0, $item->int_month, $item->int_day, $item->int_year));	
 		$item->int_month_max_days				= 	date("t", mktime(0, 0, 0, $item->int_month, 1, $item->int_year));
