@@ -1375,46 +1375,54 @@ class ZefaniabibleCommonHelper
 		}
 		return $str_title;
 	}
-	public function fnc_get_month_name($int_month)
+	public function fnc_get_month_name($int_month, $int_short = 0)
 	{
+		if($int_short == 1)
+		{
+			$str_postpend = "_SHORT";
+		}
+		else
+		{
+			$str_postpend = "";
+		}
 		switch($int_month)
 		{
 			case 1:
-				$str_month_name = JText::_('JANUARY');
+				$str_month_name = JText::_('JANUARY'.$str_postpend);
 				break;
 			case 2:
-				$str_month_name = JText::_('FEBRUARY');
+				$str_month_name = JText::_('FEBRUARY'.$str_postpend);
 				break;				
 			case 3:
-				$str_month_name = JText::_('MARCH');
+				$str_month_name = JText::_('MARCH'.$str_postpend);
 				break;				
 			case 4:
-				$str_month_name = JText::_('APRIL');
+				$str_month_name = JText::_('APRIL'.$str_postpend);
 				break;				
 			case 5:
-				$str_month_name = JText::_('MAY');
+				$str_month_name = JText::_('MAY'.$str_postpend);
 				break;				
 			case 6:
-				$str_month_name = JText::_('JUNE');
+				$str_month_name = JText::_('JUNE'.$str_postpend);
 				break;
 			case 7:
-				$str_month_name = JText::_('JULY');
+				$str_month_name = JText::_('JULY'.$str_postpend);
 				break;				
 			case 8:
-				$str_month_name = JText::_('AUGUST');
+				$str_month_name = JText::_('AUGUST'.$str_postpend);
 				break;				
 			case 9:
-				$str_month_name = JText::_('SEPTEMBER');
+				$str_month_name = JText::_('SEPTEMBER'.$str_postpend);
 				break;				
 			case 10:
-				$str_month_name = JText::_('OCTOBER');
+				$str_month_name = JText::_('OCTOBER'.$str_postpend);
 				break;				
 			case 11:
-				$str_month_name = JText::_('NOVEMBER');
+				$str_month_name = JText::_('NOVEMBER'.$str_postpend);
 				break;				
 			case 0:
 			default:
-				$str_month_name = JText::_('DECEMBER');
+				$str_month_name = JText::_('DECEMBER'.$str_postpend);
 				break;	
 		}
 		return $str_month_name;
