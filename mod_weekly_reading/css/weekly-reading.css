@@ -1,4 +1,4 @@
-#zef_week_reading, #zef_calendar_icon
+#zef_week_reading
 {
 	float:left;	
 }
@@ -6,22 +6,48 @@
 {
 	height:34px;
 	width:34px;
+	float:left;
 	background:url(../images/calendaralt.png) no-repeat;	
+}
+#zef_calendar_icon-2
+{
+	height:34px;
+	width:34px;
+	float:left;	
+	background:url(../images/calendar.png) no-repeat;
+}
+#zef_calendar_icon-3
+{
+	height:34px;
+	width:34px;
+	float:left;	
+	background:url(../images/calendar6.png) no-repeat;
+}
+#zef_calendar_icon-4
+{
+	height:34px;
+	width:34px;
+	float:left;	
+	background:url(../images/calendar3.png) no-repeat;
+	margin-bottom:3px;
 }
 #zef_week_month
 {
 	color:#FFFFFF;
-	margin-top:-.5em;
-	padding-left:.5em;
+	margin-top:-5px;
 	font-size:10px;
 	font-weight:bold;	
+	text-align:center;
+
 }
 #zef_week_date
 {
-	padding-left:0.65em;	
 	font-weight:bold;
-	font-size:1em;
-	margin-left:auto;
-	margin-right:auto;	
-	width:auto;
+	font-size:14px;
+	text-align:center;
 }
+#zef_week_reading
+{
+	padding-left:5px;	
+}
+
