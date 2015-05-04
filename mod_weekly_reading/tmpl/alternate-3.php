@@ -26,7 +26,7 @@
 		for($x = 0; $x < 7; $x++)
 		{
 				echo '<div id="zef_week_reading">';
-				echo '	<div id="zef_calendar_icon">';
+				echo '	<div id="zef_calendar_icon-4">';
 				if(($item->int_week_begin_day + $x) <= $item->int_month_max_days)
 				{
 					echo '		<div id="zef_week_month">'.$mdl_common->fnc_get_month_name($item->int_month, 1).'</div>';
