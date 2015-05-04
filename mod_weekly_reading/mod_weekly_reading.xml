@@ -21,15 +21,30 @@
 			<language tag="en-GB">en-GB.mod_weekly_reading.ini</language>
 			<language tag="en-GB">en-GB.mod_weekly_reading.sys.ini</language>		
 	</languages>
-	<config>
+	<config> 
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="str_reading_plan" type="sql" label="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_READING_PLAN" description="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_READING_PLAN_DESC" query="SELECT name, alias FROM #__zefaniabible_zefaniareading WHERE published=1 ORDER BY name" key_field="alias" value_field = "name"/>
 				<field name="str_bible_alias" type="sql" label="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_BIBLE" description="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_BIBLE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE published = 1" key_field="alias" value_field = "bible_name" />					
 				<field name="str_reading_start_date" type="calendar" label="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_START_DATE" description="MOD_ZEFANIABIBLE_WEEKLY_READING_PLAN_START_DATE_DESC" default="1-1-2012" format="%d-%m-%Y" filter="server_utc" />						
 				<field name="rp_mo_menuitem" type="menuitem" default="" label="MOD_ZEFANIABIBLE_WEEKLY_READINGPLAN_PARAM_MO_MENUITEM" description="MOD_ZEFANIABIBLE_WEEKLY_READINGPLAN_PARAM_MO_MENUITEM_DESC" state="1" />				
-			
+				<field name="flg_short_name" type="radio" class="btn-group" default="0" label="MOD_ZEFANIABIBLE_WEEKLY_READINGPLAN_SHORT_LINKS" description="MOD_ZEFANIABIBLE_WEEKLY_READINGPLAN_SHORT_LINKS_DESC">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>				
 			</fieldset>
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="textarea" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" rows="3" />
+				<field name="cache" type="list" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" default="1">
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field name="cache_time" type="text" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" default="900" />
+				<field name="cachemode" type="hidden" default="static">
+					<option value="static"></option>
+				</field>
+			</fieldset>			
 		</fields>
 	</config>
 </extension>
