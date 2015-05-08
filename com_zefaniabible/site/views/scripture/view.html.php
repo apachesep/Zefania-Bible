@@ -86,13 +86,15 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->str_end_chap			= $jinput->get('endchapter', '0', 'INT');	
 		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
 		$item->type					= $jinput->get('type', '0', 'INT');
+		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');
+		
 		$item->flg_add_title = 0;
 		if($item->str_content_Bible_alias != $item->str_Bible_Version)
 		{
 			$item->flg_add_title = 1;
 		}
 		$item->arr_verses = $mdl_default->_buildQuery_scripture($item->str_Bible_Version, $item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse);	 
-
+		
 		//Filters
 		$this->assignRef('item', $item);
 		parent::display($tpl);
