@@ -119,7 +119,7 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 			default:
 				$this->document->setMimeEncoding('text/xml');			
 				break;	
-		}				
+		}
 				
 		//Filters
 		$this->assignRef('item',	$item);		
