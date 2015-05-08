@@ -1414,27 +1414,27 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("(".$sql_access_statement.")");
 			
 			// Genesis 1
-			if(($int_begin_chap)and(!$int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse == 0)and($int_end_verse == 0))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1-2
-			else if(($int_begin_chap)and($int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap)and($int_begin_verse == 0)and($int_end_verse == 0))
 			{
 				$query->where('a.chapter_id>='.$int_begin_chap_clean);
 				$query->where('a.chapter_id<='.$int_end_chap_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1:1
-			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and(!$int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse)and(!$int_end_verse))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->where('a.verse_id='.$int_begin_verse_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1:1-2
-			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and($int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse)and($int_end_verse))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->where('a.verse_id>='.$int_begin_verse_clean);
@@ -1459,13 +1459,16 @@ class ZefaniabibleModelDefault extends JModelItem
 					}
 					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR('.$str_temp.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
 				}
+				else if($int_end_chap == $int_begin_chap)
+				{
+					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')AND( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
+				}
 				else
 				{
 					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
 				}
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
-			
 			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}
