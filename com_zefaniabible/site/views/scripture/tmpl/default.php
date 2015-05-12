@@ -43,7 +43,13 @@ class ScritpureDefault
 				require_once(JPATH_COMPONENT_SITE.'/views/scripture/tmpl/json2.php');
 				$mdl_atom 	= new BibleReadingPlan($item);			
 				break;
-								
+				
+			case "json3":
+				$doc_page->setMimeEncoding('application/json');	
+				//JResponse::setHeader('Content-Disposition','attachment;filename=scripture.json');							
+				require_once(JPATH_COMPONENT_SITE.'/views/scripture/tmpl/json3.php');
+				$mdl_atom 	= new BibleReadingPlan($item);			
+				break;								
 			default:
 				require_once(JPATH_COMPONENT_SITE.'/views/scripture/tmpl/html.php');
 				$mdl_rss 	= new BibleReadingPlan($item);					
