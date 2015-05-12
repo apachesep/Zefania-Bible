@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>4.0.4</version>
+	<version>4.2.0</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -86,6 +86,8 @@
 						<option value="5">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DIALOG</option>
 						<option value="6">PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY</option>
 				</field>
+				<field name="str_regex" type="text" default="/(?=\S)(\{zefaniabible*(.*?)\})?\b({zefania-scripture})(\.)?(\s)?((\d{1,3})([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?)(\{\/zefaniabible\})?/iu" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_REGEX" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_REGEX_DESC" />
+				<field name="str_regex_auto" type="text" default="/(?=\S)(\{zefaniabible*(.*?)\})\b({zefania-scripture})(\.)?(\s)?((\d{1,3})([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?)(\{\/zefaniabible\})/iu" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_REGEX_AUTO" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_REGEX_AUTO_DESC" />				
 			</fieldset>				
 			<fieldset name="link" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LINK">				
 				<field name="bible_gateway_version" type="list" default="51" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
@@ -217,7 +219,7 @@
 				<field name="str_exclude_menuitem" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM_DESC" rows="3" cols="25" />
 				<field name="str_exclude_article_id" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_ARTICLE_ID" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_ARTICLE_ID_DESC" rows="3" cols="25" />
 				<field name="str_exclude_URI" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_URI" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_URI_DESC" rows="3" cols="25" />
-			</fieldset>			
+			</fieldset>		
 		</fields>
 	</config>
 	<updateservers>
