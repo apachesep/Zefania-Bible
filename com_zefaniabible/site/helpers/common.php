@@ -1358,16 +1358,17 @@ class ZefaniabibleCommonHelper
 		switch(true)
 		{
 			// Genesis 2-3;
-			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)):
+			case (($int_begin_verse == 0)and($int_end_verse == 0)and($int_begin_chapter != $int_end_chapter)and($int_end_chapter != 0)):
 				$str_title .= " ".$int_begin_chapter."-".$int_end_chapter;
+				break;
+			
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)): // Genesis 2:2-2:3
+			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_end_chapter == 0)): // Genesis 2:1-3
+				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
 				break;
 			// Genesis 2:3-4:2;
 			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter != $int_end_chapter)):
 				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_chapter.":".$int_end_verse;
-				break;
-			// Genesis 2:2-2:3
-			case (($int_begin_verse != 0)and($int_end_verse != 0)and($int_begin_chapter == $int_end_chapter)):
-				$str_title .= " ".$int_begin_chapter.":".$int_begin_verse."-".$int_end_verse;
 				break;
 			// Genesis 2:2
 			case (($int_begin_verse != 0)and($int_end_verse == 0)and($int_end_chapter == 0)):
