@@ -178,11 +178,13 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			case $this->flg_auto_replace:
 			case (JRequest::getCmd('option') == 'com_zefaniabible')and(JRequest::getCmd('view') == 'strong'):
 			case (JRequest::getCmd('option') == 'com_zefaniabible')and(JRequest::getCmd('view') == 'commentary'):
-				$str_match_fuction = $this->str_regex_auto;
+				$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$this->str_Bible_books.")(\.)?(\s)?((\d{1,3})([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?)(\{\/zefaniabible\})?/iu";
+				//$str_match_fuction = $this->str_regex_auto;
 				$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);		
 				break;				
 			default:
-				$str_match_fuction = $this->str_regex;
+				$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})\b(".$this->str_Bible_books.")(\.)?(\s)?((\d{1,3})([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?(\d{1,3})?([:,-;]?(\s)?(?=\d))?)(\{\/zefaniabible\})/iu";
+	//			$str_match_fuction = $this->str_regex;
 				$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);		
 				break;			
 		}	
