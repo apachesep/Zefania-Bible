@@ -38,7 +38,7 @@
 					echo '		<div id="zef_week_date">'.($x - $item->int_days_remain_month).'</div>';					
 				}
 				echo '	</div>';
-				echo '	<div id="zef_week_reading">';
+				echo '	<div id="zef_week_reading-links">';
 					foreach($item->arr_reading as $reading)
 					{
 						if($reading->day_number == ($item->int_day_diff + $x))
@@ -46,7 +46,7 @@
 							$url = JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_primary_reading ."&bible=".$item->str_primary_bible."&day=".$reading->day_number);
 							echo "<a title='"."' id='zef_links' href='".$url."'>";
 							echo $mdl_common->fnc_make_scripture_title($reading->book_id, $reading->begin_chapter, $reading->begin_verse, $reading->end_chapter, $reading->end_verse, $item->flg_long_text );
-							echo '</a> ';					
+							echo '</a><br>';					
 						}
 					}
 					if($item->int_day_diff_remain >= 0)
@@ -58,7 +58,7 @@
 								$url = JRoute::_("index.php?option=com_zefaniabible&view=reading&plan=".$item->str_primary_reading ."&bible=".$item->str_primary_bible."&day=".$reading_2->day_number);
 								echo "<a title='"."' id='zef_links' href='".$url."'>";
 								echo $mdl_common->fnc_make_scripture_title($reading_2->book_id, $reading_2->begin_chapter, $reading_2->begin_verse, $reading_2->end_chapter, $reading_2->end_verse, $item->flg_long_text );
-								echo '</a> ';					
+								echo '</a><br> ';					
 							} 
 						}					
 					}
