@@ -24,13 +24,10 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-
 class BibleJSON {
-
 	public function __construct($item)
 	{	
 		echo '[{'.PHP_EOL;
-
 		echo '	"type":"chapter",'.PHP_EOL;
 		echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;	
 		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
@@ -49,7 +46,7 @@ class BibleJSON {
 			echo '"'.$obj_chapter->verse_id.'":'.PHP_EOL;
 			echo '{'.PHP_EOL;
 			echo '	"verse_nr":'.$obj_chapter->verse_id.','.PHP_EOL;
-			echo '	"verse":"'.strip_tags($obj_chapter->verse).'"'.PHP_EOL;
+			echo '	"verse":"'.htmlspecialchars(strip_tags($obj_chapter->verse)).'"'.PHP_EOL;
 			if($obj_chapter->verse_id >= count($item->arr_Chapter))
 			{
 				echo '}'.PHP_EOL;
