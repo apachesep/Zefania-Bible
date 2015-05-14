@@ -75,7 +75,7 @@ class BibleReadingPlanJSON
 				if($y == 1)
 				{
 					echo '		"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'":'.PHP_EOL;
-					echo '		{'.PHP_EOL;	
+					echo '		{'.PHP_EOL;	
 					echo '			"chapter":'.PHP_EOL;	
 					echo '			{'.PHP_EOL;	
 					echo '				"'.$obj_verse->chapter_id.'":'.PHP_EOL;
@@ -89,9 +89,7 @@ class BibleReadingPlanJSON
 				echo '							"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
 				echo '							"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
 				echo '							"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
-				echo '							"text":"'.strip_tags($obj_verse->verse).'"'.PHP_EOL;
-
-				
+				echo '							"text":"'.htmlspecialchars(strip_tags($obj_verse->verse)).'"'.PHP_EOL;
 				if($y >= $int_len_reading)
 				{
 					echo '						}'.PHP_EOL;						
@@ -105,7 +103,6 @@ class BibleReadingPlanJSON
 				}
 				$y++;
 			}
-
 			if($x >= count($item->arr_plan))
 			{
 				echo "		}".PHP_EOL;
@@ -115,7 +112,6 @@ class BibleReadingPlanJSON
 			{
 				echo '		},'.PHP_EOL;
 			}
-
 			$x++;			
 		}
 		echo '}]'.PHP_EOL;			
