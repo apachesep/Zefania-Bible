@@ -48,7 +48,9 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	private $mdl_default;
 	private $str_regex;
 	private $str_regex_auto;
-	
+	private $flg_scripture_detection_type;
+	private $arr_book_names;
+	private $cnt_books = 0;
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -77,17 +79,18 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			return;
 		}
-		$this->str_tmpl 						=	JRequest::getCmd('tmpl');
+		$this->str_tmpl 					=	JRequest::getCmd('tmpl');
 		$this->int_BibleGateway_id  		= 	$this->params->get('bible_gateway_version', '51');
 		$this->int_modal_box_height  		= 	$this->params->get('modal_box_height', '500');
 		$this->int_modal_box_width  		= 	$this->params->get('modal_box_width', '700'); 
-		$this->flg_auto_replace 				=	$this->params->get('flg_automatic_scripture_detection', '0');
+		$this->flg_auto_replace 			=	$this->params->get('flg_automatic_scripture_detection', '0');
 		$this->flg_only_css  				=	$this->params->get('flg_only_css', '0');	
 		$this->str_default_alias 			=	$this->params->get('content_Bible_alias' );
 		$this->flg_automatic_scripture_type = 	$this->params->get('flg_automatic_scripture_type','0');
 		$this->str_label_default 			=	$this->params->get('str_label_default', 'Scripture Reference');
 		$this->str_regex 					=	$this->params->get('str_regex');
 		$this->str_regex_auto 				=	$this->params->get('str_regex_auto');
+		$this->flg_scripture_detection_type	=	$this->params->get('flg_scripture_detection_type', 0);
 
 		$this->loadLanguage();
 		$jlang = JFactory::getLanguage();		
@@ -104,19 +107,48 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		JHTML::_('behavior.modal');
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('bootstrap.popover');		
-		$this->document->addStyleSheet(JURI::base(true).'/plugins/content/zefaniascripturelinks/css/zefaniascripturelinks.css'); 
-		$this->document->addScript(JURI::base(true).'/plugins/content/zefaniascripturelinks/zefaniascripturelinks.js');		
+		$this->document->addStyleSheet(JURI::base(true).'/media/zefaniascripturelinks/zefaniascripturelinks.css'); 
+		$this->document->addScript(JURI::base(true).'/media/zefaniascripturelinks/zefaniascripturelinks.js');		
 		
 		if($this->str_default_alias == '')
 		{
 			$this->str_default_alias = $this->mdl_default->_buildQuery_first_record();
 		}
+		$this->fncLoadLangauges();
+		$this->str_regex = str_replace("{zefania-scripture}", $this->str_Bible_books, $this->str_regex);
+	}
+	private function fncLoopBooks($lang)
+	{
+		// take a language and prep strings for multi langauge detection
+		$jlang = JFactory::getLanguage();		
+		$jlang->load('plg_content_zefaniascripturelinks', JPATH_ADMINISTRATOR, $lang, true);			
 		for($z = 1; $z <= 66; $z ++)
 		{
-			$this->str_Bible_books = $this->str_Bible_books . mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
+			$this->str_Bible_books .= mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'))."|";
+			$this->arr_book_names[$this->cnt_books][$z] = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
 		}
-		$this->str_regex = str_replace("{zefania-scripture}", $this->str_Bible_books, $this->str_regex);
-		
+		$this->cnt_books++;
+	}
+	private function fncLoadLangauges()
+	{
+		switch ($this->flg_scripture_detection_type)
+		{
+			case 1: 	// Site langauges and English also
+				$this->fncLoopBooks("en-GB");
+				$this->fncLoopBooks(null);
+				break;
+			case 2:		// ALL Installed langauges
+				foreach(JLanguage::getKnownLanguages() as $arr_system_lang)
+				{
+					$this->fncLoopBooks($arr_system_lang['tag']);
+				}			
+				break;
+			case 0:		// Site Langauge only
+			default:	
+				$this->fncLoopBooks(null);
+				break;		
+		}
+		$this->str_Bible_books = substr($this->str_Bible_books, 0, -1); // remove extra | from end of string		
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{ 	
@@ -330,7 +362,13 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		for($z = 1; $z <= 66; $z ++)
 		{
 			$arr_multi_query = '';
-			$str_look_up = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
+			$str_look_up = '';
+			for($r = 0; $r < $this->cnt_books; $r++)
+			{
+				$str_look_up .= $this->arr_book_names[$r][$z]."|";
+				//$str_look_up = mb_strtolower(JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z,'UTF-8'));
+			}
+			$str_look_up = substr($str_look_up, 0, -1); // remove extra | from end of string
 			$arr_look_up_orig = explode('|',JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BOOK_NAME_'.$z));
 			if(preg_match('/^('.$str_look_up.')$/', mb_strtolower($str_scripture_book_name,'UTF-8')))
 			{
@@ -548,11 +586,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 					break; 
 				// 4 = popover
 				case 4:
-					$str_scripture_verse .= '<a id="zef-scripture-popover-link" class="zef-scripture-popover-'.$str_unique_id.' hasPopover" onmouseover="fnc_scripture('.$str_obj.');" data-content="<div class=\'div-'.$str_unique_id.'\'><p></p></div>" data-placement="right" title="'.$str_title.'" id="zef-scripture-popover">'.$str_scripture_name .'</a>'.PHP_EOL;		
+					$str_scripture_verse .= '<a id="zef-scripture-popover-link" class="zef-scripture-popover-'.$str_unique_id.' hasPopover" onmouseover="fnc_scripture('.$str_obj.');" data-content="<div class=\'div-'.$str_unique_id.'\'><p><img witdh=\'220\' height=\'19\' src=\''.JURI::base(true).'/media/zefaniascripturelinks/loader.gif\'</p></div>" data-placement="right" title="'.$str_title.'" id="zef-scripture-popover">'.$str_scripture_name .'</a>'.PHP_EOL;		
 					break;
 				// dialog box
 				case 5:
-					$str_scripture_verse .= '<a id="zef-scripture-dialog" data-toggle="modal" data-target="#div-'.$str_unique_id.'" class="zef-scripture-dialog-'.$str_unique_id.'" onclick="fnc_scripture('.$str_obj.');" title="'.JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK').' '.$str_scripture_name.'">'.$str_scripture_name .'</a><div style="float:left" role="dialog" aria-labelledby="div-'.$str_unique_id.'" aria-hidden="true" id="div-'.$str_unique_id.'" class="modal fade " title="'.$str_title .'" ><div class="modal-dialog" ><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="div-'.$str_unique_id.'-label">'.$str_scripture_name.'</h4></div><div id="modal-body" class="modal-body-'.$str_unique_id.'">...</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.JText::_('COM_ZEFANIABIBLE_CLOSE').'</button></div></div></div></div>'.PHP_EOL;					
+					$str_scripture_verse .= '<a id="zef-scripture-dialog" data-toggle="modal" data-target="#div-'.$str_unique_id.'" class="zef-scripture-dialog-'.$str_unique_id.'" onclick="fnc_scripture('.$str_obj.');" title="'.JText::_('PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_LINK').' '.$str_scripture_name.'">'.$str_scripture_name .'</a><div style="float:left" role="dialog" aria-labelledby="div-'.$str_unique_id.'" aria-hidden="true" id="div-'.$str_unique_id.'" class="modal fade " title="'.$str_title .'" ><div class="modal-dialog" ><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="div-'.$str_unique_id.'-label">'.$str_scripture_name.'</h4></div><div id="modal-body" class="modal-body-'.$str_unique_id.'"><img witdh="220" height="19" src="'.JURI::base(true).'/media/zefaniascripturelinks/loader.gif"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.JText::_('COM_ZEFANIABIBLE_CLOSE').'</button></div></div></div></div>'.PHP_EOL;					
 					break;
 				// Biblegateway link
 				case 6:
