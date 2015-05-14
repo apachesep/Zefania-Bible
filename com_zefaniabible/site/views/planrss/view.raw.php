@@ -113,7 +113,7 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 			case "json":
 			case "json2":
 				$this->document->setMimeEncoding('application/json');	
-				JResponse::setHeader('Content-Disposition','attachment;filename=calendar.json');		
+//				JResponse::setHeader('Content-Disposition','attachment;filename=calendar.json');		
 				break;
 											
 			default:
