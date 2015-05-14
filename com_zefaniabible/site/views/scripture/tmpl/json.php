@@ -59,7 +59,7 @@ class BibleReadingPlan
 			echo '			"bookid":'.$verses->book_id.','.PHP_EOL;
 			echo '			"chapterid":'.$verses->chapter_id.','.PHP_EOL;
 			echo '			"verseid":'.$verses->verse_id.','.PHP_EOL;	
-			echo '			"verse":"'.$verses->verse.'"'.PHP_EOL;
+			echo '			"verse":"'.htmlspecialchars($verses->verse).'"'.PHP_EOL;
 			if($x >= $verse_cnt){
 				echo '		}'.PHP_EOL;
 			}else{		

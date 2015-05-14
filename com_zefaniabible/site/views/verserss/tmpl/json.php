@@ -24,7 +24,6 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-
 class ClsVerseJSON
 {
 	public function __construct($item)
@@ -49,7 +48,7 @@ class ClsVerseJSON
 				echo '			"'.$x.'":'.PHP_EOL;
 				echo '			{'.PHP_EOL;
 				echo '				"verse_nr":"'.$x.'",'.PHP_EOL;
-				echo '				"verse":"'.strip_tags($obj_arr_verse_of_day->verse).'"'.PHP_EOL;
+				echo '				"verse":"'.htmlspecialchars(strip_tags($obj_arr_verse_of_day->verse)).'"'.PHP_EOL;
 				if($x >= $obj_arr_verse_info->end_verse)
 				{
 					echo '			}'.PHP_EOL;
@@ -65,5 +64,4 @@ class ClsVerseJSON
 		echo '}]'.PHP_EOL;			
 	}
 }
-
 ?>

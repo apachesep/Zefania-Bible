@@ -81,7 +81,7 @@ class BibleReadingPlan
 			}
 			echo '								"'.$verses->verse_id.'":'.PHP_EOL;			
 			echo '								{'.PHP_EOL;	
-			echo '									"verse":"'.$verses->verse.'"'.PHP_EOL;
+			echo '									"verse":"'.htmlspecialchars($verses->verse).'"'.PHP_EOL;
 			if(($x < $verse_cnt)and($item->arr_verses[$x]->verse_id != 1))
 			{
 				echo '								},'.PHP_EOL;	
