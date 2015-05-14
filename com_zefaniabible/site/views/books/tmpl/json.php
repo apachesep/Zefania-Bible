@@ -1,5 +1,4 @@
 <?php
-
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -28,7 +27,6 @@ class BibleBooksJSON
 {
 	public function __construct($item)
 	{	
-		//print_r($item);
 		echo '['.PHP_EOL;
 		echo '	{'.PHP_EOL;
 		echo '		"type":"bible",'.PHP_EOL;
@@ -58,3 +56,4 @@ class BibleBooksJSON
 	}
 }
 ?>
+
