@@ -94,7 +94,7 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			case "json":
 			case "json2":
 				$this->document->setMimeEncoding('application/json');	
-				JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.json');		
+				//JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.json');		
 				break;
 								
 			default:
