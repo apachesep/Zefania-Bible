@@ -43,7 +43,7 @@ class BibleReadingPlan
 		echo '	"booknameenglish":"'.$item->arr_english_book_names[$item->int_Bible_Book_ID].'",'.PHP_EOL;	
 		echo '	"scripturename":"'.$item->scripture_title.'",'.PHP_EOL;
 		echo '	"scripturenameshort":"'.$item->scripture_title_short.'",'.PHP_EOL;				
-		echo '	"biblename":"'.$item->arr_verses[0]->bible_name.'",'.PHP_EOL;
+		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
 		echo '	"bookid":'.$item->int_Bible_Book_ID.','.PHP_EOL;
 		echo '	"beginchap":'.$item->str_begin_chap.','.PHP_EOL;
 		echo '	"beginverse":'.$item->str_begin_verse.','.PHP_EOL;	
@@ -81,7 +81,8 @@ class BibleReadingPlan
 			}
 			echo '								"'.$verses->verse_id.'":'.PHP_EOL;			
 			echo '								{'.PHP_EOL;	
-			echo '									"verse":"'.htmlspecialchars($verses->verse).'"'.PHP_EOL;
+													$verses->verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','', $verses->verse); // remove strong numbers
+			echo '									"verse":"'.str_replace("\n","",htmlspecialchars($verses->verse)).'"'.PHP_EOL;
 			if(($x < $verse_cnt)and($item->arr_verses[$x]->verse_id != 1))
 			{
 				echo '								},'.PHP_EOL;	

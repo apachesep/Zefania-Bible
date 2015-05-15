@@ -87,7 +87,9 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->str_end_verse		= $jinput->get('endverse', '0', 'INT');
 		$item->type					= $jinput->get('type', '0', 'INT');
 		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');
-
+		
+		$item->arr_Bibles 				= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->str_bible_name			= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= 	$mdl_common->fnc_load_languages();
 		
 		$item->flg_add_title = 0;
