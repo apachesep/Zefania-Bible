@@ -347,7 +347,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;		
-	}		
+	}
+	
 	function _buildQuery_Bibles_Names()
 	{
 		// Get a array list of only published Bibles and those that match langauge and access criteria.
@@ -357,21 +358,21 @@ class ZefaniabibleModelDefault extends JModelItem
 			$str_lang_tag = $db->quote($this->str_lang_tag);
 						
 			$query  = $db->getQuery(true);
-			$query->select('alias, bible_name');
+			$query->select('alias, bible_name, language');
 			$query->from('`#__zefaniabible_bible_names`');	
 			$query->where("published=1");
 			$query->where("(language=".$str_lang_tag." OR language='all-ALL')");
 			$query->where("(".$this->sql_access_statement.")");
 			$query->order('bible_name');			
 			$db->setQuery($query);
-			$data = $db->loadObjectList();		
+			$data = $db->loadObjectList();	
 		}
 		catch (JException $e)
 		{
 			$this->setError($e);
 		}		
 		return $data;		
-	}	
+	}
 	function _buildQuery_Chapter($int_Bible_Chapter,$int_Bible_Book_ID,$str_Bible_Version)
 	{
 		// Get an array object of particular Bible chapter
