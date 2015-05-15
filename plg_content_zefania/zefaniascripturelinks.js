@@ -23,6 +23,7 @@
 */
 
 function fnc_scripture(obj){
+	
 	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
 	var str_verse = "";
 	var int_temp_verse = 0;	
@@ -35,6 +36,7 @@ function fnc_scripture(obj){
 					{
 						str_verse += '<div class="zef_content_title">'+item.bookname+' '+jitem.chapterid+'</div>';
 					}
+
 					str_verse += '<div id="zef_content_verse" style="margin-left:5px;"><div id="zef_content_verse_id" style="float:left">'+jitem.verseid+'</div><div id="zef_content_verse_text" style="float:left;margin-left:5px;width:90%;">'+jitem.verse+'</div></div><div style="clear:both"></div>';
 					int_temp_verse = jitem.verseid;
 				}else{
