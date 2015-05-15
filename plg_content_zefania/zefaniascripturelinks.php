@@ -21,7 +21,6 @@
 * -------------\ (----) /----------------------------------------------------------- +
 *               \_)  (_/
 */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
@@ -29,7 +28,6 @@ if (!JComponentHelper::getComponent('com_zefaniabible', true)->enabled)
 	JError::raiseWarning('5', 'ZefaniaBible - ScriptureLinks Plugin - ZefaniaBible component is not installed or not enabled.');
 	return;
 }
-
 class plgContentZefaniaScriptureLinks extends JPlugin
 {
 	private $str_default_alias;
@@ -51,6 +49,8 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 	private $flg_scripture_detection_type;
 	private $arr_book_names;
 	private $cnt_books = 0;
+	private $arr_avail_lang;
+	
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
@@ -91,7 +91,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$this->str_regex 					=	$this->params->get('str_regex');
 		$this->str_regex_auto 				=	$this->params->get('str_regex_auto');
 		$this->flg_scripture_detection_type	=	$this->params->get('flg_scripture_detection_type', 0);
-
+		$flg_found_alias = 0;
 		$this->loadLanguage();
 		$jlang = JFactory::getLanguage();		
 		$jlang->load('plg_content_zefaniascripturelinks', JPATH_ADMINISTRATOR, 'en-GB', true);
@@ -102,7 +102,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$this->arr_Bible_books_english[$h] = $arr_english_text[0];
 		}
 		$jlang->load('plg_content_zefaniascripturelinks', JPATH_ADMINISTRATOR, null, true);
-
 		JHtml::_('jquery.ui');
 		JHTML::_('behavior.modal');
 		JHtml::_('bootstrap.tooltip');
@@ -115,6 +114,27 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			$this->str_default_alias = $this->mdl_default->_buildQuery_first_record();
 		}
 		$this->fncLoadLangauges();
+		//$jlang->getTag();
+		$this->arr_avail_bibles = $this->mdl_default->_buildQuery_Bibles_Names();
+		
+		// Attempt to find published alias for current langauge
+		foreach($this->arr_avail_bibles as $arr_bibles)
+		{
+			if($this->str_default_alias == $arr_bibles->alias)
+			{
+				$flg_found_alias = 1;	
+			}
+		}
+		// if alias not found grab first one.
+		if($flg_found_alias == 0)
+		{
+			foreach($this->arr_avail_bibles as $arr_bibles)
+			{
+				$this->str_default_alias = $arr_bibles->alias;
+				break;
+			}
+		}
+		
 		$this->str_regex = str_replace("{zefania-scripture}", $this->str_Bible_books, $this->str_regex);
 	}
 	private function fncLoopBooks($lang)
@@ -148,6 +168,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$this->fncLoopBooks(null);
 				break;		
 		}
+
 		$this->str_Bible_books = substr($this->str_Bible_books, 0, -1); // remove extra | from end of string		
 	}
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
@@ -155,7 +176,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		JFactory::getLanguage()->load('com_zefaniabible', JPATH_BASE, null, true);
 		$document = JFactory::getDocument();
 		$docType = $this->document->getType();			
-
 		if($docType != 'html')
 		{
 			$str_match_fuction = "#{zefaniabible\s*(.*?)}#";
@@ -190,7 +210,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}	
       	return true;
 	}
-
 	private function fnc_Make_Scripture(&$arr_matches)
 	{
 		$str_scripture = "";
@@ -224,7 +243,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$w = 0;
 		$str_title = '';
 		$str_type = '';
-
 		
 		// this will allow setting of different link types for automatic replacement.
 		if(($this->flg_auto_replace) and (!preg_match('#{zefaniabible(.*?)}(.*?){/zefaniabible}#',$arr_matches[0])))
@@ -483,7 +501,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 						{
 							$arr_split_verses = preg_split('#[:]#',$arr_split_chapters[$m]);	
 												
-
 							if(count($arr_split_verses) > 1)
 							{
 								$arr_verse_ranges = explode(',',$arr_split_verses[1]);
@@ -499,7 +516,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 									}
 									$arr_verses_info[$o]['begin_chapter'] = trim($arr_split_verses[0]);
 									$arr_verses_info[$o]['begin_verse'] = trim($arr_verses_temp[0]);
-
 									switch(true)
 									{
 										case (preg_match('/^([0-9]{1,3})([:])([0-9]{1,3})([-])([0-9]{1,3})$/',trim($arr_split_chapters[$m]))):
@@ -577,6 +593,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				case 1:
 					$arr_verses = $this->mdl_default->_buildQuery_scripture($str_alias, $str_Bible_book_id, $str_begin_chap, $str_begin_verse, $str_end_chap, $str_end_verse);	 
 					$str_scripture_verse .= $this->mdl_common->fnc_scripture_text_link($arr_verses, $str_Bible_book_id, $str_begin_chap, $str_end_chap, $str_begin_verse, $str_end_verse, $flg_add_bible_title, $arr_multi_query,$flg_use_multi_query,$str_passages, $flg_add_title = 1);
+					//$str_scripture_verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','',$str_scripture_verse); // remove strong numbers
 					break;
 				// 2 = label
 				case 2:
@@ -631,7 +648,6 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$str_menu_list = $this->params->get('str_exclude_menuitem', '');
 		$str_article_list = $this->params->get('str_exclude_article_id', '');
 		$str_URI_list = $this->params->get('str_exclude_URI', '');
-
 		$flg_return = 0;
 		// exclude component code here 
 		if($str_component_list != '')
