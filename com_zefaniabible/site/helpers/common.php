@@ -1344,7 +1344,10 @@ class ZefaniabibleCommonHelper
 					break;	
 			}
 		}
+		
 		$verse .= 	'<div style="clear:both"></div>';
+		$verse = preg_replace('/(?=\S)([HG](\d{1,4}))/iu','', $verse); // remove strong numbers
+		
 		return $verse;
 	}
 	public function fnc_make_scripture_title($int_book_id, $int_begin_chapter, $int_begin_verse, $int_end_chapter, $int_end_verse, $flg_short=0 )
