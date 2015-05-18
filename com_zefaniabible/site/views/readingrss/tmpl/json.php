@@ -56,7 +56,7 @@ class BibleReadingPlanJSON
 				echo '		"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$obj_verse->book_id).'",'.PHP_EOL;
 				echo '		"chapter":"'.$obj_verse->chapter_id.'",'.PHP_EOL;	
 				echo '		"verse":"'.$obj_verse->verse_id.'",'.PHP_EOL;
-				echo '		"text":"'.strip_tags($obj_verse->verse).'"'.PHP_EOL;
+				echo '		"text":"'.htmlspecialchars(strip_tags($obj_verse->verse)).'"'.PHP_EOL;
 				if(($x >= count($obj_chapter))and($y >= count($item->arr_plan)))
 				{
 					echo '	}'.PHP_EOL;

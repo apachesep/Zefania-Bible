@@ -347,7 +347,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;		
-	}		
+	}
+	
 	function _buildQuery_Bibles_Names()
 	{
 		// Get a array list of only published Bibles and those that match langauge and access criteria.
@@ -357,21 +358,21 @@ class ZefaniabibleModelDefault extends JModelItem
 			$str_lang_tag = $db->quote($this->str_lang_tag);
 						
 			$query  = $db->getQuery(true);
-			$query->select('alias, bible_name');
+			$query->select('alias, bible_name, language');
 			$query->from('`#__zefaniabible_bible_names`');	
 			$query->where("published=1");
 			$query->where("(language=".$str_lang_tag." OR language='all-ALL')");
 			$query->where("(".$this->sql_access_statement.")");
 			$query->order('bible_name');			
 			$db->setQuery($query);
-			$data = $db->loadObjectList();		
+			$data = $db->loadObjectList();	
 		}
 		catch (JException $e)
 		{
 			$this->setError($e);
 		}		
 		return $data;		
-	}	
+	}
 	function _buildQuery_Chapter($int_Bible_Chapter,$int_Bible_Book_ID,$str_Bible_Version)
 	{
 		// Get an array object of particular Bible chapter
@@ -750,17 +751,19 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}	
-	function _buildQuery_reading_plan($str_reading_plan,$int_day_number) 
+	function _buildQuery_reading_plan($str_reading_plan,$int_day_number, $int_number_of_days = 1) 
 	{
 		try 
 		{		
 			
 			$db = $this->getDbo();
+			$int_end_day 		=	$db->quote($int_day_number + $int_number_of_days);
 			$str_lang_tag 		= 	$db->quote($this->str_lang_tag);
 			$str_reading_plan 	=	$db->quote($str_reading_plan);
 			$int_day_number 	=	$db->quote($int_day_number);
+
 			$query  = $db->getQuery(true);
-			$query->select('a.name, a.alias, b.plan, b.book_id, b.begin_chapter, b.begin_verse, b.end_chapter, b.end_verse');
+			$query->select('a.name, a.alias, b.plan, b.book_id, b.begin_chapter, b.begin_verse, b.end_chapter, b.end_verse, b.day_number');
 			$query->from('`#__zefaniabible_zefaniareading` AS a');
 			$query->innerJoin("`#__zefaniabible_zefaniareadingdetails` AS b ON a.id = b.plan");
 			$query->where("a.alias=".$str_reading_plan);
@@ -769,9 +772,16 @@ class ZefaniabibleModelDefault extends JModelItem
 			
 			$sql_access_statement = str_replace("access","a.access",$this->sql_access_statement);	
 			$query->where("(".$sql_access_statement.")");			
-			
-			$query->where("b.day_number=".$int_day_number);			
+			if($int_number_of_days == 1)
+			{
+				$query->where("b.day_number=".$int_day_number);
+			}
+			else
+			{
+				$query->where("b.day_number>=".$int_day_number." and b.day_number <".$int_end_day);
+			}
 			$query->order('b.plan');
+			$query->order('b.day_number');			
 			$query->order('b.book_id');
 			$query->order('b.begin_chapter');
 			$query->order('b.begin_verse');
@@ -1048,7 +1058,8 @@ class ZefaniabibleModelDefault extends JModelItem
 			$this->setError($e);
 		}
 		return $data;		
-	}	
+	}
+	
 	function _get_pagination_readingplan_overview($alias)
 	{
 		try 
@@ -1404,27 +1415,27 @@ class ZefaniabibleModelDefault extends JModelItem
 			$query->where("(".$sql_access_statement.")");
 			
 			// Genesis 1
-			if(($int_begin_chap)and(!$int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse == 0)and($int_end_verse == 0))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1-2
-			else if(($int_begin_chap)and($int_end_chap)and(!$int_begin_verse)and(!$int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap)and($int_begin_verse == 0)and($int_end_verse == 0))
 			{
 				$query->where('a.chapter_id>='.$int_begin_chap_clean);
 				$query->where('a.chapter_id<='.$int_end_chap_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1:1
-			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and(!$int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse)and(!$int_end_verse))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->where('a.verse_id='.$int_begin_verse_clean);
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
 			// Genesis 1:1-2
-			else if(($int_begin_chap)and(!$int_end_chap)and($int_begin_verse)and($int_end_verse))
+			else if(($int_begin_chap)and($int_end_chap == 0)and($int_begin_verse)and($int_end_verse))
 			{
 				$query->where('a.chapter_id='.$int_begin_chap_clean);
 				$query->where('a.verse_id>='.$int_begin_verse_clean);
@@ -1449,13 +1460,16 @@ class ZefaniabibleModelDefault extends JModelItem
 					}
 					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR('.$str_temp.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
 				}
+				else if($int_end_chap == $int_begin_chap)
+				{
+					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')AND( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
+				}
 				else
 				{
 					$query->where('(( a.chapter_id='.$int_begin_chap_clean.' AND a.verse_id>='.$int_begin_verse_clean.')OR( a.chapter_id='.$int_end_chap_clean.' AND a.verse_id<='.$int_end_verse_clean.'))');
 				}
 				$query->order('a.book_id, a.chapter_id, a.verse_id');
 			}
-			
 			$db->setQuery($query, 0,$int_limit_query);
 			$data = $db->loadObjectList();
 		}

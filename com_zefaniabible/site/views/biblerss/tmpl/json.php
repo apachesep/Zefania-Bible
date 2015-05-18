@@ -24,9 +24,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
-
 class BibleJSON {
-
 	public function __construct($item)
 	{	
 		echo '['.PHP_EOL;
@@ -43,7 +41,7 @@ class BibleJSON {
 			echo '	"bookname":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$item->int_Bible_Book_ID).'",'.PHP_EOL;
 			echo '	"chapter":"'.$item->int_Bible_Chapter.'",'.PHP_EOL;	
 			echo '	"verse":"'.$obj_chapter->verse_id.'",'.PHP_EOL;
-			echo '	"text":"'.strip_tags($obj_chapter->verse).'"'.PHP_EOL;
+			echo '	"text":"'.htmlspecialchars(strip_tags($obj_chapter->verse)).'"'.PHP_EOL;
 			if($obj_chapter->verse_id >= count($item->arr_Chapter))
 			{
 				echo '}'.PHP_EOL;

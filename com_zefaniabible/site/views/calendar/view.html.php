@@ -135,7 +135,7 @@ class ZefaniabibleViewCalendar extends JViewLegacy
 		
 		$item->str_view_plan					=	$mdl_default->_buildQuery_get_menu_id('reading');
 		$item->arr_reading						= 	$mdl_default->_buildQuery_readingplan_calendar($item->str_reading_plan, $item->int_day_diff, $item->int_month_max_days);
-
+		
 		if(($item->int_day_diff + $item->int_month_max_days) > $item->int_max_days )
 		{
 			$int_new_reading_days = ($item->int_day_diff + $item->int_month_max_days) - $item->int_max_days;

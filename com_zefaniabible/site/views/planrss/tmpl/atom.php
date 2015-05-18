@@ -26,7 +26,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php 
 class PlanAtom
 {
-
 	public function __construct($item)
 	{
 		/*

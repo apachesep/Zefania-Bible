@@ -22,42 +22,36 @@
 *               \_)  (_/
 */
 
-function fnc_scripture(obj)
-{
-	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&tmpl=component";	
-	switch(obj.type)
-	{			
-		case "dialog":
-			fnc_dialog(url, obj);
-			break;
-		case "tooltip":
-			fnc_tooltip(url, obj);
-			break;		
-		default:
-			fnc_popover(url, obj);
-			break;
-	}
-}
-function fnc_popover(url, obj)
-{
-	jQuery.get( url, function( data ) 
-	{
-		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
-	});
-}
+function fnc_scripture(obj){
+	
+	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
+	var str_verse = "";
+	var int_temp_verse = 0;	
+	jQuery.getJSON( url, function( data ){
+		jQuery.each(data, function( i, item ){
+			jQuery.each(item.scripture, function( j, jitem ) {
+				if(item.scripture.length > 1){
+					if(((int_temp_verse == 0)&&((item.endchap != 0)&&(item.endchap != item.beginchap)))||				
+					((jitem.verseid == 1)&&(int_temp_verse >= jitem.verseid)))
+					{
+						str_verse += '<div class="zef_content_title">'+item.bookname+' '+jitem.chapterid+'</div>';
+					}
 
-function fnc_tooltip(url, obj)
-{
-	jQuery.get( url, function( data ) 
-	{
-		jQuery( ".div-"+obj.unique_id+" p" ).html( data );
-	});
-}
-
-function fnc_dialog(url, obj)
-{
-	jQuery.get( url, function( data ) 
-	{
-		jQuery( ".modal-body-"+obj.unique_id).html(data);
-	});
+					str_verse += '<div id="zef_content_verse" style="margin-left:5px;"><div id="zef_content_verse_id" style="float:left">'+jitem.verseid+'</div><div id="zef_content_verse_text" style="float:left;margin-left:5px;width:90%;">'+jitem.verse+'</div></div><div style="clear:both"></div>';
+					int_temp_verse = jitem.verseid;
+				}else{
+					str_verse = '<div id="zef_content_verse_text" style="margin-left:5px;">'+jitem.verse+'</div>';
+				}
+			});
+		});
+		switch(obj.type)	{			
+			case "dialog":
+				jQuery( ".modal-body-"+obj.unique_id).html(str_verse);
+				break;
+			case "tooltip":	
+			default:
+				jQuery( ".div-"+obj.unique_id+" p").html(str_verse);
+				break;
+		}
+	});	
 }

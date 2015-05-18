@@ -1,5 +1,4 @@
 <?php
-
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -23,13 +22,9 @@
 *               \_)  (_/
 */
 
-
-
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
-
 jimport( 'joomla.application.component.view');
-
 /**
  * HTML View class for the Zefaniabible component
  *
@@ -99,17 +94,17 @@ class ZefaniabibleViewReadingrss extends JViewLegacy
 			case "json":
 			case "json2":
 				$this->document->setMimeEncoding('application/json');	
-				JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.json');		
+				//JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.json');		
 				break;
 								
 			default:
 				$this->document->setMimeEncoding('text/xml');			
 				//JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_reading_plan.'.xml');	
 				break;	
-		}	
-						
+		}			
 		//Filters
 		$this->assignRef('item', $item);
 		parent::display($tpl);
 	}
 }
+?>

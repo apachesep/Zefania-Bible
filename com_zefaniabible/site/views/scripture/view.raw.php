@@ -88,11 +88,18 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->type					= $jinput->get('type', '0', 'INT');
 		$item->str_variant		 	= $jinput->get('variant', 'default', 'CMD');
 		
+		$item->arr_Bibles 				= 	$mdl_default->_buildQuery_Bibles_Names();
+		$item->str_bible_name			= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
+		$item->arr_english_book_names 	= 	$mdl_common->fnc_load_languages();
+		
 		$item->flg_add_title = 0;
 		if($item->str_content_Bible_alias != $item->str_Bible_Version)
 		{
 			$item->flg_add_title = 1;
 		}
+
+		$item->scripture_title 			= $mdl_common->fnc_make_scripture_title($item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse, 0 );
+		$item->scripture_title_short 	= $mdl_common->fnc_make_scripture_title($item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse, 1 );
 		$item->arr_verses = $mdl_default->_buildQuery_scripture($item->str_Bible_Version, $item->int_Bible_Book_ID, $item->str_begin_chap, $item->str_begin_verse, $item->str_end_chap, $item->str_end_verse);	 
 		
 		//Filters
