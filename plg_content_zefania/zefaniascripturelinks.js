@@ -24,9 +24,10 @@
 
 function fnc_scripture(obj){
 	
-	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
+	var url = window.location.protocol+"//"+window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
 	var str_verse = "";
 	var int_temp_verse = 0;	
+	
 	jQuery.getJSON( url, function( data ){
 		jQuery.each(data, function( i, item ){
 			jQuery.each(item.scripture, function( j, jitem ) {
