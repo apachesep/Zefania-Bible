@@ -20,7 +20,6 @@
 	<files>
 		<filename plugin="zefaniascripturelinks">zefaniascripturelinks.php</filename>
 		<filename>index.html</filename>
-		<filename>zefaniascripturelinks.js</filename>
 	</files>
 	
 	<media destination="zefaniascripturelinks" folder="media">
