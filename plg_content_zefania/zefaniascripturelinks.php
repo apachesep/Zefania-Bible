@@ -207,7 +207,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			default:
 				$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})\b(".$this->str_Bible_books.")(\.)?(\s)?(";
 				$str_match_fuction .= "(\d{1,3})([:,-;]?(?=\d))?";
-				$str_match_fuction .= $regex_substitute.
+				$str_match_fuction .= $regex_substitute;
 				$str_match_fuction .= ")(\{\/zefaniabible\})/iu";
 				$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);		
 				break;			
