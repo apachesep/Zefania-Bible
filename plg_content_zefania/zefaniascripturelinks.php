@@ -394,7 +394,7 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_proper_name = $arr_look_up_orig[0];
 				$str_Bible_book_id = $z;
 				$str_passages = trim(str_replace($str_scripture_book_name ,'',$str_scripture));
-				$str_passages = preg_replace( '#\.#', '', $str_passages ); // remove period
+				$str_passages = trim(preg_replace( '#\.#', '', $str_passages )); // remove period
 				$arr_split_chapters = preg_split('#[,;]#',$str_passages);
 				foreach($arr_split_chapters as $obj_chapters)
 				{
