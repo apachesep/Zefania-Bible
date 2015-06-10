@@ -395,56 +395,38 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 				$str_Bible_book_id = $z;
 				$str_passages = trim(str_replace($str_scripture_book_name ,'',$str_scripture));
 				$str_passages = trim(preg_replace( '#\.#', '', $str_passages )); // remove period
-				$arr_split_chapters = preg_split('#[;]#',$str_passages);
+				$arr_split_chapters = preg_split('#[,;]#',$str_passages);
 				foreach($arr_split_chapters as $obj_chapters)
 				{
 					// make defaults;
-					$arr_split_verses = preg_split('#[,]#',$obj_chapters);
-					foreach($arr_split_verses as $obj_verses)
+					$arr_verses_info[$t]['begin_chapter'] = 1;	
+					$arr_verses_info[$t]['end_chapter'] = 0;
+					$arr_verses_info[$t]['begin_verse'] = '0';		
+					$arr_verses_info[$t]['end_verse'] = '0';								
+					switch(true)
 					{
-						$arr_verses_info[$t]['begin_chapter'] = 1;
-						$arr_verses_info[$t]['end_chapter'] = 0;
-						$arr_verses_info[$t]['begin_verse'] = '0';		
-						$arr_verses_info[$t]['end_verse'] = '0';
-						switch(true)
-						{
-							case preg_match('/^([0-9]{1,3}):([0-9]{1,3})$/',$obj_verses): 								// Gen 1:1
-								$arr_split_verses = preg_split('#[:]#',$obj_verses); 			// split on colon
-								list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse']) = $arr_split_verses;
-								break;
-							case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3})$/',$obj_verses): 				// Gen 1:1-4
-								$arr_split_verses = preg_split('#[:-]+#',$obj_verses);	
-								list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse'],$arr_verses_info[$t]['end_verse']) = $arr_split_verses;
-								break;
-							case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3}):([0-9]{1,3})$/',$obj_verses):	// Gen 2:3-3:3
-								$arr_split_verses = preg_split('#[:-]+#',$obj_verses);			// split on colon and hyphen 	
-								list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse'],$arr_verses_info[$t]['end_chapter'],$arr_verses_info[$t]['end_verse']) = $arr_split_verses;	
-								break;
-							case preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/',$obj_verses):								//Gen 1-4	
-								$arr_split_verses = preg_split('#[-]#',$obj_verses); 			// split on hyphen
-								// if comma is found use parse differently
-								if(strpos($obj_chapters, ",") == true)
-								{
-									$arr_verses_info[$t]['begin_chapter'] = $arr_verses_info[$t-1]['begin_chapter'];
-									list($arr_verses_info[$t]['begin_verse'],$arr_verses_info[$t]['end_verse']) = $arr_split_verses;
-								}else{
-									list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['end_chapter']) = $arr_split_verses;									
-								}
-								break;										
-							case preg_match('/^([0-9]{1,3})$/',$obj_verses):											// Gen 1
-							default:																				// as default send genesis 1
-								// if comma is found use parse differently							
-								if(strpos($obj_chapters, ",") == true)
-								{
-									$arr_verses_info[$t]['begin_chapter'] = $arr_verses_info[$t-1]['begin_chapter'];
-									$arr_verses_info[$t]['begin_verse'] = $obj_verses;
-								}else{
-									$arr_verses_info[$t]['begin_chapter'] = $obj_verses;	
-								}
-								break;
-						}
-						$t++;
-					}				
+						case preg_match('/^([0-9]{1,3}):([0-9]{1,3})$/',$obj_chapters): 								// Gen 1:1
+							$arr_split_verses = preg_split('#[:]#',$obj_chapters); 			// split on colon
+							list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse']) = $arr_split_verses;
+							break;
+						case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3})$/',$obj_chapters): 				// Gen 1:1-4
+							$arr_split_verses = preg_split('#[:-]+#',$obj_chapters);	
+							list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse'],$arr_verses_info[$t]['end_verse']) = $arr_split_verses;
+							break;
+						case preg_match('/^([0-9]{1,3}):([0-9]{1,3})-([0-9]{1,3}):([0-9]{1,3})$/',$obj_chapters):	// Gen 2:3-3:3
+						 	$arr_split_verses = preg_split('#[:-]+#',$obj_chapters);			// split on colon and hyphen 	
+							list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['begin_verse'],$arr_verses_info[$t]['end_chapter'],$arr_verses_info[$t]['end_verse']) = $arr_split_verses;	
+							break;
+						case preg_match('/^([0-9]{1,3})-([0-9]{1,3})$/',$obj_chapters):								//Gen 1-4	
+							$arr_split_verses = preg_split('#[-]#',$obj_chapters); 			// split on hyphen
+							list($arr_verses_info[$t]['begin_chapter'],$arr_verses_info[$t]['end_chapter']) = $arr_split_verses;
+							break;										
+						case preg_match('/^([0-9]{1,3})$/',$obj_chapters):											// Gen 1
+						default:																					// as default send genesis 1
+							$arr_verses_info[$t]['begin_chapter'] = $obj_chapters;
+							break;
+					}		
+					$t++;
 				}
 				break;
 			}
