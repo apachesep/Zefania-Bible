@@ -192,21 +192,19 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 			}
 			$this->cnt_articles++;
 		}
-		$regex_substitute = "((\d{1,3})?([:,-;]?(?=\d))?){0,50}";  // 0 to 50 interations
+		$regex_substitute = "((\d{1,3})+([:,-;]?(?=\d{1,3}))?)+";
 		switch (true)
 		{
 			case $this->flg_auto_replace:
 			case (JRequest::getCmd('option') == 'com_zefaniabible')and(JRequest::getCmd('view') == 'strong'):
 			case (JRequest::getCmd('option') == 'com_zefaniabible')and(JRequest::getCmd('view') == 'commentary'): 
 				$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})?\b(".$this->str_Bible_books.")(\.)?(\s)?(";
-				$str_match_fuction .= "(\d{1,3})([:,-;]?(?=\d))?";
 				$str_match_fuction .= $regex_substitute;
 				$str_match_fuction .= ")(\{\/zefaniabible\})?/iu";
 				$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);		
 				break;				
 			default:
 				$str_match_fuction = "/(?=\S)(\{zefaniabible*(.*?)\})\b(".$this->str_Bible_books.")(\.)?(\s)?(";
-				$str_match_fuction .= "(\d{1,3})([:,-;]?(?=\d))?";
 				$str_match_fuction .= $regex_substitute;
 				$str_match_fuction .= ")(\{\/zefaniabible\})/iu";
 				$row->text = preg_replace_callback( $str_match_fuction, array( &$this, 'fnc_Make_Scripture'),  $row->text);		
