@@ -80,11 +80,11 @@ class plgSystemZefaniaEmail extends JPlugin
 		$item->int_current_hour = 0;
 		foreach($item->arr_last_publish_dates as $obj_publish_dates)
 		{
-			if(strpos($obj_publish_dates->title, "COM_ZEFANIABIBLE_READING_PLAN_EMAIL") > 0)
+			if(strpos($obj_publish_dates->title, "COM_ZEFANIABIBLE_READING_PLAN_EMAIL") !== False)
 			{
 				$item->str_reading_send_date = $obj_publish_dates->last_send_date;
 			}
-			if(strpos($obj_publish_dates->title, "COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL") > 0)
+			if(strpos($obj_publish_dates->title, "COM_ZEFANIABIBLE_VERSE_OF_DAY_EMAIL") !== False)
 			{
 				$item->str_verse_send_date = $obj_publish_dates->last_send_date;
 			}
