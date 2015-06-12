@@ -43,6 +43,7 @@
 				<field name="verse_of_day_start_date" type="calendar" label="PLG_ZEFANIABIBLE_READING_START_DATE" description="PLG_ZEFANIABIBLE_READING_START_DATE_DESC" default="2012-1-1" format="%Y-%m-%d" filter="server_utc" />
 				<field name="verse_of_day_image" type="media" label="PLG_ZEFANIABIBLE_VERSE_OF_DAY_IMAGE" description="PLG_ZEFANIABIBLE_VERSE_OF_DAY_IMAGE_DESC" />				
 				<field name="reading_plan_image" type="media" label="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE" description="PLG_ZEFANIABIBLE_READING_PLAN_IMAGE_DESC" />				
+				<field name="int_hour" type="integer" default="0" label="PLG_ZEFANIABIBLE_HOUR" description="PLG_ZEFANIABIBLE_HOUR_DESC" first="0" last="23" step="1" />				
 			</fieldset>
 		</fields>	
 	</config>

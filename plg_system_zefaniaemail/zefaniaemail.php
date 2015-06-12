@@ -71,11 +71,13 @@ class plgSystemZefaniaEmail extends JPlugin
 		$item->str_verse_start_date 			= $this->params->get('verse_of_day_start_date', '2012-01-01');
 		$item->str_image_verse_of_day			= $this->params->get('verse_of_day_image');
 		$item->str_image_reading_plan 			= $this->params->get('reading_plan_image');
+		$item->int_request_sent_hour 			= $this->params->get('int_hour');
 		$item->str_image_verse_of_day_absolute 	= JRoute::_(JUri::base().$item->str_image_verse_of_day);
 		$item->str_image_reading_plan_absolute 	= JRoute::_(JUri::base().$item->str_image_reading_plan);
 		$item->arr_last_publish_dates			= $mdl_default->fnc_get_last_publish_date();		// get all dates at once to reduce extra DB calls
 		$item->str_verse_send_date = "";
 		$item->str_reading_send_date = "";
+		$item->int_current_hour = 0;
 		foreach($item->arr_last_publish_dates as $obj_publish_dates)
 		{
 			if(strpos($obj_publish_dates->title, "COM_ZEFANIABIBLE_READING_PLAN_EMAIL") > 0)
@@ -91,10 +93,10 @@ class plgSystemZefaniaEmail extends JPlugin
 		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
 		$item->str_today = $JDate->format('Y-m-d', true);
 		$item->arr_today = new DateTime($item->str_today);
-		
+		$item->int_current_hour = $JDate->format('G', true);
 		$link = '<a href="'.JRoute::_(JUri::base().'index.php?view=unsubscribe&option=com_zefaniabible').'" target="blank">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_WORD').'</a>';
 		$item->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
-		if(($item->str_reading_send_date != $item->str_today)or($item->str_verse_send_date != $item->str_today))
+		if((($item->str_reading_send_date != $item->str_today)or($item->str_verse_send_date != $item->str_today))and($item->int_current_hour >= $item->int_request_sent_hour))
 		{
 			$item->arr_subscribers 	= $mdl_default->fnc_get_subsribers();
 			foreach($item->arr_subscribers as $arr_subscriber)
