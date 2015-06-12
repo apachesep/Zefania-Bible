@@ -184,10 +184,9 @@ class ZefaniabibleModelDefault extends JModelItem
 		try
 		{
 			$db = JFactory::getDBO();
-			$str_title_clean = $db->quote($str_title);
 			$arr_row = new stdClass();
 			$arr_row->id 				= $int_id;
-			$arr_row->title 			= $str_title_clean;
+			$arr_row->title 			= $str_title;
 			$arr_row->last_send_date 	= $str_today;
 			$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
 		}
