@@ -138,6 +138,64 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;			
 	}
+	public function fnc_get_subsribers()
+	{
+		try 
+		{
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('a.user_name, a.plan, a.bible_version, a.email, a.send_reading_plan_email, a.send_verse_of_day_email, a.reading_start_date, b.alias as plan_alias, b.name as plan_name, c.bible_name, c.alias as bible_alias');
+			$query->innerJoin('`#__zefaniabible_zefaniareading` AS b ON a.plan = b.id');
+			$query->innerJoin('`#__zefaniabible_bible_names` AS c ON a.bible_version = c.id');
+			$query->from('`#__zefaniabible_zefaniauser` AS a');
+			$query->where("reading_start_date <= CURDATE()");
+			$query->where("send_reading_plan_email=1 or send_verse_of_day_email=1");
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
+	public function fnc_get_last_publish_date()
+	{
+		try 
+		{
+			$db		= JFactory::getDbo();
+			$query  = $db->getQuery(true);
+			$query->select('title, last_send_date');
+			$query->from('`#__zefaniabible_zefaniapublish`');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();	
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;	
+	}
+	public function fnc_Update_Dates($str_title, $int_id)
+	{
+ 		$config = JFactory::getConfig();
+		$JDate = JFactory::getDate('now', new DateTimeZone($config->get('offset')));
+		$str_today = $JDate->format('Y-m-d', true);		
+		try
+		{
+			$db = JFactory::getDBO();
+			$str_title_clean = $db->quote($str_title);
+			$arr_row = new stdClass();
+			$arr_row->id 				= $int_id;
+			$arr_row->title 			= $str_title_clean;
+			$arr_row->last_send_date 	= $str_today;
+			$db->updateObject("#__zefaniabible_zefaniapublish", $arr_row, 'id');
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}		
+	}
 	public function fnc_make_verse($str_Bible_Version,$int_book_id,$int_bible_chapter,$str_start_verse,$str_end_verse)
 	{
 		// Make a scripture verse, returns an array object
@@ -929,7 +987,7 @@ class ZefaniabibleModelDefault extends JModelItem
 			}
 			$str_Bible_Version 		= $db->quote($str_Bible_Version);
 			$query  = $db->getQuery(true);	
-			$query->select('a.verse');
+			$query->select('a.verse_id, a.verse');
 			$query->from('`#__zefaniabible_bible_text` AS a');
 			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
 			$query->where("b.alias=".$str_Bible_Version);
