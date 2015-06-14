@@ -95,7 +95,7 @@ class plgSystemZefaniaEmail extends JPlugin
 		$item->arr_today = new DateTime($item->str_today);
 		$item->int_current_hour = $JDate->format('G', true);
 		$link = '<a href="'.JRoute::_(JUri::base().'index.php?view=unsubscribe&option=com_zefaniabible').'" target="blank">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_WORD').'</a>';
-		$item->str_unsubscribe_message = '<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>';
+		$item->str_unsubscribe_message = '		<br><div style="border-top-color: #BFC3C6;color:#999;border-top: 1px dotted;">'.JText::_('PLG_ZEFANIABIBLE_READING_UNSUBSCRIBE_MESSAGE')." ".$link.'.</div>'.PHP_EOL;
 		if((($item->str_reading_send_date != $item->str_today)or($item->str_verse_send_date != $item->str_today))and($item->int_current_hour >= $item->int_request_sent_hour))
 		{
 			$item->arr_subscribers 	= $mdl_default->fnc_get_subsribers();
@@ -117,6 +117,7 @@ class plgSystemZefaniaEmail extends JPlugin
 
 					$item->str_message						= 	$this->fnc_Build_Bible_reading($item);
 					$item->str_subject 						= 	$arr_subscriber->plan_name." - ". $arr_subscriber->bible_name." - ".JText::_('PLG_ZEFANIABIBLE_READING_DAY')." ".$item->int_reading_remainder;
+					echo $item->str_message;
 					if($item->str_message)
 					{
 						$this->fnc_Send_SignUp_Email($arr_subscriber->user_name,$arr_subscriber->email,$item->str_message, $item->str_subject, $item->str_from_email,$item->str_from_email_name);
@@ -143,14 +144,20 @@ class plgSystemZefaniaEmail extends JPlugin
 	{
 		$str_message = '';
 		$x=0;
-		try
-		{
-			$book = 0;
-			$chap = 0;
-			$y = 1;
+		$book = 0;
+		$chap = 0;
+		$y = 1;
+			$str_message .= '<!DOCTYPE html><html lang="en">'.PHP_EOL;
+    		$str_message .= '	<head>'.PHP_EOL;
+			$str_message .= '		<meta charset="utf-8" />'.PHP_EOL;
+			$str_message .= '		<title>Pacific Trails Resort :: Reservations</title>'.PHP_EOL;
+			$str_message .= '		<link rel="stylesheet" href="pacific.css" type="text/css" />'.PHP_EOL;
+			$str_message .= '		<meta name="viewport" content="width=device-width, initial-scale=1.0" />'.PHP_EOL;
+			$str_message .= '	</head>'.PHP_EOL;
+			$str_message .= '	<body>'.PHP_EOL;
 			if($item->str_image_reading_plan)
 			{
-				$str_message .=  '<table><img src="'.$item->str_image_reading_plan_absolute.'" border="0" /></table>'.PHP_EOL;
+				$str_message .=  '		<table>'.PHP_EOL.'<img src="'.$item->str_image_reading_plan_absolute.'" border="0" />'.PHP_EOL.'</table>'.PHP_EOL;
 			}
 			foreach($item->arr_plan as $reading)
 			{
@@ -160,35 +167,31 @@ class plgSystemZefaniaEmail extends JPlugin
 					{
 						if($y > 1)
 						{
-							$str_message .=  '</table>'.PHP_EOL;
+							$str_message .=  '		</table>'.PHP_EOL;
 						}
 						$book = $plan->book_id;
 						$chap = $plan->chapter_id;
-						$str_message .= '<table><tr><td style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id)." ";
-						$str_message .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8')." ".$plan->chapter_id."</td></tr></table>".PHP_EOL;
-						$str_message .=  "<table>".PHP_EOL;		
+						$str_message .= '		<table>'.PHP_EOL.'			<tr>'.PHP_EOL.'				<td style="font-weight:bold">'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$plan->book_id).' ';
+						$str_message .=  mb_strtolower(JText::_('ZEFANIABIBLE_BIBLE_CHAPTER'),'UTF-8').' '.$plan->chapter_id.'</td>'.PHP_EOL.'			</tr>'.PHP_EOL.'		</table>'.PHP_EOL;
+						$str_message .=  '		<table>'.PHP_EOL;		
 					}
 					if ($y % 2)
 					{
-						$str_message .= '<tr>'.PHP_EOL;
+						$str_message .= '			<tr>'.PHP_EOL;
 					}
 					else
 					{
-						$str_message .= '<tr style="background-color:#CCC;border:none;">'.PHP_EOL;
+						$str_message .= '			<tr style="background-color:#CCC;border:none;">'.PHP_EOL;
 					}
-					$str_message .=  '<td style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$plan->verse_id."</td>".PHP_EOL;
-					$str_message .=  "<td style='float:left;width:95%;'>".$plan->verse."</td></tr>".PHP_EOL;				
+					$str_message .=  '				<td style="float:left;margin-right:3px;font-size:10px;color:#FF0000;">'.$plan->verse_id."</td>".PHP_EOL;
+					$str_message .=  '				<td style="float:left;width:95%;">'.$plan->verse.'</td>'.PHP_EOL.'			</tr>'.PHP_EOL;				
 					$y++;
 				}
-				$str_message .= '</table>'.PHP_EOL;
+				$str_message .= '		</table>'.PHP_EOL;
 			}
-			$str_message .=  $item->str_unsubscribe_message;			
-		}
-		catch (JException $e)
-		{
-			$this->setError($e);
-		}		
-			
+			$str_message .=  $item->str_unsubscribe_message;					
+			$str_message .=  '    </body>'.PHP_EOL;
+			$str_message .=  '</html>'.PHP_EOL;
 		return $str_message; 
 	}
 	
