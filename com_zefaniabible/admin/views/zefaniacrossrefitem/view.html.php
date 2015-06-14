@@ -55,7 +55,7 @@ class ZefaniabibleViewZefaniacrossrefItem extends JViewLegacy
 		if (isset($this->item->checked_out)) {
 		    $checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
         } else {
-            $checkedOut = false;
+            $checkedOut = false;
         }
 		
 		// If not checked out, can save the item.

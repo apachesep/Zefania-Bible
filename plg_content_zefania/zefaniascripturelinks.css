@@ -156,3 +156,16 @@ div.modal
 {
 	cursor:pointer;	
 }
+.popover-title
+{
+	font-weight:bold;
+}
+.arrow, .tooltip-arrow
+{
+	visibility:hidden;	
+}
+.tooltip-inner
+{
+	min-width:400px;
+	
+}

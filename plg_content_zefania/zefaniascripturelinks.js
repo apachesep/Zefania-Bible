@@ -24,9 +24,20 @@
 
 function fnc_scripture(obj){
 	
-	var url = window.location.hostname+"/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
+	var lang = document.getElement('html').getProperty('lang');	
+	lang = lang.substring(0,2);	
+	var current_url = window.location.href;
+	var test_lang = "/"+lang+"/";
+	var working_url = "";
 	var str_verse = "";
 	var int_temp_verse = 0;	
+	if(current_url.indexOf(test_lang) > 0)
+	{
+		working_url = window.location.protocol+"//"+window.location.hostname+"/"+lang;
+	}else{
+		working_url = window.location.protocol+"//"+window.location.hostname;
+	}
+	var url = working_url + "/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
 	jQuery.getJSON( url, function( data ){
 		jQuery.each(data, function( i, item ){
 			jQuery.each(item.scripture, function( j, jitem ) {

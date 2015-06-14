@@ -2,8 +2,8 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="text" label="ZEFANIABIBLE_FIELD_ID" description="" maxlength="10" filter="INTEGER" class="readonly" readonly="true" />
-		<field name="title" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" />
-		<field name="last_send_date" label="COM_ZEFANIABIBLE_LAYOUT_LAST_SEND_DATE" description="" type="calendar" maxlength="20" />
+		<field name="title" label="ZEFANIABIBLE_FIELD_NAME" description="" type="text" maxlength="255" readonly="true" />
+		<field name="last_send_date" label="COM_ZEFANIABIBLE_LAYOUT_LAST_SEND_DATE" description="" type="calendar" filter="server_utc" format="%d-%m-%Y" maxlength="20" />
 	</fieldset>
 	<fields name="params">
 		<fieldset name="params">

@@ -56,7 +56,7 @@ class ZefaniabibleViewZefaniaverseofday extends JViewLegacy
 	{
 		$state	= $this->get('State');
 		$canDo	= ZefaniabibleHelper::getActions();
-		$user	= JFactory::getUser();
+		$user	= JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
