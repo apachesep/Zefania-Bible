@@ -59,7 +59,7 @@ class ZefaniabibleModelZefaniapublishItem extends JModelAdmin
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-	}
+	}
 
 	/**
 	 * Auto-populate the model state.

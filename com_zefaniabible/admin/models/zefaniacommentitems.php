@@ -345,7 +345,7 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
 			}
 			else
-			{
+			{
 				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
 			}	
 		}
