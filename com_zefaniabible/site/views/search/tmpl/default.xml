@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="ZEFANIABIBLE_VIEW_SEARCH">
+		<message><![CDATA[ZEFANIABIBLE_VIEW_SEARCH_LAYOUT]]></message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field name="primaryBible" type="sql" label="COM_ZEFANIABIBLE_PRIMARY_BIBLE" description="COM_ZEFANIABIBLE_PRIMARY_BIBLE_DESC" query="SELECT bible_name, alias, id FROM #__zefaniabible_bible_names WHERE published=1 ORDER BY bible_name" key_field="alias" value_field = "bible_name" />		
+			<field name="query" type="text" default="jesus" label="COM_ZEFANIABIBLE_SEARCH_STRING" description="COM_ZEFANIABIBLE_SEARCH_STRING_DESC" filter="raw" />
+		</fieldset>	
+	</fields>
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+		<fieldset name="basic" label="COM_ZEFANIABIBLE_BASIC_LABEL" description="COM_ZEFANIABIBLE_BASIC_LABEL_DESC">
+			<field name="flg_only_primary_bible" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE" description="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>			
+	</fields>	
+</metadata>
