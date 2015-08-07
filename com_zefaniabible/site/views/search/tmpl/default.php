@@ -36,7 +36,7 @@ class ZefaniaSearch
 		$result_count = count($item->arr_search_result);
 		echo '{'.PHP_EOL;
 		echo '	"type":"search",'.PHP_EOL;
-		echo '	"alias:": "'.$item->str_primary_bible.'",'.PHP_EOL;
+		echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
 		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
 		echo '	"query": "'.$item->query.'",'.PHP_EOL;
 		echo '	"max-limit":"'.$item->int_limit_query.'",'.PHP_EOL;
