@@ -679,6 +679,7 @@ class ZefaniabibleCommonHelper
 	}
 	public function fnc_make_meta_desc($arr_meta)
 	{
+		$str_metadesc = '';
 		foreach ($arr_meta as $meta)
 		{
 			$str_metadesc = trim($meta->metadesc);
@@ -687,6 +688,7 @@ class ZefaniabibleCommonHelper
 	}
 	public function fnc_make_meta_key($arr_meta)
 	{
+		$str_metakey = '';
 		foreach ($arr_meta as $meta)
 		{
 			$str_metakey = trim($meta->metakey);
