@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					if($this->item->flg_show_page_bot)
 					{
 						echo $this->pagination->getListFooter();
-					}
+					}
 				?>  
                 <div style="clear:both"></div>
                 <?php 

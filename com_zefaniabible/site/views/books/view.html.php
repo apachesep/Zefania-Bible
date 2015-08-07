@@ -75,7 +75,7 @@ class ZefaniabibleViewBooks extends JViewLegacy
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');	
 		$item->flg_use_sef			= JFactory::getApplication()->getRouter()->getMode();
 		
-		
+		
 		if($item->str_variant == 'json')
 		{		
 			header('HTTP/1.1 301 Moved Permanently');
