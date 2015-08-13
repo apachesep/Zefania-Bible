@@ -79,14 +79,14 @@ class ZefaniabibleViewSearch extends JViewLegacy
 		$item = new stdClass();
 		$item->str_primary_bible 	= $params->get('primaryBible', $mdl_default->_buildQuery_first_record());		
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
-		$item->query 				= $jinput->get('query', 'john 3:16', 'STRING');
+		$item->query 				= strip_tags(htmlentities($jinput->get('query', 'john 3:16', 'STRING'))); 
 		$item->int_limit_query		= $params->get('int_limit_query', 100);
 		
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();
 		$item->str_bible_name			= $mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_search_result		= $mdl_default->_buildQuery_search_bible($item->str_Bible_Version, $item->query, $item->int_limit_query);
-		//print_r($item);
+
 		$this->document->setMimeEncoding('application/json');
 		
 		
