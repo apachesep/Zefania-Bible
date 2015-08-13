@@ -86,7 +86,7 @@ class ZefaniabibleViewSearch extends JViewLegacy
 		header('HTTP/1.1 301 Moved Permanently');
 		if($item->flg_use_sef)
 		{
-			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=search&bible='.$item->str_primary_bible.'&query='.$item->query).'?format=raw');	
+			header('Location: '.substr(JURI::base(),0, -1).JRoute::_('index.php?option=com_zefaniabible&view=search&bible='.$item->str_primary_bible).'?query='.$item->query.'&format=raw');	
 		}
 		else
 		{
