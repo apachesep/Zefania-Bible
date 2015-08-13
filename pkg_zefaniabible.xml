@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.3.0" method="upgrade">
+	<name>ZeaniaBible Package</name>
+	<author>Andrei Chernyshev</author>
+	<creationDate>2014-12-17</creationDate>
+	<copyright>(C) 2014</copyright>
+	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
+	<authorUrl>http://www.zefaniabible.com</authorUrl>
+	<version>4.4.0</version>
+	<license>http://www.gnu.org/licenses/gpl.html</license>
+	<packagename>zefaniabible</packagename>
+	<url>http://www.zefaniabible.com</url>
+	<packager>Andrei Chernyshev</packager>
+	<packagerurl>http://www.zefaniabible.com</packagerurl>
+	<description>ZeaniaBible Packages</description>
+	<update>http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=11</update>
+	<files>
+		<file type="component" id="com_zefaniabible" >com_zefaniabible_4_4_0.zip</file>
+		<file type="module" id="mod_readingplan" client="site">mod_readingplan_4_0_0.zip</file>
+		<file type="module" id="mod_verseoftheday" client="site">mod_verseoftheday_4_1_0.zip</file>
+		<file type="module" id="mod_zefaniasubscribe" client="site">mod_zefaniasubscribe_4_4_0.zip</file>
+		<file type="module" id="mod_weekly_reading" client="site">mod_weekly_reading_4_2_0.zip</file>
+		
+		<file type="plugin" id="plg_content_zefania" client="site">plg_content_zefania_4_4_0.zip</file>
+		<file type="plugin" id="plg_editors-xtd_zefaniabible" client="site">plg_editors-xtd_zefaniabible_4_0_0.zip</file>
+		<file type="plugin" id="plg_search_zefaniabible" client="site">plg_search_zefaniabible_4_4_0.zip</file>
+		<file type="plugin" id="plg_system_zefaniaemail" client="site">plg_system_zefaniaemail_4_3_0.zip</file>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="zefaniabible.com">http://www.zefaniabible.com/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=11</server>
+	</updateservers>
+</extension>
