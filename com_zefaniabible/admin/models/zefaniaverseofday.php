@@ -231,7 +231,7 @@ class ZefaniabibleModelZefaniaverseofday extends JModelList
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   12.2
-	 */
+	 */
 	public function getItems()
 	{
 		if ($items = parent::getItems()) {

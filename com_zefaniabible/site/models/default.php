@@ -1206,6 +1206,31 @@ class ZefaniabibleModelDefault extends JModelItem
 		}
 		return $data;
 	}
+	function _buildQuery_search_bible($alias, $search_string, $limit)
+	{
+		try 
+		{
+			$db 					= $this->getDbo();
+			$query  				= $db->getQuery(true);	
+			$alias_clean			= $db->quote($alias);
+			$search_string_clean	= $db->quote('%'.$search_string.'%');
+			$query->select('a.book_id, a.chapter_id, a.verse_id, a.verse, b.alias, b.bible_name');
+			$query->from('`#__zefaniabible_bible_text` AS a');
+			$query->innerJoin("`#__zefaniabible_bible_names` AS b ON a.bible_id = b.id");
+			if($alias != "")
+			{
+				$query->where("b.alias=".$alias_clean);
+			}
+			$query->where("(a.verse LIKE ".$search_string_clean.")");
+			$db->setQuery($query, 0, $limit);
+			$data = $db->loadObjectList();
+		}
+		catch (JException $e)
+		{
+			$this->setError($e);
+		}
+		return $data;		
+	}	
 	function _buildQuery_get_menu_id($str_view)
 	{
 		try 

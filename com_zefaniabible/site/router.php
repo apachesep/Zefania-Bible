@@ -252,6 +252,13 @@ function ZefaniabibleBuildRoute(&$query){
 			}
 		
 			break;
+		case "search":
+			if(isset($query['bible']))
+			{
+				$segments[] = $query['bible'];
+				unset( $query['bible'] );
+			}			
+			break;			
 		case "sitemap":
 			if(isset($query['bible']))
 			{
@@ -583,7 +590,14 @@ function ZefaniabibleParseRoute($segments)
 				$vars['type'] = $segments[$nextPos];
 				$nextPos++;			
 			}	
-			break;		
+			break;
+		case "search":
+			if (isset($segments[$nextPos]))
+			{		
+				$vars['bible'] = $segments[$nextPos];
+				$nextPos++;
+			}			
+			break;			
 		case "sitemap":
 			if (isset($segments[$nextPos]))
 			{		

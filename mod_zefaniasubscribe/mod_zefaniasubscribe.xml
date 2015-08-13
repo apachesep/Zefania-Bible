@@ -6,7 +6,7 @@
 	<copyright>(C) 2012</copyright>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.zefaniabible.com</authorUrl>
-	<version>4.0.0</version>
+	<version>4.4.0</version>
 	<license>http://www.gnu.org/licenses/gpl.html</license>
 	<description>This module allows users to subscibe to the reading plan daily email and verse of the day email which is sent out daily.</description>
 	<files>
@@ -43,11 +43,11 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="flg_overlay" type="radio" class="btn-group" default="0" label="MOD_ZEFANIASUBSCRIBE_SHOW_OVERLAY" description="MOD_ZEFANIASUBSCRIBE_SHOW_OVERLAY_DESC">
-						<option value="1">JYES</option>
-						<option value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-				<field name="overlay_width" type="text" size="10" default="640"  label="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH_DESC" />
-				<field name="overlay_height" type="text" size="10" default="480" label="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT_DESC" />
+				<field name="overlay_width" showon="flg_overlay:1" type="text" size="10" default="640"  label="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_WIDTH_DESC" />
+				<field name="overlay_height" showon="flg_overlay:1" type="text" size="10" default="480" label="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT" description="MOD_ZEFANIASUBSCRIBE_OVERLAY_HEIGHT_DESC" />
 		
 				<field name="flg_use_image" type="radio" class="btn-group" default="0" label="MOD_ZEFANIASUBSCRIBE_USE_IMAGE" description="MOD_ZEFANIASUBSCRIBE_USE_IMAGE_DESC">
 						<option value="1">JYES</option>

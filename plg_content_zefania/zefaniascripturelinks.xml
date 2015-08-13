@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>4.3.1</version>
+	<version>4.4.0</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -77,7 +77,6 @@
 	<config>		
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="content_Bible_alias" type="sql" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE published = 1" key_field="alias" value_field = "bible_name" />				
 				<field name="flg_automatic_scripture_detection" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_AUTOMATIC_DETEC_DESC">
 						<option value="0">JNO</option>
 						<option value="1">JYES</option>
@@ -96,9 +95,7 @@
 						<option value="5">PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DIALOG</option>
 						<option value="6">PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY</option>
 				</field>
-			</fieldset>				
-			<fieldset name="link" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LINK">				
-				<field name="bible_gateway_version" type="list" default="51" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
+				<field name="bible_gateway_version" showon="flg_automatic_scripture_type:6" type="list" default="51" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_BIBLEGATEWAY_DESC">
 				  <option value="69">	1550 Stephanus New Testament (NT)	</option>
 				  <option value="68">	1881 Westcott-Hort New Testament (NT)	</option>
 				  <option value="70">	1894 Scrivener New Testament (NT)	</option>
@@ -216,12 +213,11 @@
 				  <option value="WYC">	Wycliffe Bible	</option>
 				  <option value="15">	Young's Literal Translation	</option>
 				</field>
-				<field name="modal_box_width" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
-				<field name="modal_box_height" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />
-			</fieldset>
-			<fieldset name="label" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_LABEL">
-				<field name="str_label_default" type="text"  size="50" default="Scripture Reference" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT_DESC" />			
-			</fieldset>
+				<field name="content_Bible_alias" showon="flg_automatic_scripture_type:0,1,2,3,4,5" type="sql" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_SCRIPTURE_DESC" query="SELECT bible_name,alias FROM #__zefaniabible_bible_names WHERE published = 1" key_field="alias" value_field = "bible_name" />				
+				<field name="modal_box_width" showon="flg_automatic_scripture_type:0,2,6" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
+				<field name="modal_box_height" showon="flg_automatic_scripture_type:0,2,6" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />				
+				<field name="str_label_default" showon="flg_automatic_scripture_type:2" type="text"  size="50" default="Scripture Reference" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT_DESC" />							
+			</fieldset>			
 			<fieldset name="exclude" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_EXCLUDE">						
 				<field name="str_exclude_component" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT_DESC" rows="3" cols="25" />
 				<field name="str_exclude_menuitem" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_MENUITEM_DESC" rows="3" cols="25" />

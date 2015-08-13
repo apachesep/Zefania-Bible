@@ -39,7 +39,7 @@ foreach ($arr_verse as $verse)
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'zefaniaverseofdayitem.cancel' || document.formvalidator.isValid(document.id('zefaniaverseofdayitem-form')))
 		{

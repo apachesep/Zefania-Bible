@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.0.0</version>
+	<version>4.4.0</version>
 	<description>PLG_ZEFANIABIBLE_SEARCH_DESCRIPTION</description>
 	<files>
 		<filename plugin="zefaniabible">zefaniabible.php</filename>
@@ -83,7 +83,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="flg_search_one_commentary" type="radio" class="btn-group" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY" >
+				<field name="flg_search_one_commentary" showon="flg_search_commentary:1" type="radio" class="btn-group" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_COMMENTARY" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>						
@@ -93,7 +93,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="flg_search_one_dictionary" type="radio" class="btn-group" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY" >
+				<field name="flg_search_one_dictionary" showon="flg_search_dictionary:1" type="radio" class="btn-group" default="0" description="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY_DESC" label="PLG_ZEFANIABIBLE_SEARCH_ONE_DICTIONARY" >
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>								

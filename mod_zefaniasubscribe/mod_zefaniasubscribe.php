@@ -86,7 +86,7 @@ class zefSubscibe
 			$jinput = JFactory::getApplication()->input;
 			$item->str_user_name 	= 	$jinput->get('mod_zef_subs_name', null,'USERNAME');
 			$item->str_email 		= 	$jinput->get('mod_zef_subs_email', $user->email, 'STRING');
-			if(trim($item->str_user_name) !='')
+			if(trim($item->str_user_name) !='')
 			{
 				if($item->flg_use_catcha)
 				{
