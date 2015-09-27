@@ -79,11 +79,11 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		{
 			return;
 		}
-		$this->str_tmpl 						=	JRequest::getCmd('tmpl');
+		$this->str_tmpl 					=	JRequest::getCmd('tmpl');
 		$this->int_BibleGateway_id  		= 	$this->params->get('bible_gateway_version', '51');
 		$this->int_modal_box_height  		= 	$this->params->get('modal_box_height', '500');
 		$this->int_modal_box_width  		= 	$this->params->get('modal_box_width', '700'); 
-		$this->flg_auto_replace 				=	$this->params->get('flg_automatic_scripture_detection', '0');
+		$this->flg_auto_replace 			=	$this->params->get('flg_automatic_scripture_detection', '0');
 		$this->flg_only_css  				=	$this->params->get('flg_only_css', '0');	
 		$this->str_default_alias 			=	$this->params->get('content_Bible_alias' );
 		$this->flg_automatic_scripture_type = 	$this->params->get('flg_automatic_scripture_type','0');
@@ -91,6 +91,9 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		$this->str_regex 					=	$this->params->get('str_regex');
 		$this->str_regex_auto 				=	$this->params->get('str_regex_auto');
 		$this->flg_scripture_detection_type	=	$this->params->get('flg_scripture_detection_type', 0);
+		$this->flg_use_inline_js 			=	$this->params->get('flg_use_inline_js', 0);
+		$this->flg_no_conflict_mode 		=	$this->params->get('flg_no_conflict_mode', 0);
+		
 		$flg_found_alias = 0;
 		$this->loadLanguage();
 		$jlang = JFactory::getLanguage();		
@@ -107,7 +110,17 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		JHtml::_('bootstrap.tooltip');
 		JHtml::_('bootstrap.popover');		
 		$this->document->addStyleSheet(JURI::base(true).'/media/zefaniascripturelinks/zefaniascripturelinks.css'); 
-		$this->document->addScript(JURI::base(true).'/media/zefaniascripturelinks/zefaniascripturelinks.js');		
+		if($this->flg_use_inline_js)
+		{
+			if($this->flg_no_conflict_mode)
+			{
+				$this->fnc_make_inline_js(true);
+			}else {				
+				$this->fnc_make_inline_js(false);
+			}
+		} else {
+			$this->document->addScript(JURI::base(true).'/media/zefaniascripturelinks/zefaniascripturelinks.js');		
+		}
 		
 		if($this->str_default_alias == '')
 		{
@@ -135,6 +148,61 @@ class plgContentZefaniaScriptureLinks extends JPlugin
 		}
 		
 		$this->str_regex = str_replace("{zefania-scripture}", $this->str_Bible_books, $this->str_regex);
+	}
+	private function fnc_make_inline_js( $flg_load_no_conflict)
+	{
+		$doc_page = JFactory::getDocument();
+		$doc_page->addScriptDeclaration('
+		function fnc_scripture(obj){
+	
+			var lang = document.getElement(\'html\').getProperty(\'lang\');	
+			lang = lang.substring(0,2);	
+			var current_url = window.location.href;
+			var test_lang = "/"+lang+"/";
+			var working_url = "";
+			var str_verse = "";
+			var int_temp_verse = 0;	
+			if(current_url.indexOf(test_lang) > 0)
+			{
+				working_url = window.location.protocol+"//"+window.location.hostname+"/"+lang;
+			}else{
+				working_url = window.location.protocol+"//"+window.location.hostname;
+			}
+			var url = working_url + "/index.php?option=com_zefaniabible&view=scripture&bible="+obj.bible+"&book="+obj.book+"&chapter="+obj.chapter+"&verse="+obj.verse+"&endchapter="+obj.endchapter+"&endverse="+obj.endverse+"&type=1&variant=json3&format=raw&tmpl=component";
+			');
+			if($flg_load_no_conflict == true) {
+				$doc_page->addScriptDeclaration('jQuery.noConflict();');
+			}
+			$doc_page->addScriptDeclaration('
+			jQuery.getJSON( url, function( data ){
+				jQuery.each(data, function( i, item ){
+					jQuery.each(item.scripture, function( j, jitem ) {
+						if(item.scripture.length > 1){
+							if(((int_temp_verse == 0)&&((item.endchap != 0)&&(item.endchap != item.beginchap)))||				
+							((jitem.verseid == 1)&&(int_temp_verse >= jitem.verseid)))
+							{
+								str_verse += \'<div class="zef_content_title">\'+item.bookname+\' \'+jitem.chapterid+\'</div>\';
+							}
+		
+							str_verse += \'<div id="zef_content_verse" style="margin-left:5px;"><div id="zef_content_verse_id" style="float:left">\'+jitem.verseid+\'</div><div id="zef_content_verse_text" style="float:left;margin-left:5px;width:90%;">\'+jitem.verse+\'</div></div><div style="clear:both"></div>\';
+							int_temp_verse = jitem.verseid;
+						}else{
+							str_verse = \'<div id="zef_content_verse_text" style="margin-left:5px;">\'+jitem.verse+\'</div>\';
+						}
+					});
+				});
+				switch(obj.type)	{			
+					case "dialog":
+						jQuery( ".modal-body-"+obj.unique_id).html(str_verse);
+						break;
+					case "tooltip":	
+					default:
+						jQuery( ".div-"+obj.unique_id+" p").html(str_verse);
+						break;
+				}
+			});	
+		}
+		');
 	}
 	private function fncLoopBooks($lang)
 	{

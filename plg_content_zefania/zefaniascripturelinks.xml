@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>andrei.chernyshev1@gmail.com</authorEmail>
 	<authorUrl>http://www.zefaniabible.com/</authorUrl>
-	<version>4.4.0</version>
+	<version>4.4.1</version>
 	<description>This plugin takes Bible links and either inserts a scripture text or provides a link to Bible location
 	 manage scriputures your own way use the following flags.
 	{zefaniabible}Genesis 1:30-2:3{/zefaniabible} - this will add a link to either Biblegateway or Zefania Bible Modal box.
@@ -217,6 +217,14 @@
 				<field name="modal_box_width" showon="flg_automatic_scripture_type:0,2,6" type="text" size="3" default = "700" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH"  description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_WIDTH_DESC" />
 				<field name="modal_box_height" showon="flg_automatic_scripture_type:0,2,6" type="text" size="3" default = "500" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_MODAL_HEIGHT_DESC" />				
 				<field name="str_label_default" showon="flg_automatic_scripture_type:2" type="text"  size="50" default="Scripture Reference" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_DEFAULT_TEXT_DESC" />							
+				<field name="flg_use_inline_js" type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_INLINE_JS" description="PLG_ZEFANIA_INLINE_JS_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+				<field name="flg_no_conflict_mode" showon="flg_use_inline_js:1"  type="radio" class="btn-group" default="0" label="PLG_ZEFANIA_JS_NO_CONFLICT" description="PLG_ZEFANIA_JS_NO_CONFLICT_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>				
 			</fieldset>			
 			<fieldset name="exclude" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_LABEL_EXCLUDE">						
 				<field name="str_exclude_component" type="textarea" default="" label="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT" description="PLG_ZEFANIA_BIBLE_SCRIPTURE_BIBLE_EXCLUDE_COMPONENT_DESC" rows="3" cols="25" />
