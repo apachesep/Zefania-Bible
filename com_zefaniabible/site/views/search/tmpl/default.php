@@ -34,41 +34,46 @@ class ZefaniaSearch
 		$mdl_common 	= new ZefaniabibleCommonHelper;
 		$x = 0;
 		$result_count = count($item->arr_search_result);
-		echo '{'.PHP_EOL;
-		echo '	"type":"search",'.PHP_EOL;
-		echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
-		echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
-		echo '	"query": "'.$item->query.'",'.PHP_EOL;
-		echo '	"max-limit":"'.$item->int_limit_query.'",'.PHP_EOL;
-		echo '	"result-count":"'.$result_count.'",'.PHP_EOL;		
-		echo '	"scripture": '.PHP_EOL;
-		echo '	['.PHP_EOL;		
-
-		foreach($item->arr_search_result as $result)
+		if((($item->flg_use_api)and(!$item->flg_use_key)) or (($item->flg_use_api)and($item->flg_use_key)and($item->str_user_api_key == $item->str_api_key)))
 		{
-			echo '		{'.PHP_EOL;
-			$item->scripture_title 			= $mdl_common->fnc_make_scripture_title($result->book_id, $result->chapter_id, $result->verse_id, 0, 0, 0 );
-			$item->scripture_title_short 	= $mdl_common->fnc_make_scripture_title($result->book_id, $result->chapter_id, $result->verse_id, 0, 0, 1 );
-			echo '			"scripturename":"'.$item->scripture_title.'",'.PHP_EOL;
-			echo '			"scripturenameshort":"'.$item->scripture_title_short.'",'.PHP_EOL;	
-			echo '			"booknameenglish":"'.$item->arr_english_book_names[$result->book_id].'",'.PHP_EOL;	
-			echo '			"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$result->book_id).'",'.PHP_EOL;		
-			echo '			"book_nr":"'.$result->book_id.'",'.PHP_EOL;			
-			echo '			"chapter_nr":"'.$result->chapter_id.'",'.PHP_EOL;			
-			echo '			"verse_nr":"'.$result->verse_id.'",'.PHP_EOL;
-			echo '			"verse": "'.htmlspecialchars(strip_tags($result->verse)).'"'.PHP_EOL;
-			$x++;
-			if($x >= $result_count)
+			echo '{'.PHP_EOL;
+			echo '	"type":"search",'.PHP_EOL;
+			echo '	"alias":"'.$item->str_Bible_Version.'",'.PHP_EOL;
+			echo '	"biblename":"'.$item->str_bible_name.'",'.PHP_EOL;
+			echo '	"query": "'.$item->query.'",'.PHP_EOL;
+			echo '	"max-limit":"'.$item->int_limit_query.'",'.PHP_EOL;
+			echo '	"result-count":"'.$result_count.'",'.PHP_EOL;		
+			echo '	"scripture": '.PHP_EOL;
+			echo '	['.PHP_EOL;		
+	
+			foreach($item->arr_search_result as $result)
 			{
-				echo '		}'.PHP_EOL;
+				echo '		{'.PHP_EOL;
+				$item->scripture_title 			= $mdl_common->fnc_make_scripture_title($result->book_id, $result->chapter_id, $result->verse_id, 0, 0, 0 );
+				$item->scripture_title_short 	= $mdl_common->fnc_make_scripture_title($result->book_id, $result->chapter_id, $result->verse_id, 0, 0, 1 );
+				echo '			"scripturename":"'.$item->scripture_title.'",'.PHP_EOL;
+				echo '			"scripturenameshort":"'.$item->scripture_title_short.'",'.PHP_EOL;	
+				echo '			"booknameenglish":"'.$item->arr_english_book_names[$result->book_id].'",'.PHP_EOL;	
+				echo '			"book_name":"'.JText::_('ZEFANIABIBLE_BIBLE_BOOK_NAME_'.$result->book_id).'",'.PHP_EOL;		
+				echo '			"book_nr":"'.$result->book_id.'",'.PHP_EOL;			
+				echo '			"chapter_nr":"'.$result->chapter_id.'",'.PHP_EOL;			
+				echo '			"verse_nr":"'.$result->verse_id.'",'.PHP_EOL;
+				echo '			"verse": "'.htmlspecialchars(strip_tags($result->verse)).'"'.PHP_EOL;
+				$x++;
+				if($x >= $result_count)
+				{
+					echo '		}'.PHP_EOL;
+				}
+				else 
+				{
+					echo '		},'.PHP_EOL;
+				}
 			}
-			else 
-			{
-				echo '		},'.PHP_EOL;
-			}
+			echo '	]'.PHP_EOL;	
+			echo '}'.PHP_EOL;	
+		} else {
+			$mdl_common->fnc_not_auth();
 		}
-		echo '	]'.PHP_EOL;	
-		echo '}'.PHP_EOL;	
 	}
 }
 ?>
