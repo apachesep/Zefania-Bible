@@ -10,13 +10,6 @@
 		</fieldset>	
 	</fields>
 	<!-- Add fields to the parameters object for the layout. -->
-	<fields name="params">
-
-		<fieldset name="basic" label="COM_ZEFANIABIBLE_BASIC_LABEL" description="COM_ZEFANIABIBLE_BASIC_LABEL_DESC">
-			<field name="flg_only_primary_bible" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE" description="COM_ZEFANIABIBLE_SITEMAP_ONE_BIBLE_DESC">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-		</fieldset>			
+	<fields name="params">		
 	</fields>	
 </metadata>
