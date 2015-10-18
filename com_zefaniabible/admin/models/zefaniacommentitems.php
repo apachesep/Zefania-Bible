@@ -278,6 +278,8 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 
+		$data['alias'] = str_replace('-', '', $data['alias']);
+
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -345,7 +347,8 @@ class ZefaniabibleModelZefaniacommentitems extends JModelAdmin
 				$app->enqueueMessage($int_rows_inserted." ".JText::_( 'ZEFANIABIBLE_FIELD_VERSES_ADDED'));
 			}
 			else
-			{
+			{
+
 				JError::raiseWarning('',JText::_('ZEFANIABIBLE_FIELD_XML_UPLOAD_UNABLE_TO_UPLOAD_FILE'));
 			}	
 		}

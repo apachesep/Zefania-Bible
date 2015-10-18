@@ -87,6 +87,7 @@ class ZefaniabibleModelZefaniadictionaryitem extends JModelAdmin
 		$row = $this->getTable();
 		$str_folder_file = $data['xml_file_url_list'];
 			
+		$data['alias'] = str_replace('-', '', $data['alias']);
 		
 		//Convert data from a stdClass
 		if (is_object($data)){

@@ -254,12 +254,14 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 		$params	= JComponentHelper::getParams( 'com_zefaniabible' );
 		$row = $this->getTable();
 		
+		$data['alias'] = str_replace('-', '', $data['alias']);
+		
 		$str_xml_audio_url_list = $data['xml_audio_url_list'];
 		if($data['xml_audio_url'] == "")
 		{
 			$str_audio_path = $params->get('xmlAudioPath', 'media/com_zefaniabible/bibles/');
 			$data['xml_audio_url'] = '/'.$str_audio_path.$str_xml_audio_url_list;
-		}					
+		}	
 		//Convert data from a stdClass
 		if (is_object($data)){
 			if (get_class($data) == 'stdClass')
@@ -309,7 +311,7 @@ class ZefaniabibleModelZefaniabibleitem extends JModelAdmin
 		{	
 			$str_bible_xml_file_list = $data['bible_xml_file_list'];
 		
-			if($data['bible_xml_file'] == "")
+			if(($data['bible_xml_file'] == "") || ($data['bible_xml_file'] == null))
 			{
 				$str_bibles_path = $params->get('xmlBiblesPath', 'media/com_zefaniabible/bibles/');			
 				$data['bible_xml_file'] = '/'.$str_bibles_path.$str_bible_xml_file_list;				
