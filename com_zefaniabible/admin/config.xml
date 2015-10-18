@@ -434,6 +434,17 @@
 			<option value="1.0">1.0</option>
 		</field>		
 	</fieldset>
+	<fieldset name="api" label="COM_ZEFANIABIBLE_API" description="COM_ZEFANIABIBLE_API_DESC">
+		<field name="flg_use_api" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_API_ON" description="COM_ZEFANIABIBLE_API_ON_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="flg_use_key" showon="flg_use_api:1" type="radio" class="btn-group" default="0" label="COM_ZEFANIABIBLE_KEY_ON" description="COM_ZEFANIABIBLE_KEY_ON_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>	
+		<field name="str_api_key" showon="flg_use_key:1" type="text"  size="20" default="k7zkhz5t2ZBi8VV9vG7B0sCJaPr1G1v3" label="COM_ZEFANIABIBLE_KEY_STRING" description="COM_ZEFANIABIBLE_KEY_STRING_DESC" />
+	</fieldset>
 	<fieldset name="permissions" label="ZEFANIABIBLE_CONFIG_PERMISSIONS" description="ZEFANIABIBLE_CONFIG_DEFAULT_PERMISSIONS_USED_FOR_ALL_CONTENT_IN_THIS_COMPONENT" >
 		<field name="rules" type="rules" label="ZEFANIABIBLE_CONFIG_COMPONENT_PERMISSIONS" filter="rules" validate="rules" component="com_zefaniabible" section="component">
 		</field>
