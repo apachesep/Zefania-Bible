@@ -63,7 +63,7 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->int_primary_chapter_front_end 	= $params->get('int_front_start_chapter',1);		
 		$item->str_default_image 				= $params->get('str_default_image', 'media/com_zefaniabible/images/bible_100.jpg');
 		$item->int_menu_item 					= $params->get('rp_mo_menuitem', 0);
-		
+			
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->int_Bible_Book_ID 	= $jinput->get('book', $item->int_primary_book_front_end, 'INT');
 		$item->int_Bible_Chapter 	= $jinput->get('chapter', $item->int_primary_chapter_front_end, 'INT');
@@ -77,6 +77,14 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 		$item->int_max_chapter			= $mdl_default->_buildQuery_Max_Chapter($item->int_Bible_Book_ID);
 		$item->int_max_verse			= $mdl_default->_buildQuery_Max_Verse($item->int_Bible_Book_ID,$item->int_Bible_Chapter);
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
+	
+		// code to turn off API
+		$item->flg_use_api						= $params->get('flg_use_api', 0);
+		$item->flg_use_key						= $params->get('flg_use_key', 0);
+		$item->str_api_key						= $params->get('str_api_key');		
+		$item->str_user_api_key 					= $jinput->get('apikey', '', 'CMD');	
+		
+		
 		
 		switch($item->str_variant)
 		{
@@ -86,6 +94,12 @@ class ZefaniabibleViewBiblerss extends JViewLegacy
 				
 			case "json":
 			case "json2":
+				if((	($item->flg_use_api == 0)and($item->flg_use_key == 0)) or (($item->flg_use_api == 1)and($item->flg_use_key == 1)and($item->str_user_api_key != $item->str_api_key))	)
+				{
+					$this->document->setMimeEncoding('application/json');
+					$mdl_common->fnc_not_auth();
+					return;
+				}
 				$this->document->setMimeEncoding('application/json');
 //				JResponse::setHeader('Content-Disposition','attachment;filename='.$item->str_Bible_Version.'.json');
 				break;

@@ -1,5 +1,4 @@
 <?php
-
 /**                               ______________________________________________
 *                          o O   |                                              |
 *                 (((((  o      <  Generated with Cook           (100% Vitamin) |
@@ -39,10 +38,9 @@ defined('_JEXEC') or die( 'Restricted access' );
 class ZefaniabibleViewBooks extends JViewLegacy
 {
 	/*
-	 * Define here the default list limit
+	* Define here the default list limit
 	 */
 	protected $_default_limit = null;
-
 	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
@@ -77,6 +75,18 @@ class ZefaniabibleViewBooks extends JViewLegacy
 		$item->arr_Bibles 					= 	$mdl_default->_buildQuery_Bibles_Names();
 		$item->str_bible_name				= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 				
+		// code to turn off API
+		$item->flg_use_api						= $params->get('flg_use_api', 0);
+		$item->flg_use_key						= $params->get('flg_use_key', 0);
+		$item->str_api_key						= $params->get('str_api_key');		
+		$item->str_user_api_key 					= $jinput->get('apikey', '', 'CMD');	
+		if((	($item->flg_use_api == 0)and($item->flg_use_key == 0)) or (($item->flg_use_api == 1)and($item->flg_use_key == 1)and($item->str_user_api_key != $item->str_api_key))	)
+		{
+			$this->document->setMimeEncoding('application/json');
+			$mdl_common->fnc_not_auth();
+			return;
+		}
+		
 		$this->document->setMimeEncoding('application/json');
 		//Filters
 		$this->assignRef('item', 		$item);

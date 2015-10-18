@@ -82,6 +82,19 @@ class ZefaniabibleViewVerserss extends JViewLegacy
 		$item->str_bible_name					= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->int_day_number 					= 	$jinput->get('day', $item->int_day_diff, 'INT');
 				
+				
+		// code to turn off API
+		$item->flg_use_api						= $params->get('flg_use_api', 0);
+		$item->flg_use_key						= $params->get('flg_use_key', 0);
+		$item->str_api_key						= $params->get('str_api_key');		
+		$item->str_user_api_key 					= $jinput->get('apikey', '', 'CMD');	
+		if((	($item->flg_use_api == 0)and($item->flg_use_key == 0)) or (($item->flg_use_api == 1)and($item->flg_use_key == 1)and($item->str_user_api_key != $item->str_api_key))	)
+		{
+			$this->document->setMimeEncoding('application/json');
+			$mdl_common->fnc_not_auth();
+			return;
+		}				
+				
 		if($item->str_variant == 'json')
 		{
 			$this->document->setMimeEncoding('application/json');

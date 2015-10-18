@@ -81,6 +81,10 @@ class ZefaniabibleViewSearch extends JViewLegacy
 		$item->str_Bible_Version 	= $jinput->get('bible', $item->str_primary_bible, 'CMD');
 		$item->query 				= strip_tags(htmlentities($jinput->get('query', 'john 3:16', 'STRING'))); 
 		$item->int_limit_query		= $params->get('int_limit_query', 100);
+		$item->flg_use_api			= $params->get('flg_use_api', 0);
+		$item->flg_use_key			= $params->get('flg_use_key', 0);
+		$item->str_api_key			= $params->get('str_api_key');		
+		$item->str_user_api_key 		= $jinput->get('apikey', '', 'CMD');
 		
 		$item->arr_english_book_names 	= $mdl_common->fnc_load_languages();
 		$item->arr_Bibles 				= $mdl_default->_buildQuery_Bibles_Names();

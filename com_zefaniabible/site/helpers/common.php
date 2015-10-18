@@ -1439,6 +1439,14 @@ class ZefaniabibleCommonHelper
 		}
 		return $str_month_name;
 	}
+	public function fnc_not_auth()
+	{
+		echo '{'.PHP_EOL;
+		echo '	"Code": "Unauthorized",'.PHP_EOL;	
+		echo '	"Message": "Api Authorization failed",'.PHP_EOL;
+		echo '	"Reference": "'.JURI::getInstance()->toString().'"'.PHP_EOL;
+		echo '}'.PHP_EOL;	
+	}
 	public function fnc_get_day_name($int_day)
 	{
 		$str_day_name ='';

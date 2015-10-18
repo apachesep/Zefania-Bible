@@ -92,6 +92,19 @@ class ZefaniabibleViewScripture extends JViewLegacy
 		$item->str_bible_name			= 	$mdl_common->fnc_find_bible_name($item->arr_Bibles,$item->str_Bible_Version);
 		$item->arr_english_book_names 	= 	$mdl_common->fnc_load_languages();
 		
+		// code to turn off API
+		$item->flg_use_api						= $params->get('flg_use_api', 0);
+		$item->flg_use_key						= $params->get('flg_use_key', 0);
+		$item->str_api_key						= $params->get('str_api_key');		
+		$item->str_user_api_key 					= $jinput->get('apikey', '', 'CMD');	
+		
+		/* if((	($item->flg_use_api == 0)and($item->flg_use_key == 0)) or (($item->flg_use_api == 1)and($item->flg_use_key == 1)and($item->str_user_api_key != $item->str_api_key))	)
+		{
+			$this->document->setMimeEncoding('application/json');
+			$mdl_common->fnc_not_auth();
+			return;
+		}*/
+		
 		$item->flg_add_title = 0;
 		if($item->str_content_Bible_alias != $item->str_Bible_Version)
 		{

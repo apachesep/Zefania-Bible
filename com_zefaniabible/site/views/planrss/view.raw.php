@@ -99,6 +99,12 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 		$item->str_today 						=	$mdl_common->fnc_todays_date();	
 		$item->arr_english_book_names 			= 	$mdl_common->fnc_load_languages();
 		
+		// code to turn off API
+		$item->flg_use_api						= $params->get('flg_use_api', 0);
+		$item->flg_use_key						= $params->get('flg_use_key', 0);
+		$item->str_api_key						= $params->get('str_api_key');		
+		$item->str_user_api_key 					= $jinput->get('apikey', '', 'CMD');	
+		
 		switch($item->str_variant)
 		{
 			case "atom":
@@ -112,6 +118,13 @@ class ZefaniabibleViewPlanrss extends JViewLegacy
 				
 			case "json":
 			case "json2":
+			
+				if((	($item->flg_use_api == 0)and($item->flg_use_key == 0)) or (($item->flg_use_api == 1)and($item->flg_use_key == 1)and($item->str_user_api_key != $item->str_api_key))	)
+				{
+					$this->document->setMimeEncoding('application/json');
+					$mdl_common->fnc_not_auth();
+					return;
+				}
 				$this->document->setMimeEncoding('application/json');	
 //				JResponse::setHeader('Content-Disposition','attachment;filename=calendar.json');		
 				break;
