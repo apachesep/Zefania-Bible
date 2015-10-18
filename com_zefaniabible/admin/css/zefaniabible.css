@@ -189,3 +189,7 @@ div.cpanel-right {
 	opacity: 0.3;
     filter: Alpha(opacity=30); /* IE8 and earlier */	
 }
+.icon-zef-toolbar-import
+{
+	background-image:url(../images/import.png); 
+}
